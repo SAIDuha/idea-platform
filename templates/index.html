@@ -1,0 +1,2785 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <title>Plateforme d'idées — Vivante & Multilingue</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet"><style>
+  /* =========================================================
+     Design tokens & base (thème néon sombre)
+  ========================================================== */
+  :root{
+    --bg-1:#0b1220;
+    --bg-2:#101a3b;
+    --ink:#eaf0f7;
+    --muted:#aab3c2;
+    --line:rgba(110,231,255,.14);
+    --line-soft:rgba(255,255,255,.08);
+    --brand:#5e8aff;
+    --brand-3:#6ee7ff;
+    --r-xl:24px;
+    --r-lg:20px;
+    --r-md:14px;
+    --shadow-1:0 20px 60px rgba(0,0,0,.48);
+    --shadow-2:0 32px 80px rgba(0,0,0,.65);
+    --focus-ring:0 0 0 2px rgba(110,231,255,.35), 0 10px 30px rgba(94,138,255,.25);
+    --glass:blur(16px) saturate(140%);
+  }
+
+  *{box-sizing:border-box}
+  html,body{height:100%}
+
+  body{
+    margin:0;
+    color:var(--ink);
+    font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;
+    line-height:1.5;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    scroll-behavior:smooth;
+    background:
+      radial-gradient(1200px 1200px at 80% -10%, rgba(110,231,255,.10), transparent 70%),
+      radial-gradient(800px 800px at -10% 110%, rgba(94,138,255,.14), transparent 60%),
+      var(--bg-1);
+  }
+
+  /* =========================================================
+     Fond vivant / halos
+  ========================================================== */
+
+  .backdrop{
+    position:fixed;
+    inset:-20% -20% auto -20%;
+    height:55vh;
+    z-index:-3;
+    background:conic-gradient(from 0deg, var(--brand), var(--brand-3), #8ef7c1, var(--brand));
+    filter:blur(80px) saturate(140%) opacity(.24);
+    animation:spin 18s linear infinite;
+    pointer-events:none;
+  }
+
+  .backdrop-2{
+    position:fixed;
+    inset:auto -25% -20% -25%;
+    height:50vh;
+    z-index:-3;
+    background:conic-gradient(from 0deg, var(--brand-3), var(--brand), #7ff0ff, var(--brand-3));
+    filter:blur(90px) saturate(160%) opacity(.18);
+    animation:spin-rev 22s linear infinite;
+    pointer-events:none;
+  }
+
+  /* on neutralise les anciens orbs si présents dans le DOM */
+  .orb,.orb2{display:none;}
+
+  @keyframes spin{ to{ transform:rotate(1turn) } }
+  @keyframes spin-rev{ to{ transform:rotate(-1turn) } }
+
+  @media (prefers-reduced-motion:reduce){
+    .backdrop,.backdrop-2{ animation:none }
+  }
+
+  /* =========================================================
+     Layout global & hero
+  ========================================================== */
+
+  .wrap{
+    max-width:1160px;
+    margin:40px auto 120px;
+    padding:0 18px;
+  }
+
+  .hero{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    margin-bottom:10px;
+    flex-wrap:wrap;
+  }
+
+  .brand{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 14px;
+    border-radius:999px;
+    border:1px solid rgba(110,231,255,.24);
+    background:linear-gradient(135deg,rgba(11,18,32,.92),rgba(16,27,60,.94));
+    box-shadow:0 18px 40px rgba(0,0,0,.65);
+    backdrop-filter:var(--glass);
+    -webkit-backdrop-filter:var(--glass);
+  }
+
+  .badge{
+    font-weight:800;
+    letter-spacing:.3px;
+    background:linear-gradient(90deg,var(--brand),var(--brand-3));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    text-transform:uppercase;
+    font-size:11px;
+  }
+
+  .ribbon{
+    margin:14px 0 0;
+    padding:14px 16px;
+    border-radius:999px;
+    background:linear-gradient(120deg, rgba(94,138,255,.20), rgba(110,231,255,.14));
+    border:1px solid rgba(110,231,255,.28);
+    font-size:13px;
+    color:var(--ink);
+    box-shadow:0 16px 38px rgba(0,0,0,.55);
+  }
+
+  .ribbon b{font-weight:800}
+
+  h1{
+    margin:10px 0 6px;
+    font-family:"Plus Jakarta Sans",Inter,system-ui,sans-serif;
+    font-weight:800;
+    font-size:40px;
+    line-height:1.12;
+    background:linear-gradient(90deg,#fdfdfd 10%, var(--brand) 55%, var(--brand-3) 90%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    text-shadow:0 10px 28px rgba(0,0,0,.65);
+  }
+
+  p.sub{
+    margin:0;
+    color:var(--muted);
+    font-size:15px;
+    max-width:640px;
+  }
+
+  .card{
+    margin-top:18px;
+    background:linear-gradient(180deg, rgba(15,23,48,.96), rgba(11,18,32,.96));
+    border:1px solid var(--line);
+    border-radius:var(--r-xl);
+    box-shadow:var(--shadow-1);
+    overflow:hidden;
+    backdrop-filter:var(--glass);
+    -webkit-backdrop-filter:var(--glass);
+  }
+
+  .card-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:18px 20px;
+    border-bottom:1px solid rgba(255,255,255,.04);
+    background:linear-gradient(180deg, rgba(15,27,60,.96), rgba(11,18,32,.96));
+  }
+
+  .muted{color:var(--muted)}
+  .muted.small{font-size:13px;}
+
+  .step-page{
+    display:none;
+    padding:24px 22px 26px;
+    background:radial-gradient(220px 220px at 0 0, rgba(94,138,255,.18), transparent 70%),
+               radial-gradient(260px 260px at 100% 100%, rgba(110,231,255,.18), transparent 70%),
+               linear-gradient(180deg, rgba(15,23,48,.96), rgba(11,18,32,.98));
+  }
+  .step-page.active{display:block;}
+
+  .spacer{height:90px}
+
+  /* =========================================================
+     Accueil + choix de mode
+  ========================================================== */
+
+  .intro-main{
+    display:grid;
+    grid-template-columns:minmax(0,1.4fr) minmax(0,0.9fr);
+    align-items:stretch;
+    border-top:1px solid rgba(255,255,255,.06);
+  }
+
+  .intro-main-main,
+  .intro-main-side{
+    padding:22px 24px 26px;
+  }
+
+  .intro-main-main{
+    border-right:1px solid rgba(255,255,255,.06);
+    background:linear-gradient(180deg, rgba(16,27,60,.96), rgba(11,18,32,.98));
+  }
+
+  .intro-main-main h2{
+    margin:0 0 8px;
+    font-size:23px;
+    font-weight:800;
+    color:var(--ink);
+  }
+
+  .intro-lead{
+    margin:0 0 16px;
+    font-size:14px;
+    color:var(--muted);
+    max-width:520px;
+  }
+
+  .intro-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+
+  .intro-actions button{
+    flex:1;
+    min-height:72px;
+    font-size:15px;
+  }
+
+  #modeHint{
+    margin-top:10px;
+    font-size:12px;
+    color:var(--muted);
+  }
+
+  .intro-main-side{
+    background:
+      radial-gradient(220px 200px at 0 0, rgba(94,138,255,.24), transparent 70%),
+      radial-gradient(260px 240px at 100% 100%, rgba(110,231,255,.20), transparent 70%),
+      linear-gradient(180deg, rgba(18,28,68,.98), rgba(10,16,32,.98));
+    border-left:1px solid rgba(110,231,255,.20);
+  }
+
+  .intro-main-side h3{
+    margin:0 0 8px;
+    font-size:17px;
+    font-weight:800;
+    color:var(--ink);
+  }
+
+  .intro-main-side p{
+    margin:0 0 12px;
+    font-size:13px;
+    color:var(--muted);
+  }
+
+  .intro-mini-list{
+    list-style:none;
+    margin:0;
+    padding:0;
+  }
+
+  .intro-mini-list li{
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+    margin-bottom:6px;
+    font-size:13px;
+    color:var(--ink);
+  }
+
+  .intro-mini-list .pill{
+    margin-top:2px;
+    width:20px;
+    height:20px;
+    border-radius:999px;
+    background:linear-gradient(135deg,var(--brand),var(--brand-3));
+    color:#08111f;
+    font-size:11px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 4px 12px rgba(0,0,0,.6);
+  }
+
+  /* =========================================================
+     Boutons & formulaires
+  ========================================================== */
+
+  button{
+    border:0;
+    border-radius:16px;
+    padding:12px 18px;
+    font-weight:800;
+    cursor:pointer;
+    letter-spacing:.2px;
+    transition:
+      transform .08s ease,
+      box-shadow .18s ease,
+      opacity .18s ease,
+      background-color .18s ease,
+      border-color .18s ease;
+    font-family:inherit;
+    font-size:15px;
+    position:relative;
+    color:#08111f;
+  }
+
+  button:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+    box-shadow:none;
+  }
+
+  button:focus-visible{
+    outline:none;
+    box-shadow:var(--focus-ring);
+  }
+
+  .btn-primary{
+    background:linear-gradient(135deg,var(--brand),var(--brand-3));
+    box-shadow:0 14px 36px rgba(0,0,0,.75);
+  }
+
+  .btn-primary:hover:not(:disabled){
+    transform:translateY(-1px);
+  }
+
+  .btn-ghost{
+    background:rgba(255,255,255,.06);
+    color:var(--ink);
+    border:1px solid rgba(255,255,255,.16);
+  }
+
+  .btn-ghost:hover:not(:disabled){
+    box-shadow:0 10px 30px rgba(0,0,0,.7);
+  }
+
+  .btn-secondary{
+    background:rgba(15,23,48,.96);
+    color:var(--muted);
+    border:1px solid rgba(255,255,255,.10);
+  }
+
+  .nav-row{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    margin-top:24px;
+    flex-wrap:wrap;
+  }
+
+  .content{
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    gap:18px;
+    padding:18px;
+  }
+
+  .panel{
+    background:linear-gradient(180deg, rgba(14,23,50,.98), rgba(11,18,32,.98));
+    border:1px solid var(--line);
+    border-radius:var(--r-lg);
+    padding:18px 18px 20px;
+    box-shadow:0 18px 40px rgba(0,0,0,.7);
+    backdrop-filter:var(--glass);
+    -webkit-backdrop-filter:var(--glass);
+  }
+
+  .panel h3{
+    margin:0 0 10px;
+    font-size:17px;
+    font-weight:800;
+    color:var(--ink);
+  }
+
+  label{
+    display:block;
+    font-size:12px;
+    color:var(--muted);
+    margin:12px 0 6px;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+  }
+
+  textarea,
+  input,
+  select{
+    width:100%;
+    padding:12px 14px;
+    border:1px solid rgba(255,255,255,.12);
+    background:rgba(9,14,30,.9);
+    color:var(--ink);
+    border-radius:14px;
+    outline:none;
+    font-size:14px;
+    transition:border .18s ease, box-shadow .18s ease, background-color .18s ease, transform .1s ease;
+  }
+
+  textarea{min-height:120px; resize:vertical;}
+
+  textarea:focus,
+  input:focus,
+  select:focus{
+    border-color:rgba(110,231,255,.65);
+    box-shadow:var(--focus-ring);
+    background:rgba(9,16,36,.98);
+    transform:translateY(-0.5px);
+  }
+
+  input::placeholder,
+  textarea::placeholder{
+    color:#7381a0;
+  }
+
+  input:disabled,
+  textarea:disabled,
+  select:disabled{
+    background:rgba(11,18,32,.9);
+    cursor:not-allowed;
+    opacity:.7;
+  }
+
+  .radio-group{margin-top:6px;}
+
+  .radio-item{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:6px;
+    font-size:13px;
+    color:var(--ink);
+  }
+
+  .radio-item input{
+    width:auto;
+    margin:0;
+  }
+
+  .media-preview{
+    margin-top:10px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+
+  .media-preview img,
+  .media-preview video{
+    max-width:110px;
+    max-height:90px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,.16);
+    object-fit:cover;
+    background:#000;
+    box-shadow:0 10px 24px rgba(0,0,0,.7);
+  }
+
+  /* =========================================================
+     Step 4 — Coordonnées
+  ========================================================== */
+
+  #step4 .panel{
+    padding:20px 22px 22px;
+    background:linear-gradient(180deg, rgba(14,23,50,.98), rgba(11,18,32,.98));
+  }
+
+  #step4 h3{
+    font-size:18px;
+    margin-bottom:8px;
+  }
+
+  #step4 .field-note{
+    font-size:12px;
+    color:var(--muted);
+    margin-top:4px;
+    margin-bottom:10px;
+  }
+
+  #step4 .contact-layout{
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    gap:24px;
+    margin-top:10px;
+  }
+
+  #step4 .contact-block{
+    padding:12px 14px;
+    border-radius:14px;
+    background:linear-gradient(135deg,rgba(15,27,60,.96),rgba(9,16,36,.98));
+    border:1px dashed rgba(110,231,255,.35);
+    font-size:13px;
+    color:var(--muted);
+  }
+
+  #step4 .contact-block-title{
+    font-weight:600;
+    font-size:13px;
+    margin-bottom:6px;
+    color:var(--ink);
+  }
+
+  /* =========================================================
+     Step 5 — Contenu de l’idée
+  ========================================================== */
+
+  #step5 .panel{
+    padding:20px 22px 22px;
+    background:linear-gradient(180deg, rgba(14,23,50,.98), rgba(11,18,32,.98));
+  }
+
+  #step5 h3{
+    font-size:18px;
+    margin-bottom:6px;
+  }
+
+  #step5 .section-label{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color:#7f8ab0;
+    margin-bottom:4px;
+    font-weight:600;
+  }
+
+  #step5 .choice-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px 22px;
+    margin-top:6px;
+    margin-bottom:6px;
+  }
+
+  #step5 .choice-row .radio-item{
+    margin-bottom:0;
+  }
+
+  #step5 .field-group{
+    margin-top:16px;
+  }
+
+  #step5 .actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:10px;
+  }
+
+  .panel-preview .preview-top{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:16px;
+  }
+
+  .panel-preview .preview-text h3{
+    margin-bottom:4px;
+  }
+
+  .panel-preview .preview-text .muted{
+    max-width:320px;
+  }
+
+  .preview-robot{
+    flex-shrink:0;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+  }
+
+  .preview-robot img{
+    max-width:120px;
+    height:auto;
+    filter:drop-shadow(0 16px 32px rgba(0,0,0,.85));
+  }
+
+  .preview-grid{
+    margin-top:18px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+  }
+
+  .preview-grid strong{
+    display:block;
+    margin-bottom:4px;
+    font-size:13px;
+    color:var(--ink);
+  }
+
+  .preview-box{
+    min-height:80px;
+    padding:10px 12px;
+    border-radius:12px;
+    background:linear-gradient(145deg,rgba(9,16,36,.98),rgba(15,27,60,.98));
+    border:1px dashed rgba(110,231,255,.35);
+    font-size:13px;
+    color:var(--muted);
+    white-space:pre-wrap;
+  }
+
+  .helper{
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+    font-size:12px;
+    margin-top:16px;
+    color:var(--muted);
+  }
+
+  .helper svg{
+    flex-shrink:0;
+  }
+
+  /* =========================================================
+     Step Voice — Version néon
+  ========================================================== */
+
+  #stepVoice .voice-shell{
+    position:relative;
+    padding:28px 28px 30px;
+    border-radius:var(--r-xl);
+    background:linear-gradient(180deg,rgba(11,18,32,.98),rgba(15,27,60,.98));
+    overflow:hidden;
+    border:1px solid var(--line);
+    box-shadow:var(--shadow-1);
+    backdrop-filter:var(--glass);
+    -webkit-backdrop-filter:var(--glass);
+  }
+
+  #stepVoice .voice-bg{
+    position:absolute;
+    inset:-40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    pointer-events:none;
+  }
+
+  #stepVoice .voice-bg::before{
+    content:"";
+    position:absolute;
+    width:520px;
+    height:520px;
+    border-radius:50%;
+    background:radial-gradient(circle at 50% 40%,rgba(110,231,255,.25),transparent 65%);
+    filter:blur(6px);
+    opacity:.55;
+  }
+
+  #stepVoice .voice-bg img{
+    max-width:360px;
+    width:32vw;
+    height:auto;
+    opacity:.5;
+    filter:drop-shadow(0 18px 40px rgba(0,0,0,.8));
+  }
+
+  #stepVoice .voice-foreground{
+    position:relative;
+    z-index:1;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+
+  #stepVoice #voiceLangCard.panel{
+    margin:0;
+    background:linear-gradient(160deg,rgba(9,16,36,.98),rgba(11,22,52,.98));
+    border-radius:22px;
+    border:1px solid rgba(110,231,255,.32);
+    box-shadow:0 18px 44px rgba(0,0,0,.85);
+  }
+
+  #stepVoice #voiceProfileCard.panel{
+    margin:0;
+    background:linear-gradient(160deg,rgba(11,18,32,.98),rgba(16,27,60,.98));
+    border-radius:22px;
+    border:1px solid rgba(110,231,255,.4);
+    box-shadow:0 22px 60px rgba(0,0,0,.9);
+  }
+
+  .profile-bilingual-grid{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:20px;
+  }
+
+  .voice-col{
+    padding:18px 18px 20px;
+    border-radius:18px;
+  }
+
+  .voice-col--fr{
+    background:radial-gradient(200px 180px at 0 0, rgba(94,138,255,.25), transparent 70%),
+               linear-gradient(145deg,#0f192f,#111a34);
+    border:1px solid rgba(110,231,255,.25);
+  }
+
+  .voice-col--lang{
+    background:radial-gradient(220px 180px at 100% 0, rgba(110,231,255,.25), transparent 70%),
+               linear-gradient(145deg,#0d1a30,#081320);
+    border:1px solid rgba(110,231,255,.32);
+  }
+
+  .voice-col h3{
+    margin:0 0 6px;
+    font-size:17px;
+    font-weight:800;
+    color:var(--ink);
+  }
+
+  .voice-col p{
+    margin:0 0 10px;
+    font-size:13px;
+    color:var(--muted);
+  }
+
+  .voice-col ul{
+    margin:0 0 12px;
+    padding:0;
+    list-style:none;
+  }
+
+  .voice-col li{
+    display:flex;
+    gap:8px;
+    font-size:13px;
+    margin-bottom:6px;
+    color:var(--ink);
+  }
+
+  .voice-col .pill{
+    margin-top:2px;
+    width:20px;
+    height:20px;
+    border-radius:999px;
+    background:linear-gradient(135deg,var(--brand),var(--brand-3));
+    color:#08111f;
+    font-size:11px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 6px 16px rgba(0,0,0,.8);
+  }
+
+  .voice-col .actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:10px;
+  }
+
+  #stepVoice .notice{
+    font-size:12px;
+    color:var(--muted);
+    margin-top:10px;
+  }
+
+  .voice-preview-block{
+    margin-top:18px;
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:16px;
+  }
+
+  .voice-preview-block strong{
+    display:block;
+    margin-bottom:4px;
+    font-size:13px;
+    color:var(--ink);
+  }
+
+  .lang-select{
+    min-width:220px;
+    max-width:280px;
+    padding:10px 12px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.16);
+    background:rgba(9,16,36,.96);
+    font-size:13px;
+    color:var(--ink);
+  }
+
+  .voice-toggle{
+    display:none;
+    margin-bottom:14px;
+    padding:4px;
+    border-radius:999px;
+    background:rgba(11,18,32,.96);
+    border:1px solid rgba(255,255,255,.14);
+    gap:4px;
+  }
+
+  .voice-toggle-btn{
+    flex:1;
+    border:0;
+    border-radius:999px;
+    padding:8px 12px;
+    font-size:12px;
+    font-weight:600;
+    background:transparent;
+    color:var(--muted);
+    cursor:pointer;
+  }
+
+  .voice-toggle-btn.is-active{
+    background:rgba(15,27,60,.98);
+    box-shadow:0 6px 18px rgba(0,0,0,.75);
+    color:var(--ink);
+  }
+
+  .voice-switch{
+    display:none;
+    align-items:center;
+    justify-content:flex-end;
+    gap:10px;
+    margin-bottom:14px;
+  }
+
+  .voice-switch-label{
+    font-size:12px;
+    font-weight:600;
+    color:var(--muted);
+  }
+
+  .voice-switch-btn{
+    width:40px;
+    height:40px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.18);
+    background:rgba(8,13,26,.98);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 8px 22px rgba(0,0,0,.8);
+    cursor:pointer;
+    transition:transform .12s ease, box-shadow .12s ease, background .12s ease;
+    color:var(--ink);
+  }
+
+  .voice-switch-btn:hover{
+    transform:rotate(90deg) translateY(-1px);
+    box-shadow:0 12px 30px rgba(0,0,0,.9);
+    background:#111b35;
+  }
+
+  /* =========================================================
+     Barre de soumission globale
+  ========================================================== */
+
+  .submitbar{
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:18px;
+    z-index:10;
+    display:flex;
+    justify-content:center;
+    pointer-events:none;
+  }
+
+  .submitbar .inner{
+    pointer-events:auto;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:linear-gradient(120deg,rgba(11,18,32,.96),rgba(16,27,60,.98));
+    border:1px solid rgba(110,231,255,.26);
+    border-radius:999px;
+    padding:10px 12px;
+    box-shadow:0 18px 40px rgba(0,0,0,.9);
+    max-width:90vw;
+    backdrop-filter:var(--glass);
+    -webkit-backdrop-filter:var(--glass);
+  }
+
+  #submitBtn{
+    border-radius:999px;
+    padding:11px 18px;
+  }
+
+  #submitBtn:disabled{
+    opacity:.55;
+    cursor:not-allowed;
+  }
+
+  #statusMsg{
+    font-size:13px;
+    color:var(--muted);
+    white-space:nowrap;
+  }
+
+  /* =========================================================
+     Page de remerciement
+  ========================================================== */
+
+  .thank-panel{
+    padding:32px 30px 34px;
+    border-radius:var(--r-xl);
+    background:radial-gradient(260px 220px at 0 0, rgba(94,138,255,.26), transparent 70%),
+               radial-gradient(260px 220px at 100% 100%, rgba(110,231,255,.22), transparent 70%),
+               linear-gradient(145deg, rgba(11,18,32,.98), rgba(16,27,60,.98));
+    border:1px solid rgba(110,231,255,.3);
+    box-shadow:var(--shadow-2);
+  }
+
+  .thank-layout{
+    display:grid;
+    grid-template-columns:minmax(0,1.2fr) minmax(0,0.9fr);
+    gap:26px;
+    align-items:center;
+  }
+
+  .thank-text h2{
+    margin:0 0 10px;
+    font-size:30px;
+    font-weight:800;
+    background:linear-gradient(90deg,#ffffff 10%, var(--brand) 55%, var(--brand-3) 90%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    text-shadow:0 12px 32px rgba(0,0,0,.85);
+  }
+
+  .thank-text p{
+    font-size:14px;
+    margin:4px 0 10px;
+    color:var(--muted);
+  }
+
+  .thank-highlight{
+    margin:14px 0 22px;
+    padding:12px 14px;
+    border-radius:16px;
+    background:linear-gradient(120deg, rgba(94,138,255,.26), rgba(110,231,255,.2));
+    border:1px dashed rgba(255,255,255,.35);
+    font-size:13px;
+    color:var(--ink);
+    box-shadow:0 14px 32px rgba(0,0,0,.7);
+  }
+
+  .thank-robot{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .thank-robot-orbit{
+    position:relative;
+    width:220px;
+    max-width:60vw;
+    aspect-ratio:1/1;
+    border-radius:50%;
+    background:radial-gradient(circle at 50% 30%, rgba(110,231,255,.28), transparent 68%);
+    box-shadow:0 22px 60px rgba(0,0,0,.9);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+
+  .thank-robot-orbit::after{
+    content:"";
+    position:absolute;
+    inset:12%;
+    border-radius:50%;
+    border:1px dashed rgba(255,255,255,.6);
+  }
+
+  .thank-robot-orbit img{
+    max-width:70%;
+    height:auto;
+    filter:drop-shadow(0 20px 40px rgba(0,0,0,.95));
+    transform:translateY(4px);
+    animation:thankFloat 4.5s ease-in-out infinite alternate;
+  }
+
+  @keyframes thankFloat{
+    from{ transform:translateY(4px); }
+    to{   transform:translateY(-6px); }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .thank-robot-orbit img{
+      animation:none;
+      transform:none;
+    }
+  }
+
+  /* =========================================================
+     Responsive
+  ========================================================== */
+
+  @media (max-width:1000px){
+    #stepVoice .voice-shell{
+      padding:22px 16px 26px;
+    }
+    #stepVoice .voice-bg img{
+      width:55vw;
+      opacity:.32;
+    }
+    .profile-bilingual-grid{
+      grid-template-columns:1fr;
+    }
+    .voice-preview-block{
+      grid-template-columns:1fr;
+    }
+  }
+
+  @media (max-width:980px){
+    .content{
+      grid-template-columns:1fr;
+    }
+  }
+
+  @media (max-width:900px){
+    .intro-main{
+      grid-template-columns:1fr;
+    }
+    .intro-main-main{
+      border-right:none;
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .preview-grid{
+      grid-template-columns:1fr;
+    }
+    .preview-robot img{
+      max-width:90px;
+    }
+    #step4 .contact-layout{
+      grid-template-columns:1fr;
+    }
+    .profile-bilingual-grid{
+      grid-template-columns:1fr;
+    }
+
+    .voice-toggle{
+      display:flex;
+    }
+    .voice-switch{
+      display:flex;
+    }
+    #voiceLangCol,
+    #voiceFrCol{
+      display:none;
+    }
+    #voiceLangCol.is-active,
+    #voiceFrCol.is-active{
+      display:block;
+    }
+
+    .thank-layout{
+      grid-template-columns:1fr;
+      text-align:left;
+    }
+    .thank-robot{
+      order:-1;
+    }
+    .thank-panel{
+      padding:24px 18px 26px;
+    }
+  }
+
+  @media (max-width:600px){
+    .wrap{
+      margin:24px auto 100px;
+      padding:0 14px;
+    }
+    h1{
+      font-size:32px;
+    }
+    .card-head{
+      flex-direction:column;
+      align-items:flex-start;
+    }
+    .lang-select{
+      flex:1;
+      min-width:0;
+    }
+    .submitbar .inner{
+      padding:8px 10px;
+    }
+    #statusMsg{
+      font-size:12px;
+    }
+  }
+</style>
+
+
+</head>
+<body>
+  <div class="backdrop"></div><div class="orb"></div><div class="orb2"></div>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="brand">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4 12c0-4.418 3.582-8 8-8 3.582 0 6.613 2.347 7.643 5.6" stroke="url(#g1)" stroke-width="2" stroke-linecap="round"/>
+        <path d="M20 12c0 4.418-3.582 8-8 8-3.582 0-6.613-2.347-7.643-5.6" stroke="url(#g2)" stroke-width="2" stroke-linecap="round"/>
+        <defs>
+          <linearGradient id="g1" x1="4" y1="4" x2="22" y2="12">
+            <stop stop-color="#2b62ff"/><stop offset="1" stop-color="#00c9b7"/>
+          </linearGradient>
+          <linearGradient id="g2" x1="4" y1="12" x2="22" y2="22">
+            <stop stop-color="#ff7ab6"/><stop offset="1" stop-color="#00c9b7"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <span class="badge">IDEA — Espace Innovation</span>
+    </div>
+  </div>
+
+  <div class="ribbon">
+    🚀 <b>Ton idée, notre avancée.</b> Partage en moins de 2 minutes, nous nous chargeons du reste.
+  </div>
+
+  <h1>Laisse ton idée briller ✨</h1>
+  <p class="sub">
+    Ici, tu peux partager en quelques instants une idée d’innovation, une proposition d’amélioration continue
+    ou un retour terrain. Chaque contribution est analysée par l’équipe innovation IDEA.
+  </p>
+
+  <div class="card">
+    <div class="card-head"></div>
+
+    <!-- STEP 1 : ACCUEIL + CHOIX MODE -->
+    <section id="step1" class="step-page active">
+      <div class="intro-main">
+        <!-- Colonne gauche : choix du mode -->
+        <div class="intro-main-main">
+          <h2>Comment veux-tu t’exprimer&nbsp;?</h2>
+          <p class="intro-lead">
+            Choisis si tu préfères <b>écrire</b> ou <b>parler</b> ton idée.
+            On te posera ensuite les questions étape par étape, sans tout demander d’un coup.
+          </p>
+
+          <div class="intro-actions">
+            <button type="button"
+                    id="btnModeText"
+                    class="btn-primary">
+              ✍️ Je préfère écrire
+            </button>
+
+            <button type="button"
+                    id="btnModeVoice"
+                    class="btn-ghost">
+              🎙️ Je préfère parler
+            </button>
+          </div>
+
+          <p id="modeHint" class="muted small"></p>
+
+          <!-- reCAPTCHA affiché uniquement après le choix -->
+          <div id="captchaRow" style="display:none; margin-top:18px;">
+            <div class="g-recaptcha"
+                 data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+                 data-callback="onCaptchaSuccess">
+            </div>
+            <p class="muted small" style="margin-top:8px;">
+              Cette étape sert uniquement à sécuriser la plateforme.
+              Après validation, nous t’emmenons directement vers l’étape suivante.
+            </p>
+          </div>
+        </div>
+
+        <!-- Colonne droite : explication légère -->
+        <aside class="intro-main-side">
+          <h3>Ce que tu peux partager</h3>
+          <p>En moins de <b>2 minutes</b>, tu peux nous envoyer :</p>
+          <ul class="intro-mini-list">
+            <li>
+              <span class="pill">1</span>
+              <span>Une idée d’innovation produit, service ou usage client.</span>
+            </li>
+            <li>
+              <span class="pill">2</span>
+              <span>Une amélioration sur un process, un outil, un flux.</span>
+            </li>
+            <li>
+              <span class="pill">3</span>
+              <span>Un problème terrain observé au quotidien.</span>
+            </li>
+          </ul>
+          <p style="margin-top:10px;" class="muted small">
+            L’équipe IDEA analyse chaque contribution.
+          </p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- STEP 3 : PROFIL TEXTE -->
+    <section id="step3" class="step-page">
+      <div class="panel">
+        <h3>On démarre par toi</h3>
+        <p class="muted">
+          Avant de commencer, indique simplement <b>qui tu es</b>, <b>où tu travailles</b> et <b>quel est ton rôle</b>.
+        </p>
+
+        <label for="authorName">Nom et prénom</label>
+        <input id="authorName" placeholder="Ex : Marie Dupont" />
+
+        <label for="country">Sur quel site travailles-tu ?</label>
+        <select id="country">
+          <option value="">Sélectionne ton site</option>
+          <option>Auxerre</option><option>Beaumont</option><option>Béziers</option>
+          <option>Berre-l’Étang</option><option>Boulogne-Billancourt (Siège social)</option>
+          <option>CAP Tunis</option><option>CAWE</option><option>Cagny</option>
+          <option>Carpiquet</option><option>Chavagnes</option><option>Chambéry</option>
+          <option>Cléguer</option><option>Colmar</option><option>Corbas</option>
+          <option>Dammarie-lès-Lys</option><option>Douvrin</option><option>Firminy</option>
+          <option>Fontaine-le-Comte</option><option>Gravigy</option><option>Guipavas</option>
+          <option>Heillecourt</option><option>La Bresse</option><option>Lailly-en-Val</option>
+          <option>Le Lude</option><option>Les Clayes-sous-Bois</option><option>Longvic</option>
+          <option>Magasin central</option><option>Neuilly-sur-Marne</option><option>Nice</option>
+          <option>Orthez</option><option>Pont-Sainte-Maxence</option><option>Porte-lès-Valence</option>
+          <option>Reims</option><option>Rennes</option><option>Sainte-Luce-sur-Loire</option>
+          <option>Saint-Sulpice</option><option>Toulouse</option><option>Villejust</option>
+          <option value="Autre">Autre (préciser)</option>
+        </select>
+        <div id="otherSiteRow" style="display:none; margin-top:8px;">
+          <input id="otherSite" placeholder="Indique ton site" />
+          <div class="field-note">Si ton site n’apparaît pas dans la liste, précise-le ici.</div>
+        </div>
+
+        <label for="serviceSelect">Dans quel service travailles-tu ?</label>
+        <select id="serviceSelect">
+          <option value="">Sélectionne ton service</option>
+          <option>Production</option>
+          <option>Maintenance</option>
+          <option>Distribution</option>
+          <option>Relation client</option>
+          <option>Commerce</option>
+          <option>Administratif</option>
+          <option>Support (achats, finance, HSE, RH…)</option>
+          <option value="Autre">Autre (préciser)</option>
+        </select>
+        <div id="otherServiceRow" style="display:none; margin-top:8px;">
+          <input id="otherService" placeholder="Précise ton service" />
+        </div>
+
+        <label for="functionField">Quelle est ta fonction ?</label>
+        <input id="functionField" placeholder="Ex : Technicien de maintenance, Responsable magasin…" />
+
+        <div class="nav-row">
+          <button type="button" class="btn-secondary" id="backToIntro">◀ Précédent</button>
+          <button type="button" class="btn-primary" id="nextFromProfile">Suivant · Coordonnées</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 4 : COORDONNÉES -->
+    <section id="step4" class="step-page">
+      <div class="panel">
+        <h3>Comment te recontacter ?</h3>
+
+        <div class="contact-layout">
+          <div>
+            <div class="section-label">Coordonnées</div>
+            <div class="contact-block">
+              <div class="contact-block-title">Adresse mail professionnelle</div>
+              <label for="proEmail" style="margin-top:4px;">Si tu as une adresse mail professionnelle, note-la ci-dessous</label>
+              <input id="proEmail" type="email" placeholder="Ex : prenom.nom@entreprise.com" />
+              <div class="field-note">Ce champ est facultatif, mais il facilite le suivi de ton idée.</div>
+            </div>
+          </div>
+
+          <div>
+            <div class="section-label">Préférence de contact</div>
+            <div class="contact-block">
+              <div class="contact-block-title">Comment souhaites-tu être recontacté(e) ?</div>
+              <div class="radio-group">
+                <label class="radio-item">
+                  <input type="radio" name="contactMode" value="Mail professionnel">
+                  <span>Mail professionnel</span>
+                </label>
+                <label class="radio-item">
+                  <input type="radio" name="contactMode" value="Par l’intermédiaire de mon responsable">
+                  <span>Par l’intermédiaire de mon responsable</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-row">
+          <button type="button" class="btn-secondary" id="backToProfile">◀ Précédent</button>
+          <button type="button" class="btn-primary" id="nextFromContact">Suivant · Rédiger mon idée</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 5 : IDÉE (TEXTE + AUDIO) -->
+    <section id="step5" class="step-page">
+      <div class="content">
+        <div class="panel">
+          <h3>Contenu de ton idée</h3>
+          <p class="muted small">
+            Quelques éléments suffisent : l’objectif est de comprendre ton contexte, ton besoin et l’impact attendu.
+          </p>
+
+          <div class="field-group">
+            <div class="section-label">Type de contribution</div>
+            <div class="choice-row">
+              <label class="radio-item">
+                <input type="checkbox" name="shareType" value="Difficulté">
+                <span>Une difficulté</span>
+              </label>
+              <label class="radio-item">
+                <input type="checkbox" name="shareType" value="Amélioration">
+                <span>Une amélioration</span>
+              </label>
+              <label class="radio-item">
+                <input type="checkbox" name="shareType" value="Innovation">
+                <span>Une innovation</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="ideaTitle">Titre de ton IDEA</label>
+            <input id="ideaTitle" placeholder="Ex : Photo réforme" />
+          </div>
+
+          <div class="field-group">
+            <label for="typedText">Description (optionnel si audio)</label>
+            <textarea id="typedText" placeholder="Décris ton idée, ton besoin, ton insight…"></textarea>
+          </div>
+
+          <div class="field-group">
+            <label for="impactSelect">Quel impact principal aurait ton idée ?</label>
+            <select id="impactSelect">
+              <option value="">Sélectionne l’impact principal</option>
+              <option value="Condition de travail / Ergonomie">Condition de travail / Ergonomie</option>
+              <option value="Développement durable / Environnement">Développement durable / Environnement</option>
+              <option value="Gain de temps / Efficacité">Gain de temps / Efficacité</option>
+              <option value="Productivité">Productivité</option>
+              <option value="Économie d’énergie">Économie d’énergie</option>
+              <option value="Sécurité">Sécurité</option>
+              <option value="Autre">Autre (préciser)</option>
+            </select>
+
+            <div id="impactOtherRow" style="display:none; margin-top:8px;">
+              <input id="impactOther" placeholder="Précise l’impact" />
+            </div>
+          </div>
+
+          <div class="field-group">
+            <div class="section-label">Enregistrement vocal</div>
+            <div class="actions">
+              <button id="recBtn" class="btn-primary" data-tip="HTTPS requis (ou localhost)">🎙️ Démarrer l’enregistrement</button>
+              <button id="uploadBtn" class="btn-ghost">📁 Importer un audio</button>
+              <button id="toneBtn" class="btn-ghost" data-tip="Petit bip de test">🔊 Tester le son</button>
+              <input id="audioFile" type="file" accept="audio/*" capture style="display:none" />
+            </div>
+            <audio id="player" controls hidden></audio>
+          </div>
+
+          <div class="field-group">
+            <div class="section-label">Illustrations (facultatif)</div>
+            <label style="margin-top:4px;">Photos / vidéos</label>
+            <div class="actions">
+              <button type="button" class="btn-ghost" id="mediaCaptureBtn">
+                📷 Prendre une photo / vidéo
+              </button>
+              <button type="button" class="btn-ghost" id="mediaUploadBtn">
+                📁 Importer depuis ton appareil
+              </button>
+              <input id="mediaInputCamera" type="file"
+                     accept="image/*,video/*" capture style="display:none" multiple>
+              <input id="mediaInputFile" type="file"
+                     accept="image/*,video/*" style="display:none" multiple>
+            </div>
+            <div id="mediaPreview" class="media-preview"></div>
+          </div>
+
+          <div class="nav-row">
+            <button type="button" class="btn-secondary" id="backToContact">◀ Précédent</button>
+          </div>
+        </div>
+
+        <div class="panel panel-preview">
+          <div class="preview-top">
+            <div class="preview-text">
+              <h3>Aperçu & traduction</h3>
+              <p class="muted small">
+                Ce panneau se mettra à jour dès que tu enregistres ou importes un audio. Tu peux vérifier le texte compris
+                avant d’envoyer ton IDEA.
+              </p>
+            </div>
+            <div class="preview-robot">
+              <img src="/static/cawe_robot.png" alt="Robot IDEA">
+            </div>
+          </div>
+
+          <div class="preview-grid">
+            <div>
+              <strong>🗣️ Texte d’origine</strong>
+              <div class="muted" id="langChip" style="margin:6px 0 10px"></div>
+              <div id="origBox" class="preview-box">—</div>
+            </div>
+            <div>
+              <strong>🇫🇷 Traduction française</strong>
+              <div id="frBox" class="preview-box">—</div>
+            </div>
+          </div>
+
+          <div class="helper">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 2a10 10 0 100 20 10 10 0 000-20Zm1 14h-2v-2h2v2Zm0-4h-2V6h2v6Z" fill="#3a66ff"/>
+            </svg>
+            <div class="muted">
+              Vérifie rapidement : tu pourras ensuite finaliser et envoyer ton idée. En cas d’erreur,
+              tu pourras corriger le texte ou refaire un enregistrement.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 6 : PROFIL PAR LA VOIX (LANGUE + BILINGUE) -->
+    <section id="stepVoice" class="step-page">
+      <div class="voice-shell">
+        <!-- Robot au centre, en transparence -->
+        <div class="voice-bg">
+          <img src="/static/cawe_robot.png" alt="Robot IDEA">
+        </div>
+
+        <div class="voice-foreground">
+          <!-- Étape 0 : détection de la langue -->
+          <div id="voiceLangCard" class="panel">
+            <h3>Dans quelle langue veux-tu t’exprimer&nbsp;?</h3>
+            <p class="muted">
+              Dis une phrase comme <b>« Je préfère parler en espagnol »</b> ou
+              <b>« I want to speak in English »</b>. Nous détectons la langue
+              puis nous affichons les consignes dans cette langue, en plus du français.
+            </p>
+
+            <div class="actions" style="margin-top:14px; gap:10px; flex-wrap:wrap;">
+              <button id="langRecBtn" class="btn-primary">
+                🎙️ Dire ma langue
+              </button>
+
+              <!-- Choix manuel de la langue -->
+              <select id="langSelect" class="lang-select">
+                <option value="">Ou choisis ta langue…</option>
+                <!-- Options injectées en JS -->
+              </select>
+            </div>
+
+            <div style="margin-top:16px;">
+              <strong>Texte reconnu</strong>
+              <div id="langTextBox" class="preview-box" style="min-height:60px;">—</div>
+            </div>
+
+            <div id="langDetectedRow" class="muted" style="margin-top:10px;"></div>
+
+            <!-- Confirmation X / ✔ -->
+            <div id="langConfirmRow"
+                 style="display:none; margin-top:14px; align-items:center; gap:12px;">
+              <span id="langConfirmLabel" class="muted"></span>
+              <div style="display:flex; gap:8px;">
+                <button type="button" id="langConfirmNo"
+                        style="width:40px; height:40px; border-radius:999px; border:0;
+                               background:#ffe5e5; color:#c62828; font-size:20px;">
+                  ✖
+                </button>
+                <button type="button" id="langConfirmYes"
+                        style="width:40px; height:40px; border-radius:999px; border:0;
+                               background:#e1f7e4; color:#2e7d32; font-size:20px;">
+                  ✔
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Étape 1 : cartes bilingues + enregistrement profil -->
+          <div id="voiceProfileCard" class="panel" style="display:none;">
+            <!-- Switch simple pour mobile -->
+            <div class="voice-switch" id="voiceSwitch">
+              <span id="voiceSwitchLabel" class="voice-switch-label">Langue choisie</span>
+              <button type="button" id="voiceSwitchBtn" class="voice-switch-btn"
+                      aria-label="Basculer entre la langue choisie et le français">
+                <!-- Icône deux flèches -->
+                <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 8h11.17l-2.88-2.88a1 1 0 1 1 1.42-1.42l4.59 4.6a1 1 0 0 1 0 1.4l-4.59 4.6a1 1 0 0 1-1.42-1.42L16.17 10H5a1 1 0 0 1 0-2Zm14 8H7.83l2.88 2.88a1 1 0 0 1-1.42 1.42L4.7 15.7a1 1 0 0 1 0-1.4l4.59-4.6a1 1 0 1 1 1.42 1.42L7.83 14H19a1 1 0 0 1 0 2Z"
+                        fill="currentColor"/>
+                </svg>
+              </button>
+            </div>
+
+            <div class="profile-bilingual-grid">
+              <!-- Colonne langue choisie -->
+              <div class="voice-col voice-col--lang" id="voiceLangCol">
+                <h3 id="voiceLangTitle">Preséntese verbalmente</h3>
+                <p class="muted" id="voiceLangIntro">
+                  En esta grabación, simplemente diga:
+                </p>
+                <ul id="voiceLangList">
+                  <li><span class="pill">1</span><span>Su nombre y apellido.</span></li>
+                  <li><span class="pill">2</span><span>El lugar donde trabaja.</span></li>
+                  <li><span class="pill">3</span><span>Su departamento.</span></li>
+                  <li><span class="pill">4</span><span>Su cargo.</span></li>
+                </ul>
+
+                <div class="actions">
+                  <button id="profileRecBtnMirror" class="btn-primary">
+                    🎙️ Iniciar grabación
+                  </button>
+                  <button id="profileUploadBtnMirror" class="btn-ghost">
+                    📁 Subir audio
+                  </button>
+                </div>
+
+                <p class="notice" id="voiceLangNotice">
+                  🔒 Su audio se utiliza únicamente para generar el texto a continuación.
+                  Nadie más lo guarda ni lo escucha.
+                </p>
+              </div>
+
+              <!-- Colonne FR -->
+              <div class="voice-col voice-col--fr" id="voiceFrCol">
+                <h3>Présente-toi à l’oral</h3>
+                <p class="muted">Dans cet enregistrement, indique simplement :</p>
+                <ul>
+                  <li><span class="pill">1</span><span>Ton <b>nom et prénom</b>.</span></li>
+                  <li><span class="pill">2</span><span>Le <b>site</b> sur lequel tu travailles.</span></li>
+                  <li><span class="pill">3</span><span>Ton <b>service</b>.</span></li>
+                  <li><span class="pill">4</span><span>Ta <b>fonction</b> (poste occupé).</span></li>
+                </ul>
+
+                <div class="actions">
+                  <button id="profileRecBtn" class="btn-primary">
+                    🎙️ Démarrer l’enregistrement
+                  </button>
+                  <button id="profileUploadBtn" class="btn-ghost">
+                    📁 Importer un audio
+                  </button>
+                  <input id="profileAudioFile" type="file" accept="audio/*" capture style="display:none">
+                </div>
+
+                <audio id="profilePlayer" controls hidden style="margin-top:10px;"></audio>
+
+                <p class="notice">
+                  🔒 Ton audio est utilisé uniquement pour générer le texte ci-dessous.
+                  Il n’est ni conservé, ni réécouté par une autre personne.
+                </p>
+              </div>
+            </div>
+
+            <!-- Prévisualisation texte / traduction -->
+            <div class="voice-preview-block">
+              <div>
+                <strong>🗣️ Texte d’origine</strong>
+                <div class="muted" id="profileLangChip" style="margin:6px 0 10px;"></div>
+                <div id="profileOrigBox" class="preview-box">—</div>
+              </div>
+              <div>
+                <strong>🇫🇷 Traduction française</strong>
+                <div id="profileFrBox" class="preview-box">—</div>
+              </div>
+            </div>
+
+            <div id="voiceMissingMsg"
+                 class="muted"
+                 style="color:#c62828; margin-top:14px; font-weight:600;"></div>
+
+            <div class="nav-row" style="margin-top:20px;">
+              <button type="button" class="btn-secondary" id="backToModeVoice">
+                ◀ Retour
+              </button>
+              <button type="button" class="btn-primary" id="nextFromVoice">
+                Suivant · Vérifier mes infos
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP MERCI : CONFIRMATION FINALE -->
+    <section id="stepThanks" class="step-page">
+      <div class="panel thank-panel">
+        <div class="thank-layout">
+          <div class="thank-text">
+            <h2>Merci pour ton IDEA 💡</h2>
+            <p class="muted">
+              Toute l’équipe <b>IDEA</b> te remercie chaleureusement pour ta contribution.
+              Grâce à des personnes comme toi, nous continuons à nous améliorer
+              chaque jour, chaque heure, chaque minute.
+            </p>
+            <p class="muted">
+              Ton IDEA va maintenant être analysée par l’équipe innovation.
+              Si un suivi est nécessaire, nous te recontacterons via le mode que tu as choisi.
+            </p>
+            <div class="thank-highlight">
+              <span>✨ Sans idées, il n’y a pas de progrès. Merci d’avoir pris le temps de partager la tienne.</span>
+            </div>
+
+            <button type="button" class="btn-secondary" id="backToHomeBtn">
+              ⬅️ Retour à l’accueil IDEA
+            </button>
+          </div>
+
+          <div class="thank-robot">
+            <div class="thank-robot-orbit">
+              <img src="/static/cawe_robot.png" alt="Robot IDEA qui te remercie">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="spacer"></div>
+</div>
+
+<div class="submitbar">
+  <div class="inner">
+    <button id="submitBtn" class="btn-primary" disabled>
+      ✅ Soumettre mon idée
+    </button>
+    <span id="statusMsg" class="muted"></span>
+  </div>
+</div>
+
+
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <script>
+// --- Navigation entre étapes ---
+
+const stepPages = Array.from(document.querySelectorAll(".step-page"));
+let currentStepId = "step1";
+const recState = document.getElementById("recState"); // optionnel
+
+function showStep(id){
+  currentStepId = id;
+  stepPages.forEach(p => p.classList.toggle("active", p.id === id));
+
+  if (recState){
+    const labels = {
+      step1: "Introduction",
+      step3: "Profil collaborateur",
+      step4: "Coordonnées",
+      step5: "Saisie de l’idée",
+      stepVoice: "Profil vocal",
+      stepThanks: "Confirmation"
+    };
+    recState.textContent = labels[id] || "";
+  }
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  showStep("step1");
+});
+
+// --- Accueil : choix du mode + reCAPTCHA ---
+
+const btnModeText  = document.getElementById("btnModeText");
+const btnModeVoice = document.getElementById("btnModeVoice");
+const modeHint     = document.getElementById("modeHint");
+const captchaRow   = document.getElementById("captchaRow");
+
+let chosenMode = null;
+let captchaOk  = false;
+
+function updateModeButtons(){
+  if (!btnModeText || !btnModeVoice) return;
+  if (chosenMode === "text"){
+    btnModeText.classList.add("btn-primary");
+    btnModeText.classList.remove("btn-ghost");
+    btnModeVoice.classList.add("btn-ghost");
+    btnModeVoice.classList.remove("btn-primary");
+  } else if (chosenMode === "voice"){
+    btnModeVoice.classList.add("btn-primary");
+    btnModeVoice.classList.remove("btn-ghost");
+    btnModeText.classList.add("btn-ghost");
+    btnModeText.classList.remove("btn-primary");
+  }
+}
+
+function handleModeChoice(mode){
+  chosenMode = mode;
+  updateModeButtons();
+  if (captchaRow) captchaRow.style.display = "block";
+
+  if (modeHint){
+    if (mode === "text"){
+      modeHint.textContent =
+        "Valide le « Je ne suis pas un robot » pour commencer par ton profil en mode texte.";
+    } else {
+      modeHint.textContent =
+        "Valide le « Je ne suis pas un robot » pour commencer par ton profil en mode vocal.";
+    }
+  }
+}
+
+btnModeText?.addEventListener("click", () => handleModeChoice("text"));
+btnModeVoice?.addEventListener("click", () => handleModeChoice("voice"));
+
+function onCaptchaSuccess(){
+  captchaOk = true;
+  if (!chosenMode){
+    if (modeHint){
+      modeHint.textContent =
+        "Merci, choisis d’abord si tu préfères écrire ou parler ton idée.";
+    }
+    return;
+  }
+  if (chosenMode === "text"){
+    showStep("step3");
+  } else {
+    showStep("stepVoice");
+  }
+}
+window.onCaptchaSuccess = onCaptchaSuccess;
+
+// --- Champs profil / coordonnées / idée ---
+
+const siteSelect        = document.getElementById("country");
+const otherSiteRow      = document.getElementById("otherSiteRow");
+const otherSite         = document.getElementById("otherSite");
+const serviceSelect     = document.getElementById("serviceSelect");
+const otherServiceRow   = document.getElementById("otherServiceRow");
+const otherService      = document.getElementById("otherService");
+const proEmail          = document.getElementById("proEmail");
+const authorName        = document.getElementById("authorName");
+const functionField     = document.getElementById("functionField");
+const submitBtn         = document.getElementById("submitBtn");
+const statusMsg         = document.getElementById("statusMsg");
+
+siteSelect?.addEventListener("change", () => {
+  if (!otherSiteRow || !otherSite) return;
+  otherSiteRow.style.display = siteSelect.value === "Autre" ? "block" : "none";
+  if (siteSelect.value !== "Autre") otherSite.value = "";
+});
+
+serviceSelect?.addEventListener("change", () => {
+  if (!otherServiceRow || !otherService) return;
+  otherServiceRow.style.display = serviceSelect.value === "Autre" ? "block" : "none";
+  if (serviceSelect.value !== "Autre") otherService.value = "";
+});
+
+function getContactMode(){
+  const checked = document.querySelector("input[name='contactMode']:checked");
+  return checked ? checked.value : null;
+}
+
+// --- Impact ---
+
+const impactSelect   = document.getElementById("impactSelect");
+const impactOtherRow = document.getElementById("impactOtherRow");
+const impactOther    = document.getElementById("impactOther");
+
+function getImpact(){
+  const v = impactSelect.value;
+  if (!v) return { impact: null, impact_other: null };
+
+  if (v === "Autre") {
+    return { impact: "Autre", impact_other: impactOther.value || null };
+  }
+  return { impact: v, impact_other: null };
+}
+
+impactSelect?.addEventListener("change", () => {
+  if (!impactOtherRow || !impactOther) return;
+  if (impactSelect.value === "Autre"){
+    impactOtherRow.style.display = "block";
+    impactOther.value = "";
+  } else {
+    impactOtherRow.style.display = "none";
+    impactOther.value = "";
+  }
+});
+
+// --- Audio / transcription de l’idée ---
+
+const recBtn     = document.getElementById("recBtn");
+const uploadBtn  = document.getElementById("uploadBtn");
+const toneBtn    = document.getElementById("toneBtn");
+const audioFile  = document.getElementById("audioFile");
+const player     = document.getElementById("player");
+const typedText  = document.getElementById("typedText");
+const langChip   = document.getElementById("langChip");
+const origBox    = document.getElementById("origBox");
+const frBox      = document.getElementById("frBox");
+
+const mediaCaptureBtn = document.getElementById("mediaCaptureBtn");
+const mediaUploadBtn  = document.getElementById("mediaUploadBtn");
+const mediaInputCamera= document.getElementById("mediaInputCamera");
+const mediaInputFile  = document.getElementById("mediaInputFile");
+const mediaPreview    = document.getElementById("mediaPreview");
+
+let mediaFiles = [];
+let mediaRecorder = null, chunks = [], stream;
+let detectedLanguage = null, originalText = null, frenchTranslation = null;
+
+function isSecure(){
+  return window.isSecureContext || ["localhost","127.0.0.1"].includes(location.hostname);
+}
+
+function pickBestMime(){
+  const candidates = ['audio/webm;codecs=opus','audio/webm','audio/mp4',''];
+  for(const c of candidates){
+    if(!c) return undefined;
+    if(MediaRecorder.isTypeSupported(c)) return c;
+  }
+  return undefined;
+}
+
+toneBtn?.addEventListener("click", async ()=>{
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const osc = ctx.createOscillator();
+  const gn  = ctx.createGain();
+  gn.gain.value = 0.2; osc.frequency.value = 880; osc.connect(gn); gn.connect(ctx.destination);
+  osc.start(); setTimeout(()=>{ osc.stop(); ctx.close(); }, 600);
+});
+
+async function transcribeBlob(blob){
+  if (statusMsg) statusMsg.textContent = "Transcription en cours…";
+  const form = new FormData();
+  form.append("audio", blob, "record.webm");
+  const res = await fetch("/api/transcribe", { method: "POST", body: form });
+  const data = await res.json();
+  if (!res.ok || !data.ok){
+    if (statusMsg) statusMsg.textContent = (data && data.error) ? data.error : "Échec de la transcription.";
+    return;
+  }
+  detectedLanguage   = data.language || "";
+  originalText       = data.original_text || "";
+  frenchTranslation  = data.french_translation || "";
+
+  if (langChip) langChip.textContent = detectedLanguage ? `Langue détectée : ${detectedLanguage}` : "";
+  if (origBox)  origBox.textContent = originalText || "—";
+  if (frBox)    frBox.textContent = frenchTranslation || "—";
+
+  if (submitBtn) submitBtn.disabled = false;
+  if (statusMsg) statusMsg.textContent = "Transcription terminée. Tu pourras envoyer à la dernière étape.";
+}
+
+async function startRecording(){
+  if(!isSecure() || !(navigator.mediaDevices?.getUserMedia)){
+    alert("HTTPS requis (ou localhost). Utilise plutôt l’import de fichier audio.");
+    return;
+  }
+  try{
+    try{ if(player && !player.paused) player.pause(); }catch(_){}
+    if (player) player.hidden = true;
+    if(stream) stream.getTracks().forEach(t=>t.stop());
+    const constraints = { audio: { echoCancellation:true, noiseSuppression:true, autoGainControl:true, channelCount:1, sampleRate:48000, sampleSize:16 } };
+    stream = await navigator.mediaDevices.getUserMedia(constraints);
+
+    chunks = []; const mime = pickBestMime();
+    mediaRecorder = new MediaRecorder(stream, mime ? { mimeType: mime } : undefined);
+    mediaRecorder.ondataavailable = e => { if(e.data.size>0) chunks.push(e.data); };
+    mediaRecorder.onstop = async () => {
+      const blob = new Blob(chunks, { type: mediaRecorder.mimeType || "audio/webm" });
+      if (player){
+        player.src = URL.createObjectURL(blob);
+        player.hidden = false;
+      }
+      await transcribeBlob(blob);
+      if(stream) stream.getTracks().forEach(t=>t.stop());
+    };
+
+    mediaRecorder.start();
+    if (recBtn) recBtn.textContent = "⏹️ Arrêter";
+  }catch(err){
+    alert("Impossible d'accéder au micro : " + err);
+  }
+}
+
+function stopRecording(){
+  if(mediaRecorder && mediaRecorder.state !== "inactive"){
+    mediaRecorder.stop();
+    if (recBtn) recBtn.textContent = "🎙️ Démarrer l’enregistrement";
+  }
+}
+
+recBtn?.addEventListener("click", () => {
+  (!mediaRecorder || mediaRecorder.state === "inactive") ? startRecording() : stopRecording();
+});
+uploadBtn?.addEventListener("click", () => audioFile?.click());
+audioFile?.addEventListener("change", async () => {
+  const file = audioFile.files?.[0]; if (!file) return;
+  if (player){
+    player.src = URL.createObjectURL(file);
+    player.hidden = false;
+  }
+  await transcribeBlob(file);
+});
+
+function handleMediaFiles(fileList){
+  mediaFiles = Array.from(fileList || []);
+  if (!mediaPreview) return;
+  mediaPreview.innerHTML = "";
+
+  mediaFiles.forEach(file => {
+    const url = URL.createObjectURL(file);
+    const isVideo = file.type.startsWith("video/");
+    const el = document.createElement(isVideo ? "video" : "img");
+    el.src = url;
+    if(isVideo){
+      el.muted = true;
+      el.controls = true;
+    }
+    mediaPreview.appendChild(el);
+  });
+}
+
+mediaCaptureBtn?.addEventListener("click", () => mediaInputCamera?.click());
+mediaInputCamera?.addEventListener("change", () => handleMediaFiles(mediaInputCamera.files));
+mediaUploadBtn?.addEventListener("click", () => mediaInputFile?.click());
+mediaInputFile?.addEventListener("change", () => handleMediaFiles(mediaInputFile.files));
+
+function getShareTypes(){
+  const boxes = document.querySelectorAll("input[name='shareType']:checked");
+  return Array.from(boxes).map(b => b.value);
+}
+
+// --- PROFIL VOCAL (analyse + hints) ---
+
+const profileRecBtn      = document.getElementById("profileRecBtn");
+const profileUploadBtn   = document.getElementById("profileUploadBtn");
+const profileAudioFile   = document.getElementById("profileAudioFile");
+const profilePlayer      = document.getElementById("profilePlayer");
+const profileLangChip    = document.getElementById("profileLangChip");
+const profileOrigBox     = document.getElementById("profileOrigBox");
+const profileFrBox       = document.getElementById("profileFrBox");
+const voiceMissingMsg    = document.getElementById("voiceMissingMsg");
+
+let profileMediaRecorder = null, profileChunks = [], profileStream;
+let profileDetectedLanguage = null,
+    profileOriginalText    = null,
+    profileFrenchTranslation = null;
+
+let profileReady = false;
+
+let profileSlots = {
+  name: null,
+  site: null,
+  service: null,
+  function_title: null
+};
+let profileMissing = [];
+let profileHints   = {};
+
+const labelNameEl    = document.querySelector("label[for='authorName']");
+const labelSiteEl    = document.querySelector("label[for='country']");
+const labelServiceEl = document.querySelector("label[for='serviceSelect']");
+const labelFuncEl    = document.querySelector("label[for='functionField']");
+
+const baseLabels = {
+  name:           labelNameEl   ? labelNameEl.innerHTML   : "",
+  site:           labelSiteEl   ? labelSiteEl.innerHTML   : "",
+  service:        labelServiceEl? labelServiceEl.innerHTML: "",
+  function_title: labelFuncEl   ? labelFuncEl.innerHTML   : ""
+};
+
+const redMsg = (msg) => `<span style="color:#e55353; font-weight:600;">${msg}</span>`;
+
+async function transcribeProfileBlob(blob){
+  if (statusMsg) statusMsg.textContent = "Transcription du profil en cours…";
+  const form = new FormData();
+  form.append("audio", blob, "profile.webm");
+
+  const res  = await fetch("/api/transcribe", { method: "POST", body: form });
+  const data = await res.json();
+
+  if (!res.ok || !data.ok){
+    if (statusMsg) statusMsg.textContent = (data && data.error) ? data.error : "Échec de la transcription du profil.";
+    return;
+  }
+
+  profileDetectedLanguage   = data.language || "";
+  profileOriginalText       = data.original_text || "";
+  profileFrenchTranslation  = data.french_translation || "";
+
+  if (profileLangChip){
+    profileLangChip.textContent = profileDetectedLanguage
+      ? `Langue détectée : ${profileDetectedLanguage}` : "";
+  }
+  if (profileOrigBox) profileOrigBox.textContent  = profileOriginalText  || "—";
+  if (profileFrBox)  profileFrBox.textContent    = profileFrenchTranslation || "—";
+
+  if (statusMsg) statusMsg.textContent = "Profil transcrit. Tu peux vérifier ce qui a été compris.";
+
+  const textForAnalysis = profileFrenchTranslation || profileOriginalText || "";
+  const normalized = textForAnalysis.toLowerCase().trim();
+  const isSilence =
+    !normalized ||
+    /\[silence\]/i.test(normalized) ||
+    /tonal sound|music only|background noise/.test(normalized) ||
+    profileDetectedLanguage === "und";
+
+  if (isSilence){
+    profileReady   = false;
+    profileSlots   = { name:null, site:null, service:null, function_title:null };
+    profileMissing = ["name","site","service","function_title"];
+    profileHints   = {};
+
+    if (voiceMissingMsg){
+      voiceMissingMsg.textContent =
+        "⚠️ Je n’ai pas bien compris ton nom, ton site, ton service, ta fonction. " +
+        "Tu pourras corriger ces informations à l’étape suivante ou refaire un enregistrement.";
+    }
+
+    updateProfileHintsUI();
+    return;
+  }
+
+  await analyzeProfileTextForFields(textForAnalysis).catch(console.error);
+}
+
+function updateProfileHintsUI(){
+  if (labelNameEl)    labelNameEl.innerHTML   = baseLabels.name;
+  if (labelSiteEl)    labelSiteEl.innerHTML   = baseLabels.site;
+  if (labelServiceEl) labelServiceEl.innerHTML= baseLabels.service;
+  if (labelFuncEl)    labelFuncEl.innerHTML   = baseLabels.function_title;
+
+  const hasTranscript = !!(profileOriginalText || profileFrenchTranslation);
+  if (!hasTranscript) {
+    if (voiceMissingMsg) voiceMissingMsg.textContent = "";
+    return;
+  }
+
+  if (profileMissing.includes("name") && labelNameEl){
+    const msg = profileHints.name || "Je n’ai pas bien compris ton nom, merci de le préciser ici.";
+    labelNameEl.innerHTML = baseLabels.name + " " + redMsg(msg);
+  }
+  if (profileMissing.includes("site") && labelSiteEl){
+    const msg = profileHints.site || "Je n’ai pas bien compris ton site, merci de le sélectionner ou le préciser.";
+    labelSiteEl.innerHTML = baseLabels.site + " " + redMsg(msg);
+  }
+  if (profileMissing.includes("service") && labelServiceEl){
+    const msg = profileHints.service || "Je n’ai pas bien compris ton service, merci de le préciser.";
+    labelServiceEl.innerHTML = baseLabels.service + " " + redMsg(msg);
+  }
+  if (profileMissing.includes("function_title") && labelFuncEl){
+    const msg = profileHints.function_title || "Je n’ai pas bien compris ta fonction, merci de la préciser.";
+    labelFuncEl.innerHTML = baseLabels.function_title + " " + redMsg(msg);
+  }
+
+  if (!voiceMissingMsg) return;
+
+  if (profileReady){
+    voiceMissingMsg.textContent = "✔️ Toutes les informations semblent complètes. Tu pourras les corriger à la main si besoin.";
+  } else {
+    const human = {
+      name:"ton nom",
+      site:"ton site",
+      service:"ton service",
+      function_title:"ta fonction"
+    };
+    const items = profileMissing.map(k => human[k] || k);
+    voiceMissingMsg.textContent =
+      "⚠️ Je n’ai pas bien compris : " + items.join(", ") +
+      ". Tu pourras corriger ces informations à l’étape suivante ou refaire un enregistrement si tu préfères.";
+  }
+}
+
+async function analyzeProfileTextForFields(text){
+  if (!text) return;
+
+  const res = await fetch("/api/analyze_profile", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text })
+  });
+  const data = await res.json();
+
+  if (!res.ok || !data.ok){
+    console.warn("Analyse profil échouée :", data.error);
+    return;
+  }
+
+  profileSlots   = data.profile || {};
+  profileMissing = data.missing || [];
+  profileHints   = data.hints   || {};
+
+  if (!Array.isArray(profileMissing)) profileMissing = [];
+
+  if (!profileSlots.name && !profileMissing.includes("name")) profileMissing.push("name");
+  if (!profileSlots.site && !profileMissing.includes("site")) profileMissing.push("site");
+  if (!profileSlots.service && !profileMissing.includes("service")) profileMissing.push("service");
+  if (!profileSlots.function_title && !profileMissing.includes("function_title")) profileMissing.push("function_title");
+
+  profileReady =
+    !!profileSlots.name &&
+    !!profileSlots.site &&
+    !!profileSlots.service &&
+    !!profileSlots.function_title &&
+    profileMissing.length === 0;
+
+  if (profileSlots.name && authorName) {
+    authorName.value = profileSlots.name;
+  }
+
+  if (profileSlots.site && siteSelect) {
+    const options = Array.from(siteSelect.options).map(o => o.value || o.textContent);
+    if (options.includes(profileSlots.site)) {
+      siteSelect.value = profileSlots.site;
+      if (otherSiteRow && otherSite){
+        otherSiteRow.style.display = "none";
+        otherSite.value = "";
+      }
+    } else {
+      siteSelect.value = "Autre";
+      if (otherSiteRow && otherSite){
+        otherSiteRow.style.display = "block";
+        otherSite.value = profileSlots.site;
+      }
+    }
+  }
+
+  if (profileSlots.service && serviceSelect) {
+    const optionsS = Array.from(serviceSelect.options).map(o => o.value || o.textContent);
+    if (optionsS.includes(profileSlots.service)) {
+      serviceSelect.value = profileSlots.service;
+      if (otherServiceRow && otherService){
+        otherServiceRow.style.display = "none";
+        otherService.value = "";
+      }
+    } else {
+      serviceSelect.value = "Autre";
+      if (otherServiceRow && otherService){
+        otherServiceRow.style.display = "block";
+        otherService.value = profileSlots.service;
+      }
+    }
+  }
+
+  if (profileSlots.function_title && functionField) {
+    functionField.value = profileSlots.function_title;
+  }
+
+  updateProfileHintsUI();
+}
+
+async function startProfileRecording(){
+  if(!isSecure() || !(navigator.mediaDevices?.getUserMedia)){
+    alert("HTTPS requis (ou localhost). Utilise plutôt l’import de fichier audio.");
+    return;
+  }
+  try{
+    try { if (profilePlayer && !profilePlayer.paused) profilePlayer.pause(); } catch(_){}
+    if(profilePlayer) profilePlayer.hidden = true;
+
+    if(profileStream) profileStream.getTracks().forEach(t => t.stop());
+
+    const constraints = {
+      audio: {
+        echoCancellation:true,
+        noiseSuppression:true,
+        autoGainControl:true,
+        channelCount:1,
+        sampleRate:48000,
+        sampleSize:16
+      }
+    };
+
+    profileStream = await navigator.mediaDevices.getUserMedia(constraints);
+    profileChunks = [];
+    const mime = pickBestMime();
+
+    profileMediaRecorder = new MediaRecorder(
+      profileStream,
+      mime ? { mimeType: mime } : undefined
+    );
+
+    profileMediaRecorder.ondataavailable = e => {
+      if(e.data.size > 0) profileChunks.push(e.data);
+    };
+    profileMediaRecorder.onstop = async () => {
+      const blob = new Blob(profileChunks, {
+        type: profileMediaRecorder.mimeType || "audio/webm"
+      });
+      if (profilePlayer){
+        profilePlayer.src = URL.createObjectURL(blob);
+        profilePlayer.hidden = false;
+      }
+      await transcribeProfileBlob(blob);
+      if(profileStream) profileStream.getTracks().forEach(t => t.stop());
+    };
+
+    profileMediaRecorder.start();
+    if (profileRecBtn) profileRecBtn.textContent = "⏹️ Arrêter";
+  } catch(err){
+    alert("Impossible d'accéder au micro : " + err);
+  }
+}
+
+function stopProfileRecording(){
+  if(profileMediaRecorder && profileMediaRecorder.state !== "inactive"){
+    profileMediaRecorder.stop();
+    if (profileRecBtn) profileRecBtn.textContent = "🎙️ Démarrer l’enregistrement";
+    if(profileStream) profileStream.getTracks().forEach(t => t.stop());
+  }
+}
+
+profileRecBtn?.addEventListener("click", () => {
+  (!profileMediaRecorder || profileMediaRecorder.state === "inactive")
+    ? startProfileRecording()
+    : stopProfileRecording();
+});
+
+profileUploadBtn?.addEventListener("click", () => profileAudioFile?.click());
+
+profileAudioFile?.addEventListener("change", async () => {
+  const file = profileAudioFile.files?.[0];
+  if (!file) return;
+
+  if (profilePlayer){
+    profilePlayer.src = URL.createObjectURL(file);
+    profilePlayer.hidden = false;
+  }
+  await transcribeProfileBlob(file);
+});
+
+// --- Étape 0 vocal : détection de langue + switch mobile ---
+
+// Récupération des éléments DOM
+const langRecBtn        = document.getElementById("langRecBtn");
+const langSelect        = document.getElementById("langSelect");
+const langUploadBtn     = document.getElementById("langUploadBtn");
+const langAudioFile     = document.getElementById("langAudioFile");
+const langTextBox       = document.getElementById("langTextBox");
+const langDetectedRow   = document.getElementById("langDetectedRow");
+const langConfirmRow    = document.getElementById("langConfirmRow");
+const langConfirmLabel  = document.getElementById("langConfirmLabel");
+const langConfirmYes    = document.getElementById("langConfirmYes");
+const langConfirmNo     = document.getElementById("langConfirmNo");
+
+const voiceLangCard     = document.getElementById("voiceLangCard");
+const voiceProfileCard  = document.getElementById("voiceProfileCard");
+
+const voiceLangTitle    = document.getElementById("voiceLangTitle");
+const voiceLangIntro    = document.getElementById("voiceLangIntro");
+const voiceLangList     = document.getElementById("voiceLangList");
+const voiceLangNotice   = document.getElementById("voiceLangNotice");
+const profileRecBtnMirror   = document.getElementById("profileRecBtnMirror");
+const profileUploadBtnMirror= document.getElementById("profileUploadBtnMirror");
+
+const voiceLangCol      = document.getElementById("voiceLangCol");
+const voiceFrCol        = document.getElementById("voiceFrCol");
+const voiceSwitch       = document.getElementById("voiceSwitch");
+const voiceSwitchBtn    = document.getElementById("voiceSwitchBtn");
+const voiceSwitchLabel  = document.getElementById("voiceSwitchLabel");
+
+let langMediaRecorder = null, langChunks = [], langStream;
+let currentLangCandidate = null;
+let currentProfileLanguage = null;
+
+// vue actuelle pour mobile
+let currentVoiceView   = "native"; // "native" ou "fr"
+let nativeDisplayLabel = "Langue choisie";
+
+// Liste des langues pour le <select>
+const LANGUAGE_OPTIONS = [
+  { code: "af", fr: "Afrikaans", native: "Afrikaans" },
+  { code: "ar", fr: "Arabe", native: "العربية" },
+  { code: "bg", fr: "Bulgare", native: "Български" },
+  { code: "ca", fr: "Catalan", native: "Català" },
+  { code: "cs", fr: "Tchèque", native: "Čeština" },
+  { code: "da", fr: "Danois", native: "Dansk" },
+  { code: "de", fr: "Allemand", native: "Deutsch" },
+  { code: "el", fr: "Grec", native: "Ελληνικά" },
+  { code: "en", fr: "Anglais", native: "English" },
+  { code: "es", fr: "Espagnol", native: "Español" },
+  { code: "et", fr: "Estonien", native: "Eesti" },
+  { code: "fa", fr: "Persan", native: "فارسی" },
+  { code: "fi", fr: "Finnois", native: "Suomi" },
+  { code: "fr", fr: "Français", native: "Français" },
+  { code: "he", fr: "Hébreu", native: "עברית" },
+  { code: "hi", fr: "Hindi", native: "हिन्दी" },
+  { code: "hr", fr: "Croate", native: "Hrvatski" },
+  { code: "hu", fr: "Hongrois", native: "Magyar" },
+  { code: "id", fr: "Indonésien", native: "Bahasa Indonesia" },
+  { code: "it", fr: "Italien", native: "Italiano" },
+  { code: "ja", fr: "Japonais", native: "日本語" },
+  { code: "ko", fr: "Coréen", native: "한국어" },
+  { code: "lt", fr: "Lituanien", native: "Lietuvių" },
+  { code: "lv", fr: "Letton", native: "Latviešu" },
+  { code: "ms", fr: "Malais", native: "Bahasa Melayu" },
+  { code: "nl", fr: "Néerlandais", native: "Nederlands" },
+  { code: "no", fr: "Norvégien", native: "Norsk" },
+  { code: "pl", fr: "Polonais", native: "Polski" },
+  { code: "pt", fr: "Portugais", native: "Português" },
+  { code: "ro", fr: "Roumain", native: "Română" },
+  { code: "ru", fr: "Russe", native: "Русский" },
+  { code: "sk", fr: "Slovaque", native: "Slovenčina" },
+  { code: "sl", fr: "Slovène", native: "Slovenščina" },
+  { code: "sr", fr: "Serbe", native: "Српски" },
+  { code: "sv", fr: "Suédois", native: "Svenska" },
+  { code: "th", fr: "Thaï", native: "ไทย" },
+  { code: "tr", fr: "Turc", native: "Türkçe" },
+  { code: "uk", fr: "Ukrainien", native: "Українська" },
+  { code: "ur", fr: "Ourdou", native: "اُردُو" },
+  { code: "vi", fr: "Vietnamien", native: "Tiếng Việt" },
+  { code: "zh", fr: "Chinois", native: "中文" }
+];
+
+if (langSelect) {
+  LANGUAGE_OPTIONS.forEach(({ code, fr, native }) => {
+    const opt = document.createElement("option");
+    opt.value = code;
+    opt.textContent = native ? `${native} – ${fr}` : fr;
+    langSelect.appendChild(opt);
+  });
+}
+
+// gestion de la vue mobile
+function updateVoiceView(target){
+  currentVoiceView = target;
+
+  // Desktop : les deux colonnes visibles, on ne force rien
+  if (window.innerWidth > 900){
+    if (voiceLangCol) voiceLangCol.classList.remove("is-active");
+    if (voiceFrCol)  voiceFrCol.classList.remove("is-active");
+    if (voiceSwitchLabel){
+      voiceSwitchLabel.textContent = nativeDisplayLabel;
+    }
+    return;
+  }
+
+  if (!voiceLangCol || !voiceFrCol) return;
+
+  if (target === "fr"){
+    voiceLangCol.classList.remove("is-active");
+    voiceFrCol.classList.add("is-active");
+    if (voiceSwitchLabel){
+      voiceSwitchLabel.textContent = "FR Français";
+    }
+  } else {
+    voiceLangCol.classList.add("is-active");
+    voiceFrCol.classList.remove("is-active");
+    if (voiceSwitchLabel){
+      voiceSwitchLabel.textContent = nativeDisplayLabel;
+    }
+  }
+}
+
+// clic sur le bouton de switch
+voiceSwitchBtn?.addEventListener("click", () => {
+  const next = (currentVoiceView === "native") ? "fr" : "native";
+  updateVoiceView(next);
+});
+
+// resize : on repasse en double colonne sur desktop
+window.addEventListener("resize", () => {
+  if (window.innerWidth > 900){
+    if (voiceLangCol) voiceLangCol.classList.remove("is-active");
+    if (voiceFrCol)  voiceFrCol.classList.remove("is-active");
+  } else {
+    if (!voiceLangCol?.classList.contains("is-active") &&
+        !voiceFrCol?.classList.contains("is-active")){
+      updateVoiceView("native");
+    } else {
+      updateVoiceView(currentVoiceView);
+    }
+  }
+});
+
+// init à l’ouverture
+if (window.innerWidth <= 900){
+  updateVoiceView("native");
+}
+
+// Sélection manuelle de la langue
+langSelect?.addEventListener("change", async () => {
+  const code = langSelect.value;
+  if (!code) return;
+
+  const label = langSelect.options[langSelect.selectedIndex]?.text || code;
+
+  if (langTextBox) {
+    langTextBox.textContent = `Langue choisie : ${label}`;
+  }
+  if (langDetectedRow) langDetectedRow.textContent = "";
+  if (langConfirmRow) langConfirmRow.style.display = "none";
+  if (statusMsg) statusMsg.textContent = "Préparation de l’interface…";
+
+  try {
+    const res = await fetch("/api/voice_lang", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        language: code,
+        original_text: "",
+        french_translation: `Je veux parler en ${label}`
+      })
+    });
+    const data = await res.json();
+
+    if (res.ok && data.ok) {
+      currentLangCandidate = data;
+      applyChosenLanguage(data);
+      if (statusMsg) statusMsg.textContent = "";
+    } else {
+      if (langDetectedRow) {
+        langDetectedRow.textContent =
+          "Impossible de préparer cette langue pour le moment.";
+      }
+      if (statusMsg) statusMsg.textContent = "";
+    }
+  } catch (e) {
+    console.error("Erreur /api/voice_lang (select) :", e);
+    if (langDetectedRow) {
+      langDetectedRow.textContent =
+        "Erreur lors du chargement de la langue.";
+    }
+    if (statusMsg) statusMsg.textContent = "";
+  }
+});
+
+function applyChosenLanguage(langData) {
+  currentProfileLanguage = langData;
+  const ui = langData.ui || {};
+
+  if (voiceLangTitle && ui.title) {
+    voiceLangTitle.textContent = ui.title;
+  }
+  if (voiceLangIntro && ui.intro) {
+    voiceLangIntro.textContent = ui.intro;
+  }
+
+  if (voiceLangList) {
+    voiceLangList.innerHTML = "";
+    (ui.items || []).forEach((txt, idx) => {
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <span class="pill">${idx + 1}</span>
+        <span>${txt}</span>
+      `;
+      voiceLangList.appendChild(li);
+    });
+  }
+
+  if (profileRecBtnMirror && ui.rec_label) {
+    profileRecBtnMirror.textContent = ui.rec_label;
+  }
+  if (profileUploadBtnMirror && ui.upload_label) {
+    profileUploadBtnMirror.textContent = ui.upload_label;
+  }
+  if (voiceLangNotice && ui.notice) {
+    voiceLangNotice.textContent = ui.notice;
+  }
+
+  // label utilisé côté mobile (ex : "العربية – Arabe")
+  nativeDisplayLabel = `${langData.native_label} – ${langData.fr_label}`;
+  if (voiceSwitchLabel){
+    voiceSwitchLabel.textContent = nativeDisplayLabel;
+  }
+
+  if (voiceLangCard)   voiceLangCard.style.display = "none";
+  if (voiceProfileCard) voiceProfileCard.style.display = "block";
+
+  if (window.innerWidth <= 900){
+    updateVoiceView("native");
+  }
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+async function transcribeLangBlob(blob) {
+  if (statusMsg) statusMsg.textContent = "Analyse de la langue en cours…";
+
+  const form = new FormData();
+  form.append("audio", blob, "lang.webm");
+
+  const res = await fetch("/api/transcribe", { method: "POST", body: form });
+  const data = await res.json();
+
+  if (!res.ok || !data.ok) {
+    if (statusMsg) {
+      statusMsg.textContent = (data && data.error)
+        ? data.error
+        : "Échec de la détection de la langue.";
+    }
+    return;
+  }
+
+  const code = data.language || "";
+  const orig = data.original_text || "";
+  const fr   = data.french_translation || "";
+
+  if (langTextBox) {
+    langTextBox.textContent = orig || fr || "—";
+  }
+
+  let langInfo = null;
+  try {
+    const langRes = await fetch("/api/voice_lang", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        language: code,
+        original_text: orig,
+        french_translation: fr
+      })
+    });
+    const langData = await langRes.json();
+    if (langRes.ok && langData.ok) {
+      langInfo = langData;
+    }
+  } catch (e) {
+    console.warn("Erreur /api/voice_lang :", e);
+  }
+
+  if (!langInfo) {
+    if (langDetectedRow) {
+      langDetectedRow.textContent =
+        "Je n’ai pas bien compris la langue. Peux-tu la redire (par exemple « en espagnol ») ?";
+    }
+    if (langConfirmRow) langConfirmRow.style.display = "none";
+    if (statusMsg) statusMsg.textContent = "";
+    return;
+  }
+
+  currentLangCandidate = langInfo;
+
+  if (langDetectedRow) langDetectedRow.textContent = "";
+  if (langConfirmLabel) {
+    langConfirmLabel.textContent =
+      `Langue détectée : ${langInfo.fr_label} (${langInfo.native_label}). Confirmer ?`;
+  }
+  if (langConfirmRow) langConfirmRow.style.display = "flex";
+  if (statusMsg) statusMsg.textContent = "";
+}
+
+async function startLangRecording(){
+  if(!isSecure() || !(navigator.mediaDevices?.getUserMedia)){
+    alert("HTTPS requis (ou localhost). Utilise plutôt l’import de fichier audio.");
+    return;
+  }
+  try{
+    if(langStream) langStream.getTracks().forEach(t => t.stop());
+    const constraints = {
+      audio: {
+        echoCancellation:true,
+        noiseSuppression:true,
+        autoGainControl:true,
+        channelCount:1,
+        sampleRate:48000,
+        sampleSize:16
+      }
+    };
+    langStream = await navigator.mediaDevices.getUserMedia(constraints);
+    langChunks = [];
+    const mime = pickBestMime();
+    langMediaRecorder = new MediaRecorder(
+      langStream,
+      mime ? { mimeType: mime } : undefined
+    );
+    langMediaRecorder.ondataavailable = e => {
+      if(e.data.size > 0) langChunks.push(e.data);
+    };
+    langMediaRecorder.onstop = async () => {
+      const blob = new Blob(langChunks, {
+        type: langMediaRecorder.mimeType || "audio/webm"
+      });
+      await transcribeLangBlob(blob);
+      if (langStream) langStream.getTracks().forEach(t => t.stop());
+    };
+    langMediaRecorder.start();
+    if (langRecBtn) langRecBtn.textContent = "⏹️ Arrêter";
+  }catch(err){
+    alert("Impossible d'accéder au micro : " + err);
+  }
+}
+
+function stopLangRecording(){
+  if(langMediaRecorder && langMediaRecorder.state !== "inactive"){
+    langMediaRecorder.stop();
+    if (langRecBtn) langRecBtn.textContent = "🎙️ Dire ma langue";
+  }
+}
+
+langRecBtn?.addEventListener("click", () => {
+  (!langMediaRecorder || langMediaRecorder.state === "inactive")
+    ? startLangRecording()
+    : stopLangRecording();
+});
+
+langUploadBtn?.addEventListener("click", () => langAudioFile?.click());
+
+langAudioFile?.addEventListener("change", async () => {
+  const file = langAudioFile?.files?.[0];
+  if (!file) return;
+  await transcribeLangBlob(file);
+});
+
+langConfirmNo?.addEventListener("click", () => {
+  currentLangCandidate = null;
+  if (langConfirmRow) langConfirmRow.style.display = "none";
+  if (langDetectedRow) {
+    langDetectedRow.textContent =
+      "D’accord, tu peux recommencer en précisant mieux la langue (ex. « en espagnol »).";
+  }
+});
+
+langConfirmYes?.addEventListener("click", () => {
+  if (!currentLangCandidate) return;
+  applyChosenLanguage(currentLangCandidate);
+});
+
+// Miroir des boutons côté langue choisie
+profileRecBtnMirror?.addEventListener("click", () => profileRecBtn?.click());
+profileUploadBtnMirror?.addEventListener("click", () => profileUploadBtn?.click());
+
+// --- Navigation boutons profil / contacts / voix ---
+
+const backToIntroBtn    = document.getElementById("backToIntro");
+const nextFromProfileBtn= document.getElementById("nextFromProfile");
+const backToProfileBtn  = document.getElementById("backToProfile");
+const nextFromContactBtn= document.getElementById("nextFromContact");
+const backToContactBtn  = document.getElementById("backToContact");
+const backToModeVoice   = document.getElementById("backToModeVoice");
+const nextFromVoice     = document.getElementById("nextFromVoice");
+const backToHomeBtn     = document.getElementById("backToHomeBtn");
+
+function validateProfileForm(){
+  if (labelNameEl)    labelNameEl.innerHTML   = baseLabels.name;
+  if (labelSiteEl)    labelSiteEl.innerHTML   = baseLabels.site;
+  if (labelServiceEl) labelServiceEl.innerHTML= baseLabels.service;
+  if (labelFuncEl)    labelFuncEl.innerHTML   = baseLabels.function_title;
+
+  let ok = true;
+
+  if (!authorName.value.trim()){
+    if (labelNameEl){
+      labelNameEl.innerHTML = baseLabels.name + " " + redMsg("Ce champ est obligatoire.");
+    }
+    ok = false;
+  }
+
+  const siteVal = siteSelect.value;
+  const siteText = (siteVal === "Autre") ? (otherSite?.value.trim() || "") : siteVal;
+  if (!siteText){
+    if (labelSiteEl){
+      labelSiteEl.innerHTML = baseLabels.site + " " + redMsg("Ce champ est obligatoire.");
+    }
+    ok = false;
+  }
+
+  const serviceVal = serviceSelect.value;
+  const serviceText = (serviceVal === "Autre") ? (otherService?.value.trim() || "") : serviceVal;
+  if (!serviceText){
+    if (labelServiceEl){
+      labelServiceEl.innerHTML = baseLabels.service + " " + redMsg("Ce champ est obligatoire.");
+    }
+    ok = false;
+  }
+
+  if (!functionField.value.trim()){
+    if (labelFuncEl){
+      labelFuncEl.innerHTML = baseLabels.function_title + " " + redMsg("Ce champ est obligatoire.");
+    }
+    ok = false;
+  }
+
+  if (!ok){
+    const panel = document.querySelector("#step3 .panel");
+    if (panel){
+      const top = panel.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top, behavior:"smooth" });
+    }
+  }
+  return ok;
+}
+
+backToIntroBtn?.addEventListener("click", () => showStep("step1"));
+nextFromProfileBtn?.addEventListener("click", () => {
+  if (validateProfileForm()) showStep("step4");
+});
+backToProfileBtn?.addEventListener("click", () => showStep("step3"));
+nextFromContactBtn?.addEventListener("click", () => showStep("step5"));
+backToContactBtn?.addEventListener("click", () => showStep("step4"));
+
+backToModeVoice?.addEventListener("click", () => {
+  if (voiceProfileCard) voiceProfileCard.style.display = "none";
+  if (voiceLangCard) voiceLangCard.style.display = "block";
+});
+
+nextFromVoice?.addEventListener("click", () => {
+  showStep("step3");
+  updateProfileHintsUI();
+});
+
+// bouton retour à l’accueil après la page Merci
+backToHomeBtn?.addEventListener("click", () => {
+  showStep("step1");
+  const submitBar = document.querySelector(".submitbar");
+  if (submitBar) submitBar.style.display = "flex";
+  if (submitBtn) submitBtn.disabled = true;
+  if (statusMsg) statusMsg.textContent = "";
+});
+
+// --- Soumission finale ---
+
+submitBtn?.addEventListener("click", async () => {
+  if (statusMsg) statusMsg.textContent = "Envoi…";
+
+  let mediaPaths = [];
+  if (mediaFiles.length > 0) {
+    const formMedia = new FormData();
+    mediaFiles.forEach((file, idx) => {
+      formMedia.append("media", file, file.name || `media_${idx}`);
+    });
+
+    const mediaRes = await fetch("/api/upload_media", {
+      method: "POST",
+      body: formMedia
+    });
+    const mediaData = await mediaRes.json();
+
+    if (mediaRes.ok && mediaData.ok) {
+      mediaPaths = mediaData.paths || [];
+    } else {
+      if (statusMsg) statusMsg.textContent = "❌ Erreur lors de l’envoi des photos / vidéos.";
+      return;
+    }
+  }
+
+  const siteValue    = siteSelect.value === "Autre" ? (otherSite?.value || null)   : (siteSelect.value || null);
+  const serviceValue = serviceSelect.value === "Autre" ? (otherService?.value || null) : (serviceSelect.value || null);
+  const contactMode  = getContactMode();
+  const shareTypes   = getShareTypes();
+  const impactInfo   = getImpact();
+
+  const payload = {
+    author_name: authorName?.value || null,
+    site: siteValue,
+    service: serviceValue || null,
+    function_title: functionField?.value || null,
+    professional_email: proEmail?.value || null,
+    contact_mode: contactMode || null,
+    typed_text: typedText?.value || null,
+    audio_path: null,
+    detected_language: detectedLanguage || null,
+    original_text: originalText || null,
+    french_translation: frenchTranslation || null,
+    idea_title: document.getElementById("ideaTitle")?.value || null,
+    share_types: shareTypes,
+    impact_main: impactInfo.impact,
+    media_paths: mediaPaths,
+    impact_other: impactInfo.impact_other
+  };
+
+  const res = await fetch("/api/submit", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+  const data = await res.json();
+  if (res.ok && data.ok) {
+    // masquage de la barre de soumission + redirection vers la page Merci
+    const submitBar = document.querySelector(".submitbar");
+    if (submitBar) submitBar.style.display = "none";
+    if (statusMsg) statusMsg.textContent = "";
+    if (submitBtn) submitBtn.disabled = true;
+
+    showStep("stepThanks");
+  } else {
+    if (statusMsg) statusMsg.textContent = "❌ Erreur d’enregistrement.";
+  }
+});
+</script>
+
+</body>
+</html>

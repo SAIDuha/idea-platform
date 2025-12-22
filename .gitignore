@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.env
+
+# secrets (à ne jamais push)
+*.json
+token*.json
+service_account*.json
+credentials*.json
+
+# runtime
+uploads/
+*.db
