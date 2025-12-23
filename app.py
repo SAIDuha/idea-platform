@@ -27,7 +27,12 @@ from google.auth.transport.requests import Request
 
 # ------------ Config globale ------------
 
-API_KEY = "AIzaSyCJW17TlaR5brwUQa-Vh8ykKswCyykfUPE"
+# ------------ Config globale ------------
+
+API_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
+if not API_KEY:
+    raise RuntimeError("GEMINI_API_KEY manquante. Configure-la dans les variables d'environnement (Render).")
+
 UPLOAD_DIR = Path("uploads")
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 DB_PATH = Path("ideas.db")
@@ -36,6 +41,7 @@ app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = 25 * 1024 * 1024  # 25 MB
 
 genai.configure(api_key=API_KEY)
+
 
 PREFERRED_MODELS = [
     "gemini-2.5-flash",
