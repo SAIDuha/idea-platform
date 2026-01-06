@@ -1097,6 +1097,69 @@
       font-size:12px;
     }
   }
+
+
+
+  /* =========================================================
+   VERSION MOBILE SIMPLIFIÉE – ÉCRAN D’ACCUEIL
+========================================================= */
+
+@media (max-width: 600px){
+
+/* Masquer les éléments non essentiels */
+.ribbon,
+.sub,
+.intro-main-side {
+  display: none !important;
+}
+
+/* Titre centré et plus impactant */
+h1 {
+  font-size: 30px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Bloc principal en une seule colonne */
+.intro-main {
+  grid-template-columns: 1fr;
+}
+
+.intro-main-main {
+  padding: 24px 16px 28px;
+  border: none;
+  background: none;
+}
+
+/* Texte "Comment veux-tu t’exprimer ?" centré */
+.intro-main-main h2 {
+  text-align: center;
+  font-size: 20px;
+}
+
+.intro-lead {
+  display: none;
+}
+
+/* Boutons plus gros, bien espacés */
+.intro-actions {
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.intro-actions button {
+  min-height: 72px;
+  font-size: 16px;
+  border-radius: 18px;
+}
+
+/* Masquer le bouton global "Soumettre mon idée" au départ */
+.submitbar {
+  display: none;
+}
+}
+
 </style>
 
 
