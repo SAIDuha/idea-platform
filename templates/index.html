@@ -1834,214 +1834,1147 @@
     <span id="toastText">Message</span>
   </div>
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-
   <script>
-    /* =========================================================
-       GLOBAL STATE (Front ↔ Back)
-    ========================================================= */
-    const appState = {
-      media_paths: [],
-      audio_path: null,
-      detected_language: null,
-      original_text: null,
-      french_translation: null
+// --- Navigation entre étapes ---
+
+const stepPages = Array.from(document.querySelectorAll(".step-page"));
+let currentStepId = "step1";
+const recState = document.getElementById("recState"); // optionnel
+
+function showStep(id){
+  currentStepId = id;
+  stepPages.forEach(p => p.classList.toggle("active", p.id === id));
+
+  if (recState){
+    const labels = {
+      step1: "Introduction",
+      step3: "Profil collaborateur",
+      step4: "Coordonnées",
+      step5: "Saisie de l’idée",
+      stepVoice: "Profil vocal",
+      stepThanks: "Confirmation"
     };
-    
-    /* =========================================================
-       NAVIGATION & STEPS
-    ========================================================= */
-    const steps = document.querySelectorAll('.step-page');
-    let chosenMode = null;
-    
-    function showStep(stepId) {
-      steps.forEach(s => s.classList.remove('active'));
-      document.getElementById(stepId)?.classList.add('active');
-    
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    
-      const submitBar = document.getElementById('submitBar');
-      submitBar.style.display = (stepId === 'step4') ? 'block' : 'none';
+    recState.textContent = labels[id] || "";
+  }
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  showStep("step1");
+});
+
+// --- Accueil : choix du mode + reCAPTCHA ---
+
+const btnModeText  = document.getElementById("btnModeText");
+const btnModeVoice = document.getElementById("btnModeVoice");
+const modeHint     = document.getElementById("modeHint");
+const captchaRow   = document.getElementById("captchaRow");
+
+let chosenMode = null;
+let captchaOk  = false;
+
+function updateModeButtons(){
+  if (!btnModeText || !btnModeVoice) return;
+  if (chosenMode === "text"){
+    btnModeText.classList.add("btn-primary");
+    btnModeText.classList.remove("btn-ghost");
+    btnModeVoice.classList.add("btn-ghost");
+    btnModeVoice.classList.remove("btn-primary");
+  } else if (chosenMode === "voice"){
+    btnModeVoice.classList.add("btn-primary");
+    btnModeVoice.classList.remove("btn-ghost");
+    btnModeText.classList.add("btn-ghost");
+    btnModeText.classList.remove("btn-primary");
+  }
+}
+
+function handleModeChoice(mode){
+  chosenMode = mode;
+  updateModeButtons();
+  if (captchaRow) captchaRow.style.display = "block";
+
+  if (modeHint){
+    if (mode === "text"){
+      modeHint.textContent =
+        "Valide le « Je ne suis pas un robot » pour commencer par ton profil en mode texte.";
+    } else {
+      modeHint.textContent =
+        "Valide le « Je ne suis pas un robot » pour commencer par ton profil en mode vocal.";
     }
-    
-    /* =========================================================
-       MODE SELECTION + reCAPTCHA
-    ========================================================= */
-    const modeText = document.getElementById('modeText');
-    const modeVoice = document.getElementById('modeVoice');
-    const captchaRow = document.getElementById('captchaRow');
-    
-    function selectMode(mode) {
-      chosenMode = mode;
-    
-      modeText.classList.toggle('active', mode === 'text');
-      modeVoice.classList.toggle('active', mode === 'voice');
-    
-      captchaRow.style.display = 'block';
-    
-      if (window.grecaptcha && typeof grecaptcha.reset === "function") {
-        setTimeout(() => grecaptcha.reset(), 100);
+  }
+}
+
+btnModeText?.addEventListener("click", () => handleModeChoice("text"));
+btnModeVoice?.addEventListener("click", () => handleModeChoice("voice"));
+
+function onCaptchaSuccess(){
+  captchaOk = true;
+  if (!chosenMode){
+    if (modeHint){
+      modeHint.textContent =
+        "Merci, choisis d’abord si tu préfères écrire ou parler ton idée.";
+    }
+    return;
+  }
+  if (chosenMode === "text"){
+    showStep("step3");
+  } else {
+    showStep("stepVoice");
+  }
+}
+window.onCaptchaSuccess = onCaptchaSuccess;
+
+// --- Champs profil / coordonnées / idée ---
+
+const siteSelect        = document.getElementById("country");
+const otherSiteRow      = document.getElementById("otherSiteRow");
+const otherSite         = document.getElementById("otherSite");
+const serviceSelect     = document.getElementById("serviceSelect");
+const otherServiceRow   = document.getElementById("otherServiceRow");
+const otherService      = document.getElementById("otherService");
+const proEmail          = document.getElementById("proEmail");
+const authorName        = document.getElementById("authorName");
+const functionField     = document.getElementById("functionField");
+const submitBtn         = document.getElementById("submitBtn");
+const statusMsg         = document.getElementById("statusMsg");
+
+siteSelect?.addEventListener("change", () => {
+  if (!otherSiteRow || !otherSite) return;
+  otherSiteRow.style.display = siteSelect.value === "Autre" ? "block" : "none";
+  if (siteSelect.value !== "Autre") otherSite.value = "";
+});
+
+serviceSelect?.addEventListener("change", () => {
+  if (!otherServiceRow || !otherService) return;
+  otherServiceRow.style.display = serviceSelect.value === "Autre" ? "block" : "none";
+  if (serviceSelect.value !== "Autre") otherService.value = "";
+});
+
+function getContactMode(){
+  const checked = document.querySelector("input[name='contactMode']:checked");
+  return checked ? checked.value : null;
+}
+
+// --- Impact ---
+
+const impactSelect   = document.getElementById("impactSelect");
+const impactOtherRow = document.getElementById("impactOtherRow");
+const impactOther    = document.getElementById("impactOther");
+
+function getImpact(){
+  const v = impactSelect.value;
+  if (!v) return { impact: null, impact_other: null };
+
+  if (v === "Autre") {
+    return { impact: "Autre", impact_other: impactOther.value || null };
+  }
+  return { impact: v, impact_other: null };
+}
+
+impactSelect?.addEventListener("change", () => {
+  if (!impactOtherRow || !impactOther) return;
+  if (impactSelect.value === "Autre"){
+    impactOtherRow.style.display = "block";
+    impactOther.value = "";
+  } else {
+    impactOtherRow.style.display = "none";
+    impactOther.value = "";
+  }
+});
+
+// --- Audio / transcription de l’idée ---
+
+const recBtn     = document.getElementById("recBtn");
+const uploadBtn  = document.getElementById("uploadBtn");
+const toneBtn    = document.getElementById("toneBtn");
+const audioFile  = document.getElementById("audioFile");
+const player     = document.getElementById("player");
+const typedText  = document.getElementById("typedText");
+const langChip   = document.getElementById("langChip");
+const origBox    = document.getElementById("origBox");
+const frBox      = document.getElementById("frBox");
+
+const mediaCaptureBtn = document.getElementById("mediaCaptureBtn");
+const mediaUploadBtn  = document.getElementById("mediaUploadBtn");
+const mediaInputCamera= document.getElementById("mediaInputCamera");
+const mediaInputFile  = document.getElementById("mediaInputFile");
+const mediaPreview    = document.getElementById("mediaPreview");
+
+let mediaFiles = [];
+let mediaRecorder = null, chunks = [], stream;
+let detectedLanguage = null, originalText = null, frenchTranslation = null;
+
+function isSecure(){
+  return window.isSecureContext || ["localhost","127.0.0.1"].includes(location.hostname);
+}
+
+function pickBestMime(){
+  const candidates = ['audio/webm;codecs=opus','audio/webm','audio/mp4',''];
+  for(const c of candidates){
+    if(!c) return undefined;
+    if(MediaRecorder.isTypeSupported(c)) return c;
+  }
+  return undefined;
+}
+
+toneBtn?.addEventListener("click", async ()=>{
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const osc = ctx.createOscillator();
+  const gn  = ctx.createGain();
+  gn.gain.value = 0.2; osc.frequency.value = 880; osc.connect(gn); gn.connect(ctx.destination);
+  osc.start(); setTimeout(()=>{ osc.stop(); ctx.close(); }, 600);
+});
+
+async function transcribeBlob(blob){
+  if (statusMsg) statusMsg.textContent = "Transcription en cours…";
+  const form = new FormData();
+  form.append("audio", blob, "record.webm");
+  const res = await fetch("/api/transcribe", { method: "POST", body: form });
+  const data = await res.json();
+  if (!res.ok || !data.ok){
+    if (statusMsg) statusMsg.textContent = (data && data.error) ? data.error : "Échec de la transcription.";
+    return;
+  }
+  detectedLanguage   = data.language || "";
+  originalText       = data.original_text || "";
+  frenchTranslation  = data.french_translation || "";
+
+  if (langChip) langChip.textContent = detectedLanguage ? `Langue détectée : ${detectedLanguage}` : "";
+  if (origBox)  origBox.textContent = originalText || "—";
+  if (frBox)    frBox.textContent = frenchTranslation || "—";
+
+  if (submitBtn) submitBtn.disabled = false;
+  if (statusMsg) statusMsg.textContent = "Transcription terminée. Tu pourras envoyer à la dernière étape.";
+}
+
+async function startRecording(){
+  if(!isSecure() || !(navigator.mediaDevices?.getUserMedia)){
+    alert("HTTPS requis (ou localhost). Utilise plutôt l’import de fichier audio.");
+    return;
+  }
+  try{
+    try{ if(player && !player.paused) player.pause(); }catch(_){}
+    if (player) player.hidden = true;
+    if(stream) stream.getTracks().forEach(t=>t.stop());
+    const constraints = { audio: { echoCancellation:true, noiseSuppression:true, autoGainControl:true, channelCount:1, sampleRate:48000, sampleSize:16 } };
+    stream = await navigator.mediaDevices.getUserMedia(constraints);
+
+    chunks = []; const mime = pickBestMime();
+    mediaRecorder = new MediaRecorder(stream, mime ? { mimeType: mime } : undefined);
+    mediaRecorder.ondataavailable = e => { if(e.data.size>0) chunks.push(e.data); };
+    mediaRecorder.onstop = async () => {
+      const blob = new Blob(chunks, { type: mediaRecorder.mimeType || "audio/webm" });
+      if (player){
+        player.src = URL.createObjectURL(blob);
+        player.hidden = false;
+      }
+      await transcribeBlob(blob);
+      if(stream) stream.getTracks().forEach(t=>t.stop());
+    };
+
+    mediaRecorder.start();
+    if (recBtn) recBtn.textContent = "⏹️ Arrêter";
+  }catch(err){
+    alert("Impossible d'accéder au micro : " + err);
+  }
+}
+
+function stopRecording(){
+  if(mediaRecorder && mediaRecorder.state !== "inactive"){
+    mediaRecorder.stop();
+    if (recBtn) recBtn.textContent = "🎙️ Démarrer l’enregistrement";
+  }
+}
+
+recBtn?.addEventListener("click", () => {
+  (!mediaRecorder || mediaRecorder.state === "inactive") ? startRecording() : stopRecording();
+});
+uploadBtn?.addEventListener("click", () => audioFile?.click());
+audioFile?.addEventListener("change", async () => {
+  const file = audioFile.files?.[0]; if (!file) return;
+  if (player){
+    player.src = URL.createObjectURL(file);
+    player.hidden = false;
+  }
+  await transcribeBlob(file);
+});
+
+function handleMediaFiles(fileList){
+  mediaFiles = Array.from(fileList || []);
+  if (!mediaPreview) return;
+  mediaPreview.innerHTML = "";
+
+  mediaFiles.forEach(file => {
+    const url = URL.createObjectURL(file);
+    const isVideo = file.type.startsWith("video/");
+    const el = document.createElement(isVideo ? "video" : "img");
+    el.src = url;
+    if(isVideo){
+      el.muted = true;
+      el.controls = true;
+    }
+    mediaPreview.appendChild(el);
+  });
+}
+
+mediaCaptureBtn?.addEventListener("click", () => mediaInputCamera?.click());
+mediaInputCamera?.addEventListener("change", () => handleMediaFiles(mediaInputCamera.files));
+mediaUploadBtn?.addEventListener("click", () => mediaInputFile?.click());
+mediaInputFile?.addEventListener("change", () => handleMediaFiles(mediaInputFile.files));
+
+function getShareTypes(){
+  const boxes = document.querySelectorAll("input[name='shareType']:checked");
+  return Array.from(boxes).map(b => b.value);
+}
+
+// --- PROFIL VOCAL (analyse + hints) ---
+
+const profileRecBtn      = document.getElementById("profileRecBtn");
+const profileUploadBtn   = document.getElementById("profileUploadBtn");
+const profileAudioFile   = document.getElementById("profileAudioFile");
+const profilePlayer      = document.getElementById("profilePlayer");
+const profileLangChip    = document.getElementById("profileLangChip");
+const profileOrigBox     = document.getElementById("profileOrigBox");
+const profileFrBox       = document.getElementById("profileFrBox");
+const voiceMissingMsg    = document.getElementById("voiceMissingMsg");
+
+let profileMediaRecorder = null, profileChunks = [], profileStream;
+let profileDetectedLanguage = null,
+    profileOriginalText    = null,
+    profileFrenchTranslation = null;
+
+let profileReady = false;
+
+let profileSlots = {
+  name: null,
+  site: null,
+  service: null,
+  function_title: null
+};
+let profileMissing = [];
+let profileHints   = {};
+
+const labelNameEl    = document.querySelector("label[for='authorName']");
+const labelSiteEl    = document.querySelector("label[for='country']");
+const labelServiceEl = document.querySelector("label[for='serviceSelect']");
+const labelFuncEl    = document.querySelector("label[for='functionField']");
+
+const baseLabels = {
+  name:           labelNameEl   ? labelNameEl.innerHTML   : "",
+  site:           labelSiteEl   ? labelSiteEl.innerHTML   : "",
+  service:        labelServiceEl? labelServiceEl.innerHTML: "",
+  function_title: labelFuncEl   ? labelFuncEl.innerHTML   : ""
+};
+
+const redMsg = (msg) => `<span style="color:#e55353; font-weight:600;">${msg}</span>`;
+
+async function transcribeProfileBlob(blob){
+  if (statusMsg) statusMsg.textContent = "Transcription du profil en cours…";
+  const form = new FormData();
+  form.append("audio", blob, "profile.webm");
+
+  const res  = await fetch("/api/transcribe", { method: "POST", body: form });
+  const data = await res.json();
+
+  if (!res.ok || !data.ok){
+    if (statusMsg) statusMsg.textContent = (data && data.error) ? data.error : "Échec de la transcription du profil.";
+    return;
+  }
+
+  profileDetectedLanguage   = data.language || "";
+  profileOriginalText       = data.original_text || "";
+  profileFrenchTranslation  = data.french_translation || "";
+
+  if (profileLangChip){
+    profileLangChip.textContent = profileDetectedLanguage
+      ? `Langue détectée : ${profileDetectedLanguage}` : "";
+  }
+  if (profileOrigBox) profileOrigBox.textContent  = profileOriginalText  || "—";
+  if (profileFrBox)  profileFrBox.textContent    = profileFrenchTranslation || "—";
+
+  if (statusMsg) statusMsg.textContent = "Profil transcrit. Tu peux vérifier ce qui a été compris.";
+
+  const textForAnalysis = profileFrenchTranslation || profileOriginalText || "";
+  const normalized = textForAnalysis.toLowerCase().trim();
+  const isSilence =
+    !normalized ||
+    /\[silence\]/i.test(normalized) ||
+    /tonal sound|music only|background noise/.test(normalized) ||
+    profileDetectedLanguage === "und";
+
+  if (isSilence){
+    profileReady   = false;
+    profileSlots   = { name:null, site:null, service:null, function_title:null };
+    profileMissing = ["name","site","service","function_title"];
+    profileHints   = {};
+
+    if (voiceMissingMsg){
+      voiceMissingMsg.textContent =
+        "⚠️ Je n’ai pas bien compris ton nom, ton site, ton service, ta fonction. " +
+        "Tu pourras corriger ces informations à l’étape suivante ou refaire un enregistrement.";
+    }
+
+    updateProfileHintsUI();
+    return;
+  }
+
+  await analyzeProfileTextForFields(textForAnalysis).catch(console.error);
+}
+
+function updateProfileHintsUI(){
+  if (labelNameEl)    labelNameEl.innerHTML   = baseLabels.name;
+  if (labelSiteEl)    labelSiteEl.innerHTML   = baseLabels.site;
+  if (labelServiceEl) labelServiceEl.innerHTML= baseLabels.service;
+  if (labelFuncEl)    labelFuncEl.innerHTML   = baseLabels.function_title;
+
+  const hasTranscript = !!(profileOriginalText || profileFrenchTranslation);
+  if (!hasTranscript) {
+    if (voiceMissingMsg) voiceMissingMsg.textContent = "";
+    return;
+  }
+
+  if (profileMissing.includes("name") && labelNameEl){
+    const msg = profileHints.name || "Je n’ai pas bien compris ton nom, merci de le préciser ici.";
+    labelNameEl.innerHTML = baseLabels.name + " " + redMsg(msg);
+  }
+  if (profileMissing.includes("site") && labelSiteEl){
+    const msg = profileHints.site || "Je n’ai pas bien compris ton site, merci de le sélectionner ou le préciser.";
+    labelSiteEl.innerHTML = baseLabels.site + " " + redMsg(msg);
+  }
+  if (profileMissing.includes("service") && labelServiceEl){
+    const msg = profileHints.service || "Je n’ai pas bien compris ton service, merci de le préciser.";
+    labelServiceEl.innerHTML = baseLabels.service + " " + redMsg(msg);
+  }
+  if (profileMissing.includes("function_title") && labelFuncEl){
+    const msg = profileHints.function_title || "Je n’ai pas bien compris ta fonction, merci de la préciser.";
+    labelFuncEl.innerHTML = baseLabels.function_title + " " + redMsg(msg);
+  }
+
+  if (!voiceMissingMsg) return;
+
+  if (profileReady){
+    voiceMissingMsg.textContent = "✔️ Toutes les informations semblent complètes. Tu pourras les corriger à la main si besoin.";
+  } else {
+    const human = {
+      name:"ton nom",
+      site:"ton site",
+      service:"ton service",
+      function_title:"ta fonction"
+    };
+    const items = profileMissing.map(k => human[k] || k);
+    voiceMissingMsg.textContent =
+      "⚠️ Je n’ai pas bien compris : " + items.join(", ") +
+      ". Tu pourras corriger ces informations à l’étape suivante ou refaire un enregistrement si tu préfères.";
+  }
+}
+
+async function analyzeProfileTextForFields(text){
+  if (!text) return;
+
+  const res = await fetch("/api/analyze_profile", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text })
+  });
+  const data = await res.json();
+
+  if (!res.ok || !data.ok){
+    console.warn("Analyse profil échouée :", data.error);
+    return;
+  }
+
+  profileSlots   = data.profile || {};
+  profileMissing = data.missing || [];
+  profileHints   = data.hints   || {};
+
+  if (!Array.isArray(profileMissing)) profileMissing = [];
+
+  if (!profileSlots.name && !profileMissing.includes("name")) profileMissing.push("name");
+  if (!profileSlots.site && !profileMissing.includes("site")) profileMissing.push("site");
+  if (!profileSlots.service && !profileMissing.includes("service")) profileMissing.push("service");
+  if (!profileSlots.function_title && !profileMissing.includes("function_title")) profileMissing.push("function_title");
+
+  profileReady =
+    !!profileSlots.name &&
+    !!profileSlots.site &&
+    !!profileSlots.service &&
+    !!profileSlots.function_title &&
+    profileMissing.length === 0;
+
+  if (profileSlots.name && authorName) {
+    authorName.value = profileSlots.name;
+  }
+
+  if (profileSlots.site && siteSelect) {
+    const options = Array.from(siteSelect.options).map(o => o.value || o.textContent);
+    if (options.includes(profileSlots.site)) {
+      siteSelect.value = profileSlots.site;
+      if (otherSiteRow && otherSite){
+        otherSiteRow.style.display = "none";
+        otherSite.value = "";
+      }
+    } else {
+      siteSelect.value = "Autre";
+      if (otherSiteRow && otherSite){
+        otherSiteRow.style.display = "block";
+        otherSite.value = profileSlots.site;
       }
     }
-    
-    modeText?.addEventListener('click', () => selectMode('text'));
-    modeVoice?.addEventListener('click', () => selectMode('voice'));
-    
-    function onCaptchaSuccess() {
-      console.log("✅ CAPTCHA validé, mode =", chosenMode);
-    
-      if (!chosenMode) {
-        showToast("Choisis d’abord écrire ou parler", "error");
-        captchaRow.scrollIntoView({ behavior: "smooth" });
-        return;
+  }
+
+  if (profileSlots.service && serviceSelect) {
+    const optionsS = Array.from(serviceSelect.options).map(o => o.value || o.textContent);
+    if (optionsS.includes(profileSlots.service)) {
+      serviceSelect.value = profileSlots.service;
+      if (otherServiceRow && otherService){
+        otherServiceRow.style.display = "none";
+        otherService.value = "";
       }
-    
-      if (chosenMode === 'text') showStep('step2');
-      if (chosenMode === 'voice') showStep('stepVoice');
+    } else {
+      serviceSelect.value = "Autre";
+      if (otherServiceRow && otherService){
+        otherServiceRow.style.display = "block";
+        otherService.value = profileSlots.service;
+      }
     }
-    
-    window.onCaptchaSuccess = onCaptchaSuccess;
-    
-    /* =========================================================
-       NAV BUTTONS
-    ========================================================= */
-    document.getElementById('backToStep1')?.addEventListener('click', () => showStep('step1'));
-    document.getElementById('toStep3')?.addEventListener('click', () => showStep('step3'));
-    document.getElementById('backToStep2')?.addEventListener('click', () => showStep('step2'));
-    document.getElementById('toStep4')?.addEventListener('click', () => showStep('step4'));
-    document.getElementById('backToStep3')?.addEventListener('click', () => showStep('step3'));
-    document.getElementById('backHome')?.addEventListener('click', () => showStep('step1'));
-    
-    /* =========================================================
-       SITE "AUTRE"
-    ========================================================= */
-    const siteSelect = document.getElementById('site');
-    const otherSiteRow = document.getElementById('otherSiteRow');
-    
-    siteSelect?.addEventListener('change', () => {
-      otherSiteRow.style.display = siteSelect.value === 'Autre' ? 'block' : 'none';
-    });
-    
-    /* =========================================================
-       MEDIA UPLOAD → /api/upload_media
-    ========================================================= */
-    const mediaInput = document.getElementById('mediaInput');
-    const mediaDropzone = document.getElementById('mediaDropzone');
-    const mediaPreview = document.getElementById('mediaPreview');
-    
-    mediaDropzone?.addEventListener('click', () => mediaInput.click());
-    mediaInput?.addEventListener('change', () => uploadMedia(mediaInput.files));
-    
-    async function uploadMedia(files) {
-      const fd = new FormData();
-      [...files].forEach(f => fd.append("media", f));
-    
-      const res = await fetch("/api/upload_media", { method: "POST", body: fd });
-      const data = await res.json();
-    
-      if (!data.ok) return showToast("Erreur upload médias", "error");
-    
-      appState.media_paths = data.paths;
-      mediaPreview.innerHTML = '';
-    
-      [...files].forEach(file => {
-        const el = document.createElement(file.type.startsWith('video') ? 'video' : 'img');
-        el.src = URL.createObjectURL(file);
-        if (el.tagName === 'VIDEO') el.controls = true;
-        mediaPreview.appendChild(el);
+  }
+
+  if (profileSlots.function_title && functionField) {
+    functionField.value = profileSlots.function_title;
+  }
+
+  updateProfileHintsUI();
+}
+
+async function startProfileRecording(){
+  if(!isSecure() || !(navigator.mediaDevices?.getUserMedia)){
+    alert("HTTPS requis (ou localhost). Utilise plutôt l’import de fichier audio.");
+    return;
+  }
+  try{
+    try { if (profilePlayer && !profilePlayer.paused) profilePlayer.pause(); } catch(_){}
+    if(profilePlayer) profilePlayer.hidden = true;
+
+    if(profileStream) profileStream.getTracks().forEach(t => t.stop());
+
+    const constraints = {
+      audio: {
+        echoCancellation:true,
+        noiseSuppression:true,
+        autoGainControl:true,
+        channelCount:1,
+        sampleRate:48000,
+        sampleSize:16
+      }
+    };
+
+    profileStream = await navigator.mediaDevices.getUserMedia(constraints);
+    profileChunks = [];
+    const mime = pickBestMime();
+
+    profileMediaRecorder = new MediaRecorder(
+      profileStream,
+      mime ? { mimeType: mime } : undefined
+    );
+
+    profileMediaRecorder.ondataavailable = e => {
+      if(e.data.size > 0) profileChunks.push(e.data);
+    };
+    profileMediaRecorder.onstop = async () => {
+      const blob = new Blob(profileChunks, {
+        type: profileMediaRecorder.mimeType || "audio/webm"
       });
+      if (profilePlayer){
+        profilePlayer.src = URL.createObjectURL(blob);
+        profilePlayer.hidden = false;
+      }
+      await transcribeProfileBlob(blob);
+      if(profileStream) profileStream.getTracks().forEach(t => t.stop());
+    };
+
+    profileMediaRecorder.start();
+    if (profileRecBtn) profileRecBtn.textContent = "⏹️ Arrêter";
+  } catch(err){
+    alert("Impossible d'accéder au micro : " + err);
+  }
+}
+
+function stopProfileRecording(){
+  if(profileMediaRecorder && profileMediaRecorder.state !== "inactive"){
+    profileMediaRecorder.stop();
+    if (profileRecBtn) profileRecBtn.textContent = "🎙️ Démarrer l’enregistrement";
+    if(profileStream) profileStream.getTracks().forEach(t => t.stop());
+  }
+}
+
+profileRecBtn?.addEventListener("click", () => {
+  (!profileMediaRecorder || profileMediaRecorder.state === "inactive")
+    ? startProfileRecording()
+    : stopProfileRecording();
+});
+
+profileUploadBtn?.addEventListener("click", () => profileAudioFile?.click());
+
+profileAudioFile?.addEventListener("change", async () => {
+  const file = profileAudioFile.files?.[0];
+  if (!file) return;
+
+  if (profilePlayer){
+    profilePlayer.src = URL.createObjectURL(file);
+    profilePlayer.hidden = false;
+  }
+  await transcribeProfileBlob(file);
+});
+
+// --- Étape 0 vocal : détection de langue + switch mobile ---
+
+// Récupération des éléments DOM
+const langRecBtn        = document.getElementById("langRecBtn");
+const langSelect        = document.getElementById("langSelect");
+const langUploadBtn     = document.getElementById("langUploadBtn");
+const langAudioFile     = document.getElementById("langAudioFile");
+const langTextBox       = document.getElementById("langTextBox");
+const langDetectedRow   = document.getElementById("langDetectedRow");
+const langConfirmRow    = document.getElementById("langConfirmRow");
+const langConfirmLabel  = document.getElementById("langConfirmLabel");
+const langConfirmYes    = document.getElementById("langConfirmYes");
+const langConfirmNo     = document.getElementById("langConfirmNo");
+
+const voiceLangCard     = document.getElementById("voiceLangCard");
+const voiceProfileCard  = document.getElementById("voiceProfileCard");
+
+const voiceLangTitle    = document.getElementById("voiceLangTitle");
+const voiceLangIntro    = document.getElementById("voiceLangIntro");
+const voiceLangList     = document.getElementById("voiceLangList");
+const voiceLangNotice   = document.getElementById("voiceLangNotice");
+const profileRecBtnMirror   = document.getElementById("profileRecBtnMirror");
+const profileUploadBtnMirror= document.getElementById("profileUploadBtnMirror");
+
+const voiceLangCol      = document.getElementById("voiceLangCol");
+const voiceFrCol        = document.getElementById("voiceFrCol");
+const voiceSwitch       = document.getElementById("voiceSwitch");
+const voiceSwitchBtn    = document.getElementById("voiceSwitchBtn");
+const voiceSwitchLabel  = document.getElementById("voiceSwitchLabel");
+
+let langMediaRecorder = null, langChunks = [], langStream;
+let currentLangCandidate = null;
+let currentProfileLanguage = null;
+
+// vue actuelle pour mobile
+let currentVoiceView   = "native"; // "native" ou "fr"
+let nativeDisplayLabel = "Langue choisie";
+
+// Liste des langues pour le <select>
+const LANGUAGE_OPTIONS = [
+  { code: "af", fr: "Afrikaans", native: "Afrikaans" },
+  { code: "ar", fr: "Arabe", native: "العربية" },
+  { code: "bg", fr: "Bulgare", native: "Български" },
+  { code: "ca", fr: "Catalan", native: "Català" },
+  { code: "cs", fr: "Tchèque", native: "Čeština" },
+  { code: "da", fr: "Danois", native: "Dansk" },
+  { code: "de", fr: "Allemand", native: "Deutsch" },
+  { code: "el", fr: "Grec", native: "Ελληνικά" },
+  { code: "en", fr: "Anglais", native: "English" },
+  { code: "es", fr: "Espagnol", native: "Español" },
+  { code: "et", fr: "Estonien", native: "Eesti" },
+  { code: "fa", fr: "Persan", native: "فارسی" },
+  { code: "fi", fr: "Finnois", native: "Suomi" },
+  { code: "fr", fr: "Français", native: "Français" },
+  { code: "he", fr: "Hébreu", native: "עברית" },
+  { code: "hi", fr: "Hindi", native: "हिन्दी" },
+  { code: "hr", fr: "Croate", native: "Hrvatski" },
+  { code: "hu", fr: "Hongrois", native: "Magyar" },
+  { code: "id", fr: "Indonésien", native: "Bahasa Indonesia" },
+  { code: "it", fr: "Italien", native: "Italiano" },
+  { code: "ja", fr: "Japonais", native: "日本語" },
+  { code: "ko", fr: "Coréen", native: "한국어" },
+  { code: "lt", fr: "Lituanien", native: "Lietuvių" },
+  { code: "lv", fr: "Letton", native: "Latviešu" },
+  { code: "ms", fr: "Malais", native: "Bahasa Melayu" },
+  { code: "nl", fr: "Néerlandais", native: "Nederlands" },
+  { code: "no", fr: "Norvégien", native: "Norsk" },
+  { code: "pl", fr: "Polonais", native: "Polski" },
+  { code: "pt", fr: "Portugais", native: "Português" },
+  { code: "ro", fr: "Roumain", native: "Română" },
+  { code: "ru", fr: "Russe", native: "Русский" },
+  { code: "sk", fr: "Slovaque", native: "Slovenčina" },
+  { code: "sl", fr: "Slovène", native: "Slovenščina" },
+  { code: "sr", fr: "Serbe", native: "Српски" },
+  { code: "sv", fr: "Suédois", native: "Svenska" },
+  { code: "th", fr: "Thaï", native: "ไทย" },
+  { code: "tr", fr: "Turc", native: "Türkçe" },
+  { code: "uk", fr: "Ukrainien", native: "Українська" },
+  { code: "ur", fr: "Ourdou", native: "اُردُو" },
+  { code: "vi", fr: "Vietnamien", native: "Tiếng Việt" },
+  { code: "zh", fr: "Chinois", native: "中文" }
+];
+
+if (langSelect) {
+  LANGUAGE_OPTIONS.forEach(({ code, fr, native }) => {
+    const opt = document.createElement("option");
+    opt.value = code;
+    opt.textContent = native ? `${native} – ${fr}` : fr;
+    langSelect.appendChild(opt);
+  });
+}
+
+// gestion de la vue mobile
+function updateVoiceView(target){
+  currentVoiceView = target;
+
+  // Desktop : les deux colonnes visibles, on ne force rien
+  if (window.innerWidth > 900){
+    if (voiceLangCol) voiceLangCol.classList.remove("is-active");
+    if (voiceFrCol)  voiceFrCol.classList.remove("is-active");
+    if (voiceSwitchLabel){
+      voiceSwitchLabel.textContent = nativeDisplayLabel;
     }
-    
-    /* =========================================================
-       AUDIO → /api/transcribe
-    ========================================================= */
-    const uploadBtn = document.getElementById('uploadBtn');
-    const audioFile = document.getElementById('audioFile');
-    const voiceStatus = document.getElementById('voiceStatus');
-    
-    uploadBtn?.addEventListener('click', () => audioFile.click());
-    
-    audioFile?.addEventListener('change', async () => {
-      const file = audioFile.files[0];
-      if (!file) return;
-    
-      voiceStatus.textContent = "Transcription en cours…";
-    
-      const fd = new FormData();
-      fd.append("audio", file);
-    
-      const res = await fetch("/api/transcribe", { method: "POST", body: fd });
-      const data = await res.json();
-    
-      if (!data.ok) return showToast("Erreur transcription", "error");
-    
-      appState.audio_path = data.audio_path;
-      appState.detected_language = data.language;
-      appState.original_text = data.original_text;
-      appState.french_translation = data.french_translation;
-    
-      document.getElementById('origText').textContent = data.original_text || "—";
-      document.getElementById('frText').textContent = data.french_translation || "—";
-    
-      document.getElementById('submitBtn').disabled = false;
+    return;
+  }
+
+  if (!voiceLangCol || !voiceFrCol) return;
+
+  if (target === "fr"){
+    voiceLangCol.classList.remove("is-active");
+    voiceFrCol.classList.add("is-active");
+    if (voiceSwitchLabel){
+      voiceSwitchLabel.textContent = "FR Français";
+    }
+  } else {
+    voiceLangCol.classList.add("is-active");
+    voiceFrCol.classList.remove("is-active");
+    if (voiceSwitchLabel){
+      voiceSwitchLabel.textContent = nativeDisplayLabel;
+    }
+  }
+}
+
+// clic sur le bouton de switch
+voiceSwitchBtn?.addEventListener("click", () => {
+  const next = (currentVoiceView === "native") ? "fr" : "native";
+  updateVoiceView(next);
+});
+
+// resize : on repasse en double colonne sur desktop
+window.addEventListener("resize", () => {
+  if (window.innerWidth > 900){
+    if (voiceLangCol) voiceLangCol.classList.remove("is-active");
+    if (voiceFrCol)  voiceFrCol.classList.remove("is-active");
+  } else {
+    if (!voiceLangCol?.classList.contains("is-active") &&
+        !voiceFrCol?.classList.contains("is-active")){
+      updateVoiceView("native");
+    } else {
+      updateVoiceView(currentVoiceView);
+    }
+  }
+});
+
+// init à l’ouverture
+if (window.innerWidth <= 900){
+  updateVoiceView("native");
+}
+
+// Sélection manuelle de la langue
+langSelect?.addEventListener("change", async () => {
+  const code = langSelect.value;
+  if (!code) return;
+
+  const label = langSelect.options[langSelect.selectedIndex]?.text || code;
+
+  if (langTextBox) {
+    langTextBox.textContent = `Langue choisie : ${label}`;
+  }
+  if (langDetectedRow) langDetectedRow.textContent = "";
+  if (langConfirmRow) langConfirmRow.style.display = "none";
+  if (statusMsg) statusMsg.textContent = "Préparation de l’interface…";
+
+  try {
+    const res = await fetch("/api/voice_lang", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        language: code,
+        original_text: "",
+        french_translation: `Je veux parler en ${label}`
+      })
     });
-    
-    /* =========================================================
-       SUBMIT FINAL → /api/submit
-    ========================================================= */
-    document.getElementById('submitBtn')?.addEventListener('click', async () => {
-      document.getElementById('submitStatus').innerHTML =
-        '<div class="spinner"></div> Envoi en cours…';
-    
-      const payload = {
-        author_name: document.getElementById("authorName").value,
-        site: document.getElementById("site").value,
-        service: document.getElementById("service").value,
-        function_title: document.getElementById("function").value,
-        professional_email: document.getElementById("email").value,
-        contact_mode: document.querySelector('input[name="contactMode"]:checked')?.value,
-    
-        typed_text: document.getElementById("ideaDesc").value,
-        audio_path: appState.audio_path,
-        detected_language: appState.detected_language,
-        original_text: appState.original_text,
-        french_translation: appState.french_translation,
-    
-        idea_title: document.getElementById("ideaTitle").value,
-        share_types: [...document.querySelectorAll('input[name="type"]:checked')].map(i => i.value),
-        impact_main: document.getElementById("impact").value,
-        media_paths: appState.media_paths,
-        source: "web_form"
-      };
-    
-      const res = await fetch("/api/submit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
+    const data = await res.json();
+
+    if (res.ok && data.ok) {
+      currentLangCandidate = data;
+      applyChosenLanguage(data);
+      if (statusMsg) statusMsg.textContent = "";
+    } else {
+      if (langDetectedRow) {
+        langDetectedRow.textContent =
+          "Impossible de préparer cette langue pour le moment.";
+      }
+      if (statusMsg) statusMsg.textContent = "";
+    }
+  } catch (e) {
+    console.error("Erreur /api/voice_lang (select) :", e);
+    if (langDetectedRow) {
+      langDetectedRow.textContent =
+        "Erreur lors du chargement de la langue.";
+    }
+    if (statusMsg) statusMsg.textContent = "";
+  }
+});
+
+function applyChosenLanguage(langData) {
+  currentProfileLanguage = langData;
+  const ui = langData.ui || {};
+
+  if (voiceLangTitle && ui.title) {
+    voiceLangTitle.textContent = ui.title;
+  }
+  if (voiceLangIntro && ui.intro) {
+    voiceLangIntro.textContent = ui.intro;
+  }
+
+  if (voiceLangList) {
+    voiceLangList.innerHTML = "";
+    (ui.items || []).forEach((txt, idx) => {
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <span class="pill">${idx + 1}</span>
+        <span>${txt}</span>
+      `;
+      voiceLangList.appendChild(li);
+    });
+  }
+
+  if (profileRecBtnMirror && ui.rec_label) {
+    profileRecBtnMirror.textContent = ui.rec_label;
+  }
+  if (profileUploadBtnMirror && ui.upload_label) {
+    profileUploadBtnMirror.textContent = ui.upload_label;
+  }
+  if (voiceLangNotice && ui.notice) {
+    voiceLangNotice.textContent = ui.notice;
+  }
+
+  // label utilisé côté mobile (ex : "العربية – Arabe")
+  nativeDisplayLabel = `${langData.native_label} – ${langData.fr_label}`;
+  if (voiceSwitchLabel){
+    voiceSwitchLabel.textContent = nativeDisplayLabel;
+  }
+
+  if (voiceLangCard)   voiceLangCard.style.display = "none";
+  if (voiceProfileCard) voiceProfileCard.style.display = "block";
+
+  if (window.innerWidth <= 900){
+    updateVoiceView("native");
+  }
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+async function transcribeLangBlob(blob) {
+  if (statusMsg) statusMsg.textContent = "Analyse de la langue en cours…";
+
+  const form = new FormData();
+  form.append("audio", blob, "lang.webm");
+
+  const res = await fetch("/api/transcribe", { method: "POST", body: form });
+  const data = await res.json();
+
+  if (!res.ok || !data.ok) {
+    if (statusMsg) {
+      statusMsg.textContent = (data && data.error)
+        ? data.error
+        : "Échec de la détection de la langue.";
+    }
+    return;
+  }
+
+  const code = data.language || "";
+  const orig = data.original_text || "";
+  const fr   = data.french_translation || "";
+
+  if (langTextBox) {
+    langTextBox.textContent = orig || fr || "—";
+  }
+
+  let langInfo = null;
+  try {
+    const langRes = await fetch("/api/voice_lang", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        language: code,
+        original_text: orig,
+        french_translation: fr
+      })
+    });
+    const langData = await langRes.json();
+    if (langRes.ok && langData.ok) {
+      langInfo = langData;
+    }
+  } catch (e) {
+    console.warn("Erreur /api/voice_lang :", e);
+  }
+
+  if (!langInfo) {
+    if (langDetectedRow) {
+      langDetectedRow.textContent =
+        "Je n’ai pas bien compris la langue. Peux-tu la redire (par exemple « en espagnol ») ?";
+    }
+    if (langConfirmRow) langConfirmRow.style.display = "none";
+    if (statusMsg) statusMsg.textContent = "";
+    return;
+  }
+
+  currentLangCandidate = langInfo;
+
+  if (langDetectedRow) langDetectedRow.textContent = "";
+  if (langConfirmLabel) {
+    langConfirmLabel.textContent =
+      `Langue détectée : ${langInfo.fr_label} (${langInfo.native_label}). Confirmer ?`;
+  }
+  if (langConfirmRow) langConfirmRow.style.display = "flex";
+  if (statusMsg) statusMsg.textContent = "";
+}
+
+async function startLangRecording(){
+  if(!isSecure() || !(navigator.mediaDevices?.getUserMedia)){
+    alert("HTTPS requis (ou localhost). Utilise plutôt l’import de fichier audio.");
+    return;
+  }
+  try{
+    if(langStream) langStream.getTracks().forEach(t => t.stop());
+    const constraints = {
+      audio: {
+        echoCancellation:true,
+        noiseSuppression:true,
+        autoGainControl:true,
+        channelCount:1,
+        sampleRate:48000,
+        sampleSize:16
+      }
+    };
+    langStream = await navigator.mediaDevices.getUserMedia(constraints);
+    langChunks = [];
+    const mime = pickBestMime();
+    langMediaRecorder = new MediaRecorder(
+      langStream,
+      mime ? { mimeType: mime } : undefined
+    );
+    langMediaRecorder.ondataavailable = e => {
+      if(e.data.size > 0) langChunks.push(e.data);
+    };
+    langMediaRecorder.onstop = async () => {
+      const blob = new Blob(langChunks, {
+        type: langMediaRecorder.mimeType || "audio/webm"
       });
-    
-      const data = await res.json();
-      if (!data.ok) return showToast("Erreur lors de l’envoi", "error");
-    
-      document.getElementById('submitBar').style.display = 'none';
-      showStep('stepThanks');
-    });
-    
-    /* =========================================================
-       TOAST
-    ========================================================= */
-    function showToast(message, type = "success") {
-      const toast = document.getElementById("toast");
-      document.getElementById("toastText").textContent = message;
-      document.getElementById("toastIcon").textContent = type === "success" ? "✓" : "✗";
-      toast.className = `toast ${type} show`;
-      setTimeout(() => toast.classList.remove("show"), 3000);
+      await transcribeLangBlob(blob);
+      if (langStream) langStream.getTracks().forEach(t => t.stop());
+    };
+    langMediaRecorder.start();
+    if (langRecBtn) langRecBtn.textContent = "⏹️ Arrêter";
+  }catch(err){
+    alert("Impossible d'accéder au micro : " + err);
+  }
+}
+
+function stopLangRecording(){
+  if(langMediaRecorder && langMediaRecorder.state !== "inactive"){
+    langMediaRecorder.stop();
+    if (langRecBtn) langRecBtn.textContent = "🎙️ Dire ma langue";
+  }
+}
+
+langRecBtn?.addEventListener("click", () => {
+  (!langMediaRecorder || langMediaRecorder.state === "inactive")
+    ? startLangRecording()
+    : stopLangRecording();
+});
+
+langUploadBtn?.addEventListener("click", () => langAudioFile?.click());
+
+langAudioFile?.addEventListener("change", async () => {
+  const file = langAudioFile?.files?.[0];
+  if (!file) return;
+  await transcribeLangBlob(file);
+});
+
+langConfirmNo?.addEventListener("click", () => {
+  currentLangCandidate = null;
+  if (langConfirmRow) langConfirmRow.style.display = "none";
+  if (langDetectedRow) {
+    langDetectedRow.textContent =
+      "D’accord, tu peux recommencer en précisant mieux la langue (ex. « en espagnol »).";
+  }
+});
+
+langConfirmYes?.addEventListener("click", () => {
+  if (!currentLangCandidate) return;
+  applyChosenLanguage(currentLangCandidate);
+});
+
+// Miroir des boutons côté langue choisie
+profileRecBtnMirror?.addEventListener("click", () => profileRecBtn?.click());
+profileUploadBtnMirror?.addEventListener("click", () => profileUploadBtn?.click());
+
+// --- Navigation boutons profil / contacts / voix ---
+
+const backToIntroBtn    = document.getElementById("backToIntro");
+const nextFromProfileBtn= document.getElementById("nextFromProfile");
+const backToProfileBtn  = document.getElementById("backToProfile");
+const nextFromContactBtn= document.getElementById("nextFromContact");
+const backToContactBtn  = document.getElementById("backToContact");
+const backToModeVoice   = document.getElementById("backToModeVoice");
+const nextFromVoice     = document.getElementById("nextFromVoice");
+const backToHomeBtn     = document.getElementById("backToHomeBtn");
+
+function validateProfileForm(){
+  if (labelNameEl)    labelNameEl.innerHTML   = baseLabels.name;
+  if (labelSiteEl)    labelSiteEl.innerHTML   = baseLabels.site;
+  if (labelServiceEl) labelServiceEl.innerHTML= baseLabels.service;
+  if (labelFuncEl)    labelFuncEl.innerHTML   = baseLabels.function_title;
+
+  let ok = true;
+
+  if (!authorName.value.trim()){
+    if (labelNameEl){
+      labelNameEl.innerHTML = baseLabels.name + " " + redMsg("Ce champ est obligatoire.");
     }
-    
-    /* =========================================================
-       INIT
-    ========================================================= */
-    showStep('step1');
-    </script>
+    ok = false;
+  }
+
+  const siteVal = siteSelect.value;
+  const siteText = (siteVal === "Autre") ? (otherSite?.value.trim() || "") : siteVal;
+  if (!siteText){
+    if (labelSiteEl){
+      labelSiteEl.innerHTML = baseLabels.site + " " + redMsg("Ce champ est obligatoire.");
+    }
+    ok = false;
+  }
+
+  const serviceVal = serviceSelect.value;
+  const serviceText = (serviceVal === "Autre") ? (otherService?.value.trim() || "") : serviceVal;
+  if (!serviceText){
+    if (labelServiceEl){
+      labelServiceEl.innerHTML = baseLabels.service + " " + redMsg("Ce champ est obligatoire.");
+    }
+    ok = false;
+  }
+
+  if (!functionField.value.trim()){
+    if (labelFuncEl){
+      labelFuncEl.innerHTML = baseLabels.function_title + " " + redMsg("Ce champ est obligatoire.");
+    }
+    ok = false;
+  }
+
+  if (!ok){
+    const panel = document.querySelector("#step3 .panel");
+    if (panel){
+      const top = panel.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top, behavior:"smooth" });
+    }
+  }
+  return ok;
+}
+
+backToIntroBtn?.addEventListener("click", () => showStep("step1"));
+nextFromProfileBtn?.addEventListener("click", () => {
+  if (validateProfileForm()) showStep("step4");
+});
+backToProfileBtn?.addEventListener("click", () => showStep("step3"));
+nextFromContactBtn?.addEventListener("click", () => showStep("step5"));
+backToContactBtn?.addEventListener("click", () => showStep("step4"));
+
+backToModeVoice?.addEventListener("click", () => {
+  if (voiceProfileCard) voiceProfileCard.style.display = "none";
+  if (voiceLangCard) voiceLangCard.style.display = "block";
+});
+
+nextFromVoice?.addEventListener("click", () => {
+  showStep("step3");
+  updateProfileHintsUI();
+});
+
+// bouton retour à l’accueil après la page Merci
+backToHomeBtn?.addEventListener("click", () => {
+  showStep("step1");
+  const submitBar = document.querySelector(".submitbar");
+  if (submitBar) submitBar.style.display = "flex";
+  if (submitBtn) submitBtn.disabled = true;
+  if (statusMsg) statusMsg.textContent = "";
+});
+
+// --- Soumission finale ---
+
+submitBtn?.addEventListener("click", async () => {
+  if (statusMsg) statusMsg.textContent = "Envoi…";
+
+  let mediaPaths = [];
+  if (mediaFiles.length > 0) {
+    const formMedia = new FormData();
+    mediaFiles.forEach((file, idx) => {
+      formMedia.append("media", file, file.name || `media_${idx}`);
+    });
+
+    const mediaRes = await fetch("/api/upload_media", {
+      method: "POST",
+      body: formMedia
+    });
+    const mediaData = await mediaRes.json();
+
+    if (mediaRes.ok && mediaData.ok) {
+      mediaPaths = mediaData.paths || [];
+    } else {
+      if (statusMsg) statusMsg.textContent = "❌ Erreur lors de l’envoi des photos / vidéos.";
+      return;
+    }
+  }
+
+  const siteValue    = siteSelect.value === "Autre" ? (otherSite?.value || null)   : (siteSelect.value || null);
+  const serviceValue = serviceSelect.value === "Autre" ? (otherService?.value || null) : (serviceSelect.value || null);
+  const contactMode  = getContactMode();
+  const shareTypes   = getShareTypes();
+  const impactInfo   = getImpact();
+
+  const payload = {
+    author_name: authorName?.value || null,
+    site: siteValue,
+    service: serviceValue || null,
+    function_title: functionField?.value || null,
+    professional_email: proEmail?.value || null,
+    contact_mode: contactMode || null,
+    typed_text: typedText?.value || null,
+    audio_path: null,
+    detected_language: detectedLanguage || null,
+    original_text: originalText || null,
+    french_translation: frenchTranslation || null,
+    idea_title: document.getElementById("ideaTitle")?.value || null,
+    share_types: shareTypes,
+    impact_main: impactInfo.impact,
+    media_paths: mediaPaths,
+    impact_other: impactInfo.impact_other
+  };
+
+  const res = await fetch("/api/submit", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+  const data = await res.json();
+  if (res.ok && data.ok) {
+    // masquage de la barre de soumission + redirection vers la page Merci
+    const submitBar = document.querySelector(".submitbar");
+    if (submitBar) submitBar.style.display = "none";
+    if (statusMsg) statusMsg.textContent = "";
+    if (submitBtn) submitBtn.disabled = true;
+
+    showStep("stepThanks");
+  } else {
+    if (statusMsg) statusMsg.textContent = "❌ Erreur d’enregistrement.";
+  }
+});
+</script>
     
     
 </body>
