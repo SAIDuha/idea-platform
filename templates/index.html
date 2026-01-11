@@ -1833,10 +1833,11 @@
     <span id="toastIcon">✓</span>
     <span id="toastText">Message</span>
   </div>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
   <script>
     /* =========================================================
-       GLOBAL STATE (pont Front ↔ Back)
+       GLOBAL STATE (Front ↔ Back)
     ========================================================= */
     const appState = {
       media_paths: [],
@@ -1850,23 +1851,20 @@
        NAVIGATION & STEPS
     ========================================================= */
     const steps = document.querySelectorAll('.step-page');
-    let currentStep = 'step1';
     let chosenMode = null;
     
     function showStep(stepId) {
       steps.forEach(s => s.classList.remove('active'));
       document.getElementById(stepId)?.classList.add('active');
-      currentStep = stepId;
     
       window.scrollTo({ top: 0, behavior: 'smooth' });
     
       const submitBar = document.getElementById('submitBar');
-      if (stepId === 'step4') submitBar.style.display = 'block';
-      else submitBar.style.display = 'none';
+      submitBar.style.display = (stepId === 'step4') ? 'block' : 'none';
     }
     
     /* =========================================================
-       MODE SELECTION + CAPTCHA
+       MODE SELECTION + reCAPTCHA
     ========================================================= */
     const modeText = document.getElementById('modeText');
     const modeVoice = document.getElementById('modeVoice');
@@ -1880,9 +1878,8 @@
     
       captchaRow.style.display = 'block';
     
-      // reCAPTCHA n'aime pas le display dynamique → reset
-      if (window.grecaptcha) {
-        grecaptcha.reset();
+      if (window.grecaptcha && typeof grecaptcha.reset === "function") {
+        setTimeout(() => grecaptcha.reset(), 100);
       }
     }
     
@@ -1893,15 +1890,13 @@
       console.log("✅ CAPTCHA validé, mode =", chosenMode);
     
       if (!chosenMode) {
-        showToast("Choisis d’abord comment tu veux t’exprimer", "error");
+        showToast("Choisis d’abord écrire ou parler", "error");
+        captchaRow.scrollIntoView({ behavior: "smooth" });
         return;
       }
     
-      if (chosenMode === 'text') {
-        showStep('step2');
-      } else if (chosenMode === 'voice') {
-        showStep('stepVoice');
-      }
+      if (chosenMode === 'text') showStep('step2');
+      if (chosenMode === 'voice') showStep('stepVoice');
     }
     
     window.onCaptchaSuccess = onCaptchaSuccess;
@@ -1940,16 +1935,10 @@
       const fd = new FormData();
       [...files].forEach(f => fd.append("media", f));
     
-      const res = await fetch("/api/upload_media", {
-        method: "POST",
-        body: fd
-      });
+      const res = await fetch("/api/upload_media", { method: "POST", body: fd });
       const data = await res.json();
     
-      if (!data.ok) {
-        showToast("Erreur upload médias", "error");
-        return;
-      }
+      if (!data.ok) return showToast("Erreur upload médias", "error");
     
       appState.media_paths = data.paths;
       mediaPreview.innerHTML = '';
@@ -1980,16 +1969,10 @@
       const fd = new FormData();
       fd.append("audio", file);
     
-      const res = await fetch("/api/transcribe", {
-        method: "POST",
-        body: fd
-      });
+      const res = await fetch("/api/transcribe", { method: "POST", body: fd });
       const data = await res.json();
     
-      if (!data.ok) {
-        showToast("Erreur transcription", "error");
-        return;
-      }
+      if (!data.ok) return showToast("Erreur transcription", "error");
     
       appState.audio_path = data.audio_path;
       appState.detected_language = data.language;
@@ -2037,10 +2020,7 @@
       });
     
       const data = await res.json();
-      if (!data.ok) {
-        showToast("Erreur lors de l’envoi", "error");
-        return;
-      }
+      if (!data.ok) return showToast("Erreur lors de l’envoi", "error");
     
       document.getElementById('submitBar').style.display = 'none';
       showStep('stepThanks');
