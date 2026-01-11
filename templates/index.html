@@ -2,11 +2,17 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8" />
-  <title>Plateforme d'idées — Vivante & Multilingue</title>
+  <title>IDEA — Plateforme d'Innovation</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet"><style>
-:root {
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  
+  <style>
+    /* =========================================================
+       DESIGN TOKENS — Bioluminescent Neo-Glassmorphism
+    ========================================================== */
+    :root {
       /* Couleurs primaires - palette bioluminescente */
       --bg-deep: #030712;
       --bg-surface: #0a0f1a;
@@ -1203,1689 +1209,823 @@
     .glow-text {
       text-shadow: 0 0 40px var(--glow-cyan);
     }
-</style>
-
-
+  </style>
 </head>
 <body>
-  <div class="backdrop"></div><div class="orb"></div><div class="orb2"></div>
 
-<div class="wrap">
-  <div class="hero">
-    <div class="brand">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M4 12c0-4.418 3.582-8 8-8 3.582 0 6.613 2.347 7.643 5.6" stroke="url(#g1)" stroke-width="2" stroke-linecap="round"/>
-        <path d="M20 12c0 4.418-3.582 8-8 8-3.582 0-6.613-2.347-7.643-5.6" stroke="url(#g2)" stroke-width="2" stroke-linecap="round"/>
-        <defs>
-          <linearGradient id="g1" x1="4" y1="4" x2="22" y2="12">
-            <stop stop-color="#2b62ff"/><stop offset="1" stop-color="#00c9b7"/>
-          </linearGradient>
-          <linearGradient id="g2" x1="4" y1="12" x2="22" y2="22">
-            <stop stop-color="#ff7ab6"/><stop offset="1" stop-color="#00c9b7"/>
-          </linearGradient>
-        </defs>
-      </svg>
-      <span class="badge">IDEA — Espace Innovation</span>
-    </div>
+  <!-- Fond animé bioluminescent -->
+  <div class="canvas-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+  <div class="grid-overlay"></div>
+  <div class="flow-lines">
+    <div class="flow-line"></div>
+    <div class="flow-line"></div>
+    <div class="flow-line"></div>
   </div>
 
-  <div class="ribbon">
-    🚀 <b>Ton idée, notre avancée.</b> Partage en moins de 2 minutes, nous nous chargeons du reste.
-  </div>
+  <div class="app-container">
+    
+    <!-- Header -->
+    <header class="header">
+      <div class="logo-group">
+        <div class="logo-mark">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="url(#logoGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M2 17l10 5 10-5" stroke="url(#logoGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M2 12l10 5 10-5" stroke="url(#logoGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs>
+              <linearGradient id="logoGrad" x1="2" y1="2" x2="22" y2="22">
+                <stop stop-color="#22d3ee"/>
+                <stop offset="1" stop-color="#a78bfa"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="logo-text">IDEA</span>
+      </div>
+      <div class="status-badge">
+        <span class="status-dot"></span>
+        Espace Innovation Actif
+      </div>
+    </header>
 
-  <h1>Laisse ton idée briller ✨</h1>
-  <p class="sub">
-    Ici, tu peux partager en quelques instants une idée d’innovation, une proposition d’amélioration continue
-    ou un retour terrain. Chaque contribution est analysée par l’équipe innovation IDEA.
-  </p>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-eyebrow">
+        <span>🚀</span>
+        <span>Partage en moins de 2 minutes</span>
+      </div>
+      <h1 class="hero-title">
+        Laisse ton idée<br>
+        <span class="gradient-text">briller</span> ✨
+      </h1>
+      <p class="hero-subtitle">
+        Innovation, amélioration continue ou retour terrain — chaque contribution 
+        est analysée par l'équipe IDEA et peut transformer notre quotidien.
+      </p>
+    </section>
 
-  <div class="card">
-    <div class="card-head"></div>
-
-    <!-- STEP 1 : ACCUEIL + CHOIX MODE -->
-    <section id="step1" class="step-page active">
-      <div class="intro-main">
-        <!-- Colonne gauche : choix du mode -->
-        <div class="intro-main-main">
-          <h2>Comment veux-tu t’exprimer&nbsp;?</h2>
-          <p class="intro-lead">
-            Choisis si tu préfères <b>écrire</b> ou <b>parler</b> ton idée.
-            On te posera ensuite les questions étape par étape, sans tout demander d’un coup.
-          </p>
-
-          <div class="intro-actions">
-            <button type="button"
-                    id="btnModeText"
-                    class="btn-primary">
-              ✍️ Je préfère écrire
-            </button>
-
-            <button type="button"
-                    id="btnModeVoice"
-                    class="btn-ghost">
-              🎙️ Je préfère parler
-            </button>
+    <!-- Contenu principal avec steps -->
+    <main>
+      
+      <!-- STEP 1 : Choix du mode -->
+      <section id="step1" class="step-page active">
+        <div class="card card-glow animate-on-scroll visible">
+          <div class="card-header">
+            <h2 class="card-title">Comment veux-tu t'exprimer ?</h2>
           </div>
-
-          <p id="modeHint" class="muted small"></p>
-
-          <!-- reCAPTCHA affiché uniquement après le choix -->
-          <div id="captchaRow" style="display:none; margin-top:18px;">
-            <div class="g-recaptcha"
-                 data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
-                 data-callback="onCaptchaSuccess">
-            </div>
-            <p class="muted small" style="margin-top:8px;">
-              Cette étape sert uniquement à sécuriser la plateforme.
-              Après validation, nous t’emmenons directement vers l’étape suivante.
+          <div class="card-body">
+            <p style="color: var(--text-secondary); margin-bottom: 24px;">
+              Choisis le mode qui te convient le mieux. Tu pourras toujours 
+              compléter ou modifier ta contribution à chaque étape.
             </p>
-          </div>
-        </div>
-
-        <!-- Colonne droite : explication légère -->
-        <aside class="intro-main-side">
-          <h3>Ce que tu peux partager</h3>
-          <p>En moins de <b>2 minutes</b>, tu peux nous envoyer :</p>
-          <ul class="intro-mini-list">
-            <li>
-              <span class="pill">1</span>
-              <span>Une idée d’innovation produit, service ou usage client.</span>
-            </li>
-            <li>
-              <span class="pill">2</span>
-              <span>Une amélioration sur un process, un outil, un flux.</span>
-            </li>
-            <li>
-              <span class="pill">3</span>
-              <span>Un problème terrain observé au quotidien.</span>
-            </li>
-          </ul>
-          <p style="margin-top:10px;" class="muted small">
-            L’équipe IDEA analyse chaque contribution.
-          </p>
-        </aside>
-      </div>
-    </section>
-
-    <!-- STEP 3 : PROFIL TEXTE -->
-    <section id="step3" class="step-page">
-      <div class="panel">
-        <h3>On démarre par toi</h3>
-        <p class="muted">
-          Avant de commencer, indique simplement <b>qui tu es</b>, <b>où tu travailles</b> et <b>quel est ton rôle</b>.
-        </p>
-
-        <label for="authorName">Nom et prénom</label>
-        <input id="authorName" placeholder="Ex : Marie Dupont" />
-
-        <label for="country">Sur quel site travailles-tu ?</label>
-        <select id="country">
-          <option value="">Sélectionne ton site</option>
-          <option>Auxerre</option><option>Beaumont</option><option>Béziers</option>
-          <option>Berre-l’Étang</option><option>Boulogne-Billancourt (Siège social)</option>
-          <option>CAP Tunis</option><option>CAWE</option><option>Cagny</option>
-          <option>Carpiquet</option><option>Chavagnes</option><option>Chambéry</option>
-          <option>Cléguer</option><option>Colmar</option><option>Corbas</option>
-          <option>Dammarie-lès-Lys</option><option>Douvrin</option><option>Firminy</option>
-          <option>Fontaine-le-Comte</option><option>Gravigy</option><option>Guipavas</option>
-          <option>Heillecourt</option><option>La Bresse</option><option>Lailly-en-Val</option>
-          <option>Le Lude</option><option>Les Clayes-sous-Bois</option><option>Longvic</option>
-          <option>Magasin central</option><option>Neuilly-sur-Marne</option><option>Nice</option>
-          <option>Orthez</option><option>Pont-Sainte-Maxence</option><option>Porte-lès-Valence</option>
-          <option>Reims</option><option>Rennes</option><option>Sainte-Luce-sur-Loire</option>
-          <option>Saint-Sulpice</option><option>Toulouse</option><option>Villejust</option>
-          <option value="Autre">Autre (préciser)</option>
-        </select>
-        <div id="otherSiteRow" style="display:none; margin-top:8px;">
-          <input id="otherSite" placeholder="Indique ton site" />
-          <div class="field-note">Si ton site n’apparaît pas dans la liste, précise-le ici.</div>
-        </div>
-
-        <label for="serviceSelect">Dans quel service travailles-tu ?</label>
-        <select id="serviceSelect">
-          <option value="">Sélectionne ton service</option>
-          <option>Production</option>
-          <option>Maintenance</option>
-          <option>Distribution</option>
-          <option>Relation client</option>
-          <option>Commerce</option>
-          <option>Administratif</option>
-          <option>Support (achats, finance, HSE, RH…)</option>
-          <option value="Autre">Autre (préciser)</option>
-        </select>
-        <div id="otherServiceRow" style="display:none; margin-top:8px;">
-          <input id="otherService" placeholder="Précise ton service" />
-        </div>
-
-        <label for="functionField">Quelle est ta fonction ?</label>
-        <input id="functionField" placeholder="Ex : Technicien de maintenance, Responsable magasin…" />
-
-        <div class="nav-row">
-          <button type="button" class="btn-secondary" id="backToIntro">◀ Précédent</button>
-          <button type="button" class="btn-primary" id="nextFromProfile">Suivant · Coordonnées</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- STEP 4 : COORDONNÉES -->
-    <section id="step4" class="step-page">
-      <div class="panel">
-        <h3>Comment te recontacter ?</h3>
-
-        <div class="contact-layout">
-          <div>
-            <div class="section-label">Coordonnées</div>
-            <div class="contact-block">
-              <div class="contact-block-title">Adresse mail professionnelle</div>
-              <label for="proEmail" style="margin-top:4px;">Si tu as une adresse mail professionnelle, note-la ci-dessous</label>
-              <input id="proEmail" type="email" placeholder="Ex : prenom.nom@entreprise.com" />
-              <div class="field-note">Ce champ est facultatif, mais il facilite le suivi de ton idée.</div>
-            </div>
-          </div>
-
-          <div>
-            <div class="section-label">Préférence de contact</div>
-            <div class="contact-block">
-              <div class="contact-block-title">Comment souhaites-tu être recontacté(e) ?</div>
-              <div class="radio-group">
-                <label class="radio-item">
-                  <input type="radio" name="contactMode" value="Mail professionnel">
-                  <span>Mail professionnel</span>
-                </label>
-                <label class="radio-item">
-                  <input type="radio" name="contactMode" value="Par l’intermédiaire de mon responsable">
-                  <span>Par l’intermédiaire de mon responsable</span>
-                </label>
+            
+            <div class="mode-selector">
+              <div class="mode-card" id="modeText" tabindex="0" role="button">
+                <div class="mode-icon">✍️</div>
+                <h3 class="mode-title">Je préfère écrire</h3>
+                <p class="mode-desc">
+                  Remplis un formulaire simple avec les informations essentielles.
+                </p>
+              </div>
+              
+              <div class="mode-card" id="modeVoice" tabindex="0" role="button">
+                <div class="mode-icon">🎙️</div>
+                <h3 class="mode-title">Je préfère parler</h3>
+                <p class="mode-desc">
+                  Enregistre ton idée à l'oral — nous transcrivons et traduisons automatiquement.
+                </p>
               </div>
             </div>
-          </div>
-        </div>
 
-        <div class="nav-row">
-          <button type="button" class="btn-secondary" id="backToProfile">◀ Précédent</button>
-          <button type="button" class="btn-primary" id="nextFromContact">Suivant · Rédiger mon idée</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- STEP 5 : IDÉE (TEXTE + AUDIO) -->
-    <section id="step5" class="step-page">
-      <div class="content">
-        <div class="panel">
-          <h3>Contenu de ton idée</h3>
-          <p class="muted small">
-            Quelques éléments suffisent : l’objectif est de comprendre ton contexte, ton besoin et l’impact attendu.
-          </p>
-
-          <div class="field-group">
-            <div class="section-label">Type de contribution</div>
-            <div class="choice-row">
-              <label class="radio-item">
-                <input type="checkbox" name="shareType" value="Difficulté">
-                <span>Une difficulté</span>
-              </label>
-              <label class="radio-item">
-                <input type="checkbox" name="shareType" value="Amélioration">
-                <span>Une amélioration</span>
-              </label>
-              <label class="radio-item">
-                <input type="checkbox" name="shareType" value="Innovation">
-                <span>Une innovation</span>
-              </label>
+            <div style="margin-top: 40px; padding: 24px; background: rgba(15, 23, 42, 0.5); border-radius: var(--radius-lg);">
+              <h4 style="font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 16px;">
+                Ce que tu peux partager
+              </h4>
+              <ul class="features-list">
+                <li>
+                  <span class="feature-number">1</span>
+                  <span>Une <strong>idée d'innovation</strong> produit, service ou usage client.</span>
+                </li>
+                <li>
+                  <span class="feature-number">2</span>
+                  <span>Une <strong>amélioration</strong> sur un process, un outil, un flux.</span>
+                </li>
+                <li>
+                  <span class="feature-number">3</span>
+                  <span>Un <strong>problème terrain</strong> observé au quotidien.</span>
+                </li>
+              </ul>
             </div>
-          </div>
 
-          <div class="field-group">
-            <label for="ideaTitle">Titre de ton IDEA</label>
-            <input id="ideaTitle" placeholder="Ex : Photo réforme" />
-          </div>
-
-          <div class="field-group">
-            <label for="typedText">Description (optionnel si audio)</label>
-            <textarea id="typedText" placeholder="Décris ton idée, ton besoin, ton insight…"></textarea>
-          </div>
-
-          <div class="field-group">
-            <label for="impactSelect">Quel impact principal aurait ton idée ?</label>
-            <select id="impactSelect">
-              <option value="">Sélectionne l’impact principal</option>
-              <option value="Condition de travail / Ergonomie">Condition de travail / Ergonomie</option>
-              <option value="Développement durable / Environnement">Développement durable / Environnement</option>
-              <option value="Gain de temps / Efficacité">Gain de temps / Efficacité</option>
-              <option value="Productivité">Productivité</option>
-              <option value="Économie d’énergie">Économie d’énergie</option>
-              <option value="Sécurité">Sécurité</option>
-              <option value="Autre">Autre (préciser)</option>
-            </select>
-
-            <div id="impactOtherRow" style="display:none; margin-top:8px;">
-              <input id="impactOther" placeholder="Précise l’impact" />
-            </div>
-          </div>
-
-          <div class="field-group">
-            <div class="section-label">Enregistrement vocal</div>
-            <div class="actions">
-              <button id="recBtn" class="btn-primary" data-tip="HTTPS requis (ou localhost)">🎙️ Démarrer l’enregistrement</button>
-              <button id="uploadBtn" class="btn-ghost">📁 Importer un audio</button>
-              <button id="toneBtn" class="btn-ghost" data-tip="Petit bip de test">🔊 Tester le son</button>
-              <input id="audioFile" type="file" accept="audio/*" capture style="display:none" />
-            </div>
-            <audio id="player" controls hidden></audio>
-          </div>
-
-          <div class="field-group">
-            <div class="section-label">Illustrations (facultatif)</div>
-            <label style="margin-top:4px;">Photos / vidéos</label>
-            <div class="actions">
-              <button type="button" class="btn-ghost" id="mediaCaptureBtn">
-                📷 Prendre une photo / vidéo
-              </button>
-              <button type="button" class="btn-ghost" id="mediaUploadBtn">
-                📁 Importer depuis ton appareil
-              </button>
-              <input id="mediaInputCamera" type="file"
-                     accept="image/*,video/*" capture style="display:none" multiple>
-              <input id="mediaInputFile" type="file"
-                     accept="image/*,video/*" style="display:none" multiple>
-            </div>
-            <div id="mediaPreview" class="media-preview"></div>
-          </div>
-
-          <div class="nav-row">
-            <button type="button" class="btn-secondary" id="backToContact">◀ Précédent</button>
-          </div>
-        </div>
-
-        <div class="panel panel-preview">
-          <div class="preview-top">
-            <div class="preview-text">
-              <h3>Aperçu & traduction</h3>
-              <p class="muted small">
-                Ce panneau se mettra à jour dès que tu enregistres ou importes un audio. Tu peux vérifier le texte compris
-                avant d’envoyer ton IDEA.
+            <!-- reCAPTCHA -->
+            <div id="captchaRow" style="display: none; margin-top: 32px; text-align: center;">
+              <div class="g-recaptcha" style="display: inline-block;"
+                   data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+                   data-callback="onCaptchaSuccess">
+              </div>
+              <p style="color: var(--text-muted); font-size: 13px; margin-top: 12px;">
+                Validation de sécurité avant de continuer
               </p>
             </div>
-            <div class="preview-robot">
-              <img src="/static/cawe_robot.png" alt="Robot IDEA">
-            </div>
-          </div>
-
-          <div class="preview-grid">
-            <div>
-              <strong>🗣️ Texte d’origine</strong>
-              <div class="muted" id="langChip" style="margin:6px 0 10px"></div>
-              <div id="origBox" class="preview-box">—</div>
-            </div>
-            <div>
-              <strong>🇫🇷 Traduction française</strong>
-              <div id="frBox" class="preview-box">—</div>
-            </div>
-          </div>
-
-          <div class="helper">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M12 2a10 10 0 100 20 10 10 0 000-20Zm1 14h-2v-2h2v2Zm0-4h-2V6h2v6Z" fill="#3a66ff"/>
-            </svg>
-            <div class="muted">
-              Vérifie rapidement : tu pourras ensuite finaliser et envoyer ton idée. En cas d’erreur,
-              tu pourras corriger le texte ou refaire un enregistrement.
-            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- STEP 6 : PROFIL PAR LA VOIX (LANGUE + BILINGUE) -->
-    <section id="stepVoice" class="step-page">
-      <div class="voice-shell">
-        <!-- Robot au centre, en transparence -->
-        <div class="voice-bg">
-          <img src="/static/cawe_robot.png" alt="Robot IDEA">
+      <!-- STEP 2 : Profil (mode texte) -->
+      <section id="step2" class="step-page">
+        <div class="steps-indicator">
+          <div class="step-dot active"></div>
+          <div class="step-connector"></div>
+          <div class="step-dot"></div>
+          <div class="step-connector"></div>
+          <div class="step-dot"></div>
+          <div class="step-connector"></div>
+          <div class="step-dot"></div>
         </div>
 
-        <div class="voice-foreground">
-          <!-- Étape 0 : détection de la langue -->
-          <div id="voiceLangCard" class="panel">
-            <h3>Dans quelle langue veux-tu t’exprimer&nbsp;?</h3>
-            <p class="muted">
-              Dis une phrase comme <b>« Je préfère parler en espagnol »</b> ou
-              <b>« I want to speak in English »</b>. Nous détectons la langue
-              puis nous affichons les consignes dans cette langue, en plus du français.
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Qui es-tu ?</h2>
+            <span style="color: var(--text-muted); font-size: 13px;">Étape 1/4</span>
+          </div>
+          <div class="card-body">
+            <p style="color: var(--text-secondary); margin-bottom: 24px;">
+              Quelques informations pour mieux te connaître et pouvoir te recontacter si besoin.
             </p>
 
-            <div class="actions" style="margin-top:14px; gap:10px; flex-wrap:wrap;">
-              <button id="langRecBtn" class="btn-primary">
-                🎙️ Dire ma langue
-              </button>
+            <div class="form-group">
+              <label class="form-label" for="authorName">Nom et prénom</label>
+              <input type="text" id="authorName" class="form-input" placeholder="Ex : Marie Dupont">
+            </div>
 
-              <!-- Choix manuel de la langue -->
-              <select id="langSelect" class="lang-select">
-                <option value="">Ou choisis ta langue…</option>
-                <!-- Options injectées en JS -->
+            <div class="form-group">
+              <label class="form-label" for="site">Sur quel site travailles-tu ?</label>
+              <select id="site" class="form-select">
+                <option value="">Sélectionne ton site</option>
+                <option>Auxerre</option>
+                <option>Beaumont</option>
+                <option>Béziers</option>
+                <option>Berre-l'Étang</option>
+                <option>Boulogne-Billancourt (Siège social)</option>
+                <option>Chambéry</option>
+                <option>Colmar</option>
+                <option>Corbas</option>
+                <option>Nice</option>
+                <option>Rennes</option>
+                <option>Toulouse</option>
+                <option value="Autre">Autre (préciser)</option>
               </select>
             </div>
 
-            <div style="margin-top:16px;">
-              <strong>Texte reconnu</strong>
-              <div id="langTextBox" class="preview-box" style="min-height:60px;">—</div>
-            </div>
-
-            <div id="langDetectedRow" class="muted" style="margin-top:10px;"></div>
-
-            <!-- Confirmation X / ✔ -->
-            <div id="langConfirmRow"
-                 style="display:none; margin-top:14px; align-items:center; gap:12px;">
-              <span id="langConfirmLabel" class="muted"></span>
-              <div style="display:flex; gap:8px;">
-                <button type="button" id="langConfirmNo"
-                        style="width:40px; height:40px; border-radius:999px; border:0;
-                               background:#ffe5e5; color:#c62828; font-size:20px;">
-                  ✖
-                </button>
-                <button type="button" id="langConfirmYes"
-                        style="width:40px; height:40px; border-radius:999px; border:0;
-                               background:#e1f7e4; color:#2e7d32; font-size:20px;">
-                  ✔
-                </button>
+            <div id="otherSiteRow" style="display: none;">
+              <div class="form-group">
+                <label class="form-label" for="otherSite">Précise ton site</label>
+                <input type="text" id="otherSite" class="form-input" placeholder="Nom du site">
               </div>
             </div>
-          </div>
 
-          <!-- Étape 1 : cartes bilingues + enregistrement profil -->
-          <div id="voiceProfileCard" class="panel" style="display:none;">
-            <!-- Switch simple pour mobile -->
-            <div class="voice-switch" id="voiceSwitch">
-              <span id="voiceSwitchLabel" class="voice-switch-label">Langue choisie</span>
-              <button type="button" id="voiceSwitchBtn" class="voice-switch-btn"
-                      aria-label="Basculer entre la langue choisie et le français">
-                <!-- Icône deux flèches -->
-                <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M5 8h11.17l-2.88-2.88a1 1 0 1 1 1.42-1.42l4.59 4.6a1 1 0 0 1 0 1.4l-4.59 4.6a1 1 0 0 1-1.42-1.42L16.17 10H5a1 1 0 0 1 0-2Zm14 8H7.83l2.88 2.88a1 1 0 0 1-1.42 1.42L4.7 15.7a1 1 0 0 1 0-1.4l4.59-4.6a1 1 0 1 1 1.42 1.42L7.83 14H19a1 1 0 0 1 0 2Z"
-                        fill="currentColor"/>
+            <div class="form-group">
+              <label class="form-label" for="service">Dans quel service travailles-tu ?</label>
+              <select id="service" class="form-select">
+                <option value="">Sélectionne ton service</option>
+                <option>Production</option>
+                <option>Maintenance</option>
+                <option>Distribution</option>
+                <option>Relation client</option>
+                <option>Commerce</option>
+                <option>Administratif</option>
+                <option>Support (achats, finance, HSE, RH…)</option>
+                <option value="Autre">Autre (préciser)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="function">Quelle est ta fonction ?</label>
+              <input type="text" id="function" class="form-input" placeholder="Ex : Technicien de maintenance">
+            </div>
+
+            <div class="nav-row">
+              <button class="btn btn-ghost" id="backToStep1">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Retour
+              </button>
+              <button class="btn btn-primary" id="toStep3">
+                Continuer
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
                 </svg>
               </button>
             </div>
+          </div>
+        </div>
+      </section>
 
-            <div class="profile-bilingual-grid">
-              <!-- Colonne langue choisie -->
-              <div class="voice-col voice-col--lang" id="voiceLangCol">
-                <h3 id="voiceLangTitle">Preséntese verbalmente</h3>
-                <p class="muted" id="voiceLangIntro">
-                  En esta grabación, simplemente diga:
-                </p>
-                <ul id="voiceLangList">
-                  <li><span class="pill">1</span><span>Su nombre y apellido.</span></li>
-                  <li><span class="pill">2</span><span>El lugar donde trabaja.</span></li>
-                  <li><span class="pill">3</span><span>Su departamento.</span></li>
-                  <li><span class="pill">4</span><span>Su cargo.</span></li>
-                </ul>
+      <!-- STEP 3 : Coordonnées -->
+      <section id="step3" class="step-page">
+        <div class="steps-indicator">
+          <div class="step-dot completed"></div>
+          <div class="step-connector"></div>
+          <div class="step-dot active"></div>
+          <div class="step-connector"></div>
+          <div class="step-dot"></div>
+          <div class="step-connector"></div>
+          <div class="step-dot"></div>
+        </div>
 
-                <div class="actions">
-                  <button id="profileRecBtnMirror" class="btn-primary">
-                    🎙️ Iniciar grabación
-                  </button>
-                  <button id="profileUploadBtnMirror" class="btn-ghost">
-                    📁 Subir audio
-                  </button>
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Comment te recontacter ?</h2>
+            <span style="color: var(--text-muted); font-size: 13px;">Étape 2/4</span>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label class="form-label" for="email">Adresse mail professionnelle (optionnel)</label>
+              <input type="email" id="email" class="form-input" placeholder="prenom.nom@entreprise.com">
+              <p style="color: var(--text-muted); font-size: 13px; margin-top: 8px;">
+                Facilite le suivi de ton idée mais n'est pas obligatoire.
+              </p>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Préférence de contact</label>
+              <div class="choice-grid">
+                <div class="choice-item">
+                  <input type="radio" name="contactMode" value="email" id="contactEmail">
+                  <label for="contactEmail">
+                    <span class="choice-icon">📧</span>
+                    Mail professionnel
+                  </label>
                 </div>
-
-                <p class="notice" id="voiceLangNotice">
-                  🔒 Su audio se utiliza únicamente para generar el texto a continuación.
-                  Nadie más lo guarda ni lo escucha.
-                </p>
-              </div>
-
-              <!-- Colonne FR -->
-              <div class="voice-col voice-col--fr" id="voiceFrCol">
-                <h3>Présente-toi à l’oral</h3>
-                <p class="muted">Dans cet enregistrement, indique simplement :</p>
-                <ul>
-                  <li><span class="pill">1</span><span>Ton <b>nom et prénom</b>.</span></li>
-                  <li><span class="pill">2</span><span>Le <b>site</b> sur lequel tu travailles.</span></li>
-                  <li><span class="pill">3</span><span>Ton <b>service</b>.</span></li>
-                  <li><span class="pill">4</span><span>Ta <b>fonction</b> (poste occupé).</span></li>
-                </ul>
-
-                <div class="actions">
-                  <button id="profileRecBtn" class="btn-primary">
-                    🎙️ Démarrer l’enregistrement
-                  </button>
-                  <button id="profileUploadBtn" class="btn-ghost">
-                    📁 Importer un audio
-                  </button>
-                  <input id="profileAudioFile" type="file" accept="audio/*" capture style="display:none">
+                <div class="choice-item">
+                  <input type="radio" name="contactMode" value="manager" id="contactManager">
+                  <label for="contactManager">
+                    <span class="choice-icon">👤</span>
+                    Via mon responsable
+                  </label>
                 </div>
-
-                <audio id="profilePlayer" controls hidden style="margin-top:10px;"></audio>
-
-                <p class="notice">
-                  🔒 Ton audio est utilisé uniquement pour générer le texte ci-dessous.
-                  Il n’est ni conservé, ni réécouté par une autre personne.
-                </p>
               </div>
             </div>
 
-            <!-- Prévisualisation texte / traduction -->
-            <div class="voice-preview-block">
-              <div>
-                <strong>🗣️ Texte d’origine</strong>
-                <div class="muted" id="profileLangChip" style="margin:6px 0 10px;"></div>
-                <div id="profileOrigBox" class="preview-box">—</div>
-              </div>
-              <div>
-                <strong>🇫🇷 Traduction française</strong>
-                <div id="profileFrBox" class="preview-box">—</div>
-              </div>
-            </div>
-
-            <div id="voiceMissingMsg"
-                 class="muted"
-                 style="color:#c62828; margin-top:14px; font-weight:600;"></div>
-
-            <div class="nav-row" style="margin-top:20px;">
-              <button type="button" class="btn-secondary" id="backToModeVoice">
-                ◀ Retour
+            <div class="nav-row">
+              <button class="btn btn-ghost" id="backToStep2">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Retour
               </button>
-              <button type="button" class="btn-primary" id="nextFromVoice">
-                Suivant · Vérifier mes infos
+              <button class="btn btn-primary" id="toStep4">
+                Continuer
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
               </button>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- STEP MERCI : CONFIRMATION FINALE -->
-    <section id="stepThanks" class="step-page">
-      <div class="panel thank-panel">
-        <div class="thank-layout">
-          <div class="thank-text">
-            <h2>Merci pour ton IDEA 💡</h2>
-            <p class="muted">
-              Toute l’équipe <b>IDEA</b> te remercie chaleureusement pour ta contribution.
-              Grâce à des personnes comme toi, nous continuons à nous améliorer
-              chaque jour, chaque heure, chaque minute.
-            </p>
-            <p class="muted">
-              Ton IDEA va maintenant être analysée par l’équipe innovation.
-              Si un suivi est nécessaire, nous te recontacterons via le mode que tu as choisi.
-            </p>
-            <div class="thank-highlight">
-              <span>✨ Sans idées, il n’y a pas de progrès. Merci d’avoir pris le temps de partager la tienne.</span>
+      <!-- STEP 4 : Contenu de l'idée -->
+      <section id="step4" class="step-page">
+        <div class="steps-indicator">
+          <div class="step-dot completed"></div>
+          <div class="step-connector"></div>
+          <div class="step-dot completed"></div>
+          <div class="step-connector"></div>
+          <div class="step-dot active"></div>
+          <div class="step-connector"></div>
+          <div class="step-dot"></div>
+        </div>
+
+        <div class="split-layout">
+          <!-- Colonne principale -->
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Ton IDEA</h2>
+              <span style="color: var(--text-muted); font-size: 13px;">Étape 3/4</span>
+            </div>
+            <div class="card-body">
+              
+              <div class="form-group">
+                <label class="form-label">Type de contribution</label>
+                <div class="choice-grid">
+                  <div class="choice-item">
+                    <input type="checkbox" name="type" value="difficulte" id="typeDiff">
+                    <label for="typeDiff">
+                      <span class="choice-icon">⚠️</span>
+                      Difficulté
+                    </label>
+                  </div>
+                  <div class="choice-item">
+                    <input type="checkbox" name="type" value="amelioration" id="typeAmel">
+                    <label for="typeAmel">
+                      <span class="choice-icon">🔧</span>
+                      Amélioration
+                    </label>
+                  </div>
+                  <div class="choice-item">
+                    <input type="checkbox" name="type" value="innovation" id="typeInno">
+                    <label for="typeInno">
+                      <span class="choice-icon">💡</span>
+                      Innovation
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="ideaTitle">Titre de ton IDEA</label>
+                <input type="text" id="ideaTitle" class="form-input" placeholder="Ex : Optimisation du processus de livraison">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="ideaDesc">Description</label>
+                <textarea id="ideaDesc" class="form-textarea" placeholder="Décris ton idée, le contexte, le besoin, l'impact attendu..."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="impact">Impact principal</label>
+                <select id="impact" class="form-select">
+                  <option value="">Sélectionne l'impact</option>
+                  <option>Condition de travail / Ergonomie</option>
+                  <option>Développement durable / Environnement</option>
+                  <option>Gain de temps / Efficacité</option>
+                  <option>Productivité</option>
+                  <option>Économie d'énergie</option>
+                  <option>Sécurité</option>
+                  <option value="Autre">Autre</option>
+                </select>
+              </div>
+
+              <!-- Enregistrement vocal -->
+              <div class="form-group">
+                <label class="form-label">Ou enregistre ton idée</label>
+                <div class="voice-recorder" id="voiceRecorder">
+                  <div class="voice-waveform" id="waveform" style="display: none;">
+                    <div class="voice-bar"></div>
+                    <div class="voice-bar"></div>
+                    <div class="voice-bar"></div>
+                    <div class="voice-bar"></div>
+                    <div class="voice-bar"></div>
+                  </div>
+                  <p style="font-size: 36px; margin-bottom: 16px;">🎙️</p>
+                  <p class="voice-status" id="voiceStatus">Clique pour commencer l'enregistrement</p>
+                  <div style="display: flex; gap: 12px; justify-content: center; margin-top: 20px;">
+                    <button class="btn btn-primary" id="recBtn">
+                      Enregistrer
+                    </button>
+                    <button class="btn btn-secondary" id="uploadBtn">
+                      📁 Importer
+                    </button>
+                  </div>
+                  <audio id="audioPlayer" controls style="display: none; margin-top: 16px; width: 100%;"></audio>
+                  <input type="file" id="audioFile" accept="audio/*" style="display: none;">
+                </div>
+              </div>
+
+              <!-- Upload médias -->
+              <div class="form-group">
+                <label class="form-label">Illustrations (optionnel)</label>
+                <div class="media-dropzone" id="mediaDropzone">
+                  <div class="media-dropzone-icon">📷</div>
+                  <p style="font-weight: 600; margin-bottom: 8px;">Dépose tes fichiers ici</p>
+                  <p style="color: var(--text-muted); font-size: 13px;">ou clique pour parcourir</p>
+                </div>
+                <input type="file" id="mediaInput" accept="image/*,video/*" multiple style="display: none;">
+                <div class="media-preview" id="mediaPreview"></div>
+              </div>
+
+              <div class="nav-row">
+                <button class="btn btn-ghost" id="backToStep3">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                  </svg>
+                  Retour
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Preview panel -->
+          <div class="preview-panel">
+            <div class="card">
+              <div class="card-body">
+                <div class="preview-header">
+                  <div class="preview-avatar">🤖</div>
+                  <div>
+                    <h3 style="font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700;">
+                      Aperçu & traduction
+                    </h3>
+                    <p style="color: var(--text-muted); font-size: 13px;">
+                      Vérifie ce qui a été compris
+                    </p>
+                  </div>
+                </div>
+
+                <div class="preview-grid">
+                  <div class="preview-box">
+                    <div class="preview-box-label">
+                      <span>🗣️</span> Texte d'origine
+                    </div>
+                    <div class="preview-box-content" id="origText">—</div>
+                  </div>
+                  <div class="preview-box">
+                    <div class="preview-box-label">
+                      <span>🇫🇷</span> Traduction FR
+                    </div>
+                    <div class="preview-box-content" id="frText">—</div>
+                  </div>
+                </div>
+
+                <div style="margin-top: 20px; padding: 16px; background: rgba(34, 211, 238, 0.05); border-radius: var(--radius-md); border: 1px solid rgba(34, 211, 238, 0.1);">
+                  <p style="font-size: 13px; color: var(--text-secondary); display: flex; gap: 8px; align-items: flex-start;">
+                    <span style="color: var(--glow-cyan);">💡</span>
+                    Tu peux corriger le texte ou refaire un enregistrement si besoin.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP Voice : Profil vocal avec détection de langue -->
+      <section id="stepVoice" class="step-page">
+        <div class="card card-glow">
+          <div class="card-body" style="padding: 40px;">
+            
+            <!-- Étape détection langue -->
+            <div id="langDetection">
+              <div style="text-align: center; margin-bottom: 32px;">
+                <div style="font-size: 64px; margin-bottom: 16px;">🌍</div>
+                <h2 style="font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; margin-bottom: 12px;">
+                  Dans quelle langue veux-tu parler ?
+                </h2>
+                <p style="color: var(--text-secondary); max-width: 500px; margin: 0 auto;">
+                  Dis une phrase comme « Je préfère parler en espagnol » ou sélectionne ta langue ci-dessous.
+                </p>
+              </div>
+
+              <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px;">
+                <button class="btn btn-primary" id="langRecBtn">
+                  🎙️ Dire ma langue
+                </button>
+                <select class="form-select" id="langSelect" style="max-width: 280px;">
+                  <option value="">Ou choisis ta langue…</option>
+                  <option value="fr">Français</option>
+                  <option value="en">English</option>
+                  <option value="es">Español</option>
+                  <option value="ar">العربية</option>
+                  <option value="pt">Português</option>
+                  <option value="de">Deutsch</option>
+                  <option value="it">Italiano</option>
+                  <option value="zh">中文</option>
+                </select>
+              </div>
+
+              <div style="max-width: 500px; margin: 0 auto;">
+                <div class="preview-box">
+                  <div class="preview-box-label">Texte reconnu</div>
+                  <div class="preview-box-content" id="langText">—</div>
+                </div>
+              </div>
+
+              <div id="langConfirm" style="display: none; text-align: center; margin-top: 24px;">
+                <p style="color: var(--text-secondary); margin-bottom: 16px;" id="langConfirmText"></p>
+                <div style="display: flex; gap: 12px; justify-content: center;">
+                  <button class="btn btn-ghost" id="langNo" style="background: rgba(251, 113, 133, 0.1); border-color: var(--glow-rose);">
+                    ✖ Non
+                  </button>
+                  <button class="btn btn-primary" id="langYes" style="background: linear-gradient(135deg, var(--glow-emerald), #10b981);">
+                    ✔ Oui
+                  </button>
+                </div>
+              </div>
             </div>
 
-            <button type="button" class="btn-secondary" id="backToHomeBtn">
-              ⬅️ Retour à l’accueil IDEA
+            <!-- Étape profil bilingue -->
+            <div id="profileBilingual" style="display: none;">
+              <div style="text-align: center; margin-bottom: 32px;">
+                <h2 style="font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; margin-bottom: 12px;">
+                  Présente-toi à l'oral
+                </h2>
+              </div>
+
+              <div class="bilingual-grid">
+                <div class="lang-column native">
+                  <div class="lang-flag" id="nativeFlag">🌐</div>
+                  <h3 class="lang-title" id="nativeTitle">Dans ta langue</h3>
+                  <p class="lang-desc" id="nativeDesc">
+                    Indique simplement :
+                  </p>
+                  <ul class="features-list" id="nativeList">
+                    <li><span class="feature-number">1</span><span>Ton nom et prénom</span></li>
+                    <li><span class="feature-number">2</span><span>Ton site de travail</span></li>
+                    <li><span class="feature-number">3</span><span>Ton service</span></li>
+                    <li><span class="feature-number">4</span><span>Ta fonction</span></li>
+                  </ul>
+                  <div style="display: flex; gap: 12px; margin-top: 20px;">
+                    <button class="btn btn-primary" id="profileRecBtn">🎙️ Enregistrer</button>
+                    <button class="btn btn-secondary" id="profileUploadBtn">📁 Importer</button>
+                  </div>
+                </div>
+
+                <div class="lang-column french">
+                  <div class="lang-flag">🇫🇷</div>
+                  <h3 class="lang-title">En français</h3>
+                  <p class="lang-desc">Indique simplement :</p>
+                  <ul class="features-list">
+                    <li><span class="feature-number">1</span><span>Ton <strong>nom et prénom</strong></span></li>
+                    <li><span class="feature-number">2</span><span>Ton <strong>site</strong> de travail</span></li>
+                    <li><span class="feature-number">3</span><span>Ton <strong>service</strong></span></li>
+                    <li><span class="feature-number">4</span><span>Ta <strong>fonction</strong></span></li>
+                  </ul>
+                  <p style="color: var(--text-muted); font-size: 12px; margin-top: 20px;">
+                    🔒 Ton audio est utilisé uniquement pour générer le texte.
+                  </p>
+                </div>
+              </div>
+
+              <input type="file" id="profileAudioFile" accept="audio/*" style="display: none;">
+              <audio id="profilePlayer" controls style="display: none; margin-top: 24px; width: 100%;"></audio>
+
+              <div class="preview-grid" style="margin-top: 32px;">
+                <div class="preview-box">
+                  <div class="preview-box-label">🗣️ Texte d'origine</div>
+                  <div class="preview-box-content" id="profileOrigText">—</div>
+                </div>
+                <div class="preview-box">
+                  <div class="preview-box-label">🇫🇷 Traduction FR</div>
+                  <div class="preview-box-content" id="profileFrText">—</div>
+                </div>
+              </div>
+
+              <div id="profileMissing" style="display: none; margin-top: 20px; padding: 16px; background: rgba(251, 113, 133, 0.1); border: 1px solid var(--glow-rose); border-radius: var(--radius-md);">
+                <p style="color: var(--glow-rose); font-size: 14px; font-weight: 600;"></p>
+              </div>
+
+              <div class="nav-row">
+                <button class="btn btn-ghost" id="backToLang">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                  </svg>
+                  Changer de langue
+                </button>
+                <button class="btn btn-primary" id="toStep2FromVoice">
+                  Vérifier mes infos
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE MERCI -->
+      <section id="stepThanks" class="step-page">
+        <div class="card">
+          <div class="thanks-section">
+            <div class="thanks-icon">🎉</div>
+            <h2 class="thanks-title">Merci pour ton IDEA !</h2>
+            <p class="thanks-message">
+              L'équipe IDEA te remercie chaleureusement. Ta contribution va être 
+              analysée et pourrait bien transformer notre quotidien.
+            </p>
+            <div class="thanks-highlight">
+              ✨ Sans idées, il n'y a pas de progrès. Merci d'avoir pris le temps de partager la tienne.
+            </div>
+            <button class="btn btn-secondary" id="backHome">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+              </svg>
+              Retour à l'accueil
             </button>
           </div>
-
-          <div class="thank-robot">
-            <div class="thank-robot-orbit">
-              <img src="/static/cawe_robot.png" alt="Robot IDEA qui te remercie">
-            </div>
-          </div>
         </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Barre de soumission fixe -->
+  <div class="submit-bar" id="submitBar" style="display: none;">
+    <div class="submit-bar-inner">
+      <div class="submit-status">
+        <div class="submit-status-icon">💡</div>
+        <span id="submitStatus">Prêt à envoyer ton IDEA</span>
       </div>
-    </section>
-
+      <button class="btn btn-primary" id="submitBtn" disabled>
+        ✅ Soumettre mon idée
+      </button>
+    </div>
   </div>
 
-  <div class="spacer"></div>
-</div>
-
-<div class="submitbar">
-  <div class="inner">
-    <button id="submitBtn" class="btn-primary" disabled>
-      ✅ Soumettre mon idée
-    </button>
-    <span id="statusMsg" class="muted"></span>
+  <!-- Toast notifications -->
+  <div class="toast" id="toast">
+    <span id="toastIcon">✓</span>
+    <span id="toastText">Message</span>
   </div>
-</div>
 
-
-  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <script>
-// --- Navigation entre étapes ---
-
-const stepPages = Array.from(document.querySelectorAll(".step-page"));
-let currentStepId = "step1";
-const recState = document.getElementById("recState"); // optionnel
-
-function showStep(id){
-  currentStepId = id;
-  stepPages.forEach(p => p.classList.toggle("active", p.id === id));
-
-  if (recState){
-    const labels = {
-      step1: "Introduction",
-      step3: "Profil collaborateur",
-      step4: "Coordonnées",
-      step5: "Saisie de l’idée",
-      stepVoice: "Profil vocal",
-      stepThanks: "Confirmation"
+    /* =========================================================
+       GLOBAL STATE (pont Front ↔ Back)
+    ========================================================= */
+    const appState = {
+      media_paths: [],
+      audio_path: null,
+      detected_language: null,
+      original_text: null,
+      french_translation: null
     };
-    recState.textContent = labels[id] || "";
-  }
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  showStep("step1");
-});
-
-// --- Accueil : choix du mode + reCAPTCHA ---
-
-const btnModeText  = document.getElementById("btnModeText");
-const btnModeVoice = document.getElementById("btnModeVoice");
-const modeHint     = document.getElementById("modeHint");
-const captchaRow   = document.getElementById("captchaRow");
-
-let chosenMode = null;
-let captchaOk  = false;
-
-function updateModeButtons(){
-  if (!btnModeText || !btnModeVoice) return;
-  if (chosenMode === "text"){
-    btnModeText.classList.add("btn-primary");
-    btnModeText.classList.remove("btn-ghost");
-    btnModeVoice.classList.add("btn-ghost");
-    btnModeVoice.classList.remove("btn-primary");
-  } else if (chosenMode === "voice"){
-    btnModeVoice.classList.add("btn-primary");
-    btnModeVoice.classList.remove("btn-ghost");
-    btnModeText.classList.add("btn-ghost");
-    btnModeText.classList.remove("btn-primary");
-  }
-}
-
-function handleModeChoice(mode){
-  chosenMode = mode;
-  updateModeButtons();
-  if (captchaRow) captchaRow.style.display = "block";
-
-  if (modeHint){
-    if (mode === "text"){
-      modeHint.textContent =
-        "Valide le « Je ne suis pas un robot » pour commencer par ton profil en mode texte.";
-    } else {
-      modeHint.textContent =
-        "Valide le « Je ne suis pas un robot » pour commencer par ton profil en mode vocal.";
+    
+    /* =========================================================
+       NAVIGATION & STEPS
+    ========================================================= */
+    const steps = document.querySelectorAll('.step-page');
+    let currentStep = 'step1';
+    let chosenMode = null;
+    
+    function showStep(stepId) {
+      steps.forEach(s => s.classList.remove('active'));
+      document.getElementById(stepId)?.classList.add('active');
+      currentStep = stepId;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+      const submitBar = document.getElementById('submitBar');
+      if (stepId === 'step4') submitBar.style.display = 'block';
+      else submitBar.style.display = 'none';
     }
-  }
-}
-
-btnModeText?.addEventListener("click", () => handleModeChoice("text"));
-btnModeVoice?.addEventListener("click", () => handleModeChoice("voice"));
-
-function onCaptchaSuccess(){
-  captchaOk = true;
-  if (!chosenMode){
-    if (modeHint){
-      modeHint.textContent =
-        "Merci, choisis d’abord si tu préfères écrire ou parler ton idée.";
+    
+    /* =========================================================
+       MODE SELECTION + CAPTCHA
+    ========================================================= */
+    const modeText = document.getElementById('modeText');
+    const modeVoice = document.getElementById('modeVoice');
+    const captchaRow = document.getElementById('captchaRow');
+    
+    function selectMode(mode) {
+      chosenMode = mode;
+      modeText.classList.toggle('active', mode === 'text');
+      modeVoice.classList.toggle('active', mode === 'voice');
+      captchaRow.style.display = 'block';
     }
-    return;
-  }
-  if (chosenMode === "text"){
-    showStep("step3");
-  } else {
-    showStep("stepVoice");
-  }
-}
-window.onCaptchaSuccess = onCaptchaSuccess;
-
-// --- Champs profil / coordonnées / idée ---
-
-const siteSelect        = document.getElementById("country");
-const otherSiteRow      = document.getElementById("otherSiteRow");
-const otherSite         = document.getElementById("otherSite");
-const serviceSelect     = document.getElementById("serviceSelect");
-const otherServiceRow   = document.getElementById("otherServiceRow");
-const otherService      = document.getElementById("otherService");
-const proEmail          = document.getElementById("proEmail");
-const authorName        = document.getElementById("authorName");
-const functionField     = document.getElementById("functionField");
-const submitBtn         = document.getElementById("submitBtn");
-const statusMsg         = document.getElementById("statusMsg");
-
-siteSelect?.addEventListener("change", () => {
-  if (!otherSiteRow || !otherSite) return;
-  otherSiteRow.style.display = siteSelect.value === "Autre" ? "block" : "none";
-  if (siteSelect.value !== "Autre") otherSite.value = "";
-});
-
-serviceSelect?.addEventListener("change", () => {
-  if (!otherServiceRow || !otherService) return;
-  otherServiceRow.style.display = serviceSelect.value === "Autre" ? "block" : "none";
-  if (serviceSelect.value !== "Autre") otherService.value = "";
-});
-
-function getContactMode(){
-  const checked = document.querySelector("input[name='contactMode']:checked");
-  return checked ? checked.value : null;
-}
-
-// --- Impact ---
-
-const impactSelect   = document.getElementById("impactSelect");
-const impactOtherRow = document.getElementById("impactOtherRow");
-const impactOther    = document.getElementById("impactOther");
-
-function getImpact(){
-  const v = impactSelect.value;
-  if (!v) return { impact: null, impact_other: null };
-
-  if (v === "Autre") {
-    return { impact: "Autre", impact_other: impactOther.value || null };
-  }
-  return { impact: v, impact_other: null };
-}
-
-impactSelect?.addEventListener("change", () => {
-  if (!impactOtherRow || !impactOther) return;
-  if (impactSelect.value === "Autre"){
-    impactOtherRow.style.display = "block";
-    impactOther.value = "";
-  } else {
-    impactOtherRow.style.display = "none";
-    impactOther.value = "";
-  }
-});
-
-// --- Audio / transcription de l’idée ---
-
-const recBtn     = document.getElementById("recBtn");
-const uploadBtn  = document.getElementById("uploadBtn");
-const toneBtn    = document.getElementById("toneBtn");
-const audioFile  = document.getElementById("audioFile");
-const player     = document.getElementById("player");
-const typedText  = document.getElementById("typedText");
-const langChip   = document.getElementById("langChip");
-const origBox    = document.getElementById("origBox");
-const frBox      = document.getElementById("frBox");
-
-const mediaCaptureBtn = document.getElementById("mediaCaptureBtn");
-const mediaUploadBtn  = document.getElementById("mediaUploadBtn");
-const mediaInputCamera= document.getElementById("mediaInputCamera");
-const mediaInputFile  = document.getElementById("mediaInputFile");
-const mediaPreview    = document.getElementById("mediaPreview");
-
-let mediaFiles = [];
-let mediaRecorder = null, chunks = [], stream;
-let detectedLanguage = null, originalText = null, frenchTranslation = null;
-
-function isSecure(){
-  return window.isSecureContext || ["localhost","127.0.0.1"].includes(location.hostname);
-}
-
-function pickBestMime(){
-  const candidates = ['audio/webm;codecs=opus','audio/webm','audio/mp4',''];
-  for(const c of candidates){
-    if(!c) return undefined;
-    if(MediaRecorder.isTypeSupported(c)) return c;
-  }
-  return undefined;
-}
-
-toneBtn?.addEventListener("click", async ()=>{
-  const ctx = new (window.AudioContext || window.webkitAudioContext)();
-  const osc = ctx.createOscillator();
-  const gn  = ctx.createGain();
-  gn.gain.value = 0.2; osc.frequency.value = 880; osc.connect(gn); gn.connect(ctx.destination);
-  osc.start(); setTimeout(()=>{ osc.stop(); ctx.close(); }, 600);
-});
-
-async function transcribeBlob(blob){
-  if (statusMsg) statusMsg.textContent = "Transcription en cours…";
-  const form = new FormData();
-  form.append("audio", blob, "record.webm");
-  const res = await fetch("/api/transcribe", { method: "POST", body: form });
-  const data = await res.json();
-  if (!res.ok || !data.ok){
-    if (statusMsg) statusMsg.textContent = (data && data.error) ? data.error : "Échec de la transcription.";
-    return;
-  }
-  detectedLanguage   = data.language || "";
-  originalText       = data.original_text || "";
-  frenchTranslation  = data.french_translation || "";
-
-  if (langChip) langChip.textContent = detectedLanguage ? `Langue détectée : ${detectedLanguage}` : "";
-  if (origBox)  origBox.textContent = originalText || "—";
-  if (frBox)    frBox.textContent = frenchTranslation || "—";
-
-  if (submitBtn) submitBtn.disabled = false;
-  if (statusMsg) statusMsg.textContent = "Transcription terminée. Tu pourras envoyer à la dernière étape.";
-}
-
-async function startRecording(){
-  if(!isSecure() || !(navigator.mediaDevices?.getUserMedia)){
-    alert("HTTPS requis (ou localhost). Utilise plutôt l’import de fichier audio.");
-    return;
-  }
-  try{
-    try{ if(player && !player.paused) player.pause(); }catch(_){}
-    if (player) player.hidden = true;
-    if(stream) stream.getTracks().forEach(t=>t.stop());
-    const constraints = { audio: { echoCancellation:true, noiseSuppression:true, autoGainControl:true, channelCount:1, sampleRate:48000, sampleSize:16 } };
-    stream = await navigator.mediaDevices.getUserMedia(constraints);
-
-    chunks = []; const mime = pickBestMime();
-    mediaRecorder = new MediaRecorder(stream, mime ? { mimeType: mime } : undefined);
-    mediaRecorder.ondataavailable = e => { if(e.data.size>0) chunks.push(e.data); };
-    mediaRecorder.onstop = async () => {
-      const blob = new Blob(chunks, { type: mediaRecorder.mimeType || "audio/webm" });
-      if (player){
-        player.src = URL.createObjectURL(blob);
-        player.hidden = false;
-      }
-      await transcribeBlob(blob);
-      if(stream) stream.getTracks().forEach(t=>t.stop());
+    
+    modeText?.addEventListener('click', () => selectMode('text'));
+    modeVoice?.addEventListener('click', () => selectMode('voice'));
+    
+    window.onCaptchaSuccess = () => {
+      if (chosenMode === 'text') showStep('step2');
+      if (chosenMode === 'voice') showStep('stepVoice');
     };
-
-    mediaRecorder.start();
-    if (recBtn) recBtn.textContent = "⏹️ Arrêter";
-  }catch(err){
-    alert("Impossible d'accéder au micro : " + err);
-  }
-}
-
-function stopRecording(){
-  if(mediaRecorder && mediaRecorder.state !== "inactive"){
-    mediaRecorder.stop();
-    if (recBtn) recBtn.textContent = "🎙️ Démarrer l’enregistrement";
-  }
-}
-
-recBtn?.addEventListener("click", () => {
-  (!mediaRecorder || mediaRecorder.state === "inactive") ? startRecording() : stopRecording();
-});
-uploadBtn?.addEventListener("click", () => audioFile?.click());
-audioFile?.addEventListener("change", async () => {
-  const file = audioFile.files?.[0]; if (!file) return;
-  if (player){
-    player.src = URL.createObjectURL(file);
-    player.hidden = false;
-  }
-  await transcribeBlob(file);
-});
-
-function handleMediaFiles(fileList){
-  mediaFiles = Array.from(fileList || []);
-  if (!mediaPreview) return;
-  mediaPreview.innerHTML = "";
-
-  mediaFiles.forEach(file => {
-    const url = URL.createObjectURL(file);
-    const isVideo = file.type.startsWith("video/");
-    const el = document.createElement(isVideo ? "video" : "img");
-    el.src = url;
-    if(isVideo){
-      el.muted = true;
-      el.controls = true;
-    }
-    mediaPreview.appendChild(el);
-  });
-}
-
-mediaCaptureBtn?.addEventListener("click", () => mediaInputCamera?.click());
-mediaInputCamera?.addEventListener("change", () => handleMediaFiles(mediaInputCamera.files));
-mediaUploadBtn?.addEventListener("click", () => mediaInputFile?.click());
-mediaInputFile?.addEventListener("change", () => handleMediaFiles(mediaInputFile.files));
-
-function getShareTypes(){
-  const boxes = document.querySelectorAll("input[name='shareType']:checked");
-  return Array.from(boxes).map(b => b.value);
-}
-
-// --- PROFIL VOCAL (analyse + hints) ---
-
-const profileRecBtn      = document.getElementById("profileRecBtn");
-const profileUploadBtn   = document.getElementById("profileUploadBtn");
-const profileAudioFile   = document.getElementById("profileAudioFile");
-const profilePlayer      = document.getElementById("profilePlayer");
-const profileLangChip    = document.getElementById("profileLangChip");
-const profileOrigBox     = document.getElementById("profileOrigBox");
-const profileFrBox       = document.getElementById("profileFrBox");
-const voiceMissingMsg    = document.getElementById("voiceMissingMsg");
-
-let profileMediaRecorder = null, profileChunks = [], profileStream;
-let profileDetectedLanguage = null,
-    profileOriginalText    = null,
-    profileFrenchTranslation = null;
-
-let profileReady = false;
-
-let profileSlots = {
-  name: null,
-  site: null,
-  service: null,
-  function_title: null
-};
-let profileMissing = [];
-let profileHints   = {};
-
-const labelNameEl    = document.querySelector("label[for='authorName']");
-const labelSiteEl    = document.querySelector("label[for='country']");
-const labelServiceEl = document.querySelector("label[for='serviceSelect']");
-const labelFuncEl    = document.querySelector("label[for='functionField']");
-
-const baseLabels = {
-  name:           labelNameEl   ? labelNameEl.innerHTML   : "",
-  site:           labelSiteEl   ? labelSiteEl.innerHTML   : "",
-  service:        labelServiceEl? labelServiceEl.innerHTML: "",
-  function_title: labelFuncEl   ? labelFuncEl.innerHTML   : ""
-};
-
-const redMsg = (msg) => `<span style="color:#e55353; font-weight:600;">${msg}</span>`;
-
-async function transcribeProfileBlob(blob){
-  if (statusMsg) statusMsg.textContent = "Transcription du profil en cours…";
-  const form = new FormData();
-  form.append("audio", blob, "profile.webm");
-
-  const res  = await fetch("/api/transcribe", { method: "POST", body: form });
-  const data = await res.json();
-
-  if (!res.ok || !data.ok){
-    if (statusMsg) statusMsg.textContent = (data && data.error) ? data.error : "Échec de la transcription du profil.";
-    return;
-  }
-
-  profileDetectedLanguage   = data.language || "";
-  profileOriginalText       = data.original_text || "";
-  profileFrenchTranslation  = data.french_translation || "";
-
-  if (profileLangChip){
-    profileLangChip.textContent = profileDetectedLanguage
-      ? `Langue détectée : ${profileDetectedLanguage}` : "";
-  }
-  if (profileOrigBox) profileOrigBox.textContent  = profileOriginalText  || "—";
-  if (profileFrBox)  profileFrBox.textContent    = profileFrenchTranslation || "—";
-
-  if (statusMsg) statusMsg.textContent = "Profil transcrit. Tu peux vérifier ce qui a été compris.";
-
-  const textForAnalysis = profileFrenchTranslation || profileOriginalText || "";
-  const normalized = textForAnalysis.toLowerCase().trim();
-  const isSilence =
-    !normalized ||
-    /\[silence\]/i.test(normalized) ||
-    /tonal sound|music only|background noise/.test(normalized) ||
-    profileDetectedLanguage === "und";
-
-  if (isSilence){
-    profileReady   = false;
-    profileSlots   = { name:null, site:null, service:null, function_title:null };
-    profileMissing = ["name","site","service","function_title"];
-    profileHints   = {};
-
-    if (voiceMissingMsg){
-      voiceMissingMsg.textContent =
-        "⚠️ Je n’ai pas bien compris ton nom, ton site, ton service, ta fonction. " +
-        "Tu pourras corriger ces informations à l’étape suivante ou refaire un enregistrement.";
-    }
-
-    updateProfileHintsUI();
-    return;
-  }
-
-  await analyzeProfileTextForFields(textForAnalysis).catch(console.error);
-}
-
-function updateProfileHintsUI(){
-  if (labelNameEl)    labelNameEl.innerHTML   = baseLabels.name;
-  if (labelSiteEl)    labelSiteEl.innerHTML   = baseLabels.site;
-  if (labelServiceEl) labelServiceEl.innerHTML= baseLabels.service;
-  if (labelFuncEl)    labelFuncEl.innerHTML   = baseLabels.function_title;
-
-  const hasTranscript = !!(profileOriginalText || profileFrenchTranslation);
-  if (!hasTranscript) {
-    if (voiceMissingMsg) voiceMissingMsg.textContent = "";
-    return;
-  }
-
-  if (profileMissing.includes("name") && labelNameEl){
-    const msg = profileHints.name || "Je n’ai pas bien compris ton nom, merci de le préciser ici.";
-    labelNameEl.innerHTML = baseLabels.name + " " + redMsg(msg);
-  }
-  if (profileMissing.includes("site") && labelSiteEl){
-    const msg = profileHints.site || "Je n’ai pas bien compris ton site, merci de le sélectionner ou le préciser.";
-    labelSiteEl.innerHTML = baseLabels.site + " " + redMsg(msg);
-  }
-  if (profileMissing.includes("service") && labelServiceEl){
-    const msg = profileHints.service || "Je n’ai pas bien compris ton service, merci de le préciser.";
-    labelServiceEl.innerHTML = baseLabels.service + " " + redMsg(msg);
-  }
-  if (profileMissing.includes("function_title") && labelFuncEl){
-    const msg = profileHints.function_title || "Je n’ai pas bien compris ta fonction, merci de la préciser.";
-    labelFuncEl.innerHTML = baseLabels.function_title + " " + redMsg(msg);
-  }
-
-  if (!voiceMissingMsg) return;
-
-  if (profileReady){
-    voiceMissingMsg.textContent = "✔️ Toutes les informations semblent complètes. Tu pourras les corriger à la main si besoin.";
-  } else {
-    const human = {
-      name:"ton nom",
-      site:"ton site",
-      service:"ton service",
-      function_title:"ta fonction"
-    };
-    const items = profileMissing.map(k => human[k] || k);
-    voiceMissingMsg.textContent =
-      "⚠️ Je n’ai pas bien compris : " + items.join(", ") +
-      ". Tu pourras corriger ces informations à l’étape suivante ou refaire un enregistrement si tu préfères.";
-  }
-}
-
-async function analyzeProfileTextForFields(text){
-  if (!text) return;
-
-  const res = await fetch("/api/analyze_profile", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text })
-  });
-  const data = await res.json();
-
-  if (!res.ok || !data.ok){
-    console.warn("Analyse profil échouée :", data.error);
-    return;
-  }
-
-  profileSlots   = data.profile || {};
-  profileMissing = data.missing || [];
-  profileHints   = data.hints   || {};
-
-  if (!Array.isArray(profileMissing)) profileMissing = [];
-
-  if (!profileSlots.name && !profileMissing.includes("name")) profileMissing.push("name");
-  if (!profileSlots.site && !profileMissing.includes("site")) profileMissing.push("site");
-  if (!profileSlots.service && !profileMissing.includes("service")) profileMissing.push("service");
-  if (!profileSlots.function_title && !profileMissing.includes("function_title")) profileMissing.push("function_title");
-
-  profileReady =
-    !!profileSlots.name &&
-    !!profileSlots.site &&
-    !!profileSlots.service &&
-    !!profileSlots.function_title &&
-    profileMissing.length === 0;
-
-  if (profileSlots.name && authorName) {
-    authorName.value = profileSlots.name;
-  }
-
-  if (profileSlots.site && siteSelect) {
-    const options = Array.from(siteSelect.options).map(o => o.value || o.textContent);
-    if (options.includes(profileSlots.site)) {
-      siteSelect.value = profileSlots.site;
-      if (otherSiteRow && otherSite){
-        otherSiteRow.style.display = "none";
-        otherSite.value = "";
-      }
-    } else {
-      siteSelect.value = "Autre";
-      if (otherSiteRow && otherSite){
-        otherSiteRow.style.display = "block";
-        otherSite.value = profileSlots.site;
-      }
-    }
-  }
-
-  if (profileSlots.service && serviceSelect) {
-    const optionsS = Array.from(serviceSelect.options).map(o => o.value || o.textContent);
-    if (optionsS.includes(profileSlots.service)) {
-      serviceSelect.value = profileSlots.service;
-      if (otherServiceRow && otherService){
-        otherServiceRow.style.display = "none";
-        otherService.value = "";
-      }
-    } else {
-      serviceSelect.value = "Autre";
-      if (otherServiceRow && otherService){
-        otherServiceRow.style.display = "block";
-        otherService.value = profileSlots.service;
-      }
-    }
-  }
-
-  if (profileSlots.function_title && functionField) {
-    functionField.value = profileSlots.function_title;
-  }
-
-  updateProfileHintsUI();
-}
-
-async function startProfileRecording(){
-  if(!isSecure() || !(navigator.mediaDevices?.getUserMedia)){
-    alert("HTTPS requis (ou localhost). Utilise plutôt l’import de fichier audio.");
-    return;
-  }
-  try{
-    try { if (profilePlayer && !profilePlayer.paused) profilePlayer.pause(); } catch(_){}
-    if(profilePlayer) profilePlayer.hidden = true;
-
-    if(profileStream) profileStream.getTracks().forEach(t => t.stop());
-
-    const constraints = {
-      audio: {
-        echoCancellation:true,
-        noiseSuppression:true,
-        autoGainControl:true,
-        channelCount:1,
-        sampleRate:48000,
-        sampleSize:16
-      }
-    };
-
-    profileStream = await navigator.mediaDevices.getUserMedia(constraints);
-    profileChunks = [];
-    const mime = pickBestMime();
-
-    profileMediaRecorder = new MediaRecorder(
-      profileStream,
-      mime ? { mimeType: mime } : undefined
-    );
-
-    profileMediaRecorder.ondataavailable = e => {
-      if(e.data.size > 0) profileChunks.push(e.data);
-    };
-    profileMediaRecorder.onstop = async () => {
-      const blob = new Blob(profileChunks, {
-        type: profileMediaRecorder.mimeType || "audio/webm"
+    
+    /* =========================================================
+       NAV BUTTONS
+    ========================================================= */
+    document.getElementById('backToStep1')?.addEventListener('click', () => showStep('step1'));
+    document.getElementById('toStep3')?.addEventListener('click', () => showStep('step3'));
+    document.getElementById('backToStep2')?.addEventListener('click', () => showStep('step2'));
+    document.getElementById('toStep4')?.addEventListener('click', () => showStep('step4'));
+    document.getElementById('backToStep3')?.addEventListener('click', () => showStep('step3'));
+    document.getElementById('backHome')?.addEventListener('click', () => showStep('step1'));
+    
+    /* =========================================================
+       SITE "AUTRE"
+    ========================================================= */
+    const siteSelect = document.getElementById('site');
+    const otherSiteRow = document.getElementById('otherSiteRow');
+    
+    siteSelect?.addEventListener('change', () => {
+      otherSiteRow.style.display = siteSelect.value === 'Autre' ? 'block' : 'none';
+    });
+    
+    /* =========================================================
+       MEDIA UPLOAD → /api/upload_media
+    ========================================================= */
+    const mediaInput = document.getElementById('mediaInput');
+    const mediaDropzone = document.getElementById('mediaDropzone');
+    const mediaPreview = document.getElementById('mediaPreview');
+    
+    mediaDropzone?.addEventListener('click', () => mediaInput.click());
+    mediaInput?.addEventListener('change', () => uploadMedia(mediaInput.files));
+    
+    async function uploadMedia(files) {
+      const fd = new FormData();
+      [...files].forEach(f => fd.append("media", f));
+    
+      const res = await fetch("/api/upload_media", { method: "POST", body: fd });
+      const data = await res.json();
+    
+      if (!data.ok) return showToast("Erreur upload médias", "error");
+    
+      appState.media_paths = data.paths;
+      mediaPreview.innerHTML = '';
+    
+      [...files].forEach(file => {
+        const el = document.createElement(file.type.startsWith('video') ? 'video' : 'img');
+        el.src = URL.createObjectURL(file);
+        if (el.tagName === 'VIDEO') el.controls = true;
+        mediaPreview.appendChild(el);
       });
-      if (profilePlayer){
-        profilePlayer.src = URL.createObjectURL(blob);
-        profilePlayer.hidden = false;
-      }
-      await transcribeProfileBlob(blob);
-      if(profileStream) profileStream.getTracks().forEach(t => t.stop());
-    };
-
-    profileMediaRecorder.start();
-    if (profileRecBtn) profileRecBtn.textContent = "⏹️ Arrêter";
-  } catch(err){
-    alert("Impossible d'accéder au micro : " + err);
-  }
-}
-
-function stopProfileRecording(){
-  if(profileMediaRecorder && profileMediaRecorder.state !== "inactive"){
-    profileMediaRecorder.stop();
-    if (profileRecBtn) profileRecBtn.textContent = "🎙️ Démarrer l’enregistrement";
-    if(profileStream) profileStream.getTracks().forEach(t => t.stop());
-  }
-}
-
-profileRecBtn?.addEventListener("click", () => {
-  (!profileMediaRecorder || profileMediaRecorder.state === "inactive")
-    ? startProfileRecording()
-    : stopProfileRecording();
-});
-
-profileUploadBtn?.addEventListener("click", () => profileAudioFile?.click());
-
-profileAudioFile?.addEventListener("change", async () => {
-  const file = profileAudioFile.files?.[0];
-  if (!file) return;
-
-  if (profilePlayer){
-    profilePlayer.src = URL.createObjectURL(file);
-    profilePlayer.hidden = false;
-  }
-  await transcribeProfileBlob(file);
-});
-
-// --- Étape 0 vocal : détection de langue + switch mobile ---
-
-// Récupération des éléments DOM
-const langRecBtn        = document.getElementById("langRecBtn");
-const langSelect        = document.getElementById("langSelect");
-const langUploadBtn     = document.getElementById("langUploadBtn");
-const langAudioFile     = document.getElementById("langAudioFile");
-const langTextBox       = document.getElementById("langTextBox");
-const langDetectedRow   = document.getElementById("langDetectedRow");
-const langConfirmRow    = document.getElementById("langConfirmRow");
-const langConfirmLabel  = document.getElementById("langConfirmLabel");
-const langConfirmYes    = document.getElementById("langConfirmYes");
-const langConfirmNo     = document.getElementById("langConfirmNo");
-
-const voiceLangCard     = document.getElementById("voiceLangCard");
-const voiceProfileCard  = document.getElementById("voiceProfileCard");
-
-const voiceLangTitle    = document.getElementById("voiceLangTitle");
-const voiceLangIntro    = document.getElementById("voiceLangIntro");
-const voiceLangList     = document.getElementById("voiceLangList");
-const voiceLangNotice   = document.getElementById("voiceLangNotice");
-const profileRecBtnMirror   = document.getElementById("profileRecBtnMirror");
-const profileUploadBtnMirror= document.getElementById("profileUploadBtnMirror");
-
-const voiceLangCol      = document.getElementById("voiceLangCol");
-const voiceFrCol        = document.getElementById("voiceFrCol");
-const voiceSwitch       = document.getElementById("voiceSwitch");
-const voiceSwitchBtn    = document.getElementById("voiceSwitchBtn");
-const voiceSwitchLabel  = document.getElementById("voiceSwitchLabel");
-
-let langMediaRecorder = null, langChunks = [], langStream;
-let currentLangCandidate = null;
-let currentProfileLanguage = null;
-
-// vue actuelle pour mobile
-let currentVoiceView   = "native"; // "native" ou "fr"
-let nativeDisplayLabel = "Langue choisie";
-
-// Liste des langues pour le <select>
-const LANGUAGE_OPTIONS = [
-  { code: "af", fr: "Afrikaans", native: "Afrikaans" },
-  { code: "ar", fr: "Arabe", native: "العربية" },
-  { code: "bg", fr: "Bulgare", native: "Български" },
-  { code: "ca", fr: "Catalan", native: "Català" },
-  { code: "cs", fr: "Tchèque", native: "Čeština" },
-  { code: "da", fr: "Danois", native: "Dansk" },
-  { code: "de", fr: "Allemand", native: "Deutsch" },
-  { code: "el", fr: "Grec", native: "Ελληνικά" },
-  { code: "en", fr: "Anglais", native: "English" },
-  { code: "es", fr: "Espagnol", native: "Español" },
-  { code: "et", fr: "Estonien", native: "Eesti" },
-  { code: "fa", fr: "Persan", native: "فارسی" },
-  { code: "fi", fr: "Finnois", native: "Suomi" },
-  { code: "fr", fr: "Français", native: "Français" },
-  { code: "he", fr: "Hébreu", native: "עברית" },
-  { code: "hi", fr: "Hindi", native: "हिन्दी" },
-  { code: "hr", fr: "Croate", native: "Hrvatski" },
-  { code: "hu", fr: "Hongrois", native: "Magyar" },
-  { code: "id", fr: "Indonésien", native: "Bahasa Indonesia" },
-  { code: "it", fr: "Italien", native: "Italiano" },
-  { code: "ja", fr: "Japonais", native: "日本語" },
-  { code: "ko", fr: "Coréen", native: "한국어" },
-  { code: "lt", fr: "Lituanien", native: "Lietuvių" },
-  { code: "lv", fr: "Letton", native: "Latviešu" },
-  { code: "ms", fr: "Malais", native: "Bahasa Melayu" },
-  { code: "nl", fr: "Néerlandais", native: "Nederlands" },
-  { code: "no", fr: "Norvégien", native: "Norsk" },
-  { code: "pl", fr: "Polonais", native: "Polski" },
-  { code: "pt", fr: "Portugais", native: "Português" },
-  { code: "ro", fr: "Roumain", native: "Română" },
-  { code: "ru", fr: "Russe", native: "Русский" },
-  { code: "sk", fr: "Slovaque", native: "Slovenčina" },
-  { code: "sl", fr: "Slovène", native: "Slovenščina" },
-  { code: "sr", fr: "Serbe", native: "Српски" },
-  { code: "sv", fr: "Suédois", native: "Svenska" },
-  { code: "th", fr: "Thaï", native: "ไทย" },
-  { code: "tr", fr: "Turc", native: "Türkçe" },
-  { code: "uk", fr: "Ukrainien", native: "Українська" },
-  { code: "ur", fr: "Ourdou", native: "اُردُو" },
-  { code: "vi", fr: "Vietnamien", native: "Tiếng Việt" },
-  { code: "zh", fr: "Chinois", native: "中文" }
-];
-
-if (langSelect) {
-  LANGUAGE_OPTIONS.forEach(({ code, fr, native }) => {
-    const opt = document.createElement("option");
-    opt.value = code;
-    opt.textContent = native ? `${native} – ${fr}` : fr;
-    langSelect.appendChild(opt);
-  });
-}
-
-// gestion de la vue mobile
-function updateVoiceView(target){
-  currentVoiceView = target;
-
-  // Desktop : les deux colonnes visibles, on ne force rien
-  if (window.innerWidth > 900){
-    if (voiceLangCol) voiceLangCol.classList.remove("is-active");
-    if (voiceFrCol)  voiceFrCol.classList.remove("is-active");
-    if (voiceSwitchLabel){
-      voiceSwitchLabel.textContent = nativeDisplayLabel;
     }
-    return;
-  }
-
-  if (!voiceLangCol || !voiceFrCol) return;
-
-  if (target === "fr"){
-    voiceLangCol.classList.remove("is-active");
-    voiceFrCol.classList.add("is-active");
-    if (voiceSwitchLabel){
-      voiceSwitchLabel.textContent = "FR Français";
-    }
-  } else {
-    voiceLangCol.classList.add("is-active");
-    voiceFrCol.classList.remove("is-active");
-    if (voiceSwitchLabel){
-      voiceSwitchLabel.textContent = nativeDisplayLabel;
-    }
-  }
-}
-
-// clic sur le bouton de switch
-voiceSwitchBtn?.addEventListener("click", () => {
-  const next = (currentVoiceView === "native") ? "fr" : "native";
-  updateVoiceView(next);
-});
-
-// resize : on repasse en double colonne sur desktop
-window.addEventListener("resize", () => {
-  if (window.innerWidth > 900){
-    if (voiceLangCol) voiceLangCol.classList.remove("is-active");
-    if (voiceFrCol)  voiceFrCol.classList.remove("is-active");
-  } else {
-    if (!voiceLangCol?.classList.contains("is-active") &&
-        !voiceFrCol?.classList.contains("is-active")){
-      updateVoiceView("native");
-    } else {
-      updateVoiceView(currentVoiceView);
-    }
-  }
-});
-
-// init à l’ouverture
-if (window.innerWidth <= 900){
-  updateVoiceView("native");
-}
-
-// Sélection manuelle de la langue
-langSelect?.addEventListener("change", async () => {
-  const code = langSelect.value;
-  if (!code) return;
-
-  const label = langSelect.options[langSelect.selectedIndex]?.text || code;
-
-  if (langTextBox) {
-    langTextBox.textContent = `Langue choisie : ${label}`;
-  }
-  if (langDetectedRow) langDetectedRow.textContent = "";
-  if (langConfirmRow) langConfirmRow.style.display = "none";
-  if (statusMsg) statusMsg.textContent = "Préparation de l’interface…";
-
-  try {
-    const res = await fetch("/api/voice_lang", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        language: code,
-        original_text: "",
-        french_translation: `Je veux parler en ${label}`
-      })
+    
+    /* =========================================================
+       AUDIO → /api/transcribe
+    ========================================================= */
+    const uploadBtn = document.getElementById('uploadBtn');
+    const audioFile = document.getElementById('audioFile');
+    const voiceStatus = document.getElementById('voiceStatus');
+    
+    uploadBtn?.addEventListener('click', () => audioFile.click());
+    
+    audioFile?.addEventListener('change', async () => {
+      const file = audioFile.files[0];
+      if (!file) return;
+    
+      voiceStatus.textContent = "Transcription en cours…";
+    
+      const fd = new FormData();
+      fd.append("audio", file);
+    
+      const res = await fetch("/api/transcribe", { method: "POST", body: fd });
+      const data = await res.json();
+    
+      if (!data.ok) return showToast("Erreur transcription", "error");
+    
+      appState.audio_path = data.audio_path;
+      appState.detected_language = data.language;
+      appState.original_text = data.original_text;
+      appState.french_translation = data.french_translation;
+    
+      document.getElementById('origText').textContent = data.original_text || "—";
+      document.getElementById('frText').textContent = data.french_translation || "—";
+    
+      document.getElementById('submitBtn').disabled = false;
     });
-    const data = await res.json();
-
-    if (res.ok && data.ok) {
-      currentLangCandidate = data;
-      applyChosenLanguage(data);
-      if (statusMsg) statusMsg.textContent = "";
-    } else {
-      if (langDetectedRow) {
-        langDetectedRow.textContent =
-          "Impossible de préparer cette langue pour le moment.";
-      }
-      if (statusMsg) statusMsg.textContent = "";
-    }
-  } catch (e) {
-    console.error("Erreur /api/voice_lang (select) :", e);
-    if (langDetectedRow) {
-      langDetectedRow.textContent =
-        "Erreur lors du chargement de la langue.";
-    }
-    if (statusMsg) statusMsg.textContent = "";
-  }
-});
-
-function applyChosenLanguage(langData) {
-  currentProfileLanguage = langData;
-  const ui = langData.ui || {};
-
-  if (voiceLangTitle && ui.title) {
-    voiceLangTitle.textContent = ui.title;
-  }
-  if (voiceLangIntro && ui.intro) {
-    voiceLangIntro.textContent = ui.intro;
-  }
-
-  if (voiceLangList) {
-    voiceLangList.innerHTML = "";
-    (ui.items || []).forEach((txt, idx) => {
-      const li = document.createElement("li");
-      li.innerHTML = `
-        <span class="pill">${idx + 1}</span>
-        <span>${txt}</span>
-      `;
-      voiceLangList.appendChild(li);
-    });
-  }
-
-  if (profileRecBtnMirror && ui.rec_label) {
-    profileRecBtnMirror.textContent = ui.rec_label;
-  }
-  if (profileUploadBtnMirror && ui.upload_label) {
-    profileUploadBtnMirror.textContent = ui.upload_label;
-  }
-  if (voiceLangNotice && ui.notice) {
-    voiceLangNotice.textContent = ui.notice;
-  }
-
-  // label utilisé côté mobile (ex : "العربية – Arabe")
-  nativeDisplayLabel = `${langData.native_label} – ${langData.fr_label}`;
-  if (voiceSwitchLabel){
-    voiceSwitchLabel.textContent = nativeDisplayLabel;
-  }
-
-  if (voiceLangCard)   voiceLangCard.style.display = "none";
-  if (voiceProfileCard) voiceProfileCard.style.display = "block";
-
-  if (window.innerWidth <= 900){
-    updateVoiceView("native");
-  }
-
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-async function transcribeLangBlob(blob) {
-  if (statusMsg) statusMsg.textContent = "Analyse de la langue en cours…";
-
-  const form = new FormData();
-  form.append("audio", blob, "lang.webm");
-
-  const res = await fetch("/api/transcribe", { method: "POST", body: form });
-  const data = await res.json();
-
-  if (!res.ok || !data.ok) {
-    if (statusMsg) {
-      statusMsg.textContent = (data && data.error)
-        ? data.error
-        : "Échec de la détection de la langue.";
-    }
-    return;
-  }
-
-  const code = data.language || "";
-  const orig = data.original_text || "";
-  const fr   = data.french_translation || "";
-
-  if (langTextBox) {
-    langTextBox.textContent = orig || fr || "—";
-  }
-
-  let langInfo = null;
-  try {
-    const langRes = await fetch("/api/voice_lang", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        language: code,
-        original_text: orig,
-        french_translation: fr
-      })
-    });
-    const langData = await langRes.json();
-    if (langRes.ok && langData.ok) {
-      langInfo = langData;
-    }
-  } catch (e) {
-    console.warn("Erreur /api/voice_lang :", e);
-  }
-
-  if (!langInfo) {
-    if (langDetectedRow) {
-      langDetectedRow.textContent =
-        "Je n’ai pas bien compris la langue. Peux-tu la redire (par exemple « en espagnol ») ?";
-    }
-    if (langConfirmRow) langConfirmRow.style.display = "none";
-    if (statusMsg) statusMsg.textContent = "";
-    return;
-  }
-
-  currentLangCandidate = langInfo;
-
-  if (langDetectedRow) langDetectedRow.textContent = "";
-  if (langConfirmLabel) {
-    langConfirmLabel.textContent =
-      `Langue détectée : ${langInfo.fr_label} (${langInfo.native_label}). Confirmer ?`;
-  }
-  if (langConfirmRow) langConfirmRow.style.display = "flex";
-  if (statusMsg) statusMsg.textContent = "";
-}
-
-async function startLangRecording(){
-  if(!isSecure() || !(navigator.mediaDevices?.getUserMedia)){
-    alert("HTTPS requis (ou localhost). Utilise plutôt l’import de fichier audio.");
-    return;
-  }
-  try{
-    if(langStream) langStream.getTracks().forEach(t => t.stop());
-    const constraints = {
-      audio: {
-        echoCancellation:true,
-        noiseSuppression:true,
-        autoGainControl:true,
-        channelCount:1,
-        sampleRate:48000,
-        sampleSize:16
-      }
-    };
-    langStream = await navigator.mediaDevices.getUserMedia(constraints);
-    langChunks = [];
-    const mime = pickBestMime();
-    langMediaRecorder = new MediaRecorder(
-      langStream,
-      mime ? { mimeType: mime } : undefined
-    );
-    langMediaRecorder.ondataavailable = e => {
-      if(e.data.size > 0) langChunks.push(e.data);
-    };
-    langMediaRecorder.onstop = async () => {
-      const blob = new Blob(langChunks, {
-        type: langMediaRecorder.mimeType || "audio/webm"
+    
+    /* =========================================================
+       SUBMIT FINAL → /api/submit
+    ========================================================= */
+    document.getElementById('submitBtn')?.addEventListener('click', async () => {
+      document.getElementById('submitStatus').innerHTML = '<div class="spinner"></div> Envoi en cours…';
+    
+      const payload = {
+        author_name: document.getElementById("authorName").value,
+        site: document.getElementById("site").value,
+        service: document.getElementById("service").value,
+        function_title: document.getElementById("function").value,
+        professional_email: document.getElementById("email").value,
+        contact_mode: document.querySelector('input[name="contactMode"]:checked')?.value,
+    
+        typed_text: document.getElementById("ideaDesc").value,
+        audio_path: appState.audio_path,
+        detected_language: appState.detected_language,
+        original_text: appState.original_text,
+        french_translation: appState.french_translation,
+    
+        idea_title: document.getElementById("ideaTitle").value,
+        share_types: [...document.querySelectorAll('input[name="type"]:checked')].map(i => i.value),
+        impact_main: document.getElementById("impact").value,
+        media_paths: appState.media_paths,
+        source: "web_form"
+      };
+    
+      const res = await fetch("/api/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
       });
-      await transcribeLangBlob(blob);
-      if (langStream) langStream.getTracks().forEach(t => t.stop());
-    };
-    langMediaRecorder.start();
-    if (langRecBtn) langRecBtn.textContent = "⏹️ Arrêter";
-  }catch(err){
-    alert("Impossible d'accéder au micro : " + err);
-  }
-}
-
-function stopLangRecording(){
-  if(langMediaRecorder && langMediaRecorder.state !== "inactive"){
-    langMediaRecorder.stop();
-    if (langRecBtn) langRecBtn.textContent = "🎙️ Dire ma langue";
-  }
-}
-
-langRecBtn?.addEventListener("click", () => {
-  (!langMediaRecorder || langMediaRecorder.state === "inactive")
-    ? startLangRecording()
-    : stopLangRecording();
-});
-
-langUploadBtn?.addEventListener("click", () => langAudioFile?.click());
-
-langAudioFile?.addEventListener("change", async () => {
-  const file = langAudioFile?.files?.[0];
-  if (!file) return;
-  await transcribeLangBlob(file);
-});
-
-langConfirmNo?.addEventListener("click", () => {
-  currentLangCandidate = null;
-  if (langConfirmRow) langConfirmRow.style.display = "none";
-  if (langDetectedRow) {
-    langDetectedRow.textContent =
-      "D’accord, tu peux recommencer en précisant mieux la langue (ex. « en espagnol »).";
-  }
-});
-
-langConfirmYes?.addEventListener("click", () => {
-  if (!currentLangCandidate) return;
-  applyChosenLanguage(currentLangCandidate);
-});
-
-// Miroir des boutons côté langue choisie
-profileRecBtnMirror?.addEventListener("click", () => profileRecBtn?.click());
-profileUploadBtnMirror?.addEventListener("click", () => profileUploadBtn?.click());
-
-// --- Navigation boutons profil / contacts / voix ---
-
-const backToIntroBtn    = document.getElementById("backToIntro");
-const nextFromProfileBtn= document.getElementById("nextFromProfile");
-const backToProfileBtn  = document.getElementById("backToProfile");
-const nextFromContactBtn= document.getElementById("nextFromContact");
-const backToContactBtn  = document.getElementById("backToContact");
-const backToModeVoice   = document.getElementById("backToModeVoice");
-const nextFromVoice     = document.getElementById("nextFromVoice");
-const backToHomeBtn     = document.getElementById("backToHomeBtn");
-
-function validateProfileForm(){
-  if (labelNameEl)    labelNameEl.innerHTML   = baseLabels.name;
-  if (labelSiteEl)    labelSiteEl.innerHTML   = baseLabels.site;
-  if (labelServiceEl) labelServiceEl.innerHTML= baseLabels.service;
-  if (labelFuncEl)    labelFuncEl.innerHTML   = baseLabels.function_title;
-
-  let ok = true;
-
-  if (!authorName.value.trim()){
-    if (labelNameEl){
-      labelNameEl.innerHTML = baseLabels.name + " " + redMsg("Ce champ est obligatoire.");
-    }
-    ok = false;
-  }
-
-  const siteVal = siteSelect.value;
-  const siteText = (siteVal === "Autre") ? (otherSite?.value.trim() || "") : siteVal;
-  if (!siteText){
-    if (labelSiteEl){
-      labelSiteEl.innerHTML = baseLabels.site + " " + redMsg("Ce champ est obligatoire.");
-    }
-    ok = false;
-  }
-
-  const serviceVal = serviceSelect.value;
-  const serviceText = (serviceVal === "Autre") ? (otherService?.value.trim() || "") : serviceVal;
-  if (!serviceText){
-    if (labelServiceEl){
-      labelServiceEl.innerHTML = baseLabels.service + " " + redMsg("Ce champ est obligatoire.");
-    }
-    ok = false;
-  }
-
-  if (!functionField.value.trim()){
-    if (labelFuncEl){
-      labelFuncEl.innerHTML = baseLabels.function_title + " " + redMsg("Ce champ est obligatoire.");
-    }
-    ok = false;
-  }
-
-  if (!ok){
-    const panel = document.querySelector("#step3 .panel");
-    if (panel){
-      const top = panel.getBoundingClientRect().top + window.scrollY - 80;
-      window.scrollTo({ top, behavior:"smooth" });
-    }
-  }
-  return ok;
-}
-
-backToIntroBtn?.addEventListener("click", () => showStep("step1"));
-nextFromProfileBtn?.addEventListener("click", () => {
-  if (validateProfileForm()) showStep("step4");
-});
-backToProfileBtn?.addEventListener("click", () => showStep("step3"));
-nextFromContactBtn?.addEventListener("click", () => showStep("step5"));
-backToContactBtn?.addEventListener("click", () => showStep("step4"));
-
-backToModeVoice?.addEventListener("click", () => {
-  if (voiceProfileCard) voiceProfileCard.style.display = "none";
-  if (voiceLangCard) voiceLangCard.style.display = "block";
-});
-
-nextFromVoice?.addEventListener("click", () => {
-  showStep("step3");
-  updateProfileHintsUI();
-});
-
-// bouton retour à l’accueil après la page Merci
-backToHomeBtn?.addEventListener("click", () => {
-  showStep("step1");
-  const submitBar = document.querySelector(".submitbar");
-  if (submitBar) submitBar.style.display = "flex";
-  if (submitBtn) submitBtn.disabled = true;
-  if (statusMsg) statusMsg.textContent = "";
-});
-
-// --- Soumission finale ---
-
-submitBtn?.addEventListener("click", async () => {
-  if (statusMsg) statusMsg.textContent = "Envoi…";
-
-  let mediaPaths = [];
-  if (mediaFiles.length > 0) {
-    const formMedia = new FormData();
-    mediaFiles.forEach((file, idx) => {
-      formMedia.append("media", file, file.name || `media_${idx}`);
+    
+      const data = await res.json();
+      if (!data.ok) return showToast("Erreur envoi IDEA", "error");
+    
+      document.getElementById('submitBar').style.display = 'none';
+      showStep('stepThanks');
     });
-
-    const mediaRes = await fetch("/api/upload_media", {
-      method: "POST",
-      body: formMedia
-    });
-    const mediaData = await mediaRes.json();
-
-    if (mediaRes.ok && mediaData.ok) {
-      mediaPaths = mediaData.paths || [];
-    } else {
-      if (statusMsg) statusMsg.textContent = "❌ Erreur lors de l’envoi des photos / vidéos.";
-      return;
+    
+    /* =========================================================
+       TOAST
+    ========================================================= */
+    function showToast(message, type = "success") {
+      const toast = document.getElementById("toast");
+      document.getElementById("toastText").textContent = message;
+      document.getElementById("toastIcon").textContent = type === "success" ? "✓" : "✗";
+      toast.className = `toast ${type} show`;
+      setTimeout(() => toast.classList.remove("show"), 3000);
     }
-  }
-
-  const siteValue    = siteSelect.value === "Autre" ? (otherSite?.value || null)   : (siteSelect.value || null);
-  const serviceValue = serviceSelect.value === "Autre" ? (otherService?.value || null) : (serviceSelect.value || null);
-  const contactMode  = getContactMode();
-  const shareTypes   = getShareTypes();
-  const impactInfo   = getImpact();
-
-  const payload = {
-    author_name: authorName?.value || null,
-    site: siteValue,
-    service: serviceValue || null,
-    function_title: functionField?.value || null,
-    professional_email: proEmail?.value || null,
-    contact_mode: contactMode || null,
-    typed_text: typedText?.value || null,
-    audio_path: null,
-    detected_language: detectedLanguage || null,
-    original_text: originalText || null,
-    french_translation: frenchTranslation || null,
-    idea_title: document.getElementById("ideaTitle")?.value || null,
-    share_types: shareTypes,
-    impact_main: impactInfo.impact,
-    media_paths: mediaPaths,
-    impact_other: impactInfo.impact_other
-  };
-
-  const res = await fetch("/api/submit", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  });
-  const data = await res.json();
-  if (res.ok && data.ok) {
-    // masquage de la barre de soumission + redirection vers la page Merci
-    const submitBar = document.querySelector(".submitbar");
-    if (submitBar) submitBar.style.display = "none";
-    if (statusMsg) statusMsg.textContent = "";
-    if (submitBtn) submitBtn.disabled = true;
-
-    showStep("stepThanks");
-  } else {
-    if (statusMsg) statusMsg.textContent = "❌ Erreur d’enregistrement.";
-  }
-});
-</script>
-
+    
+    /* =========================================================
+       INIT
+    ========================================================= */
+    showStep('step1');
+    </script>
+    
 </body>
 </html>
