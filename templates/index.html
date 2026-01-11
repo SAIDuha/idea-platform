@@ -1857,6 +1857,7 @@
       steps.forEach(s => s.classList.remove('active'));
       document.getElementById(stepId)?.classList.add('active');
       currentStep = stepId;
+    
       window.scrollTo({ top: 0, behavior: 'smooth' });
     
       const submitBar = document.getElementById('submitBar');
@@ -1873,18 +1874,37 @@
     
     function selectMode(mode) {
       chosenMode = mode;
+    
       modeText.classList.toggle('active', mode === 'text');
       modeVoice.classList.toggle('active', mode === 'voice');
+    
       captchaRow.style.display = 'block';
+    
+      // reCAPTCHA n'aime pas le display dynamique → reset
+      if (window.grecaptcha) {
+        grecaptcha.reset();
+      }
     }
     
     modeText?.addEventListener('click', () => selectMode('text'));
     modeVoice?.addEventListener('click', () => selectMode('voice'));
     
-    window.onCaptchaSuccess = () => {
-      if (chosenMode === 'text') showStep('step2');
-      if (chosenMode === 'voice') showStep('stepVoice');
-    };
+    function onCaptchaSuccess() {
+      console.log("✅ CAPTCHA validé, mode =", chosenMode);
+    
+      if (!chosenMode) {
+        showToast("Choisis d’abord comment tu veux t’exprimer", "error");
+        return;
+      }
+    
+      if (chosenMode === 'text') {
+        showStep('step2');
+      } else if (chosenMode === 'voice') {
+        showStep('stepVoice');
+      }
+    }
+    
+    window.onCaptchaSuccess = onCaptchaSuccess;
     
     /* =========================================================
        NAV BUTTONS
@@ -1920,10 +1940,16 @@
       const fd = new FormData();
       [...files].forEach(f => fd.append("media", f));
     
-      const res = await fetch("/api/upload_media", { method: "POST", body: fd });
+      const res = await fetch("/api/upload_media", {
+        method: "POST",
+        body: fd
+      });
       const data = await res.json();
     
-      if (!data.ok) return showToast("Erreur upload médias", "error");
+      if (!data.ok) {
+        showToast("Erreur upload médias", "error");
+        return;
+      }
     
       appState.media_paths = data.paths;
       mediaPreview.innerHTML = '';
@@ -1954,10 +1980,16 @@
       const fd = new FormData();
       fd.append("audio", file);
     
-      const res = await fetch("/api/transcribe", { method: "POST", body: fd });
+      const res = await fetch("/api/transcribe", {
+        method: "POST",
+        body: fd
+      });
       const data = await res.json();
     
-      if (!data.ok) return showToast("Erreur transcription", "error");
+      if (!data.ok) {
+        showToast("Erreur transcription", "error");
+        return;
+      }
     
       appState.audio_path = data.audio_path;
       appState.detected_language = data.language;
@@ -1974,7 +2006,8 @@
        SUBMIT FINAL → /api/submit
     ========================================================= */
     document.getElementById('submitBtn')?.addEventListener('click', async () => {
-      document.getElementById('submitStatus').innerHTML = '<div class="spinner"></div> Envoi en cours…';
+      document.getElementById('submitStatus').innerHTML =
+        '<div class="spinner"></div> Envoi en cours…';
     
       const payload = {
         author_name: document.getElementById("authorName").value,
@@ -2004,7 +2037,10 @@
       });
     
       const data = await res.json();
-      if (!data.ok) return showToast("Erreur envoi IDEA", "error");
+      if (!data.ok) {
+        showToast("Erreur lors de l’envoi", "error");
+        return;
+      }
     
       document.getElementById('submitBar').style.display = 'none';
       showStep('stepThanks');
@@ -2026,6 +2062,7 @@
     ========================================================= */
     showStep('step1');
     </script>
+    
     
 </body>
 </html>
