@@ -2,2063 +2,2908 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8" />
-  <title>IDEA — Plateforme d'Innovation</title>
+  <title>Plateforme d'idées — Vivante & Multilingue</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet"><style>
+  /* =========================================================
+   NOUVEAU STYLE CSS — Bioluminescent Neo-Glassmorphism
+   
+   INSTRUCTIONS D'INTÉGRATION :
+   1. Remplace tout le contenu entre <style> et </style> dans ton HTML
+   2. Ajoute ces fonts dans le <head> :
+      <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+   3. Remplace les divs de fond existants par :
+      <div class="canvas-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+      </div>
+      <div class="grid-overlay"></div>
+   
+========================================================== */
+
+/* =========================================================
+   DESIGN TOKENS
+========================================================== */
+:root {
+  /* Couleurs de fond */
+  --bg-deep: #030712;
+  --bg-surface: #0a0f1a;
+  --bg-elevated: #111827;
   
-  <style>
-    /* =========================================================
-       DESIGN TOKENS — Bioluminescent Neo-Glassmorphism
-    ========================================================== */
-    :root {
-      /* Couleurs primaires - palette bioluminescente */
-      --bg-deep: #030712;
-      --bg-surface: #0a0f1a;
-      --bg-elevated: #111827;
-      
-      /* Accents lumineux */
-      --glow-cyan: #22d3ee;
-      --glow-cyan-soft: rgba(34, 211, 238, 0.15);
-      --glow-violet: #a78bfa;
-      --glow-violet-soft: rgba(167, 139, 250, 0.12);
-      --glow-emerald: #34d399;
-      --glow-emerald-soft: rgba(52, 211, 153, 0.1);
-      --glow-amber: #fbbf24;
-      --glow-rose: #fb7185;
-      
-      /* Texte */
-      --text-primary: #f8fafc;
-      --text-secondary: #94a3b8;
-      --text-muted: #64748b;
-      
-      /* Glass effects */
-      --glass-bg: rgba(15, 23, 42, 0.7);
-      --glass-border: rgba(148, 163, 184, 0.1);
-      --glass-blur: blur(24px);
-      
-      /* Rayons et ombres */
-      --radius-sm: 12px;
-      --radius-md: 20px;
-      --radius-lg: 28px;
-      --radius-xl: 40px;
-      --radius-full: 9999px;
-      
-      --shadow-glow: 0 0 60px -12px var(--glow-cyan);
-      --shadow-elevated: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-      --shadow-card: 0 4px 24px -4px rgba(0, 0, 0, 0.3), 0 0 0 1px var(--glass-border);
-    }
-
-    /* =========================================================
-       RESET & BASE
-    ========================================================== */
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    body {
-      font-family: 'DM Sans', system-ui, sans-serif;
-      background: var(--bg-deep);
-      color: var(--text-primary);
-      line-height: 1.6;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* =========================================================
-       FOND ANIMÉ — Effet bioluminescent
-    ========================================================== */
-    .canvas-bg {
-      position: fixed;
-      inset: 0;
-      z-index: -10;
-      overflow: hidden;
-    }
-
-    .orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(100px);
-      opacity: 0.5;
-      animation: float 20s ease-in-out infinite;
-    }
-
-    .orb-1 {
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, var(--glow-cyan) 0%, transparent 70%);
-      top: -200px;
-      right: -100px;
-      animation-delay: 0s;
-    }
-
-    .orb-2 {
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, var(--glow-violet) 0%, transparent 70%);
-      bottom: -150px;
-      left: -100px;
-      animation-delay: -7s;
-    }
-
-    .orb-3 {
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, var(--glow-emerald) 0%, transparent 70%);
-      top: 40%;
-      left: 30%;
-      animation-delay: -14s;
-      opacity: 0.3;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      25% { transform: translate(30px, -30px) scale(1.05); }
-      50% { transform: translate(-20px, 20px) scale(0.95); }
-      75% { transform: translate(-30px, -20px) scale(1.02); }
-    }
-
-    /* Grille de points subtile */
-    .grid-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: -9;
-      background-image: 
-        radial-gradient(circle at 1px 1px, rgba(148, 163, 184, 0.03) 1px, transparent 0);
-      background-size: 40px 40px;
-      pointer-events: none;
-    }
-
-    /* Lignes de flux */
-    .flow-lines {
-      position: fixed;
-      inset: 0;
-      z-index: -8;
-      pointer-events: none;
-      overflow: hidden;
-    }
-
-    .flow-line {
-      position: absolute;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--glow-cyan-soft), transparent);
-      animation: flow 8s linear infinite;
-    }
-
-    .flow-line:nth-child(1) { top: 20%; width: 60%; left: -60%; animation-delay: 0s; }
-    .flow-line:nth-child(2) { top: 45%; width: 80%; left: -80%; animation-delay: -2s; opacity: 0.5; }
-    .flow-line:nth-child(3) { top: 70%; width: 50%; left: -50%; animation-delay: -4s; opacity: 0.3; }
-
-    @keyframes flow {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(calc(100vw + 100%)); }
-    }
-
-    /* =========================================================
-       LAYOUT PRINCIPAL
-    ========================================================== */
-    .app-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 40px 24px 160px;
-    }
-
-    /* =========================================================
-       HEADER — Logo et badge
-    ========================================================== */
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 48px;
-    }
-
-    .logo-group {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .logo-mark {
-      width: 56px;
-      height: 56px;
-      border-radius: var(--radius-md);
-      background: linear-gradient(135deg, var(--glow-cyan), var(--glow-violet));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: var(--shadow-glow);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .logo-mark::before {
-      content: '';
-      position: absolute;
-      inset: 2px;
-      background: var(--bg-deep);
-      border-radius: calc(var(--radius-md) - 2px);
-    }
-
-    .logo-mark svg {
-      position: relative;
-      z-index: 1;
-    }
-
-    .logo-text {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 28px;
-      letter-spacing: -0.02em;
-      background: linear-gradient(135deg, var(--text-primary) 0%, var(--glow-cyan) 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .status-badge {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 18px;
-      background: var(--glass-bg);
-      backdrop-filter: var(--glass-blur);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-full);
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-secondary);
-    }
-
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--glow-emerald);
-      box-shadow: 0 0 12px var(--glow-emerald);
-      animation: pulse-dot 2s ease-in-out infinite;
-    }
-
-    @keyframes pulse-dot {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.6; transform: scale(0.8); }
-    }
-
-    /* =========================================================
-       HERO SECTION
-    ========================================================== */
-    .hero {
-      text-align: center;
-      margin-bottom: 64px;
-      position: relative;
-    }
-
-    .hero-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 16px;
-      background: linear-gradient(135deg, var(--glow-cyan-soft), var(--glow-violet-soft));
-      border: 1px solid rgba(34, 211, 238, 0.2);
-      border-radius: var(--radius-full);
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--glow-cyan);
-      margin-bottom: 24px;
-      animation: fadeInUp 0.6s ease-out;
-    }
-
-    .hero-title {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(48px, 8vw, 80px);
-      font-weight: 800;
-      line-height: 1.05;
-      letter-spacing: -0.03em;
-      margin-bottom: 20px;
-      animation: fadeInUp 0.6s ease-out 0.1s backwards;
-    }
-
-    .hero-title .gradient-text {
-      background: linear-gradient(135deg, var(--glow-cyan) 0%, var(--glow-violet) 50%, var(--glow-rose) 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      display: inline-block;
-    }
-
-    .hero-subtitle {
-      font-size: 18px;
-      color: var(--text-secondary);
-      max-width: 560px;
-      margin: 0 auto 32px;
-      line-height: 1.7;
-      animation: fadeInUp 0.6s ease-out 0.2s backwards;
-    }
-
-    .hero-cta {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      flex-wrap: wrap;
-      animation: fadeInUp 0.6s ease-out 0.3s backwards;
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* =========================================================
-       BOUTONS
-    ========================================================== */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 16px 28px;
-      border-radius: var(--radius-md);
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 15px;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-      cursor: pointer;
-      border: none;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--glow-cyan), #06b6d4);
-      color: var(--bg-deep);
-      box-shadow: 0 4px 24px -4px rgba(34, 211, 238, 0.4);
-    }
-
-    .btn-primary::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, transparent, rgba(255,255,255,0.2));
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 32px -4px rgba(34, 211, 238, 0.5);
-    }
-
-    .btn-primary:hover::before {
-      opacity: 1;
-    }
-
-    .btn-primary:active {
-      transform: translateY(0);
-    }
-
-    .btn-secondary {
-      background: var(--glass-bg);
-      backdrop-filter: var(--glass-blur);
-      color: var(--text-primary);
-      border: 1px solid var(--glass-border);
-    }
-
-    .btn-secondary:hover {
-      background: rgba(30, 41, 59, 0.8);
-      border-color: rgba(148, 163, 184, 0.2);
-      transform: translateY(-2px);
-    }
-
-    .btn-ghost {
-      background: transparent;
-      color: var(--text-secondary);
-      padding: 12px 20px;
-    }
-
-    .btn-ghost:hover {
-      color: var(--text-primary);
-      background: rgba(255,255,255,0.05);
-    }
-
-    .btn-icon {
-      width: 48px;
-      height: 48px;
-      padding: 0;
-      border-radius: var(--radius-md);
-    }
-
-    .btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none !important;
-    }
-
-    /* =========================================================
-       CARTES GLASSMORPHISM
-    ========================================================== */
-    .card {
-      background: var(--glass-bg);
-      backdrop-filter: var(--glass-blur);
-      -webkit-backdrop-filter: var(--glass-blur);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      position: relative;
-    }
-
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-    }
-
-    .card-glow {
-      box-shadow: var(--shadow-card), var(--shadow-glow);
-    }
-
-    .card-header {
-      padding: 24px 28px;
-      border-bottom: 1px solid var(--glass-border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .card-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
-
-    .card-body {
-      padding: 28px;
-    }
-
-    /* =========================================================
-       FORMULAIRES
-    ========================================================== */
-    .form-group {
-      margin-bottom: 24px;
-    }
-
-    .form-label {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-secondary);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 10px;
-    }
-
-    .form-input,
-    .form-select,
-    .form-textarea {
-      width: 100%;
-      padding: 16px 20px;
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-md);
-      color: var(--text-primary);
-      font-family: inherit;
-      font-size: 15px;
-      transition: all 0.2s ease;
-    }
-
-    .form-input::placeholder,
-    .form-textarea::placeholder {
-      color: var(--text-muted);
-    }
-
-    .form-input:focus,
-    .form-select:focus,
-    .form-textarea:focus {
-      outline: none;
-      border-color: var(--glow-cyan);
-      box-shadow: 0 0 0 4px var(--glow-cyan-soft);
-      background: rgba(15, 23, 42, 0.8);
-    }
-
-    .form-textarea {
-      min-height: 140px;
-      resize: vertical;
-    }
-
-    .form-select {
-      appearance: none;
-      cursor: pointer;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 16px center;
-      padding-right: 48px;
-    }
-
-    /* Radio/Checkbox stylés */
-    .choice-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 12px;
-    }
-
-    .choice-item {
-      position: relative;
-    }
-
-    .choice-item input {
-      position: absolute;
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .choice-item label {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 16px 20px;
-      background: rgba(15, 23, 42, 0.4);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-size: 14px;
-      font-weight: 500;
-    }
-
-    .choice-item label:hover {
-      background: rgba(15, 23, 42, 0.6);
-      border-color: rgba(148, 163, 184, 0.2);
-    }
-
-    .choice-item input:checked + label {
-      background: var(--glow-cyan-soft);
-      border-color: var(--glow-cyan);
-      color: var(--glow-cyan);
-    }
-
-    .choice-icon {
-      width: 24px;
-      height: 24px;
-      border-radius: 8px;
-      background: rgba(255,255,255,0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-    }
-
-    /* =========================================================
-       MODE SELECTOR — Choix écrire/parler
-    ========================================================== */
-    .mode-selector {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-top: 32px;
-    }
-
-    .mode-card {
-      position: relative;
-      padding: 32px;
-      background: var(--glass-bg);
-      backdrop-filter: var(--glass-blur);
-      border: 2px solid var(--glass-border);
-      border-radius: var(--radius-lg);
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      text-align: center;
-    }
-
-    .mode-card:hover {
-      border-color: rgba(148, 163, 184, 0.3);
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-elevated);
-    }
-
-    .mode-card.active {
-      border-color: var(--glow-cyan);
-      background: linear-gradient(135deg, var(--glow-cyan-soft), transparent);
-    }
-
-    .mode-card.active::before {
-      content: '';
-      position: absolute;
-      inset: -2px;
-      border-radius: calc(var(--radius-lg) + 2px);
-      background: linear-gradient(135deg, var(--glow-cyan), var(--glow-violet));
-      z-index: -1;
-      opacity: 0.5;
-      filter: blur(20px);
-    }
-
-    .mode-icon {
-      width: 80px;
-      height: 80px;
-      margin: 0 auto 20px;
-      border-radius: var(--radius-xl);
-      background: linear-gradient(135deg, rgba(34, 211, 238, 0.1), rgba(167, 139, 250, 0.1));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 36px;
-      transition: transform 0.3s ease;
-    }
-
-    .mode-card:hover .mode-icon {
-      transform: scale(1.1);
-    }
-
-    .mode-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 22px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .mode-desc {
-      font-size: 14px;
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-
-    /* =========================================================
-       STEPS NAVIGATION
-    ========================================================== */
-    .step-page {
-      display: none;
-      animation: fadeIn 0.4s ease-out;
-    }
-
-    .step-page.active {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    .steps-indicator {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin-bottom: 40px;
-    }
-
-    .step-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--glass-border);
-      transition: all 0.3s ease;
-    }
-
-    .step-dot.active {
-      background: var(--glow-cyan);
-      box-shadow: 0 0 12px var(--glow-cyan);
-    }
-
-    .step-dot.completed {
-      background: var(--glow-emerald);
-    }
-
-    .step-connector {
-      width: 40px;
-      height: 2px;
-      background: var(--glass-border);
-    }
-
-    /* =========================================================
-       LAYOUT À DEUX COLONNES
-    ========================================================== */
-    .split-layout {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 24px;
-      align-items: start;
-    }
-
-    @media (max-width: 900px) {
-      .split-layout {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* =========================================================
-       PREVIEW PANEL
-    ========================================================== */
-    .preview-panel {
-      position: sticky;
-      top: 24px;
-    }
-
-    .preview-header {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .preview-avatar {
-      width: 64px;
-      height: 64px;
-      border-radius: var(--radius-md);
-      background: linear-gradient(135deg, var(--glow-violet-soft), var(--glow-cyan-soft));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-    }
-
-    .preview-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    .preview-box {
-      padding: 16px;
-      background: rgba(15, 23, 42, 0.5);
-      border: 1px dashed rgba(34, 211, 238, 0.3);
-      border-radius: var(--radius-md);
-      min-height: 100px;
-    }
-
-    .preview-box-label {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .preview-box-content {
-      font-size: 14px;
-      color: var(--text-secondary);
-      white-space: pre-wrap;
-    }
-
-    /* =========================================================
-       ENREGISTREMENT VOCAL
-    ========================================================== */
-    .voice-recorder {
-      text-align: center;
-      padding: 40px;
-      background: linear-gradient(135deg, rgba(34, 211, 238, 0.05), rgba(167, 139, 250, 0.05));
-      border-radius: var(--radius-lg);
-      border: 1px dashed var(--glow-cyan);
-    }
-
-    .voice-waveform {
-      height: 60px;
-      margin: 24px 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-    }
-
-    .voice-bar {
-      width: 4px;
-      background: var(--glow-cyan);
-      border-radius: 2px;
-      animation: wave 1s ease-in-out infinite;
-    }
-
-    .voice-bar:nth-child(1) { height: 20px; animation-delay: 0s; }
-    .voice-bar:nth-child(2) { height: 35px; animation-delay: 0.1s; }
-    .voice-bar:nth-child(3) { height: 50px; animation-delay: 0.2s; }
-    .voice-bar:nth-child(4) { height: 35px; animation-delay: 0.3s; }
-    .voice-bar:nth-child(5) { height: 20px; animation-delay: 0.4s; }
-
-    @keyframes wave {
-      0%, 100% { transform: scaleY(1); }
-      50% { transform: scaleY(0.5); }
-    }
-
-    .voice-status {
-      font-size: 14px;
-      color: var(--text-secondary);
-    }
-
-    .voice-status.recording {
-      color: var(--glow-rose);
-    }
-
-    /* =========================================================
-       MEDIA UPLOAD
-    ========================================================== */
-    .media-dropzone {
-      padding: 40px;
-      border: 2px dashed var(--glass-border);
-      border-radius: var(--radius-lg);
-      text-align: center;
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-
-    .media-dropzone:hover,
-    .media-dropzone.dragover {
-      border-color: var(--glow-cyan);
-      background: var(--glow-cyan-soft);
-    }
-
-    .media-dropzone-icon {
-      width: 64px;
-      height: 64px;
-      margin: 0 auto 16px;
-      background: linear-gradient(135deg, var(--glow-cyan-soft), var(--glow-violet-soft));
-      border-radius: var(--radius-md);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-    }
-
-    .media-preview {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 16px;
-    }
-
-    .media-preview img,
-    .media-preview video {
-      width: 100px;
-      height: 80px;
-      object-fit: cover;
-      border-radius: var(--radius-sm);
-      border: 2px solid var(--glass-border);
-    }
-
-    /* =========================================================
-       BARRE DE SOUMISSION FIXE
-    ========================================================== */
-    .submit-bar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      padding: 16px 24px;
-      background: rgba(3, 7, 18, 0.9);
-      backdrop-filter: var(--glass-blur);
-      border-top: 1px solid var(--glass-border);
-    }
-
-    .submit-bar-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .submit-status {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 14px;
-      color: var(--text-secondary);
-    }
-
-    .submit-status-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: var(--radius-sm);
-      background: var(--glow-cyan-soft);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* =========================================================
-       PAGE DE REMERCIEMENT
-    ========================================================== */
-    .thanks-section {
-      text-align: center;
-      padding: 80px 40px;
-    }
-
-    .thanks-icon {
-      width: 120px;
-      height: 120px;
-      margin: 0 auto 32px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--glow-emerald-soft), var(--glow-cyan-soft));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 56px;
-      animation: celebrate 0.6s ease-out;
-    }
-
-    @keyframes celebrate {
-      0% { transform: scale(0); }
-      50% { transform: scale(1.2); }
-      100% { transform: scale(1); }
-    }
-
-    .thanks-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 42px;
-      font-weight: 800;
-      margin-bottom: 16px;
-      background: linear-gradient(135deg, var(--glow-emerald), var(--glow-cyan));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .thanks-message {
-      font-size: 18px;
-      color: var(--text-secondary);
-      max-width: 500px;
-      margin: 0 auto 32px;
-      line-height: 1.7;
-    }
-
-    .thanks-highlight {
-      padding: 20px 28px;
-      background: linear-gradient(135deg, var(--glow-cyan-soft), var(--glow-violet-soft));
-      border: 1px solid rgba(34, 211, 238, 0.2);
-      border-radius: var(--radius-md);
-      max-width: 500px;
-      margin: 0 auto 32px;
-      font-size: 15px;
-    }
-
-    /* =========================================================
-       FEATURES LIST
-    ========================================================== */
-    .features-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .features-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    .feature-number {
-      width: 28px;
-      height: 28px;
-      flex-shrink: 0;
-      border-radius: var(--radius-sm);
-      background: linear-gradient(135deg, var(--glow-cyan), var(--glow-violet));
-      color: var(--bg-deep);
-      font-weight: 700;
-      font-size: 13px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* =========================================================
-       NAVIGATION ROW
-    ========================================================== */
-    .nav-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      margin-top: 32px;
-      padding-top: 24px;
-      border-top: 1px solid var(--glass-border);
-    }
-
-    /* =========================================================
-       SECTION BILINGUE VOCALE
-    ========================================================== */
-    .bilingual-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-
-    @media (max-width: 900px) {
-      .bilingual-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .lang-column {
-      padding: 24px;
-      border-radius: var(--radius-lg);
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-    }
-
-    .lang-column.native {
-      border-color: rgba(34, 211, 238, 0.3);
-      background: linear-gradient(135deg, rgba(34, 211, 238, 0.05), transparent);
-    }
-
-    .lang-column.french {
-      border-color: rgba(167, 139, 250, 0.3);
-      background: linear-gradient(135deg, rgba(167, 139, 250, 0.05), transparent);
-    }
-
-    .lang-flag {
-      font-size: 24px;
-      margin-bottom: 12px;
-    }
-
-    .lang-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .lang-desc {
-      font-size: 14px;
-      color: var(--text-secondary);
-      margin-bottom: 16px;
-    }
-
-    /* =========================================================
-       RESPONSIVE
-    ========================================================== */
-    @media (max-width: 768px) {
-      .app-container {
-        padding: 24px 16px 140px;
-      }
-
-      .header {
-        flex-direction: column;
-        gap: 16px;
-        text-align: center;
-      }
-
-      .hero-title {
-        font-size: 36px;
-      }
-
-      .hero-subtitle {
-        font-size: 16px;
-      }
-
-      .mode-selector {
-        grid-template-columns: 1fr;
-      }
-
-      .card-body {
-        padding: 20px;
-      }
-
-      .preview-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .submit-bar-inner {
-        flex-direction: column;
-        text-align: center;
-      }
-    }
-
-    /* =========================================================
-       ANIMATIONS AU SCROLL
-    ========================================================== */
-    .animate-on-scroll {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .animate-on-scroll.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* =========================================================
-       TOASTS / NOTIFICATIONS
-    ========================================================== */
-    .toast {
-      position: fixed;
-      bottom: 100px;
-      left: 50%;
-      transform: translateX(-50%) translateY(20px);
-      padding: 16px 24px;
-      background: var(--bg-elevated);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-elevated);
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-      z-index: 200;
-    }
-
-    .toast.show {
-      opacity: 1;
-      visibility: visible;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    .toast.success {
-      border-color: var(--glow-emerald);
-    }
-
-    .toast.error {
-      border-color: var(--glow-rose);
-    }
-
-    /* =========================================================
-       LOADER / SPINNER
-    ========================================================== */
-    .spinner {
-      width: 20px;
-      height: 20px;
-      border: 2px solid var(--glass-border);
-      border-top-color: var(--glow-cyan);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    /* =========================================================
-       CUSTOM SCROLLBAR
-    ========================================================== */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: var(--bg-deep);
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: var(--glass-border);
-      border-radius: 4px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--text-muted);
-    }
-
-    /* =========================================================
-       FOCUS STATES ACCESSIBILITÉ
-    ========================================================== */
-    *:focus-visible {
-      outline: 2px solid var(--glow-cyan);
-      outline-offset: 2px;
-    }
-
-    /* =========================================================
-       UTILS
-    ========================================================== */
-    .visually-hidden {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
-    }
-
-    .text-gradient {
-      background: linear-gradient(135deg, var(--glow-cyan), var(--glow-violet));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .glow-text {
-      text-shadow: 0 0 40px var(--glow-cyan);
-    }
-  </style>
+  /* Accents lumineux */
+  --glow-cyan: #22d3ee;
+  --glow-cyan-soft: rgba(34, 211, 238, 0.12);
+  --glow-violet: #a78bfa;
+  --glow-violet-soft: rgba(167, 139, 250, 0.10);
+  --glow-emerald: #34d399;
+  --glow-emerald-soft: rgba(52, 211, 153, 0.08);
+  --glow-rose: #fb7185;
+  --glow-amber: #fbbf24;
+  
+  /* Texte */
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  
+  /* Glass */
+  --glass-bg: rgba(15, 23, 42, 0.75);
+  --glass-border: rgba(148, 163, 184, 0.12);
+  --glass-blur: blur(20px);
+  
+  /* Rayons */
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-full: 9999px;
+  
+  /* Ombres */
+  --shadow-glow: 0 0 60px -15px var(--glow-cyan);
+  --shadow-elevated: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+  --shadow-card: 0 4px 30px -4px rgba(0, 0, 0, 0.4);
+}
+
+/* =========================================================
+   RESET & BASE
+========================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* =========================================================
+   FOND ANIMÉ — Bioluminescent
+========================================================== */
+.canvas-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.5;
+  animation: float 20s ease-in-out infinite;
+}
+
+.orb-1 {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--glow-cyan) 0%, transparent 70%);
+  top: -200px;
+  right: -100px;
+  animation-delay: 0s;
+}
+
+.orb-2 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, var(--glow-violet) 0%, transparent 70%);
+  bottom: -150px;
+  left: -100px;
+  animation-delay: -7s;
+}
+
+.orb-3 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, var(--glow-emerald) 0%, transparent 70%);
+  top: 40%;
+  left: 30%;
+  animation-delay: -14s;
+  opacity: 0.25;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(30px, -30px) scale(1.05); }
+  50% { transform: translate(-20px, 20px) scale(0.95); }
+  75% { transform: translate(-30px, -20px) scale(1.02); }
+}
+
+/* Grille subtile */
+.grid-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: -9;
+  background-image: radial-gradient(circle at 1px 1px, rgba(148, 163, 184, 0.03) 1px, transparent 0);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+/* Suppression anciens fonds */
+.backdrop, .backdrop-2, .orb2 {
+  display: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb { animation: none; }
+}
+
+/* =========================================================
+   LAYOUT
+========================================================== */
+.wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 20px 140px;
+}
+
+.spacer {
+  height: 60px;
+}
+
+/* =========================================================
+   HERO
+========================================================== */
+.hero {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  border-radius: var(--radius-full);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-card);
+}
+
+.badge {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, var(--glow-cyan), var(--glow-violet));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.ribbon {
+  margin: 20px 0;
+  padding: 16px 20px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--glow-cyan-soft), var(--glow-violet-soft));
+  border: 1px solid rgba(34, 211, 238, 0.2);
+  font-size: 14px;
+  color: var(--text-primary);
+  box-shadow: var(--shadow-card);
+}
+
+.ribbon b {
+  font-weight: 700;
+  color: var(--glow-cyan);
+}
+
+h1 {
+  margin: 16px 0 10px;
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(36px, 6vw, 52px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--glow-cyan) 50%, var(--glow-violet) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+p.sub {
+  margin: 0 0 8px;
+  color: var(--text-secondary);
+  font-size: 16px;
+  max-width: 640px;
+  line-height: 1.7;
+}
+
+/* =========================================================
+   CARTE PRINCIPALE
+========================================================== */
+.card {
+  margin-top: 24px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  position: relative;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--glass-border);
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.5), transparent);
+}
+
+.step-page {
+  display: none;
+  padding: 28px 26px 32px;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.step-page.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================================
+   INTRO / CHOIX MODE
+========================================================== */
+.intro-main {
+  display: grid;
+  grid-template-columns: 1.4fr 0.9fr;
+  gap: 0;
+  border-top: 1px solid var(--glass-border);
+}
+
+.intro-main-main,
+.intro-main-side {
+  padding: 28px;
+}
+
+.intro-main-main {
+  border-right: 1px solid var(--glass-border);
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.3), transparent);
+}
+
+.intro-main-main h2 {
+  margin: 0 0 12px;
+  font-family: 'Syne', sans-serif;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.intro-lead {
+  margin: 0 0 20px;
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.intro-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.intro-actions button {
+  min-height: 80px;
+  font-size: 16px;
+  border-radius: var(--radius-lg);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.intro-actions button:hover {
+  transform: translateY(-3px);
+}
+
+#modeHint {
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.intro-main-side {
+  background: linear-gradient(135deg, var(--glow-cyan-soft), var(--glow-violet-soft));
+  border-left: 1px solid rgba(34, 211, 238, 0.15);
+}
+
+.intro-main-side h3 {
+  margin: 0 0 10px;
+  font-family: 'Syne', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.intro-main-side p {
+  margin: 0 0 16px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.intro-mini-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.intro-mini-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.intro-mini-list .pill,
+.voice-col .pill {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--glow-cyan), var(--glow-violet));
+  color: var(--bg-deep);
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(34, 211, 238, 0.3);
+}
+
+/* =========================================================
+   BOUTONS
+========================================================== */
+button {
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 14px 22px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--glow-cyan);
+  outline-offset: 2px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--glow-cyan), #06b6d4);
+  color: var(--bg-deep);
+  box-shadow: 0 4px 20px rgba(34, 211, 238, 0.35);
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent, rgba(255,255,255,0.2));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(34, 211, 238, 0.45);
+}
+
+.btn-primary:hover::before {
+  opacity: 1;
+}
+
+.btn-ghost {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  color: var(--text-primary);
+  border: 1px solid var(--glass-border);
+}
+
+.btn-ghost:hover:not(:disabled) {
+  background: rgba(30, 41, 59, 0.8);
+  border-color: rgba(148, 163, 184, 0.25);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-elevated);
+}
+
+.btn-secondary {
+  background: rgba(15, 23, 42, 0.6);
+  color: var(--text-secondary);
+  border: 1px solid var(--glass-border);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  color: var(--text-primary);
+  border-color: rgba(148, 163, 184, 0.3);
+}
+
+.nav-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--glass-border);
+  flex-wrap: wrap;
+}
+
+/* =========================================================
+   FORMULAIRES
+========================================================== */
+.panel {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+}
+
+.panel h3 {
+  margin: 0 0 8px;
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 16px 0 8px;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 14px 18px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 15px;
+  transition: all 0.25s ease;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-muted);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--glow-cyan);
+  box-shadow: 0 0 0 4px var(--glow-cyan-soft);
+  background: rgba(15, 23, 42, 0.8);
+}
+
+input:disabled,
+textarea:disabled,
+select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+
+select {
+  appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 44px;
+}
+
+/* Radio & Checkbox */
+.radio-group {
+  margin-top: 8px;
+}
+
+.radio-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding: 12px 16px;
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.radio-item:hover {
+  background: rgba(15, 23, 42, 0.6);
+  border-color: rgba(148, 163, 184, 0.2);
+}
+
+.radio-item input {
+  width: auto;
+  margin: 0;
+  accent-color: var(--glow-cyan);
+}
+
+.radio-item input:checked + span {
+  color: var(--glow-cyan);
+}
+
+/* Choice row pour les types */
+#step5 .choice-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+#step5 .choice-row .radio-item {
+  flex: 1;
+  min-width: 140px;
+  margin-bottom: 0;
+  justify-content: center;
+  text-align: center;
+}
+
+/* =========================================================
+   CONTENT LAYOUT
+========================================================== */
+.content {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 20px;
+  padding: 0;
+}
+
+/* =========================================================
+   MEDIA PREVIEW
+========================================================== */
+.media-preview {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.media-preview img,
+.media-preview video {
+  width: 100px;
+  height: 80px;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--glass-border);
+  object-fit: cover;
+  background: var(--bg-deep);
+  box-shadow: var(--shadow-card);
+  transition: transform 0.2s ease;
+}
+
+.media-preview img:hover,
+.media-preview video:hover {
+  transform: scale(1.05);
+}
+
+/* =========================================================
+   PREVIEW PANEL
+========================================================== */
+.panel-preview {
+  position: sticky;
+  top: 20px;
+}
+
+.panel-preview .preview-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.preview-robot {
+  flex-shrink: 0;
+}
+
+.preview-robot img {
+  max-width: 100px;
+  height: auto;
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.6));
+  animation: robotFloat 4s ease-in-out infinite alternate;
+}
+
+@keyframes robotFloat {
+  from { transform: translateY(0); }
+  to { transform: translateY(-8px); }
+}
+
+.preview-grid {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.preview-grid strong {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.preview-box {
+  min-height: 90px;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px dashed rgba(34, 211, 238, 0.3);
+  font-size: 14px;
+  color: var(--text-secondary);
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+
+.helper {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  margin-top: 20px;
+  padding: 14px 16px;
+  background: var(--glow-cyan-soft);
+  border: 1px solid rgba(34, 211, 238, 0.15);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+}
+
+.helper svg {
+  flex-shrink: 0;
+  color: var(--glow-cyan);
+}
+
+/* =========================================================
+   STEP VOICE — Profil vocal
+========================================================== */
+#stepVoice .voice-shell {
+  position: relative;
+  padding: 32px;
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-glow);
+  overflow: hidden;
+}
+
+#stepVoice .voice-bg {
+  position: absolute;
+  inset: -40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+#stepVoice .voice-bg::before {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--glow-cyan-soft), transparent 70%);
+  filter: blur(40px);
+}
+
+#stepVoice .voice-bg img {
+  max-width: 300px;
+  width: 30vw;
+  opacity: 0.4;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.7));
+}
+
+#stepVoice .voice-foreground {
+  position: relative;
+  z-index: 1;
+}
+
+#stepVoice #voiceLangCard.panel,
+#stepVoice #voiceProfileCard.panel {
+  background: linear-gradient(160deg, rgba(15, 23, 42, 0.9), rgba(10, 15, 26, 0.95));
+  border: 1px solid rgba(34, 211, 238, 0.25);
+  box-shadow: var(--shadow-elevated);
+}
+
+.profile-bilingual-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.voice-col {
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  transition: all 0.3s ease;
+}
+
+.voice-col--fr {
+  background: linear-gradient(135deg, var(--glow-violet-soft), transparent);
+  border: 1px solid rgba(167, 139, 250, 0.25);
+}
+
+.voice-col--lang {
+  background: linear-gradient(135deg, var(--glow-cyan-soft), transparent);
+  border: 1px solid rgba(34, 211, 238, 0.25);
+}
+
+.voice-col h3 {
+  margin: 0 0 8px;
+  font-family: 'Syne', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.voice-col p {
+  margin: 0 0 16px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.voice-col ul {
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
+}
+
+.voice-col li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 14px;
+  margin-bottom: 10px;
+  color: var(--text-primary);
+}
+
+.voice-col .actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+#stepVoice .notice {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 16px;
+}
+
+.voice-preview-block {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.lang-select {
+  min-width: 220px;
+  max-width: 280px;
+}
+
+/* Mobile toggle pour voice */
+.voice-toggle {
+  display: none;
+  margin-bottom: 16px;
+  padding: 4px;
+  border-radius: var(--radius-full);
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid var(--glass-border);
+  gap: 4px;
+}
+
+.voice-toggle-btn {
+  flex: 1;
+  border-radius: var(--radius-full);
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  background: transparent;
+  color: var(--text-muted);
+}
+
+.voice-toggle-btn.is-active {
+  background: linear-gradient(135deg, var(--glow-cyan-soft), var(--glow-violet-soft));
+  color: var(--text-primary);
+  box-shadow: var(--shadow-card);
+}
+
+.voice-switch {
+  display: none;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.voice-switch-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.voice-switch-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--text-primary);
+}
+
+.voice-switch-btn:hover {
+  transform: rotate(180deg);
+  background: rgba(34, 211, 238, 0.1);
+  border-color: var(--glow-cyan);
+}
+
+/* =========================================================
+   SUBMIT BAR
+========================================================== */
+.submitbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  padding: 16px 20px;
+  background: rgba(3, 7, 18, 0.9);
+  backdrop-filter: var(--glass-blur);
+  border-top: 1px solid var(--glass-border);
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.submitbar .inner {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 600px;
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-elevated);
+}
+
+#submitBtn {
+  border-radius: var(--radius-full);
+  padding: 12px 24px;
+  white-space: nowrap;
+}
+
+#statusMsg {
+  font-size: 14px;
+  color: var(--text-secondary);
+  flex: 1;
+}
+
+/* =========================================================
+   PAGE MERCI
+========================================================== */
+.thank-panel {
+  padding: 48px 40px;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(135deg, var(--glass-bg), rgba(34, 211, 238, 0.05));
+  border: 1px solid rgba(34, 211, 238, 0.2);
+  box-shadow: var(--shadow-glow);
+  text-align: center;
+}
+
+.thank-layout {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: center;
+  text-align: left;
+}
+
+.thank-text h2 {
+  margin: 0 0 16px;
+  font-family: 'Syne', sans-serif;
+  font-size: 36px;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--glow-emerald), var(--glow-cyan));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.thank-text p {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin: 8px 0;
+  line-height: 1.7;
+}
+
+.thank-highlight {
+  margin: 24px 0;
+  padding: 18px 22px;
+  background: linear-gradient(135deg, var(--glow-cyan-soft), var(--glow-violet-soft));
+  border: 1px solid rgba(34, 211, 238, 0.2);
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  color: var(--text-primary);
+}
+
+.thank-robot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.thank-robot-orbit {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--glow-cyan-soft), transparent 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.thank-robot-orbit::after {
+  content: '';
+  position: absolute;
+  inset: 15%;
+  border-radius: 50%;
+  border: 1px dashed rgba(34, 211, 238, 0.4);
+  animation: spin 20s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.thank-robot-orbit img {
+  max-width: 65%;
+  filter: drop-shadow(0 16px 32px rgba(0, 0, 0, 0.7));
+  animation: robotFloat 4s ease-in-out infinite alternate;
+}
+
+/* =========================================================
+   UTILS
+========================================================== */
+.muted {
+  color: var(--text-secondary);
+}
+
+.muted.small {
+  font-size: 13px;
+}
+
+.field-note {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+.section-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================== */
+@media (max-width: 1000px) {
+  .content {
+    grid-template-columns: 1fr;
+  }
+  
+  .panel-preview {
+    position: static;
+  }
+  
+  .profile-bilingual-grid,
+  .voice-preview-block {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .intro-main {
+    grid-template-columns: 1fr;
+  }
+  
+  .intro-main-main {
+    border-right: none;
+    border-bottom: 1px solid var(--glass-border);
+  }
+  
+  .preview-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .thank-layout {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  
+  .thank-robot {
+    order: -1;
+  }
+  
+  /* Voice toggle mobile */
+  .voice-toggle,
+  .voice-switch {
+    display: flex;
+  }
+  
+  #voiceLangCol,
+  #voiceFrCol {
+    display: none;
+  }
+  
+  #voiceLangCol.is-active,
+  #voiceFrCol.is-active {
+    display: block;
+  }
+}
+
+@media (max-width: 600px) {
+  .wrap {
+    padding: 20px 16px 130px;
+  }
+  
+  h1 {
+    font-size: 32px;
+  }
+  
+  .intro-actions {
+    grid-template-columns: 1fr;
+  }
+  
+  .card-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .submitbar .inner {
+    flex-direction: column;
+    border-radius: var(--radius-lg);
+    text-align: center;
+  }
+  
+  #submitBtn {
+    width: 100%;
+  }
+  
+  .ribbon,
+  p.sub,
+  .intro-main-side {
+    display: none;
+  }
+  
+  .intro-main-main h2 {
+    text-align: center;
+  }
+  
+  .intro-lead {
+    display: none;
+  }
+}
+
+/* =========================================================
+   SCROLLBAR PERSONNALISÉE
+========================================================== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-deep);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--glass-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* =========================================================
+   FOCUS ACCESSIBILITY
+========================================================== */
+*:focus-visible {
+  outline: 2px solid var(--glow-cyan);
+  outline-offset: 2px;
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+</style>
+
+
 </head>
 <body>
+  <div class="backdrop"></div><div class="orb"></div><div class="orb2"></div>
 
-  <!-- Fond animé bioluminescent -->
-  <div class="canvas-bg">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
-  </div>
-  <div class="grid-overlay"></div>
-  <div class="flow-lines">
-    <div class="flow-line"></div>
-    <div class="flow-line"></div>
-    <div class="flow-line"></div>
-  </div>
-
-  <div class="app-container">
-    
-    <!-- Header -->
-    <header class="header">
-      <div class="logo-group">
-        <div class="logo-mark">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-            <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="url(#logoGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M2 17l10 5 10-5" stroke="url(#logoGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M2 12l10 5 10-5" stroke="url(#logoGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <defs>
-              <linearGradient id="logoGrad" x1="2" y1="2" x2="22" y2="22">
-                <stop stop-color="#22d3ee"/>
-                <stop offset="1" stop-color="#a78bfa"/>
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-        <span class="logo-text">IDEA</span>
-      </div>
-      <div class="status-badge">
-        <span class="status-dot"></span>
-        Espace Innovation Actif
-      </div>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="hero">
-      <div class="hero-eyebrow">
-        <span>🚀</span>
-        <span>Partage en moins de 2 minutes</span>
-      </div>
-      <h1 class="hero-title">
-        Laisse ton idée<br>
-        <span class="gradient-text">briller</span> ✨
-      </h1>
-      <p class="hero-subtitle">
-        Innovation, amélioration continue ou retour terrain — chaque contribution 
-        est analysée par l'équipe IDEA et peut transformer notre quotidien.
-      </p>
-    </section>
-
-    <!-- Contenu principal avec steps -->
-    <main>
-      
-      <!-- STEP 1 : Choix du mode -->
-      <section id="step1" class="step-page active">
-        <div class="card card-glow animate-on-scroll visible">
-          <div class="card-header">
-            <h2 class="card-title">Comment veux-tu t'exprimer ?</h2>
-          </div>
-          <div class="card-body">
-            <p style="color: var(--text-secondary); margin-bottom: 24px;">
-              Choisis le mode qui te convient le mieux. Tu pourras toujours 
-              compléter ou modifier ta contribution à chaque étape.
-            </p>
-            
-            <div class="mode-selector">
-              <div class="mode-card" id="modeText" tabindex="0" role="button">
-                <div class="mode-icon">✍️</div>
-                <h3 class="mode-title">Je préfère écrire</h3>
-                <p class="mode-desc">
-                  Remplis un formulaire simple avec les informations essentielles.
-                </p>
-              </div>
-              
-              <div class="mode-card" id="modeVoice" tabindex="0" role="button">
-                <div class="mode-icon">🎙️</div>
-                <h3 class="mode-title">Je préfère parler</h3>
-                <p class="mode-desc">
-                  Enregistre ton idée à l'oral — nous transcrivons et traduisons automatiquement.
-                </p>
-              </div>
-            </div>
-
-            <div style="margin-top: 40px; padding: 24px; background: rgba(15, 23, 42, 0.5); border-radius: var(--radius-lg);">
-              <h4 style="font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 16px;">
-                Ce que tu peux partager
-              </h4>
-              <ul class="features-list">
-                <li>
-                  <span class="feature-number">1</span>
-                  <span>Une <strong>idée d'innovation</strong> produit, service ou usage client.</span>
-                </li>
-                <li>
-                  <span class="feature-number">2</span>
-                  <span>Une <strong>amélioration</strong> sur un process, un outil, un flux.</span>
-                </li>
-                <li>
-                  <span class="feature-number">3</span>
-                  <span>Un <strong>problème terrain</strong> observé au quotidien.</span>
-                </li>
-              </ul>
-            </div>
-
-            <!-- reCAPTCHA -->
-            <div id="captchaRow" style="display: none; margin-top: 32px; text-align: center;">
-              <div class="g-recaptcha" style="display: inline-block;"
-                   data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
-                   data-callback="onCaptchaSuccess">
-              </div>
-              <p style="color: var(--text-muted); font-size: 13px; margin-top: 12px;">
-                Validation de sécurité avant de continuer
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- STEP 2 : Profil (mode texte) -->
-      <section id="step2" class="step-page">
-        <div class="steps-indicator">
-          <div class="step-dot active"></div>
-          <div class="step-connector"></div>
-          <div class="step-dot"></div>
-          <div class="step-connector"></div>
-          <div class="step-dot"></div>
-          <div class="step-connector"></div>
-          <div class="step-dot"></div>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
-            <h2 class="card-title">Qui es-tu ?</h2>
-            <span style="color: var(--text-muted); font-size: 13px;">Étape 1/4</span>
-          </div>
-          <div class="card-body">
-            <p style="color: var(--text-secondary); margin-bottom: 24px;">
-              Quelques informations pour mieux te connaître et pouvoir te recontacter si besoin.
-            </p>
-
-            <div class="form-group">
-              <label class="form-label" for="authorName">Nom et prénom</label>
-              <input type="text" id="authorName" class="form-input" placeholder="Ex : Marie Dupont">
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="site">Sur quel site travailles-tu ?</label>
-              <select id="site" class="form-select">
-                <option value="">Sélectionne ton site</option>
-                <option>Auxerre</option>
-                <option>Beaumont</option>
-                <option>Béziers</option>
-                <option>Berre-l'Étang</option>
-                <option>Boulogne-Billancourt (Siège social)</option>
-                <option>Chambéry</option>
-                <option>Colmar</option>
-                <option>Corbas</option>
-                <option>Nice</option>
-                <option>Rennes</option>
-                <option>Toulouse</option>
-                <option value="Autre">Autre (préciser)</option>
-              </select>
-            </div>
-
-            <div id="otherSiteRow" style="display: none;">
-              <div class="form-group">
-                <label class="form-label" for="otherSite">Précise ton site</label>
-                <input type="text" id="otherSite" class="form-input" placeholder="Nom du site">
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="service">Dans quel service travailles-tu ?</label>
-              <select id="service" class="form-select">
-                <option value="">Sélectionne ton service</option>
-                <option>Production</option>
-                <option>Maintenance</option>
-                <option>Distribution</option>
-                <option>Relation client</option>
-                <option>Commerce</option>
-                <option>Administratif</option>
-                <option>Support (achats, finance, HSE, RH…)</option>
-                <option value="Autre">Autre (préciser)</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="function">Quelle est ta fonction ?</label>
-              <input type="text" id="function" class="form-input" placeholder="Ex : Technicien de maintenance">
-            </div>
-
-            <div class="nav-row">
-              <button class="btn btn-ghost" id="backToStep1">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M19 12H5M12 19l-7-7 7-7"/>
-                </svg>
-                Retour
-              </button>
-              <button class="btn btn-primary" id="toStep3">
-                Continuer
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- STEP 3 : Coordonnées -->
-      <section id="step3" class="step-page">
-        <div class="steps-indicator">
-          <div class="step-dot completed"></div>
-          <div class="step-connector"></div>
-          <div class="step-dot active"></div>
-          <div class="step-connector"></div>
-          <div class="step-dot"></div>
-          <div class="step-connector"></div>
-          <div class="step-dot"></div>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
-            <h2 class="card-title">Comment te recontacter ?</h2>
-            <span style="color: var(--text-muted); font-size: 13px;">Étape 2/4</span>
-          </div>
-          <div class="card-body">
-            <div class="form-group">
-              <label class="form-label" for="email">Adresse mail professionnelle (optionnel)</label>
-              <input type="email" id="email" class="form-input" placeholder="prenom.nom@entreprise.com">
-              <p style="color: var(--text-muted); font-size: 13px; margin-top: 8px;">
-                Facilite le suivi de ton idée mais n'est pas obligatoire.
-              </p>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Préférence de contact</label>
-              <div class="choice-grid">
-                <div class="choice-item">
-                  <input type="radio" name="contactMode" value="email" id="contactEmail">
-                  <label for="contactEmail">
-                    <span class="choice-icon">📧</span>
-                    Mail professionnel
-                  </label>
-                </div>
-                <div class="choice-item">
-                  <input type="radio" name="contactMode" value="manager" id="contactManager">
-                  <label for="contactManager">
-                    <span class="choice-icon">👤</span>
-                    Via mon responsable
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <div class="nav-row">
-              <button class="btn btn-ghost" id="backToStep2">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M19 12H5M12 19l-7-7 7-7"/>
-                </svg>
-                Retour
-              </button>
-              <button class="btn btn-primary" id="toStep4">
-                Continuer
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- STEP 4 : Contenu de l'idée -->
-      <section id="step4" class="step-page">
-        <div class="steps-indicator">
-          <div class="step-dot completed"></div>
-          <div class="step-connector"></div>
-          <div class="step-dot completed"></div>
-          <div class="step-connector"></div>
-          <div class="step-dot active"></div>
-          <div class="step-connector"></div>
-          <div class="step-dot"></div>
-        </div>
-
-        <div class="split-layout">
-          <!-- Colonne principale -->
-          <div class="card">
-            <div class="card-header">
-              <h2 class="card-title">Ton IDEA</h2>
-              <span style="color: var(--text-muted); font-size: 13px;">Étape 3/4</span>
-            </div>
-            <div class="card-body">
-              
-              <div class="form-group">
-                <label class="form-label">Type de contribution</label>
-                <div class="choice-grid">
-                  <div class="choice-item">
-                    <input type="checkbox" name="type" value="difficulte" id="typeDiff">
-                    <label for="typeDiff">
-                      <span class="choice-icon">⚠️</span>
-                      Difficulté
-                    </label>
-                  </div>
-                  <div class="choice-item">
-                    <input type="checkbox" name="type" value="amelioration" id="typeAmel">
-                    <label for="typeAmel">
-                      <span class="choice-icon">🔧</span>
-                      Amélioration
-                    </label>
-                  </div>
-                  <div class="choice-item">
-                    <input type="checkbox" name="type" value="innovation" id="typeInno">
-                    <label for="typeInno">
-                      <span class="choice-icon">💡</span>
-                      Innovation
-                    </label>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label class="form-label" for="ideaTitle">Titre de ton IDEA</label>
-                <input type="text" id="ideaTitle" class="form-input" placeholder="Ex : Optimisation du processus de livraison">
-              </div>
-
-              <div class="form-group">
-                <label class="form-label" for="ideaDesc">Description</label>
-                <textarea id="ideaDesc" class="form-textarea" placeholder="Décris ton idée, le contexte, le besoin, l'impact attendu..."></textarea>
-              </div>
-
-              <div class="form-group">
-                <label class="form-label" for="impact">Impact principal</label>
-                <select id="impact" class="form-select">
-                  <option value="">Sélectionne l'impact</option>
-                  <option>Condition de travail / Ergonomie</option>
-                  <option>Développement durable / Environnement</option>
-                  <option>Gain de temps / Efficacité</option>
-                  <option>Productivité</option>
-                  <option>Économie d'énergie</option>
-                  <option>Sécurité</option>
-                  <option value="Autre">Autre</option>
-                </select>
-              </div>
-
-              <!-- Enregistrement vocal -->
-              <div class="form-group">
-                <label class="form-label">Ou enregistre ton idée</label>
-                <div class="voice-recorder" id="voiceRecorder">
-                  <div class="voice-waveform" id="waveform" style="display: none;">
-                    <div class="voice-bar"></div>
-                    <div class="voice-bar"></div>
-                    <div class="voice-bar"></div>
-                    <div class="voice-bar"></div>
-                    <div class="voice-bar"></div>
-                  </div>
-                  <p style="font-size: 36px; margin-bottom: 16px;">🎙️</p>
-                  <p class="voice-status" id="voiceStatus">Clique pour commencer l'enregistrement</p>
-                  <div style="display: flex; gap: 12px; justify-content: center; margin-top: 20px;">
-                    <button class="btn btn-primary" id="recBtn">
-                      Enregistrer
-                    </button>
-                    <button class="btn btn-secondary" id="uploadBtn">
-                      📁 Importer
-                    </button>
-                  </div>
-                  <audio id="audioPlayer" controls style="display: none; margin-top: 16px; width: 100%;"></audio>
-                  <input type="file" id="audioFile" accept="audio/*" style="display: none;">
-                </div>
-              </div>
-
-              <!-- Upload médias -->
-              <div class="form-group">
-                <label class="form-label">Illustrations (optionnel)</label>
-                <div class="media-dropzone" id="mediaDropzone">
-                  <div class="media-dropzone-icon">📷</div>
-                  <p style="font-weight: 600; margin-bottom: 8px;">Dépose tes fichiers ici</p>
-                  <p style="color: var(--text-muted); font-size: 13px;">ou clique pour parcourir</p>
-                </div>
-                <input type="file" id="mediaInput" accept="image/*,video/*" multiple style="display: none;">
-                <div class="media-preview" id="mediaPreview"></div>
-              </div>
-
-              <div class="nav-row">
-                <button class="btn btn-ghost" id="backToStep3">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M19 12H5M12 19l-7-7 7-7"/>
-                  </svg>
-                  Retour
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Preview panel -->
-          <div class="preview-panel">
-            <div class="card">
-              <div class="card-body">
-                <div class="preview-header">
-                  <div class="preview-avatar">🤖</div>
-                  <div>
-                    <h3 style="font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700;">
-                      Aperçu & traduction
-                    </h3>
-                    <p style="color: var(--text-muted); font-size: 13px;">
-                      Vérifie ce qui a été compris
-                    </p>
-                  </div>
-                </div>
-
-                <div class="preview-grid">
-                  <div class="preview-box">
-                    <div class="preview-box-label">
-                      <span>🗣️</span> Texte d'origine
-                    </div>
-                    <div class="preview-box-content" id="origText">—</div>
-                  </div>
-                  <div class="preview-box">
-                    <div class="preview-box-label">
-                      <span>🇫🇷</span> Traduction FR
-                    </div>
-                    <div class="preview-box-content" id="frText">—</div>
-                  </div>
-                </div>
-
-                <div style="margin-top: 20px; padding: 16px; background: rgba(34, 211, 238, 0.05); border-radius: var(--radius-md); border: 1px solid rgba(34, 211, 238, 0.1);">
-                  <p style="font-size: 13px; color: var(--text-secondary); display: flex; gap: 8px; align-items: flex-start;">
-                    <span style="color: var(--glow-cyan);">💡</span>
-                    Tu peux corriger le texte ou refaire un enregistrement si besoin.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- STEP Voice : Profil vocal avec détection de langue -->
-      <section id="stepVoice" class="step-page">
-        <div class="card card-glow">
-          <div class="card-body" style="padding: 40px;">
-            
-            <!-- Étape détection langue -->
-            <div id="langDetection">
-              <div style="text-align: center; margin-bottom: 32px;">
-                <div style="font-size: 64px; margin-bottom: 16px;">🌍</div>
-                <h2 style="font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; margin-bottom: 12px;">
-                  Dans quelle langue veux-tu parler ?
-                </h2>
-                <p style="color: var(--text-secondary); max-width: 500px; margin: 0 auto;">
-                  Dis une phrase comme « Je préfère parler en espagnol » ou sélectionne ta langue ci-dessous.
-                </p>
-              </div>
-
-              <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px;">
-                <button class="btn btn-primary" id="langRecBtn">
-                  🎙️ Dire ma langue
-                </button>
-                <select class="form-select" id="langSelect" style="max-width: 280px;">
-                  <option value="">Ou choisis ta langue…</option>
-                  <option value="fr">Français</option>
-                  <option value="en">English</option>
-                  <option value="es">Español</option>
-                  <option value="ar">العربية</option>
-                  <option value="pt">Português</option>
-                  <option value="de">Deutsch</option>
-                  <option value="it">Italiano</option>
-                  <option value="zh">中文</option>
-                </select>
-              </div>
-
-              <div style="max-width: 500px; margin: 0 auto;">
-                <div class="preview-box">
-                  <div class="preview-box-label">Texte reconnu</div>
-                  <div class="preview-box-content" id="langText">—</div>
-                </div>
-              </div>
-
-              <div id="langConfirm" style="display: none; text-align: center; margin-top: 24px;">
-                <p style="color: var(--text-secondary); margin-bottom: 16px;" id="langConfirmText"></p>
-                <div style="display: flex; gap: 12px; justify-content: center;">
-                  <button class="btn btn-ghost" id="langNo" style="background: rgba(251, 113, 133, 0.1); border-color: var(--glow-rose);">
-                    ✖ Non
-                  </button>
-                  <button class="btn btn-primary" id="langYes" style="background: linear-gradient(135deg, var(--glow-emerald), #10b981);">
-                    ✔ Oui
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Étape profil bilingue -->
-            <div id="profileBilingual" style="display: none;">
-              <div style="text-align: center; margin-bottom: 32px;">
-                <h2 style="font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; margin-bottom: 12px;">
-                  Présente-toi à l'oral
-                </h2>
-              </div>
-
-              <div class="bilingual-grid">
-                <div class="lang-column native">
-                  <div class="lang-flag" id="nativeFlag">🌐</div>
-                  <h3 class="lang-title" id="nativeTitle">Dans ta langue</h3>
-                  <p class="lang-desc" id="nativeDesc">
-                    Indique simplement :
-                  </p>
-                  <ul class="features-list" id="nativeList">
-                    <li><span class="feature-number">1</span><span>Ton nom et prénom</span></li>
-                    <li><span class="feature-number">2</span><span>Ton site de travail</span></li>
-                    <li><span class="feature-number">3</span><span>Ton service</span></li>
-                    <li><span class="feature-number">4</span><span>Ta fonction</span></li>
-                  </ul>
-                  <div style="display: flex; gap: 12px; margin-top: 20px;">
-                    <button class="btn btn-primary" id="profileRecBtn">🎙️ Enregistrer</button>
-                    <button class="btn btn-secondary" id="profileUploadBtn">📁 Importer</button>
-                  </div>
-                </div>
-
-                <div class="lang-column french">
-                  <div class="lang-flag">🇫🇷</div>
-                  <h3 class="lang-title">En français</h3>
-                  <p class="lang-desc">Indique simplement :</p>
-                  <ul class="features-list">
-                    <li><span class="feature-number">1</span><span>Ton <strong>nom et prénom</strong></span></li>
-                    <li><span class="feature-number">2</span><span>Ton <strong>site</strong> de travail</span></li>
-                    <li><span class="feature-number">3</span><span>Ton <strong>service</strong></span></li>
-                    <li><span class="feature-number">4</span><span>Ta <strong>fonction</strong></span></li>
-                  </ul>
-                  <p style="color: var(--text-muted); font-size: 12px; margin-top: 20px;">
-                    🔒 Ton audio est utilisé uniquement pour générer le texte.
-                  </p>
-                </div>
-              </div>
-
-              <input type="file" id="profileAudioFile" accept="audio/*" style="display: none;">
-              <audio id="profilePlayer" controls style="display: none; margin-top: 24px; width: 100%;"></audio>
-
-              <div class="preview-grid" style="margin-top: 32px;">
-                <div class="preview-box">
-                  <div class="preview-box-label">🗣️ Texte d'origine</div>
-                  <div class="preview-box-content" id="profileOrigText">—</div>
-                </div>
-                <div class="preview-box">
-                  <div class="preview-box-label">🇫🇷 Traduction FR</div>
-                  <div class="preview-box-content" id="profileFrText">—</div>
-                </div>
-              </div>
-
-              <div id="profileMissing" style="display: none; margin-top: 20px; padding: 16px; background: rgba(251, 113, 133, 0.1); border: 1px solid var(--glow-rose); border-radius: var(--radius-md);">
-                <p style="color: var(--glow-rose); font-size: 14px; font-weight: 600;"></p>
-              </div>
-
-              <div class="nav-row">
-                <button class="btn btn-ghost" id="backToLang">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M19 12H5M12 19l-7-7 7-7"/>
-                  </svg>
-                  Changer de langue
-                </button>
-                <button class="btn btn-primary" id="toStep2FromVoice">
-                  Vérifier mes infos
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
-                  </svg>
-                </button>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      <!-- PAGE MERCI -->
-      <section id="stepThanks" class="step-page">
-        <div class="card">
-          <div class="thanks-section">
-            <div class="thanks-icon">🎉</div>
-            <h2 class="thanks-title">Merci pour ton IDEA !</h2>
-            <p class="thanks-message">
-              L'équipe IDEA te remercie chaleureusement. Ta contribution va être 
-              analysée et pourrait bien transformer notre quotidien.
-            </p>
-            <div class="thanks-highlight">
-              ✨ Sans idées, il n'y a pas de progrès. Merci d'avoir pris le temps de partager la tienne.
-            </div>
-            <button class="btn btn-secondary" id="backHome">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M19 12H5M12 19l-7-7 7-7"/>
-              </svg>
-              Retour à l'accueil
-            </button>
-          </div>
-        </div>
-      </section>
-
-    </main>
-  </div>
-
-  <!-- Barre de soumission fixe -->
-  <div class="submit-bar" id="submitBar" style="display: none;">
-    <div class="submit-bar-inner">
-      <div class="submit-status">
-        <div class="submit-status-icon">💡</div>
-        <span id="submitStatus">Prêt à envoyer ton IDEA</span>
-      </div>
-      <button class="btn btn-primary" id="submitBtn" disabled>
-        ✅ Soumettre mon idée
-      </button>
+<div class="wrap">
+  <div class="hero">
+    <div class="brand">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4 12c0-4.418 3.582-8 8-8 3.582 0 6.613 2.347 7.643 5.6" stroke="url(#g1)" stroke-width="2" stroke-linecap="round"/>
+        <path d="M20 12c0 4.418-3.582 8-8 8-3.582 0-6.613-2.347-7.643-5.6" stroke="url(#g2)" stroke-width="2" stroke-linecap="round"/>
+        <defs>
+          <linearGradient id="g1" x1="4" y1="4" x2="22" y2="12">
+            <stop stop-color="#2b62ff"/><stop offset="1" stop-color="#00c9b7"/>
+          </linearGradient>
+          <linearGradient id="g2" x1="4" y1="12" x2="22" y2="22">
+            <stop stop-color="#ff7ab6"/><stop offset="1" stop-color="#00c9b7"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <span class="badge">IDEA — Espace Innovation</span>
     </div>
   </div>
 
-  <!-- Toast notifications -->
-  <div class="toast" id="toast">
-    <span id="toastIcon">✓</span>
-    <span id="toastText">Message</span>
+  <div class="ribbon">
+    🚀 <b>Ton idée, notre avancée.</b> Partage en moins de 2 minutes, nous nous chargeons du reste.
   </div>
+
+  <h1>Laisse ton idée briller ✨</h1>
+  <p class="sub">
+    Ici, tu peux partager en quelques instants une idée d’innovation, une proposition d’amélioration continue
+    ou un retour terrain. Chaque contribution est analysée par l’équipe innovation IDEA.
+  </p>
+
+  <div class="card">
+    <div class="card-head"></div>
+
+    <!-- STEP 1 : ACCUEIL + CHOIX MODE -->
+    <section id="step1" class="step-page active">
+      <div class="intro-main">
+        <!-- Colonne gauche : choix du mode -->
+        <div class="intro-main-main">
+          <h2>Comment veux-tu t’exprimer&nbsp;?</h2>
+          <p class="intro-lead">
+            Choisis si tu préfères <b>écrire</b> ou <b>parler</b> ton idée.
+            On te posera ensuite les questions étape par étape, sans tout demander d’un coup.
+          </p>
+
+          <div class="intro-actions">
+            <button type="button"
+                    id="btnModeText"
+                    class="btn-primary">
+              ✍️ Je préfère écrire
+            </button>
+
+            <button type="button"
+                    id="btnModeVoice"
+                    class="btn-ghost">
+              🎙️ Je préfère parler
+            </button>
+          </div>
+
+          <p id="modeHint" class="muted small"></p>
+
+          <!-- reCAPTCHA affiché uniquement après le choix -->
+          <div id="captchaRow" style="display:none; margin-top:18px;">
+            <div class="g-recaptcha"
+                 data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+                 data-callback="onCaptchaSuccess">
+            </div>
+            <p class="muted small" style="margin-top:8px;">
+              Cette étape sert uniquement à sécuriser la plateforme.
+              Après validation, nous t’emmenons directement vers l’étape suivante.
+            </p>
+          </div>
+        </div>
+
+        <!-- Colonne droite : explication légère -->
+        <aside class="intro-main-side">
+          <h3>Ce que tu peux partager</h3>
+          <p>En moins de <b>2 minutes</b>, tu peux nous envoyer :</p>
+          <ul class="intro-mini-list">
+            <li>
+              <span class="pill">1</span>
+              <span>Une idée d’innovation produit, service ou usage client.</span>
+            </li>
+            <li>
+              <span class="pill">2</span>
+              <span>Une amélioration sur un process, un outil, un flux.</span>
+            </li>
+            <li>
+              <span class="pill">3</span>
+              <span>Un problème terrain observé au quotidien.</span>
+            </li>
+          </ul>
+          <p style="margin-top:10px;" class="muted small">
+            L’équipe IDEA analyse chaque contribution.
+          </p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- STEP 3 : PROFIL TEXTE -->
+    <section id="step3" class="step-page">
+      <div class="panel">
+        <h3>On démarre par toi</h3>
+        <p class="muted">
+          Avant de commencer, indique simplement <b>qui tu es</b>, <b>où tu travailles</b> et <b>quel est ton rôle</b>.
+        </p>
+
+        <label for="authorName">Nom et prénom</label>
+        <input id="authorName" placeholder="Ex : Marie Dupont" />
+
+        <label for="country">Sur quel site travailles-tu ?</label>
+        <select id="country">
+          <option value="">Sélectionne ton site</option>
+          <option>Auxerre</option><option>Beaumont</option><option>Béziers</option>
+          <option>Berre-l’Étang</option><option>Boulogne-Billancourt (Siège social)</option>
+          <option>CAP Tunis</option><option>CAWE</option><option>Cagny</option>
+          <option>Carpiquet</option><option>Chavagnes</option><option>Chambéry</option>
+          <option>Cléguer</option><option>Colmar</option><option>Corbas</option>
+          <option>Dammarie-lès-Lys</option><option>Douvrin</option><option>Firminy</option>
+          <option>Fontaine-le-Comte</option><option>Gravigy</option><option>Guipavas</option>
+          <option>Heillecourt</option><option>La Bresse</option><option>Lailly-en-Val</option>
+          <option>Le Lude</option><option>Les Clayes-sous-Bois</option><option>Longvic</option>
+          <option>Magasin central</option><option>Neuilly-sur-Marne</option><option>Nice</option>
+          <option>Orthez</option><option>Pont-Sainte-Maxence</option><option>Porte-lès-Valence</option>
+          <option>Reims</option><option>Rennes</option><option>Sainte-Luce-sur-Loire</option>
+          <option>Saint-Sulpice</option><option>Toulouse</option><option>Villejust</option>
+          <option value="Autre">Autre (préciser)</option>
+        </select>
+        <div id="otherSiteRow" style="display:none; margin-top:8px;">
+          <input id="otherSite" placeholder="Indique ton site" />
+          <div class="field-note">Si ton site n’apparaît pas dans la liste, précise-le ici.</div>
+        </div>
+
+        <label for="serviceSelect">Dans quel service travailles-tu ?</label>
+        <select id="serviceSelect">
+          <option value="">Sélectionne ton service</option>
+          <option>Production</option>
+          <option>Maintenance</option>
+          <option>Distribution</option>
+          <option>Relation client</option>
+          <option>Commerce</option>
+          <option>Administratif</option>
+          <option>Support (achats, finance, HSE, RH…)</option>
+          <option value="Autre">Autre (préciser)</option>
+        </select>
+        <div id="otherServiceRow" style="display:none; margin-top:8px;">
+          <input id="otherService" placeholder="Précise ton service" />
+        </div>
+
+        <label for="functionField">Quelle est ta fonction ?</label>
+        <input id="functionField" placeholder="Ex : Technicien de maintenance, Responsable magasin…" />
+
+        <div class="nav-row">
+          <button type="button" class="btn-secondary" id="backToIntro">◀ Précédent</button>
+          <button type="button" class="btn-primary" id="nextFromProfile">Suivant · Coordonnées</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 4 : COORDONNÉES -->
+    <section id="step4" class="step-page">
+      <div class="panel">
+        <h3>Comment te recontacter ?</h3>
+
+        <div class="contact-layout">
+          <div>
+            <div class="section-label">Coordonnées</div>
+            <div class="contact-block">
+              <div class="contact-block-title">Adresse mail professionnelle</div>
+              <label for="proEmail" style="margin-top:4px;">Si tu as une adresse mail professionnelle, note-la ci-dessous</label>
+              <input id="proEmail" type="email" placeholder="Ex : prenom.nom@entreprise.com" />
+              <div class="field-note">Ce champ est facultatif, mais il facilite le suivi de ton idée.</div>
+            </div>
+          </div>
+
+          <div>
+            <div class="section-label">Préférence de contact</div>
+            <div class="contact-block">
+              <div class="contact-block-title">Comment souhaites-tu être recontacté(e) ?</div>
+              <div class="radio-group">
+                <label class="radio-item">
+                  <input type="radio" name="contactMode" value="Mail professionnel">
+                  <span>Mail professionnel</span>
+                </label>
+                <label class="radio-item">
+                  <input type="radio" name="contactMode" value="Par l’intermédiaire de mon responsable">
+                  <span>Par l’intermédiaire de mon responsable</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-row">
+          <button type="button" class="btn-secondary" id="backToProfile">◀ Précédent</button>
+          <button type="button" class="btn-primary" id="nextFromContact">Suivant · Rédiger mon idée</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 5 : IDÉE (TEXTE + AUDIO) -->
+    <section id="step5" class="step-page">
+      <div class="content">
+        <div class="panel">
+          <h3>Contenu de ton idée</h3>
+          <p class="muted small">
+            Quelques éléments suffisent : l’objectif est de comprendre ton contexte, ton besoin et l’impact attendu.
+          </p>
+
+          <div class="field-group">
+            <div class="section-label">Type de contribution</div>
+            <div class="choice-row">
+              <label class="radio-item">
+                <input type="checkbox" name="shareType" value="Difficulté">
+                <span>Une difficulté</span>
+              </label>
+              <label class="radio-item">
+                <input type="checkbox" name="shareType" value="Amélioration">
+                <span>Une amélioration</span>
+              </label>
+              <label class="radio-item">
+                <input type="checkbox" name="shareType" value="Innovation">
+                <span>Une innovation</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="ideaTitle">Titre de ton IDEA</label>
+            <input id="ideaTitle" placeholder="Ex : Photo réforme" />
+          </div>
+
+          <div class="field-group">
+            <label for="typedText">Description (optionnel si audio)</label>
+            <textarea id="typedText" placeholder="Décris ton idée, ton besoin, ton insight…"></textarea>
+          </div>
+
+          <div class="field-group">
+            <label for="impactSelect">Quel impact principal aurait ton idée ?</label>
+            <select id="impactSelect">
+              <option value="">Sélectionne l’impact principal</option>
+              <option value="Condition de travail / Ergonomie">Condition de travail / Ergonomie</option>
+              <option value="Développement durable / Environnement">Développement durable / Environnement</option>
+              <option value="Gain de temps / Efficacité">Gain de temps / Efficacité</option>
+              <option value="Productivité">Productivité</option>
+              <option value="Économie d’énergie">Économie d’énergie</option>
+              <option value="Sécurité">Sécurité</option>
+              <option value="Autre">Autre (préciser)</option>
+            </select>
+
+            <div id="impactOtherRow" style="display:none; margin-top:8px;">
+              <input id="impactOther" placeholder="Précise l’impact" />
+            </div>
+          </div>
+
+          <div class="field-group">
+            <div class="section-label">Enregistrement vocal</div>
+            <div class="actions">
+              <button id="recBtn" class="btn-primary" data-tip="HTTPS requis (ou localhost)">🎙️ Démarrer l’enregistrement</button>
+              <button id="uploadBtn" class="btn-ghost">📁 Importer un audio</button>
+              <button id="toneBtn" class="btn-ghost" data-tip="Petit bip de test">🔊 Tester le son</button>
+              <input id="audioFile" type="file" accept="audio/*" capture style="display:none" />
+            </div>
+            <audio id="player" controls hidden></audio>
+          </div>
+
+          <div class="field-group">
+            <div class="section-label">Illustrations (facultatif)</div>
+            <label style="margin-top:4px;">Photos / vidéos</label>
+            <div class="actions">
+              <button type="button" class="btn-ghost" id="mediaCaptureBtn">
+                📷 Prendre une photo / vidéo
+              </button>
+              <button type="button" class="btn-ghost" id="mediaUploadBtn">
+                📁 Importer depuis ton appareil
+              </button>
+              <input id="mediaInputCamera" type="file"
+                     accept="image/*,video/*" capture style="display:none" multiple>
+              <input id="mediaInputFile" type="file"
+                     accept="image/*,video/*" style="display:none" multiple>
+            </div>
+            <div id="mediaPreview" class="media-preview"></div>
+          </div>
+
+          <div class="nav-row">
+            <button type="button" class="btn-secondary" id="backToContact">◀ Précédent</button>
+          </div>
+        </div>
+
+        <div class="panel panel-preview">
+          <div class="preview-top">
+            <div class="preview-text">
+              <h3>Aperçu & traduction</h3>
+              <p class="muted small">
+                Ce panneau se mettra à jour dès que tu enregistres ou importes un audio. Tu peux vérifier le texte compris
+                avant d’envoyer ton IDEA.
+              </p>
+            </div>
+            <div class="preview-robot">
+              <img src="/static/cawe_robot.png" alt="Robot IDEA">
+            </div>
+          </div>
+
+          <div class="preview-grid">
+            <div>
+              <strong>🗣️ Texte d’origine</strong>
+              <div class="muted" id="langChip" style="margin:6px 0 10px"></div>
+              <div id="origBox" class="preview-box">—</div>
+            </div>
+            <div>
+              <strong>🇫🇷 Traduction française</strong>
+              <div id="frBox" class="preview-box">—</div>
+            </div>
+          </div>
+
+          <div class="helper">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 2a10 10 0 100 20 10 10 0 000-20Zm1 14h-2v-2h2v2Zm0-4h-2V6h2v6Z" fill="#3a66ff"/>
+            </svg>
+            <div class="muted">
+              Vérifie rapidement : tu pourras ensuite finaliser et envoyer ton idée. En cas d’erreur,
+              tu pourras corriger le texte ou refaire un enregistrement.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 6 : PROFIL PAR LA VOIX (LANGUE + BILINGUE) -->
+    <section id="stepVoice" class="step-page">
+      <div class="voice-shell">
+        <!-- Robot au centre, en transparence -->
+        <div class="voice-bg">
+          <img src="/static/cawe_robot.png" alt="Robot IDEA">
+        </div>
+
+        <div class="voice-foreground">
+          <!-- Étape 0 : détection de la langue -->
+          <div id="voiceLangCard" class="panel">
+            <h3>Dans quelle langue veux-tu t’exprimer&nbsp;?</h3>
+            <p class="muted">
+              Dis une phrase comme <b>« Je préfère parler en espagnol »</b> ou
+              <b>« I want to speak in English »</b>. Nous détectons la langue
+              puis nous affichons les consignes dans cette langue, en plus du français.
+            </p>
+
+            <div class="actions" style="margin-top:14px; gap:10px; flex-wrap:wrap;">
+              <button id="langRecBtn" class="btn-primary">
+                🎙️ Dire ma langue
+              </button>
+
+              <!-- Choix manuel de la langue -->
+              <select id="langSelect" class="lang-select">
+                <option value="">Ou choisis ta langue…</option>
+                <!-- Options injectées en JS -->
+              </select>
+            </div>
+
+            <div style="margin-top:16px;">
+              <strong>Texte reconnu</strong>
+              <div id="langTextBox" class="preview-box" style="min-height:60px;">—</div>
+            </div>
+
+            <div id="langDetectedRow" class="muted" style="margin-top:10px;"></div>
+
+            <!-- Confirmation X / ✔ -->
+            <div id="langConfirmRow"
+                 style="display:none; margin-top:14px; align-items:center; gap:12px;">
+              <span id="langConfirmLabel" class="muted"></span>
+              <div style="display:flex; gap:8px;">
+                <button type="button" id="langConfirmNo"
+                        style="width:40px; height:40px; border-radius:999px; border:0;
+                               background:#ffe5e5; color:#c62828; font-size:20px;">
+                  ✖
+                </button>
+                <button type="button" id="langConfirmYes"
+                        style="width:40px; height:40px; border-radius:999px; border:0;
+                               background:#e1f7e4; color:#2e7d32; font-size:20px;">
+                  ✔
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Étape 1 : cartes bilingues + enregistrement profil -->
+          <div id="voiceProfileCard" class="panel" style="display:none;">
+            <!-- Switch simple pour mobile -->
+            <div class="voice-switch" id="voiceSwitch">
+              <span id="voiceSwitchLabel" class="voice-switch-label">Langue choisie</span>
+              <button type="button" id="voiceSwitchBtn" class="voice-switch-btn"
+                      aria-label="Basculer entre la langue choisie et le français">
+                <!-- Icône deux flèches -->
+                <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 8h11.17l-2.88-2.88a1 1 0 1 1 1.42-1.42l4.59 4.6a1 1 0 0 1 0 1.4l-4.59 4.6a1 1 0 0 1-1.42-1.42L16.17 10H5a1 1 0 0 1 0-2Zm14 8H7.83l2.88 2.88a1 1 0 0 1-1.42 1.42L4.7 15.7a1 1 0 0 1 0-1.4l4.59-4.6a1 1 0 1 1 1.42 1.42L7.83 14H19a1 1 0 0 1 0 2Z"
+                        fill="currentColor"/>
+                </svg>
+              </button>
+            </div>
+
+            <div class="profile-bilingual-grid">
+              <!-- Colonne langue choisie -->
+              <div class="voice-col voice-col--lang" id="voiceLangCol">
+                <h3 id="voiceLangTitle">Preséntese verbalmente</h3>
+                <p class="muted" id="voiceLangIntro">
+                  En esta grabación, simplemente diga:
+                </p>
+                <ul id="voiceLangList">
+                  <li><span class="pill">1</span><span>Su nombre y apellido.</span></li>
+                  <li><span class="pill">2</span><span>El lugar donde trabaja.</span></li>
+                  <li><span class="pill">3</span><span>Su departamento.</span></li>
+                  <li><span class="pill">4</span><span>Su cargo.</span></li>
+                </ul>
+
+                <div class="actions">
+                  <button id="profileRecBtnMirror" class="btn-primary">
+                    🎙️ Iniciar grabación
+                  </button>
+                  <button id="profileUploadBtnMirror" class="btn-ghost">
+                    📁 Subir audio
+                  </button>
+                </div>
+
+                <p class="notice" id="voiceLangNotice">
+                  🔒 Su audio se utiliza únicamente para generar el texto a continuación.
+                  Nadie más lo guarda ni lo escucha.
+                </p>
+              </div>
+
+              <!-- Colonne FR -->
+              <div class="voice-col voice-col--fr" id="voiceFrCol">
+                <h3>Présente-toi à l’oral</h3>
+                <p class="muted">Dans cet enregistrement, indique simplement :</p>
+                <ul>
+                  <li><span class="pill">1</span><span>Ton <b>nom et prénom</b>.</span></li>
+                  <li><span class="pill">2</span><span>Le <b>site</b> sur lequel tu travailles.</span></li>
+                  <li><span class="pill">3</span><span>Ton <b>service</b>.</span></li>
+                  <li><span class="pill">4</span><span>Ta <b>fonction</b> (poste occupé).</span></li>
+                </ul>
+
+                <div class="actions">
+                  <button id="profileRecBtn" class="btn-primary">
+                    🎙️ Démarrer l’enregistrement
+                  </button>
+                  <button id="profileUploadBtn" class="btn-ghost">
+                    📁 Importer un audio
+                  </button>
+                  <input id="profileAudioFile" type="file" accept="audio/*" capture style="display:none">
+                </div>
+
+                <audio id="profilePlayer" controls hidden style="margin-top:10px;"></audio>
+
+                <p class="notice">
+                  🔒 Ton audio est utilisé uniquement pour générer le texte ci-dessous.
+                  Il n’est ni conservé, ni réécouté par une autre personne.
+                </p>
+              </div>
+            </div>
+
+            <!-- Prévisualisation texte / traduction -->
+            <div class="voice-preview-block">
+              <div>
+                <strong>🗣️ Texte d’origine</strong>
+                <div class="muted" id="profileLangChip" style="margin:6px 0 10px;"></div>
+                <div id="profileOrigBox" class="preview-box">—</div>
+              </div>
+              <div>
+                <strong>🇫🇷 Traduction française</strong>
+                <div id="profileFrBox" class="preview-box">—</div>
+              </div>
+            </div>
+
+            <div id="voiceMissingMsg"
+                 class="muted"
+                 style="color:#c62828; margin-top:14px; font-weight:600;"></div>
+
+            <div class="nav-row" style="margin-top:20px;">
+              <button type="button" class="btn-secondary" id="backToModeVoice">
+                ◀ Retour
+              </button>
+              <button type="button" class="btn-primary" id="nextFromVoice">
+                Suivant · Vérifier mes infos
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP MERCI : CONFIRMATION FINALE -->
+    <section id="stepThanks" class="step-page">
+      <div class="panel thank-panel">
+        <div class="thank-layout">
+          <div class="thank-text">
+            <h2>Merci pour ton IDEA 💡</h2>
+            <p class="muted">
+              Toute l’équipe <b>IDEA</b> te remercie chaleureusement pour ta contribution.
+              Grâce à des personnes comme toi, nous continuons à nous améliorer
+              chaque jour, chaque heure, chaque minute.
+            </p>
+            <p class="muted">
+              Ton IDEA va maintenant être analysée par l’équipe innovation.
+              Si un suivi est nécessaire, nous te recontacterons via le mode que tu as choisi.
+            </p>
+            <div class="thank-highlight">
+              <span>✨ Sans idées, il n’y a pas de progrès. Merci d’avoir pris le temps de partager la tienne.</span>
+            </div>
+
+            <button type="button" class="btn-secondary" id="backToHomeBtn">
+              ⬅️ Retour à l’accueil IDEA
+            </button>
+          </div>
+
+          <div class="thank-robot">
+            <div class="thank-robot-orbit">
+              <img src="/static/cawe_robot.png" alt="Robot IDEA qui te remercie">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="spacer"></div>
+</div>
+
+<div class="submitbar">
+  <div class="inner">
+    <button id="submitBtn" class="btn-primary" disabled>
+      ✅ Soumettre mon idée
+    </button>
+    <span id="statusMsg" class="muted"></span>
+  </div>
+</div>
+
 
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <script>
-    // =========================================================
-    // NAVIGATION & STATE
-    // =========================================================
-    const steps = document.querySelectorAll('.step-page');
-    let currentStep = 'step1';
-    let chosenMode = null;
+// --- Navigation entre étapes ---
 
-    function showStep(stepId) {
-      steps.forEach(s => s.classList.remove('active'));
-      document.getElementById(stepId)?.classList.add('active');
-      currentStep = stepId;
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      
-      // Afficher/masquer la barre de soumission
-      const submitBar = document.getElementById('submitBar');
-      if (stepId === 'step4') {
-        submitBar.style.display = 'block';
-      } else if (stepId !== 'stepThanks') {
-        submitBar.style.display = 'none';
+const stepPages = Array.from(document.querySelectorAll(".step-page"));
+let currentStepId = "step1";
+const recState = document.getElementById("recState"); // optionnel
+
+function showStep(id){
+  currentStepId = id;
+  stepPages.forEach(p => p.classList.toggle("active", p.id === id));
+
+  if (recState){
+    const labels = {
+      step1: "Introduction",
+      step3: "Profil collaborateur",
+      step4: "Coordonnées",
+      step5: "Saisie de l’idée",
+      stepVoice: "Profil vocal",
+      stepThanks: "Confirmation"
+    };
+    recState.textContent = labels[id] || "";
+  }
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  showStep("step1");
+});
+
+// --- Accueil : choix du mode + reCAPTCHA ---
+
+const btnModeText  = document.getElementById("btnModeText");
+const btnModeVoice = document.getElementById("btnModeVoice");
+const modeHint     = document.getElementById("modeHint");
+const captchaRow   = document.getElementById("captchaRow");
+
+let chosenMode = null;
+let captchaOk  = false;
+
+function updateModeButtons(){
+  if (!btnModeText || !btnModeVoice) return;
+  if (chosenMode === "text"){
+    btnModeText.classList.add("btn-primary");
+    btnModeText.classList.remove("btn-ghost");
+    btnModeVoice.classList.add("btn-ghost");
+    btnModeVoice.classList.remove("btn-primary");
+  } else if (chosenMode === "voice"){
+    btnModeVoice.classList.add("btn-primary");
+    btnModeVoice.classList.remove("btn-ghost");
+    btnModeText.classList.add("btn-ghost");
+    btnModeText.classList.remove("btn-primary");
+  }
+}
+
+function handleModeChoice(mode){
+  chosenMode = mode;
+  updateModeButtons();
+  if (captchaRow) captchaRow.style.display = "block";
+
+  if (modeHint){
+    if (mode === "text"){
+      modeHint.textContent =
+        "Valide le « Je ne suis pas un robot » pour commencer par ton profil en mode texte.";
+    } else {
+      modeHint.textContent =
+        "Valide le « Je ne suis pas un robot » pour commencer par ton profil en mode vocal.";
+    }
+  }
+}
+
+btnModeText?.addEventListener("click", () => handleModeChoice("text"));
+btnModeVoice?.addEventListener("click", () => handleModeChoice("voice"));
+
+function onCaptchaSuccess(){
+  captchaOk = true;
+  if (!chosenMode){
+    if (modeHint){
+      modeHint.textContent =
+        "Merci, choisis d’abord si tu préfères écrire ou parler ton idée.";
+    }
+    return;
+  }
+  if (chosenMode === "text"){
+    showStep("step3");
+  } else {
+    showStep("stepVoice");
+  }
+}
+window.onCaptchaSuccess = onCaptchaSuccess;
+
+// --- Champs profil / coordonnées / idée ---
+
+const siteSelect        = document.getElementById("country");
+const otherSiteRow      = document.getElementById("otherSiteRow");
+const otherSite         = document.getElementById("otherSite");
+const serviceSelect     = document.getElementById("serviceSelect");
+const otherServiceRow   = document.getElementById("otherServiceRow");
+const otherService      = document.getElementById("otherService");
+const proEmail          = document.getElementById("proEmail");
+const authorName        = document.getElementById("authorName");
+const functionField     = document.getElementById("functionField");
+const submitBtn         = document.getElementById("submitBtn");
+const statusMsg         = document.getElementById("statusMsg");
+
+siteSelect?.addEventListener("change", () => {
+  if (!otherSiteRow || !otherSite) return;
+  otherSiteRow.style.display = siteSelect.value === "Autre" ? "block" : "none";
+  if (siteSelect.value !== "Autre") otherSite.value = "";
+});
+
+serviceSelect?.addEventListener("change", () => {
+  if (!otherServiceRow || !otherService) return;
+  otherServiceRow.style.display = serviceSelect.value === "Autre" ? "block" : "none";
+  if (serviceSelect.value !== "Autre") otherService.value = "";
+});
+
+function getContactMode(){
+  const checked = document.querySelector("input[name='contactMode']:checked");
+  return checked ? checked.value : null;
+}
+
+// --- Impact ---
+
+const impactSelect   = document.getElementById("impactSelect");
+const impactOtherRow = document.getElementById("impactOtherRow");
+const impactOther    = document.getElementById("impactOther");
+
+function getImpact(){
+  const v = impactSelect.value;
+  if (!v) return { impact: null, impact_other: null };
+
+  if (v === "Autre") {
+    return { impact: "Autre", impact_other: impactOther.value || null };
+  }
+  return { impact: v, impact_other: null };
+}
+
+impactSelect?.addEventListener("change", () => {
+  if (!impactOtherRow || !impactOther) return;
+  if (impactSelect.value === "Autre"){
+    impactOtherRow.style.display = "block";
+    impactOther.value = "";
+  } else {
+    impactOtherRow.style.display = "none";
+    impactOther.value = "";
+  }
+});
+
+// --- Audio / transcription de l’idée ---
+
+const recBtn     = document.getElementById("recBtn");
+const uploadBtn  = document.getElementById("uploadBtn");
+const toneBtn    = document.getElementById("toneBtn");
+const audioFile  = document.getElementById("audioFile");
+const player     = document.getElementById("player");
+const typedText  = document.getElementById("typedText");
+const langChip   = document.getElementById("langChip");
+const origBox    = document.getElementById("origBox");
+const frBox      = document.getElementById("frBox");
+
+const mediaCaptureBtn = document.getElementById("mediaCaptureBtn");
+const mediaUploadBtn  = document.getElementById("mediaUploadBtn");
+const mediaInputCamera= document.getElementById("mediaInputCamera");
+const mediaInputFile  = document.getElementById("mediaInputFile");
+const mediaPreview    = document.getElementById("mediaPreview");
+
+let mediaFiles = [];
+let mediaRecorder = null, chunks = [], stream;
+let detectedLanguage = null, originalText = null, frenchTranslation = null;
+
+function isSecure(){
+  return window.isSecureContext || ["localhost","127.0.0.1"].includes(location.hostname);
+}
+
+function pickBestMime(){
+  const candidates = ['audio/webm;codecs=opus','audio/webm','audio/mp4',''];
+  for(const c of candidates){
+    if(!c) return undefined;
+    if(MediaRecorder.isTypeSupported(c)) return c;
+  }
+  return undefined;
+}
+
+toneBtn?.addEventListener("click", async ()=>{
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const osc = ctx.createOscillator();
+  const gn  = ctx.createGain();
+  gn.gain.value = 0.2; osc.frequency.value = 880; osc.connect(gn); gn.connect(ctx.destination);
+  osc.start(); setTimeout(()=>{ osc.stop(); ctx.close(); }, 600);
+});
+
+async function transcribeBlob(blob){
+  if (statusMsg) statusMsg.textContent = "Transcription en cours…";
+  const form = new FormData();
+  form.append("audio", blob, "record.webm");
+  const res = await fetch("/api/transcribe", { method: "POST", body: form });
+  const data = await res.json();
+  if (!res.ok || !data.ok){
+    if (statusMsg) statusMsg.textContent = (data && data.error) ? data.error : "Échec de la transcription.";
+    return;
+  }
+  detectedLanguage   = data.language || "";
+  originalText       = data.original_text || "";
+  frenchTranslation  = data.french_translation || "";
+
+  if (langChip) langChip.textContent = detectedLanguage ? `Langue détectée : ${detectedLanguage}` : "";
+  if (origBox)  origBox.textContent = originalText || "—";
+  if (frBox)    frBox.textContent = frenchTranslation || "—";
+
+  if (submitBtn) submitBtn.disabled = false;
+  if (statusMsg) statusMsg.textContent = "Transcription terminée. Tu pourras envoyer à la dernière étape.";
+}
+
+async function startRecording(){
+  if(!isSecure() || !(navigator.mediaDevices?.getUserMedia)){
+    alert("HTTPS requis (ou localhost). Utilise plutôt l’import de fichier audio.");
+    return;
+  }
+  try{
+    try{ if(player && !player.paused) player.pause(); }catch(_){}
+    if (player) player.hidden = true;
+    if(stream) stream.getTracks().forEach(t=>t.stop());
+    const constraints = { audio: { echoCancellation:true, noiseSuppression:true, autoGainControl:true, channelCount:1, sampleRate:48000, sampleSize:16 } };
+    stream = await navigator.mediaDevices.getUserMedia(constraints);
+
+    chunks = []; const mime = pickBestMime();
+    mediaRecorder = new MediaRecorder(stream, mime ? { mimeType: mime } : undefined);
+    mediaRecorder.ondataavailable = e => { if(e.data.size>0) chunks.push(e.data); };
+    mediaRecorder.onstop = async () => {
+      const blob = new Blob(chunks, { type: mediaRecorder.mimeType || "audio/webm" });
+      if (player){
+        player.src = URL.createObjectURL(blob);
+        player.hidden = false;
+      }
+      await transcribeBlob(blob);
+      if(stream) stream.getTracks().forEach(t=>t.stop());
+    };
+
+    mediaRecorder.start();
+    if (recBtn) recBtn.textContent = "⏹️ Arrêter";
+  }catch(err){
+    alert("Impossible d'accéder au micro : " + err);
+  }
+}
+
+function stopRecording(){
+  if(mediaRecorder && mediaRecorder.state !== "inactive"){
+    mediaRecorder.stop();
+    if (recBtn) recBtn.textContent = "🎙️ Démarrer l’enregistrement";
+  }
+}
+
+recBtn?.addEventListener("click", () => {
+  (!mediaRecorder || mediaRecorder.state === "inactive") ? startRecording() : stopRecording();
+});
+uploadBtn?.addEventListener("click", () => audioFile?.click());
+audioFile?.addEventListener("change", async () => {
+  const file = audioFile.files?.[0]; if (!file) return;
+  if (player){
+    player.src = URL.createObjectURL(file);
+    player.hidden = false;
+  }
+  await transcribeBlob(file);
+});
+
+function handleMediaFiles(fileList){
+  mediaFiles = Array.from(fileList || []);
+  if (!mediaPreview) return;
+  mediaPreview.innerHTML = "";
+
+  mediaFiles.forEach(file => {
+    const url = URL.createObjectURL(file);
+    const isVideo = file.type.startsWith("video/");
+    const el = document.createElement(isVideo ? "video" : "img");
+    el.src = url;
+    if(isVideo){
+      el.muted = true;
+      el.controls = true;
+    }
+    mediaPreview.appendChild(el);
+  });
+}
+
+mediaCaptureBtn?.addEventListener("click", () => mediaInputCamera?.click());
+mediaInputCamera?.addEventListener("change", () => handleMediaFiles(mediaInputCamera.files));
+mediaUploadBtn?.addEventListener("click", () => mediaInputFile?.click());
+mediaInputFile?.addEventListener("change", () => handleMediaFiles(mediaInputFile.files));
+
+function getShareTypes(){
+  const boxes = document.querySelectorAll("input[name='shareType']:checked");
+  return Array.from(boxes).map(b => b.value);
+}
+
+// --- PROFIL VOCAL (analyse + hints) ---
+
+const profileRecBtn      = document.getElementById("profileRecBtn");
+const profileUploadBtn   = document.getElementById("profileUploadBtn");
+const profileAudioFile   = document.getElementById("profileAudioFile");
+const profilePlayer      = document.getElementById("profilePlayer");
+const profileLangChip    = document.getElementById("profileLangChip");
+const profileOrigBox     = document.getElementById("profileOrigBox");
+const profileFrBox       = document.getElementById("profileFrBox");
+const voiceMissingMsg    = document.getElementById("voiceMissingMsg");
+
+let profileMediaRecorder = null, profileChunks = [], profileStream;
+let profileDetectedLanguage = null,
+    profileOriginalText    = null,
+    profileFrenchTranslation = null;
+
+let profileReady = false;
+
+let profileSlots = {
+  name: null,
+  site: null,
+  service: null,
+  function_title: null
+};
+let profileMissing = [];
+let profileHints   = {};
+
+const labelNameEl    = document.querySelector("label[for='authorName']");
+const labelSiteEl    = document.querySelector("label[for='country']");
+const labelServiceEl = document.querySelector("label[for='serviceSelect']");
+const labelFuncEl    = document.querySelector("label[for='functionField']");
+
+const baseLabels = {
+  name:           labelNameEl   ? labelNameEl.innerHTML   : "",
+  site:           labelSiteEl   ? labelSiteEl.innerHTML   : "",
+  service:        labelServiceEl? labelServiceEl.innerHTML: "",
+  function_title: labelFuncEl   ? labelFuncEl.innerHTML   : ""
+};
+
+const redMsg = (msg) => `<span style="color:#e55353; font-weight:600;">${msg}</span>`;
+
+async function transcribeProfileBlob(blob){
+  if (statusMsg) statusMsg.textContent = "Transcription du profil en cours…";
+  const form = new FormData();
+  form.append("audio", blob, "profile.webm");
+
+  const res  = await fetch("/api/transcribe", { method: "POST", body: form });
+  const data = await res.json();
+
+  if (!res.ok || !data.ok){
+    if (statusMsg) statusMsg.textContent = (data && data.error) ? data.error : "Échec de la transcription du profil.";
+    return;
+  }
+
+  profileDetectedLanguage   = data.language || "";
+  profileOriginalText       = data.original_text || "";
+  profileFrenchTranslation  = data.french_translation || "";
+
+  if (profileLangChip){
+    profileLangChip.textContent = profileDetectedLanguage
+      ? `Langue détectée : ${profileDetectedLanguage}` : "";
+  }
+  if (profileOrigBox) profileOrigBox.textContent  = profileOriginalText  || "—";
+  if (profileFrBox)  profileFrBox.textContent    = profileFrenchTranslation || "—";
+
+  if (statusMsg) statusMsg.textContent = "Profil transcrit. Tu peux vérifier ce qui a été compris.";
+
+  const textForAnalysis = profileFrenchTranslation || profileOriginalText || "";
+  const normalized = textForAnalysis.toLowerCase().trim();
+  const isSilence =
+    !normalized ||
+    /\[silence\]/i.test(normalized) ||
+    /tonal sound|music only|background noise/.test(normalized) ||
+    profileDetectedLanguage === "und";
+
+  if (isSilence){
+    profileReady   = false;
+    profileSlots   = { name:null, site:null, service:null, function_title:null };
+    profileMissing = ["name","site","service","function_title"];
+    profileHints   = {};
+
+    if (voiceMissingMsg){
+      voiceMissingMsg.textContent =
+        "⚠️ Je n’ai pas bien compris ton nom, ton site, ton service, ta fonction. " +
+        "Tu pourras corriger ces informations à l’étape suivante ou refaire un enregistrement.";
+    }
+
+    updateProfileHintsUI();
+    return;
+  }
+
+  await analyzeProfileTextForFields(textForAnalysis).catch(console.error);
+}
+
+function updateProfileHintsUI(){
+  if (labelNameEl)    labelNameEl.innerHTML   = baseLabels.name;
+  if (labelSiteEl)    labelSiteEl.innerHTML   = baseLabels.site;
+  if (labelServiceEl) labelServiceEl.innerHTML= baseLabels.service;
+  if (labelFuncEl)    labelFuncEl.innerHTML   = baseLabels.function_title;
+
+  const hasTranscript = !!(profileOriginalText || profileFrenchTranslation);
+  if (!hasTranscript) {
+    if (voiceMissingMsg) voiceMissingMsg.textContent = "";
+    return;
+  }
+
+  if (profileMissing.includes("name") && labelNameEl){
+    const msg = profileHints.name || "Je n’ai pas bien compris ton nom, merci de le préciser ici.";
+    labelNameEl.innerHTML = baseLabels.name + " " + redMsg(msg);
+  }
+  if (profileMissing.includes("site") && labelSiteEl){
+    const msg = profileHints.site || "Je n’ai pas bien compris ton site, merci de le sélectionner ou le préciser.";
+    labelSiteEl.innerHTML = baseLabels.site + " " + redMsg(msg);
+  }
+  if (profileMissing.includes("service") && labelServiceEl){
+    const msg = profileHints.service || "Je n’ai pas bien compris ton service, merci de le préciser.";
+    labelServiceEl.innerHTML = baseLabels.service + " " + redMsg(msg);
+  }
+  if (profileMissing.includes("function_title") && labelFuncEl){
+    const msg = profileHints.function_title || "Je n’ai pas bien compris ta fonction, merci de la préciser.";
+    labelFuncEl.innerHTML = baseLabels.function_title + " " + redMsg(msg);
+  }
+
+  if (!voiceMissingMsg) return;
+
+  if (profileReady){
+    voiceMissingMsg.textContent = "✔️ Toutes les informations semblent complètes. Tu pourras les corriger à la main si besoin.";
+  } else {
+    const human = {
+      name:"ton nom",
+      site:"ton site",
+      service:"ton service",
+      function_title:"ta fonction"
+    };
+    const items = profileMissing.map(k => human[k] || k);
+    voiceMissingMsg.textContent =
+      "⚠️ Je n’ai pas bien compris : " + items.join(", ") +
+      ". Tu pourras corriger ces informations à l’étape suivante ou refaire un enregistrement si tu préfères.";
+  }
+}
+
+async function analyzeProfileTextForFields(text){
+  if (!text) return;
+
+  const res = await fetch("/api/analyze_profile", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text })
+  });
+  const data = await res.json();
+
+  if (!res.ok || !data.ok){
+    console.warn("Analyse profil échouée :", data.error);
+    return;
+  }
+
+  profileSlots   = data.profile || {};
+  profileMissing = data.missing || [];
+  profileHints   = data.hints   || {};
+
+  if (!Array.isArray(profileMissing)) profileMissing = [];
+
+  if (!profileSlots.name && !profileMissing.includes("name")) profileMissing.push("name");
+  if (!profileSlots.site && !profileMissing.includes("site")) profileMissing.push("site");
+  if (!profileSlots.service && !profileMissing.includes("service")) profileMissing.push("service");
+  if (!profileSlots.function_title && !profileMissing.includes("function_title")) profileMissing.push("function_title");
+
+  profileReady =
+    !!profileSlots.name &&
+    !!profileSlots.site &&
+    !!profileSlots.service &&
+    !!profileSlots.function_title &&
+    profileMissing.length === 0;
+
+  if (profileSlots.name && authorName) {
+    authorName.value = profileSlots.name;
+  }
+
+  if (profileSlots.site && siteSelect) {
+    const options = Array.from(siteSelect.options).map(o => o.value || o.textContent);
+    if (options.includes(profileSlots.site)) {
+      siteSelect.value = profileSlots.site;
+      if (otherSiteRow && otherSite){
+        otherSiteRow.style.display = "none";
+        otherSite.value = "";
+      }
+    } else {
+      siteSelect.value = "Autre";
+      if (otherSiteRow && otherSite){
+        otherSiteRow.style.display = "block";
+        otherSite.value = profileSlots.site;
       }
     }
+  }
 
-    // =========================================================
-    // MODE SELECTION
-    // =========================================================
-    const modeText = document.getElementById('modeText');
-    const modeVoice = document.getElementById('modeVoice');
-    const captchaRow = document.getElementById('captchaRow');
-
-    function selectMode(mode) {
-      chosenMode = mode;
-      modeText.classList.toggle('active', mode === 'text');
-      modeVoice.classList.toggle('active', mode === 'voice');
-      captchaRow.style.display = 'block';
-    }
-
-    modeText?.addEventListener('click', () => selectMode('text'));
-    modeVoice?.addEventListener('click', () => selectMode('voice'));
-
-    // Callback reCAPTCHA
-    function onCaptchaSuccess() {
-      if (chosenMode === 'text') {
-        showStep('step2');
-      } else if (chosenMode === 'voice') {
-        showStep('stepVoice');
+  if (profileSlots.service && serviceSelect) {
+    const optionsS = Array.from(serviceSelect.options).map(o => o.value || o.textContent);
+    if (optionsS.includes(profileSlots.service)) {
+      serviceSelect.value = profileSlots.service;
+      if (otherServiceRow && otherService){
+        otherServiceRow.style.display = "none";
+        otherService.value = "";
+      }
+    } else {
+      serviceSelect.value = "Autre";
+      if (otherServiceRow && otherService){
+        otherServiceRow.style.display = "block";
+        otherService.value = profileSlots.service;
       }
     }
-    window.onCaptchaSuccess = onCaptchaSuccess;
+  }
 
-    // =========================================================
-    // NAVIGATION BUTTONS
-    // =========================================================
-    document.getElementById('backToStep1')?.addEventListener('click', () => showStep('step1'));
-    document.getElementById('toStep3')?.addEventListener('click', () => showStep('step3'));
-    document.getElementById('backToStep2')?.addEventListener('click', () => showStep('step2'));
-    document.getElementById('toStep4')?.addEventListener('click', () => showStep('step4'));
-    document.getElementById('backToStep3')?.addEventListener('click', () => showStep('step3'));
-    document.getElementById('backHome')?.addEventListener('click', () => {
-      showStep('step1');
-      document.getElementById('submitBar').style.display = 'none';
-    });
+  if (profileSlots.function_title && functionField) {
+    functionField.value = profileSlots.function_title;
+  }
 
-    // Voice flow
-    document.getElementById('backToLang')?.addEventListener('click', () => {
-      document.getElementById('langDetection').style.display = 'block';
-      document.getElementById('profileBilingual').style.display = 'none';
-    });
-    document.getElementById('toStep2FromVoice')?.addEventListener('click', () => showStep('step2'));
+  updateProfileHintsUI();
+}
 
-    // =========================================================
-    // SITE/SERVICE "AUTRE"
-    // =========================================================
-    const siteSelect = document.getElementById('site');
-    const otherSiteRow = document.getElementById('otherSiteRow');
-    siteSelect?.addEventListener('change', () => {
-      otherSiteRow.style.display = siteSelect.value === 'Autre' ? 'block' : 'none';
-    });
+async function startProfileRecording(){
+  if(!isSecure() || !(navigator.mediaDevices?.getUserMedia)){
+    alert("HTTPS requis (ou localhost). Utilise plutôt l’import de fichier audio.");
+    return;
+  }
+  try{
+    try { if (profilePlayer && !profilePlayer.paused) profilePlayer.pause(); } catch(_){}
+    if(profilePlayer) profilePlayer.hidden = true;
 
-    // =========================================================
-    // MEDIA UPLOAD
-    // =========================================================
-    const mediaDropzone = document.getElementById('mediaDropzone');
-    const mediaInput = document.getElementById('mediaInput');
-    const mediaPreview = document.getElementById('mediaPreview');
+    if(profileStream) profileStream.getTracks().forEach(t => t.stop());
 
-    mediaDropzone?.addEventListener('click', () => mediaInput?.click());
-    mediaDropzone?.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      mediaDropzone.classList.add('dragover');
-    });
-    mediaDropzone?.addEventListener('dragleave', () => {
-      mediaDropzone.classList.remove('dragover');
-    });
-    mediaDropzone?.addEventListener('drop', (e) => {
-      e.preventDefault();
-      mediaDropzone.classList.remove('dragover');
-      handleMediaFiles(e.dataTransfer.files);
-    });
-    mediaInput?.addEventListener('change', () => {
-      handleMediaFiles(mediaInput.files);
-    });
+    const constraints = {
+      audio: {
+        echoCancellation:true,
+        noiseSuppression:true,
+        autoGainControl:true,
+        channelCount:1,
+        sampleRate:48000,
+        sampleSize:16
+      }
+    };
 
-    function handleMediaFiles(files) {
-      mediaPreview.innerHTML = '';
-      Array.from(files).forEach(file => {
-        const url = URL.createObjectURL(file);
-        const isVideo = file.type.startsWith('video/');
-        const el = document.createElement(isVideo ? 'video' : 'img');
-        el.src = url;
-        if (isVideo) {
-          el.muted = true;
-          el.controls = true;
-        }
-        mediaPreview.appendChild(el);
+    profileStream = await navigator.mediaDevices.getUserMedia(constraints);
+    profileChunks = [];
+    const mime = pickBestMime();
+
+    profileMediaRecorder = new MediaRecorder(
+      profileStream,
+      mime ? { mimeType: mime } : undefined
+    );
+
+    profileMediaRecorder.ondataavailable = e => {
+      if(e.data.size > 0) profileChunks.push(e.data);
+    };
+    profileMediaRecorder.onstop = async () => {
+      const blob = new Blob(profileChunks, {
+        type: profileMediaRecorder.mimeType || "audio/webm"
       });
-    }
-
-    // =========================================================
-    // VOICE RECORDING (simplified demo)
-    // =========================================================
-    const recBtn = document.getElementById('recBtn');
-    const voiceStatus = document.getElementById('voiceStatus');
-    const waveform = document.getElementById('waveform');
-    let isRecording = false;
-
-    recBtn?.addEventListener('click', () => {
-      if (!isRecording) {
-        isRecording = true;
-        recBtn.textContent = '⏹️ Arrêter';
-        voiceStatus.textContent = 'Enregistrement en cours...';
-        voiceStatus.classList.add('recording');
-        waveform.style.display = 'flex';
-      } else {
-        isRecording = false;
-        recBtn.textContent = 'Enregistrer';
-        voiceStatus.textContent = 'Enregistrement terminé';
-        voiceStatus.classList.remove('recording');
-        waveform.style.display = 'none';
-        // Enable submit
-        document.getElementById('submitBtn').disabled = false;
+      if (profilePlayer){
+        profilePlayer.src = URL.createObjectURL(blob);
+        profilePlayer.hidden = false;
       }
-    });
+      await transcribeProfileBlob(blob);
+      if(profileStream) profileStream.getTracks().forEach(t => t.stop());
+    };
 
-    document.getElementById('uploadBtn')?.addEventListener('click', () => {
-      document.getElementById('audioFile')?.click();
-    });
+    profileMediaRecorder.start();
+    if (profileRecBtn) profileRecBtn.textContent = "⏹️ Arrêter";
+  } catch(err){
+    alert("Impossible d'accéder au micro : " + err);
+  }
+}
 
-    // =========================================================
-    // LANGUAGE DETECTION (simplified)
-    // =========================================================
-    const langSelect = document.getElementById('langSelect');
-    const langConfirm = document.getElementById('langConfirm');
+function stopProfileRecording(){
+  if(profileMediaRecorder && profileMediaRecorder.state !== "inactive"){
+    profileMediaRecorder.stop();
+    if (profileRecBtn) profileRecBtn.textContent = "🎙️ Démarrer l’enregistrement";
+    if(profileStream) profileStream.getTracks().forEach(t => t.stop());
+  }
+}
 
-    langSelect?.addEventListener('change', () => {
-      if (langSelect.value) {
-        const label = langSelect.options[langSelect.selectedIndex].text;
-        document.getElementById('langText').textContent = `Langue sélectionnée : ${label}`;
-        // Show profile section
-        document.getElementById('langDetection').style.display = 'none';
-        document.getElementById('profileBilingual').style.display = 'block';
-      }
-    });
+profileRecBtn?.addEventListener("click", () => {
+  (!profileMediaRecorder || profileMediaRecorder.state === "inactive")
+    ? startProfileRecording()
+    : stopProfileRecording();
+});
 
-    document.getElementById('langYes')?.addEventListener('click', () => {
-      document.getElementById('langDetection').style.display = 'none';
-      document.getElementById('profileBilingual').style.display = 'block';
-    });
+profileUploadBtn?.addEventListener("click", () => profileAudioFile?.click());
 
-    document.getElementById('langNo')?.addEventListener('click', () => {
-      langConfirm.style.display = 'none';
-      document.getElementById('langText').textContent = '—';
-    });
+profileAudioFile?.addEventListener("change", async () => {
+  const file = profileAudioFile.files?.[0];
+  if (!file) return;
 
-    // =========================================================
-    // SUBMIT
-    // =========================================================
-    document.getElementById('submitBtn')?.addEventListener('click', () => {
-      const submitStatus = document.getElementById('submitStatus');
-      const submitBtn = document.getElementById('submitBtn');
-      
-      submitStatus.innerHTML = '<div class="spinner"></div> Envoi en cours...';
-      submitBtn.disabled = true;
+  if (profilePlayer){
+    profilePlayer.src = URL.createObjectURL(file);
+    profilePlayer.hidden = false;
+  }
+  await transcribeProfileBlob(file);
+});
 
-      // Simulate submission
-      setTimeout(() => {
-        document.getElementById('submitBar').style.display = 'none';
-        showStep('stepThanks');
-      }, 1500);
-    });
+// --- Étape 0 vocal : détection de langue + switch mobile ---
 
-    // =========================================================
-    // TOAST
-    // =========================================================
-    function showToast(message, type = 'success') {
-      const toast = document.getElementById('toast');
-      const toastText = document.getElementById('toastText');
-      const toastIcon = document.getElementById('toastIcon');
-      
-      toastText.textContent = message;
-      toastIcon.textContent = type === 'success' ? '✓' : '✗';
-      toast.className = `toast ${type} show`;
-      
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 3000);
+// Récupération des éléments DOM
+const langRecBtn        = document.getElementById("langRecBtn");
+const langSelect        = document.getElementById("langSelect");
+const langUploadBtn     = document.getElementById("langUploadBtn");
+const langAudioFile     = document.getElementById("langAudioFile");
+const langTextBox       = document.getElementById("langTextBox");
+const langDetectedRow   = document.getElementById("langDetectedRow");
+const langConfirmRow    = document.getElementById("langConfirmRow");
+const langConfirmLabel  = document.getElementById("langConfirmLabel");
+const langConfirmYes    = document.getElementById("langConfirmYes");
+const langConfirmNo     = document.getElementById("langConfirmNo");
+
+const voiceLangCard     = document.getElementById("voiceLangCard");
+const voiceProfileCard  = document.getElementById("voiceProfileCard");
+
+const voiceLangTitle    = document.getElementById("voiceLangTitle");
+const voiceLangIntro    = document.getElementById("voiceLangIntro");
+const voiceLangList     = document.getElementById("voiceLangList");
+const voiceLangNotice   = document.getElementById("voiceLangNotice");
+const profileRecBtnMirror   = document.getElementById("profileRecBtnMirror");
+const profileUploadBtnMirror= document.getElementById("profileUploadBtnMirror");
+
+const voiceLangCol      = document.getElementById("voiceLangCol");
+const voiceFrCol        = document.getElementById("voiceFrCol");
+const voiceSwitch       = document.getElementById("voiceSwitch");
+const voiceSwitchBtn    = document.getElementById("voiceSwitchBtn");
+const voiceSwitchLabel  = document.getElementById("voiceSwitchLabel");
+
+let langMediaRecorder = null, langChunks = [], langStream;
+let currentLangCandidate = null;
+let currentProfileLanguage = null;
+
+// vue actuelle pour mobile
+let currentVoiceView   = "native"; // "native" ou "fr"
+let nativeDisplayLabel = "Langue choisie";
+
+// Liste des langues pour le <select>
+const LANGUAGE_OPTIONS = [
+  { code: "af", fr: "Afrikaans", native: "Afrikaans" },
+  { code: "ar", fr: "Arabe", native: "العربية" },
+  { code: "bg", fr: "Bulgare", native: "Български" },
+  { code: "ca", fr: "Catalan", native: "Català" },
+  { code: "cs", fr: "Tchèque", native: "Čeština" },
+  { code: "da", fr: "Danois", native: "Dansk" },
+  { code: "de", fr: "Allemand", native: "Deutsch" },
+  { code: "el", fr: "Grec", native: "Ελληνικά" },
+  { code: "en", fr: "Anglais", native: "English" },
+  { code: "es", fr: "Espagnol", native: "Español" },
+  { code: "et", fr: "Estonien", native: "Eesti" },
+  { code: "fa", fr: "Persan", native: "فارسی" },
+  { code: "fi", fr: "Finnois", native: "Suomi" },
+  { code: "fr", fr: "Français", native: "Français" },
+  { code: "he", fr: "Hébreu", native: "עברית" },
+  { code: "hi", fr: "Hindi", native: "हिन्दी" },
+  { code: "hr", fr: "Croate", native: "Hrvatski" },
+  { code: "hu", fr: "Hongrois", native: "Magyar" },
+  { code: "id", fr: "Indonésien", native: "Bahasa Indonesia" },
+  { code: "it", fr: "Italien", native: "Italiano" },
+  { code: "ja", fr: "Japonais", native: "日本語" },
+  { code: "ko", fr: "Coréen", native: "한국어" },
+  { code: "lt", fr: "Lituanien", native: "Lietuvių" },
+  { code: "lv", fr: "Letton", native: "Latviešu" },
+  { code: "ms", fr: "Malais", native: "Bahasa Melayu" },
+  { code: "nl", fr: "Néerlandais", native: "Nederlands" },
+  { code: "no", fr: "Norvégien", native: "Norsk" },
+  { code: "pl", fr: "Polonais", native: "Polski" },
+  { code: "pt", fr: "Portugais", native: "Português" },
+  { code: "ro", fr: "Roumain", native: "Română" },
+  { code: "ru", fr: "Russe", native: "Русский" },
+  { code: "sk", fr: "Slovaque", native: "Slovenčina" },
+  { code: "sl", fr: "Slovène", native: "Slovenščina" },
+  { code: "sr", fr: "Serbe", native: "Српски" },
+  { code: "sv", fr: "Suédois", native: "Svenska" },
+  { code: "th", fr: "Thaï", native: "ไทย" },
+  { code: "tr", fr: "Turc", native: "Türkçe" },
+  { code: "uk", fr: "Ukrainien", native: "Українська" },
+  { code: "ur", fr: "Ourdou", native: "اُردُو" },
+  { code: "vi", fr: "Vietnamien", native: "Tiếng Việt" },
+  { code: "zh", fr: "Chinois", native: "中文" }
+];
+
+if (langSelect) {
+  LANGUAGE_OPTIONS.forEach(({ code, fr, native }) => {
+    const opt = document.createElement("option");
+    opt.value = code;
+    opt.textContent = native ? `${native} – ${fr}` : fr;
+    langSelect.appendChild(opt);
+  });
+}
+
+// gestion de la vue mobile
+function updateVoiceView(target){
+  currentVoiceView = target;
+
+  // Desktop : les deux colonnes visibles, on ne force rien
+  if (window.innerWidth > 900){
+    if (voiceLangCol) voiceLangCol.classList.remove("is-active");
+    if (voiceFrCol)  voiceFrCol.classList.remove("is-active");
+    if (voiceSwitchLabel){
+      voiceSwitchLabel.textContent = nativeDisplayLabel;
     }
+    return;
+  }
 
-    // =========================================================
-    // ANIMATE ON SCROLL
-    // =========================================================
-    const animateElements = document.querySelectorAll('.animate-on-scroll');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
+  if (!voiceLangCol || !voiceFrCol) return;
+
+  if (target === "fr"){
+    voiceLangCol.classList.remove("is-active");
+    voiceFrCol.classList.add("is-active");
+    if (voiceSwitchLabel){
+      voiceSwitchLabel.textContent = "FR Français";
+    }
+  } else {
+    voiceLangCol.classList.add("is-active");
+    voiceFrCol.classList.remove("is-active");
+    if (voiceSwitchLabel){
+      voiceSwitchLabel.textContent = nativeDisplayLabel;
+    }
+  }
+}
+
+// clic sur le bouton de switch
+voiceSwitchBtn?.addEventListener("click", () => {
+  const next = (currentVoiceView === "native") ? "fr" : "native";
+  updateVoiceView(next);
+});
+
+// resize : on repasse en double colonne sur desktop
+window.addEventListener("resize", () => {
+  if (window.innerWidth > 900){
+    if (voiceLangCol) voiceLangCol.classList.remove("is-active");
+    if (voiceFrCol)  voiceFrCol.classList.remove("is-active");
+  } else {
+    if (!voiceLangCol?.classList.contains("is-active") &&
+        !voiceFrCol?.classList.contains("is-active")){
+      updateVoiceView("native");
+    } else {
+      updateVoiceView(currentVoiceView);
+    }
+  }
+});
+
+// init à l’ouverture
+if (window.innerWidth <= 900){
+  updateVoiceView("native");
+}
+
+// Sélection manuelle de la langue
+langSelect?.addEventListener("change", async () => {
+  const code = langSelect.value;
+  if (!code) return;
+
+  const label = langSelect.options[langSelect.selectedIndex]?.text || code;
+
+  if (langTextBox) {
+    langTextBox.textContent = `Langue choisie : ${label}`;
+  }
+  if (langDetectedRow) langDetectedRow.textContent = "";
+  if (langConfirmRow) langConfirmRow.style.display = "none";
+  if (statusMsg) statusMsg.textContent = "Préparation de l’interface…";
+
+  try {
+    const res = await fetch("/api/voice_lang", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        language: code,
+        original_text: "",
+        french_translation: `Je veux parler en ${label}`
+      })
+    });
+    const data = await res.json();
+
+    if (res.ok && data.ok) {
+      currentLangCandidate = data;
+      applyChosenLanguage(data);
+      if (statusMsg) statusMsg.textContent = "";
+    } else {
+      if (langDetectedRow) {
+        langDetectedRow.textContent =
+          "Impossible de préparer cette langue pour le moment.";
+      }
+      if (statusMsg) statusMsg.textContent = "";
+    }
+  } catch (e) {
+    console.error("Erreur /api/voice_lang (select) :", e);
+    if (langDetectedRow) {
+      langDetectedRow.textContent =
+        "Erreur lors du chargement de la langue.";
+    }
+    if (statusMsg) statusMsg.textContent = "";
+  }
+});
+
+function applyChosenLanguage(langData) {
+  currentProfileLanguage = langData;
+  const ui = langData.ui || {};
+
+  if (voiceLangTitle && ui.title) {
+    voiceLangTitle.textContent = ui.title;
+  }
+  if (voiceLangIntro && ui.intro) {
+    voiceLangIntro.textContent = ui.intro;
+  }
+
+  if (voiceLangList) {
+    voiceLangList.innerHTML = "";
+    (ui.items || []).forEach((txt, idx) => {
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <span class="pill">${idx + 1}</span>
+        <span>${txt}</span>
+      `;
+      voiceLangList.appendChild(li);
+    });
+  }
+
+  if (profileRecBtnMirror && ui.rec_label) {
+    profileRecBtnMirror.textContent = ui.rec_label;
+  }
+  if (profileUploadBtnMirror && ui.upload_label) {
+    profileUploadBtnMirror.textContent = ui.upload_label;
+  }
+  if (voiceLangNotice && ui.notice) {
+    voiceLangNotice.textContent = ui.notice;
+  }
+
+  // label utilisé côté mobile (ex : "العربية – Arabe")
+  nativeDisplayLabel = `${langData.native_label} – ${langData.fr_label}`;
+  if (voiceSwitchLabel){
+    voiceSwitchLabel.textContent = nativeDisplayLabel;
+  }
+
+  if (voiceLangCard)   voiceLangCard.style.display = "none";
+  if (voiceProfileCard) voiceProfileCard.style.display = "block";
+
+  if (window.innerWidth <= 900){
+    updateVoiceView("native");
+  }
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+async function transcribeLangBlob(blob) {
+  if (statusMsg) statusMsg.textContent = "Analyse de la langue en cours…";
+
+  const form = new FormData();
+  form.append("audio", blob, "lang.webm");
+
+  const res = await fetch("/api/transcribe", { method: "POST", body: form });
+  const data = await res.json();
+
+  if (!res.ok || !data.ok) {
+    if (statusMsg) {
+      statusMsg.textContent = (data && data.error)
+        ? data.error
+        : "Échec de la détection de la langue.";
+    }
+    return;
+  }
+
+  const code = data.language || "";
+  const orig = data.original_text || "";
+  const fr   = data.french_translation || "";
+
+  if (langTextBox) {
+    langTextBox.textContent = orig || fr || "—";
+  }
+
+  let langInfo = null;
+  try {
+    const langRes = await fetch("/api/voice_lang", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        language: code,
+        original_text: orig,
+        french_translation: fr
+      })
+    });
+    const langData = await langRes.json();
+    if (langRes.ok && langData.ok) {
+      langInfo = langData;
+    }
+  } catch (e) {
+    console.warn("Erreur /api/voice_lang :", e);
+  }
+
+  if (!langInfo) {
+    if (langDetectedRow) {
+      langDetectedRow.textContent =
+        "Je n’ai pas bien compris la langue. Peux-tu la redire (par exemple « en espagnol ») ?";
+    }
+    if (langConfirmRow) langConfirmRow.style.display = "none";
+    if (statusMsg) statusMsg.textContent = "";
+    return;
+  }
+
+  currentLangCandidate = langInfo;
+
+  if (langDetectedRow) langDetectedRow.textContent = "";
+  if (langConfirmLabel) {
+    langConfirmLabel.textContent =
+      `Langue détectée : ${langInfo.fr_label} (${langInfo.native_label}). Confirmer ?`;
+  }
+  if (langConfirmRow) langConfirmRow.style.display = "flex";
+  if (statusMsg) statusMsg.textContent = "";
+}
+
+async function startLangRecording(){
+  if(!isSecure() || !(navigator.mediaDevices?.getUserMedia)){
+    alert("HTTPS requis (ou localhost). Utilise plutôt l’import de fichier audio.");
+    return;
+  }
+  try{
+    if(langStream) langStream.getTracks().forEach(t => t.stop());
+    const constraints = {
+      audio: {
+        echoCancellation:true,
+        noiseSuppression:true,
+        autoGainControl:true,
+        channelCount:1,
+        sampleRate:48000,
+        sampleSize:16
+      }
+    };
+    langStream = await navigator.mediaDevices.getUserMedia(constraints);
+    langChunks = [];
+    const mime = pickBestMime();
+    langMediaRecorder = new MediaRecorder(
+      langStream,
+      mime ? { mimeType: mime } : undefined
+    );
+    langMediaRecorder.ondataavailable = e => {
+      if(e.data.size > 0) langChunks.push(e.data);
+    };
+    langMediaRecorder.onstop = async () => {
+      const blob = new Blob(langChunks, {
+        type: langMediaRecorder.mimeType || "audio/webm"
       });
-    }, { threshold: 0.1 });
+      await transcribeLangBlob(blob);
+      if (langStream) langStream.getTracks().forEach(t => t.stop());
+    };
+    langMediaRecorder.start();
+    if (langRecBtn) langRecBtn.textContent = "⏹️ Arrêter";
+  }catch(err){
+    alert("Impossible d'accéder au micro : " + err);
+  }
+}
 
-    animateElements.forEach(el => observer.observe(el));
+function stopLangRecording(){
+  if(langMediaRecorder && langMediaRecorder.state !== "inactive"){
+    langMediaRecorder.stop();
+    if (langRecBtn) langRecBtn.textContent = "🎙️ Dire ma langue";
+  }
+}
 
-    // Init
-    showStep('step1');
-  </script>
+langRecBtn?.addEventListener("click", () => {
+  (!langMediaRecorder || langMediaRecorder.state === "inactive")
+    ? startLangRecording()
+    : stopLangRecording();
+});
+
+langUploadBtn?.addEventListener("click", () => langAudioFile?.click());
+
+langAudioFile?.addEventListener("change", async () => {
+  const file = langAudioFile?.files?.[0];
+  if (!file) return;
+  await transcribeLangBlob(file);
+});
+
+langConfirmNo?.addEventListener("click", () => {
+  currentLangCandidate = null;
+  if (langConfirmRow) langConfirmRow.style.display = "none";
+  if (langDetectedRow) {
+    langDetectedRow.textContent =
+      "D’accord, tu peux recommencer en précisant mieux la langue (ex. « en espagnol »).";
+  }
+});
+
+langConfirmYes?.addEventListener("click", () => {
+  if (!currentLangCandidate) return;
+  applyChosenLanguage(currentLangCandidate);
+});
+
+// Miroir des boutons côté langue choisie
+profileRecBtnMirror?.addEventListener("click", () => profileRecBtn?.click());
+profileUploadBtnMirror?.addEventListener("click", () => profileUploadBtn?.click());
+
+// --- Navigation boutons profil / contacts / voix ---
+
+const backToIntroBtn    = document.getElementById("backToIntro");
+const nextFromProfileBtn= document.getElementById("nextFromProfile");
+const backToProfileBtn  = document.getElementById("backToProfile");
+const nextFromContactBtn= document.getElementById("nextFromContact");
+const backToContactBtn  = document.getElementById("backToContact");
+const backToModeVoice   = document.getElementById("backToModeVoice");
+const nextFromVoice     = document.getElementById("nextFromVoice");
+const backToHomeBtn     = document.getElementById("backToHomeBtn");
+
+function validateProfileForm(){
+  if (labelNameEl)    labelNameEl.innerHTML   = baseLabels.name;
+  if (labelSiteEl)    labelSiteEl.innerHTML   = baseLabels.site;
+  if (labelServiceEl) labelServiceEl.innerHTML= baseLabels.service;
+  if (labelFuncEl)    labelFuncEl.innerHTML   = baseLabels.function_title;
+
+  let ok = true;
+
+  if (!authorName.value.trim()){
+    if (labelNameEl){
+      labelNameEl.innerHTML = baseLabels.name + " " + redMsg("Ce champ est obligatoire.");
+    }
+    ok = false;
+  }
+
+  const siteVal = siteSelect.value;
+  const siteText = (siteVal === "Autre") ? (otherSite?.value.trim() || "") : siteVal;
+  if (!siteText){
+    if (labelSiteEl){
+      labelSiteEl.innerHTML = baseLabels.site + " " + redMsg("Ce champ est obligatoire.");
+    }
+    ok = false;
+  }
+
+  const serviceVal = serviceSelect.value;
+  const serviceText = (serviceVal === "Autre") ? (otherService?.value.trim() || "") : serviceVal;
+  if (!serviceText){
+    if (labelServiceEl){
+      labelServiceEl.innerHTML = baseLabels.service + " " + redMsg("Ce champ est obligatoire.");
+    }
+    ok = false;
+  }
+
+  if (!functionField.value.trim()){
+    if (labelFuncEl){
+      labelFuncEl.innerHTML = baseLabels.function_title + " " + redMsg("Ce champ est obligatoire.");
+    }
+    ok = false;
+  }
+
+  if (!ok){
+    const panel = document.querySelector("#step3 .panel");
+    if (panel){
+      const top = panel.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top, behavior:"smooth" });
+    }
+  }
+  return ok;
+}
+
+backToIntroBtn?.addEventListener("click", () => showStep("step1"));
+nextFromProfileBtn?.addEventListener("click", () => {
+  if (validateProfileForm()) showStep("step4");
+});
+backToProfileBtn?.addEventListener("click", () => showStep("step3"));
+nextFromContactBtn?.addEventListener("click", () => showStep("step5"));
+backToContactBtn?.addEventListener("click", () => showStep("step4"));
+
+backToModeVoice?.addEventListener("click", () => {
+  if (voiceProfileCard) voiceProfileCard.style.display = "none";
+  if (voiceLangCard) voiceLangCard.style.display = "block";
+});
+
+nextFromVoice?.addEventListener("click", () => {
+  showStep("step3");
+  updateProfileHintsUI();
+});
+
+// bouton retour à l’accueil après la page Merci
+backToHomeBtn?.addEventListener("click", () => {
+  showStep("step1");
+  const submitBar = document.querySelector(".submitbar");
+  if (submitBar) submitBar.style.display = "flex";
+  if (submitBtn) submitBtn.disabled = true;
+  if (statusMsg) statusMsg.textContent = "";
+});
+
+// --- Soumission finale ---
+
+submitBtn?.addEventListener("click", async () => {
+  if (statusMsg) statusMsg.textContent = "Envoi…";
+
+  let mediaPaths = [];
+  if (mediaFiles.length > 0) {
+    const formMedia = new FormData();
+    mediaFiles.forEach((file, idx) => {
+      formMedia.append("media", file, file.name || `media_${idx}`);
+    });
+
+    const mediaRes = await fetch("/api/upload_media", {
+      method: "POST",
+      body: formMedia
+    });
+    const mediaData = await mediaRes.json();
+
+    if (mediaRes.ok && mediaData.ok) {
+      mediaPaths = mediaData.paths || [];
+    } else {
+      if (statusMsg) statusMsg.textContent = "❌ Erreur lors de l’envoi des photos / vidéos.";
+      return;
+    }
+  }
+
+  const siteValue    = siteSelect.value === "Autre" ? (otherSite?.value || null)   : (siteSelect.value || null);
+  const serviceValue = serviceSelect.value === "Autre" ? (otherService?.value || null) : (serviceSelect.value || null);
+  const contactMode  = getContactMode();
+  const shareTypes   = getShareTypes();
+  const impactInfo   = getImpact();
+
+  const payload = {
+    author_name: authorName?.value || null,
+    site: siteValue,
+    service: serviceValue || null,
+    function_title: functionField?.value || null,
+    professional_email: proEmail?.value || null,
+    contact_mode: contactMode || null,
+    typed_text: typedText?.value || null,
+    audio_path: null,
+    detected_language: detectedLanguage || null,
+    original_text: originalText || null,
+    french_translation: frenchTranslation || null,
+    idea_title: document.getElementById("ideaTitle")?.value || null,
+    share_types: shareTypes,
+    impact_main: impactInfo.impact,
+    media_paths: mediaPaths,
+    impact_other: impactInfo.impact_other
+  };
+
+  const res = await fetch("/api/submit", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+  const data = await res.json();
+  if (res.ok && data.ok) {
+    // masquage de la barre de soumission + redirection vers la page Merci
+    const submitBar = document.querySelector(".submitbar");
+    if (submitBar) submitBar.style.display = "none";
+    if (statusMsg) statusMsg.textContent = "";
+    if (submitBtn) submitBtn.disabled = true;
+
+    showStep("stepThanks");
+  } else {
+    if (statusMsg) statusMsg.textContent = "❌ Erreur d’enregistrement.";
+  }
+});
+</script>
+
 </body>
 </html>
