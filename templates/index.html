@@ -5,7 +5,7 @@
   <title>Plateforme d'idées — Vivante & Multilingue</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+ 
   
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
@@ -1567,7 +1567,669 @@ audio { width: 100%; margin-top: 12px; border-radius: var(--r-sm); }
 Ajoute cette ligne dans ton <head> :
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 */
+@media (max-width: 768px) {
+  
+  /* ===== NETTOYAGE GLOBAL ===== */
+  
+  /* Réduire les effets de fond sur mobile (performance + clarté) */
+  .backdrop, .backdrop-2 {
+    display: none !important;
+  }
+  
+  body::before {
+    background: 
+      radial-gradient(ellipse 100% 50% at 50% 0%, rgba(0, 255, 229, 0.05) 0%, transparent 50%),
+      var(--void);
+    animation: none;
+  }
+  
+  /* Padding global réduit */
+  .wrap {
+    padding: 16px 14px 120px;
+    margin: 0;
+  }
+  
+  /* ===== HEADER MINIMALISTE ===== */
+  
+  .hero {
+    margin-bottom: 12px;
+  }
+  
+  .brand {
+    padding: 8px 14px;
+    box-shadow: none;
+    border: 1px solid rgba(0, 255, 229, 0.2);
+  }
+  
+  .brand::before {
+    display: none;
+  }
+  
+  .brand svg {
+    width: 14px;
+    height: 14px;
+  }
+  
+  .badge {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+  }
+  
+  /* Masquer éléments superflus header */
+  .ribbon {
+    display: none !important;
+  }
+  
+  p.sub {
+    display: none !important;
+  }
+  
+  /* Titre principal compact */
+  h1 {
+    font-size: 26px !important;
+    margin: 12px 0 8px;
+    text-align: center;
+    letter-spacing: -0.5px;
+  }
+  
+  /* ===== CARTE PRINCIPALE ===== */
+  
+  .card {
+    margin-top: 16px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  }
+  
+  .card::before,
+  .card::after {
+    display: none;
+  }
+  
+  .card-head {
+    padding: 14px 16px;
+    min-height: auto;
+  }
+  
+  /* ===== STEP PAGES ===== */
+  
+  .step-page {
+    padding: 20px 16px 24px;
+    animation: none;
+  }
+  
+  .spacer {
+    height: 60px;
+  }
+  
+  /* ===== STEP 1 — ACCUEIL ÉPURÉ ===== */
+  
+  .intro-main {
+    display: block;
+    border: none;
+  }
+  
+  .intro-main-main {
+    padding: 16px 0 20px;
+    border: none;
+    background: none;
+  }
+  
+  .intro-main-side {
+    display: none !important;
+  }
+  
+  .intro-main-main h2 {
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .intro-lead {
+    display: none !important;
+  }
+  
+  /* Boutons de mode simplifiés */
+  .intro-actions {
+    gap: 12px;
+  }
+  
+  .intro-actions button {
+    min-height: 64px;
+    padding: 16px 20px;
+    border-radius: 16px;
+  }
+  
+  .intro-actions button::before {
+    display: none;
+  }
+  
+  #modeHint {
+    font-size: 11px;
+    text-align: center;
+    margin-top: 12px;
+  }
+  
+  /* Captcha compact */
+  #captchaRow {
+    margin-top: 20px;
+    padding: 16px;
+    border-radius: 12px;
+  }
+  
+  #captchaRow p {
+    font-size: 11px;
+    margin-top: 10px;
+  }
+  
+  /* ===== PANELS SIMPLIFIÉS ===== */
+  
+  .panel {
+    padding: 18px 16px;
+    border-radius: 16px;
+    box-shadow: none;
+    border: 1px solid rgba(0, 255, 229, 0.1);
+  }
+  
+  .panel::before {
+    display: none;
+  }
+  
+  .panel h3 {
+    font-size: 17px;
+    margin-bottom: 6px;
+  }
+  
+  .panel > p.muted {
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+  
+  /* ===== FORMULAIRES COMPACTS ===== */
+  
+  label {
+    font-size: 10px;
+    margin: 16px 0 6px;
+    letter-spacing: 1px;
+  }
+  
+  input, select, textarea {
+    padding: 14px 16px;
+    font-size: 14px;
+    border-radius: 12px;
+    border-width: 1px;
+  }
+  
+  input:focus, select:focus, textarea:focus {
+    box-shadow: 0 0 10px rgba(0, 255, 229, 0.15);
+  }
+  
+  textarea {
+    min-height: 100px;
+  }
+  
+  /* Radio items compacts */
+  .radio-item {
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    border-radius: 10px;
+  }
+  
+  .radio-item span {
+    font-size: 13px;
+  }
+  
+  /* ===== BOUTONS MOBILE ===== */
+  
+  button {
+    padding: 12px 20px;
+    font-size: 13px;
+    border-radius: 12px;
+  }
+  
+  .btn-primary {
+    box-shadow: 0 0 15px rgba(0, 255, 229, 0.3);
+  }
+  
+  .btn-primary:hover:not(:disabled) {
+    transform: none;
+    box-shadow: 0 0 20px rgba(0, 255, 229, 0.4);
+  }
+  
+  .nav-row {
+    margin-top: 20px;
+    padding-top: 16px;
+    gap: 10px;
+  }
+  
+  .nav-row button {
+    padding: 14px 18px;
+  }
+  
+  /* ===== STEP 3 — PROFIL SIMPLIFIÉ ===== */
+  
+  #otherSiteRow, #otherServiceRow {
+    margin-top: 8px;
+  }
+  
+  /* ===== STEP 4 — COORDONNÉES ===== */
+  
+  #step4 .contact-layout {
+    gap: 16px;
+  }
+  
+  #step4 .contact-block {
+    padding: 16px;
+    border-radius: 12px;
+  }
+  
+  #step4 .contact-block-title {
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+  
+  .section-label {
+    font-size: 9px;
+    margin-bottom: 8px;
+  }
+  
+  .field-note {
+    font-size: 11px;
+  }
+  
+  /* ===== STEP 5 — CONTENU IDÉE ===== */
+  
+  .content {
+    gap: 16px;
+  }
+  
+  /* Masquer le robot preview sur mobile */
+  .preview-robot {
+    display: none !important;
+  }
+  
+  .preview-top {
+    display: block;
+  }
+  
+  #step5 .choice-row {
+    gap: 8px;
+  }
+  
+  #step5 .choice-row .radio-item {
+    min-width: auto;
+    flex: 1 1 calc(50% - 4px);
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+  
+  #step5 .field-group {
+    margin-top: 16px;
+  }
+  
+  #step5 .actions {
+    gap: 8px;
+  }
+  
+  #step5 .actions button {
+    padding: 12px 16px;
+    font-size: 12px;
+  }
+  
+  /* Preview boxes compactes */
+  .preview-grid {
+    gap: 12px;
+    margin-top: 16px;
+  }
+  
+  .preview-grid strong {
+    font-size: 11px;
+    margin-bottom: 6px;
+  }
+  
+  .preview-box {
+    min-height: 70px;
+    padding: 12px;
+    font-size: 12px;
+    border-radius: 10px;
+  }
+  
+  /* Masquer le helper sur mobile */
+  .helper {
+    display: none !important;
+  }
+  
+  /* Media preview compact */
+  .media-preview {
+    gap: 8px;
+    margin-top: 12px;
+  }
+  
+  .media-preview img, .media-preview video {
+    max-width: 80px;
+    max-height: 60px;
+    border-radius: 8px;
+    border-width: 1px;
+  }
+  
+  /* Audio player compact */
+  audio {
+    margin-top: 10px;
+    height: 40px;
+  }
+  
+  /* ===== STEP VOICE — PROFIL VOCAL ===== */
+  
+  #stepVoice .voice-shell {
+    padding: 18px 14px;
+    border-radius: 16px;
+  }
+  
+  #stepVoice .voice-bg {
+    display: none !important;
+  }
+  
+  #stepVoice .voice-bg::before {
+    display: none;
+  }
+  
+  #voiceLangCard.panel, #voiceProfileCard.panel {
+    padding: 16px;
+    box-shadow: none;
+  }
+  
+  #voiceLangCard h3, #voiceProfileCard h3 {
+    font-size: 16px;
+  }
+  
+  #voiceLangCard p, #voiceProfileCard p {
+    font-size: 13px;
+  }
+  
+  /* Actions langue */
+  #voiceLangCard .actions,
+  #stepVoice .actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .lang-select {
+    min-width: 100%;
+    padding: 12px 40px 12px 14px;
+    font-size: 13px;
+    border-radius: 10px;
+  }
+  
+  /* Colonnes voix */
+  .voice-col {
+    padding: 16px;
+    border-radius: 12px;
+  }
+  
+  .voice-col h3 {
+    font-size: 15px;
+  }
+  
+  .voice-col p {
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+  
+  .voice-col ul {
+    margin-bottom: 14px;
+  }
+  
+  .voice-col li {
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 12px;
+  }
+  
+  .voice-col .pill {
+    width: 22px;
+    height: 22px;
+    font-size: 10px;
+  }
+  
+  #stepVoice .notice {
+    font-size: 11px;
+    padding: 10px 12px;
+    margin-top: 12px;
+  }
+  
+  .voice-preview-block {
+    gap: 12px;
+    margin-top: 18px;
+  }
+  
+  .voice-preview-block strong {
+    font-size: 11px;
+  }
+  
+  /* Switch mobile compact */
+  .voice-switch {
+    margin-bottom: 14px;
+  }
+  
+  .voice-switch-label {
+    font-size: 11px;
+  }
+  
+  .voice-switch-btn {
+    width: 40px;
+    height: 40px;
+  }
+  
+  #voiceMissingMsg {
+    font-size: 12px;
+    margin-top: 12px;
+  }
+  
+  /* ===== CONFIRMATION — LANGUES ===== */
+  
+  #langConfirmRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  #langConfirmLabel {
+    font-size: 12px;
+  }
+  
+  #langConfirmRow > div {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+  }
+  
+  #langConfirmNo, #langConfirmYes {
+    flex: 1;
+    padding: 12px !important;
+  }
+  
+  /* ===== BARRE DE SOUMISSION ===== */
+  
+  .submitbar {
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+  }
+  
+  .submitbar .inner {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 16px;
+    gap: 10px;
+    justify-content: space-between;
+    box-shadow: 0 0 20px rgba(0, 255, 229, 0.2), 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+  
+  #submitBtn {
+    padding: 12px 18px;
+    font-size: 12px;
+    border-radius: 12px;
+    flex-shrink: 0;
+  }
+  
+  #statusMsg {
+    font-size: 10px;
+    flex: 1;
+    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  /* ===== PAGE MERCI SIMPLIFIÉE ===== */
+  
+  .thank-panel {
+    padding: 30px 20px;
+    border-radius: 16px;
+  }
+  
+  .thank-panel::before {
+    display: none;
+  }
+  
+  .thank-layout {
+    display: block;
+  }
+  
+  .thank-robot {
+    margin-bottom: 20px;
+  }
+  
+  .thank-robot-orbit {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+  }
+  
+  .thank-robot-orbit::before,
+  .thank-robot-orbit::after {
+    display: none;
+  }
+  
+  .thank-robot-orbit img {
+    max-width: 70%;
+    animation: none;
+    filter: drop-shadow(0 0 15px rgba(0, 255, 229, 0.4));
+  }
+  
+  .thank-text {
+    text-align: center;
+  }
+  
+  .thank-text h2 {
+    font-size: 24px;
+    margin-bottom: 12px;
+    animation: none;
+  }
+  
+  .thank-text p {
+    font-size: 13px;
+    margin: 8px 0;
+    line-height: 1.6;
+  }
+  
+  .thank-highlight {
+    margin: 16px 0;
+    padding: 14px 16px;
+    font-size: 13px;
+    border-radius: 10px;
+  }
+  
+  .thank-text .btn-secondary {
+    width: 100%;
+    margin-top: 10px;
+  }
+}
 
+/* ===== ENCORE PLUS PETIT (iPhone SE, etc.) ===== */
+
+@media (max-width: 380px) {
+  
+  .wrap {
+    padding: 12px 10px 110px;
+  }
+  
+  h1 {
+    font-size: 22px !important;
+  }
+  
+  .brand {
+    padding: 6px 10px;
+  }
+  
+  .badge {
+    font-size: 8px;
+  }
+  
+  .intro-main-main h2 {
+    font-size: 16px;
+  }
+  
+  .intro-actions button {
+    min-height: 58px;
+    padding: 14px 16px;
+    font-size: 13px;
+  }
+  
+  .panel {
+    padding: 14px 12px;
+  }
+  
+  .panel h3 {
+    font-size: 15px;
+  }
+  
+  input, select, textarea {
+    padding: 12px 14px;
+    font-size: 13px;
+  }
+  
+  label {
+    font-size: 9px;
+  }
+  
+  button {
+    padding: 10px 16px;
+    font-size: 12px;
+  }
+  
+  #step5 .choice-row .radio-item {
+    flex: 1 1 100%;
+    padding: 10px;
+  }
+  
+  .submitbar .inner {
+    padding: 8px 10px;
+  }
+  
+  #submitBtn {
+    padding: 10px 14px;
+    font-size: 11px;
+  }
+  
+  .thank-text h2 {
+    font-size: 20px;
+  }
+  
+  .thank-robot-orbit {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+/* ===== DÉSACTIVER TOUTES LES ANIMATIONS SUR MOBILE ===== */
+
+@media (max-width: 768px) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.2s !important;
+  }
+}
 </style>
 
 
