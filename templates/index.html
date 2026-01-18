@@ -2230,6 +2230,23 @@ Ajoute cette ligne dans ton <head> :
     transition-duration: 0.2s !important;
   }
 }
+
+
+.lang-fade {
+  animation: langFade 0.5s ease;
+}
+
+@keyframes langFade {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 </style>
 
 
@@ -2583,14 +2600,17 @@ Ajoute cette ligne dans ton <head> :
 
             <div class="actions" style="margin-top:14px; gap:10px; flex-wrap:wrap;">
               <button id="langRecBtn" class="btn-primary">
-                🎙️ Dire ma langue
-              </button>
+  🎙️ <span id="langBtnText">Dire ma langue</span>
+</button>
+
 
               <!-- Choix manuel de la langue -->
               <select id="langSelect" class="lang-select">
-                <option value="">Ou choisis ta langue…</option>
-                <!-- Options injectées en JS -->
-              </select>
+  <option value="" disabled selected>
+    <span id="langSelectText">Ou choisis ta langue…</span>
+  </option>
+</select>
+
             </div>
 
             <div style="margin-top:16px;">
@@ -3912,6 +3932,63 @@ submitBtn?.addEventListener("click", async () => {
     if (statusMsg) statusMsg.textContent = "❌ Erreur d’enregistrement.";
   }
 });
+
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const ROTATING_LANGS = [
+    {
+      btn: "Dire ma langue",
+      select: "Ou choisis ta langue…"
+    },
+    {
+      btn: "Tell me my language",
+      select: "Or choose your language…"
+    },
+    {
+      btn: "Decir mi idioma",
+      select: "O elige tu idioma…"
+    },
+    {
+      btn: "Dimmi la mia lingua",
+      select: "Oppure scegli la tua lingua…"
+    },
+    {
+      btn: "Sprache sagen",
+      select: "Oder wähle deine Sprache…"
+    },
+    {
+      btn: "قل لغتي",
+      select: "أو اختر لغتك…"
+    }
+  ];
+
+  const btnText    = document.getElementById("langBtnText");
+  const selectText = document.getElementById("langSelectText");
+
+  if (!btnText || !selectText) return;
+
+  let index = 0;
+
+  setInterval(() => {
+    index = (index + 1) % ROTATING_LANGS.length;
+
+    btnText.classList.remove("lang-fade");
+    selectText.classList.remove("lang-fade");
+
+    void btnText.offsetWidth; // force repaint
+
+    btnText.textContent    = ROTATING_LANGS[index].btn;
+    selectText.textContent = ROTATING_LANGS[index].select;
+
+    btnText.classList.add("lang-fade");
+    selectText.classList.add("lang-fade");
+
+  }, 3000);
+});
+
+
+
 </script>
 
 </body>
