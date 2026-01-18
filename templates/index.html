@@ -2247,6 +2247,22 @@ Ajoute cette ligne dans ton <head> :
   }
 }
 
+
+.lang-mobile-label {
+  display: none;
+  margin-bottom: 6px;
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .lang-mobile-label {
+    display: block;
+  }
+}
+
+
 </style>
 
 
@@ -2597,21 +2613,27 @@ Ajoute cette ligne dans ton <head> :
               <b>« I want to speak in English »</b>. Nous détectons la langue
               puis nous affichons les consignes dans cette langue, en plus du français.
             </p>
+<div class="actions" style="margin-top:14px; gap:10px; flex-wrap:wrap;">
 
-            <div class="actions" style="margin-top:14px; gap:10px; flex-wrap:wrap;">
-              <button id="langRecBtn" class="btn-primary">
-  🎙️ <span id="langBtnText">Dire ma langue</span>
-</button>
+  <!-- TEXTE MULTILINGUE VISIBLE SUR MOBILE -->
+  <div id="langMobileLabel" class="lang-mobile-label">
+    Ou choisis ta langue…
+  </div>
 
+  <!-- BOUTON -->
+  <button id="langRecBtn" class="btn-primary">
+    🎙️ <span id="langBtnText">Dire ma langue</span>
+  </button>
 
-              <!-- Choix manuel de la langue -->
-              <select id="langSelect" class="lang-select">
-  <option value="" disabled selected>
-    <span id="langSelectText">Ou choisis ta langue…</span>
-  </option>
-</select>
+  <!-- SELECT (SANS SPAN, MOBILE OK) -->
+  <select id="langSelect" class="lang-select">
+    <option value="" disabled selected>
+      —
+    </option>
+  </select>
 
-            </div>
+</div>
+
 
             <div style="margin-top:16px;">
               <strong>Texte reconnu</strong>
@@ -3988,6 +4010,31 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
+const LANGS = [
+  { btn: "Dire ma langue", select: "Ou choisis ta langue…" },
+  { btn: "Tell me my language", select: "Or choose your language…" },
+  { btn: "Decir mi idioma", select: "O elige tu idioma…" },
+  { btn: "Dimmi la mia lingua", select: "Oppure scegli la tua lingua…" },
+  { btn: "Sprache sagen", select: "Oder wähle deine Sprache…" },
+  { btn: "قل لغتي", select: "أو اختر لغتك…" }
+];
+
+const btnText   = document.getElementById("langBtnText");
+const mobileLbl = document.getElementById("langMobileLabel");
+
+let i = 0;
+
+setInterval(() => {
+  i = (i + 1) % LANGS.length;
+
+  if (btnText) {
+    btnText.textContent = LANGS[i].btn;
+  }
+
+  if (mobileLbl) {
+    mobileLbl.textContent = LANGS[i].select;
+  }
+}, 3000);
 
 </script>
 
