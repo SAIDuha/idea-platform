@@ -2230,39 +2230,6 @@ Ajoute cette ligne dans ton <head> :
     transition-duration: 0.2s !important;
   }
 }
-
-
-.lang-fade {
-  animation: langFade 0.5s ease;
-}
-
-@keyframes langFade {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-
-.lang-mobile-label {
-  display: none;
-  margin-bottom: 6px;
-  font-size: 13px;
-  color: var(--muted);
-  text-align: center;
-}
-
-@media (max-width: 768px) {
-  .lang-mobile-label {
-    display: block;
-  }
-}
-
-
 </style>
 
 
@@ -2613,27 +2580,18 @@ Ajoute cette ligne dans ton <head> :
               <b>« I want to speak in English »</b>. Nous détectons la langue
               puis nous affichons les consignes dans cette langue, en plus du français.
             </p>
-<div class="actions" style="margin-top:14px; gap:10px; flex-wrap:wrap;">
 
-  <!-- TEXTE MULTILINGUE VISIBLE SUR MOBILE -->
-  <div id="langMobileLabel" class="lang-mobile-label">
-    Ou choisis ta langue…
-  </div>
+            <div class="actions" style="margin-top:14px; gap:10px; flex-wrap:wrap;">
+              <button id="langRecBtn" class="btn-primary">
+                🎙️ Dire ma langue
+              </button>
 
-  <!-- BOUTON -->
-  <button id="langRecBtn" class="btn-primary">
-    🎙️ <span id="langBtnText">Dire ma langue</span>
-  </button>
-
-  <!-- SELECT (SANS SPAN, MOBILE OK) -->
-  <select id="langSelect" class="lang-select">
-    <option value="" disabled selected>
-      —
-    </option>
-  </select>
-
-</div>
-
+              <!-- Choix manuel de la langue -->
+              <select id="langSelect" class="lang-select">
+                <option value="">Ou choisis ta langue…</option>
+                <!-- Options injectées en JS -->
+              </select>
+            </div>
 
             <div style="margin-top:16px;">
               <strong>Texte reconnu</strong>
@@ -3954,88 +3912,6 @@ submitBtn?.addEventListener("click", async () => {
     if (statusMsg) statusMsg.textContent = "❌ Erreur d’enregistrement.";
   }
 });
-
-
-document.addEventListener("DOMContentLoaded", () => {
-
-  const ROTATING_LANGS = [
-    {
-      btn: "Dire ma langue",
-      select: "Ou choisis ta langue…"
-    },
-    {
-      btn: "Tell me my language",
-      select: "Or choose your language…"
-    },
-    {
-      btn: "Decir mi idioma",
-      select: "O elige tu idioma…"
-    },
-    {
-      btn: "Dimmi la mia lingua",
-      select: "Oppure scegli la tua lingua…"
-    },
-    {
-      btn: "Sprache sagen",
-      select: "Oder wähle deine Sprache…"
-    },
-    {
-      btn: "قل لغتي",
-      select: "أو اختر لغتك…"
-    }
-  ];
-
-  const btnText    = document.getElementById("langBtnText");
-  const selectText = document.getElementById("langSelectText");
-
-  if (!btnText || !selectText) return;
-
-  let index = 0;
-
-  setInterval(() => {
-    index = (index + 1) % ROTATING_LANGS.length;
-
-    btnText.classList.remove("lang-fade");
-    selectText.classList.remove("lang-fade");
-
-    void btnText.offsetWidth; // force repaint
-
-    btnText.textContent    = ROTATING_LANGS[index].btn;
-    selectText.textContent = ROTATING_LANGS[index].select;
-
-    btnText.classList.add("lang-fade");
-    selectText.classList.add("lang-fade");
-
-  }, 3000);
-});
-
-
-const LANGS = [
-  { btn: "Dire ma langue", select: "Ou choisis ta langue…" },
-  { btn: "Tell me my language", select: "Or choose your language…" },
-  { btn: "Decir mi idioma", select: "O elige tu idioma…" },
-  { btn: "Dimmi la mia lingua", select: "Oppure scegli la tua lingua…" },
-  { btn: "Sprache sagen", select: "Oder wähle deine Sprache…" },
-  { btn: "قل لغتي", select: "أو اختر لغتك…" }
-];
-
-const btnText   = document.getElementById("langBtnText");
-const mobileLbl = document.getElementById("langMobileLabel");
-
-let i = 0;
-
-setInterval(() => {
-  i = (i + 1) % LANGS.length;
-
-  if (btnText) {
-    btnText.textContent = LANGS[i].btn;
-  }
-
-  if (mobileLbl) {
-    mobileLbl.textContent = LANGS[i].select;
-  }
-}, 3000);
-
 </script>
 
 </body>
