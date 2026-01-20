@@ -2337,19 +2337,15 @@ Ajoute cette ligne dans ton <head> :
     <!-- STEP 3 : PROFIL TEXTE -->
     <section id="step3" class="step-page">
       <div class="panel">
-        <h3 id="profileTitle">On démarre par toi</h3>
+        <h3>On démarre par toi</h3>
+        <p class="muted">
+          Avant de commencer, indique simplement <b>qui tu es</b>, <b>où tu travailles</b> et <b>quel est ton rôle</b>.
+        </p>
 
-        <p class="muted" id="profileIntro">
-  Avant de commencer, indique simplement <b>qui tu es</b>, <b>où tu travailles</b> et <b>quel est ton rôle</b>.
-</p>
-
-
-        <label for="authorName" id="labelName">Nom et prénom</label>
-
+        <label for="authorName">Nom et prénom</label>
         <input id="authorName" placeholder="Ex : Marie Dupont" />
 
-        <label for="country" id="labelSite">Sur quel site travailles-tu ?</label>
-
+        <label for="country">Sur quel site travailles-tu ?</label>
         <select id="country">
           <option value="">Sélectionne ton site</option>
           <option>Auxerre</option><option>Beaumont</option><option>Béziers</option>
@@ -2372,8 +2368,7 @@ Ajoute cette ligne dans ton <head> :
           <div class="field-note">Si ton site n’apparaît pas dans la liste, précise-le ici.</div>
         </div>
 
-        <label for="serviceSelect" id="labelService">Dans quel service travailles-tu ?</label>
-
+        <label for="serviceSelect">Dans quel service travailles-tu ?</label>
         <select id="serviceSelect">
           <option value="">Sélectionne ton service</option>
           <option>Production</option>
@@ -2389,14 +2384,12 @@ Ajoute cette ligne dans ton <head> :
           <input id="otherService" placeholder="Précise ton service" />
         </div>
 
-        <label for="functionField" id="labelFunction">Quelle est ta fonction ?</label>
-
+        <label for="functionField">Quelle est ta fonction ?</label>
         <input id="functionField" placeholder="Ex : Technicien de maintenance, Responsable magasin…" />
 
         <div class="nav-row">
-          <button type="button" class="btn-secondary" id="btnPrev">◀ Précédent</button>
-<button type="button" class="btn-primary" id="btnNext">Suivant · Coordonnées</button>
-
+          <button type="button" class="btn-secondary" id="backToIntro">◀ Précédent</button>
+          <button type="button" class="btn-primary" id="nextFromProfile">Suivant · Coordonnées</button>
         </div>
       </div>
     </section>
@@ -2790,11 +2783,6 @@ function showStep(id){
   currentStepId = id;
   stepPages.forEach(p => p.classList.toggle("active", p.id === id));
 
-if (id === "step3") {
-    loadProfileUIFromLanguage();
-  }
-
-
   if (recState){
     const labels = {
       step1: "Introduction",
@@ -2812,52 +2800,6 @@ if (id === "step3") {
 document.addEventListener("DOMContentLoaded", () => {
   showStep("step1");
 });
-
-
-
-
-// --- UI dynamique page PROFIL (step3) ---
-
-async function loadProfileUIFromLanguage() {
-  if (!currentProfileLanguage || !currentProfileLanguage.code) {
-    console.warn("Langue non définie pour le profil");
-    return;
-  }
-
-  try {
-    const res = await fetch("/api/ui_profile", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        language_code: currentProfileLanguage.code
-      })
-    });
-
-    const data = await res.json();
-    if (!res.ok || !data.ok) {
-      console.error("Erreur /api/ui_profile", data);
-      return;
-    }
-
-    const ui = data.ui;
-
-    document.getElementById("profileTitle").textContent = ui.title;
-    document.getElementById("profileIntro").textContent = ui.intro;
-
-    document.getElementById("labelName").textContent = ui.fields.name;
-    document.getElementById("labelSite").textContent = ui.fields.site;
-    document.getElementById("labelService").textContent = ui.fields.service;
-    document.getElementById("labelFunction").textContent = ui.fields.function;
-
-    document.getElementById("btnPrev").textContent = ui.buttons.previous;
-    document.getElementById("btnNext").textContent = ui.buttons.next;
-
-  } catch (e) {
-    console.error("Exception UI profile", e);
-  }
-  
-}
-
 
 // --- Accueil : choix du mode + reCAPTCHA ---
 
