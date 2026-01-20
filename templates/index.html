@@ -2855,17 +2855,7 @@ async function loadProfileUIFromLanguage() {
   } catch (e) {
     console.error("Exception UI profile", e);
   }
-  // Placeholder des <select>
-const siteSelectEl = document.getElementById("country");
-if (siteSelectEl && siteSelectEl.options.length > 0) {
-  siteSelectEl.options[0].textContent = ui.fields.site;
-}
-
-const serviceSelectEl = document.getElementById("serviceSelect");
-if (serviceSelectEl && serviceSelectEl.options.length > 0) {
-  serviceSelectEl.options[0].textContent = ui.fields.service;
-}
-
+  
 }
 
 
