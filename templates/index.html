@@ -4253,9 +4253,12 @@ function applyChosenLanguage(langData) {
   if (voiceLangNotice && ui.notice) {
     voiceLangNotice.textContent = ui.notice;
   }
+
+  if (chosenMode === "voice") {
 applyLanguageToProfile(langData);
 applyLanguageToContact(langData);
 applyLanguageToIdea(langData);
+  }
   // label utilisé côté mobile (ex : "العربية – Arabe")
   nativeDisplayLabel = `${langData.native_label} – ${langData.fr_label}`;
   if (voiceSwitchLabel){
@@ -4729,8 +4732,8 @@ profileSwitchBtn?.addEventListener("click", () => {
 
 // Appliquer la langue au profil (appelé après sélection de langue)
 async function applyLanguageToProfile(langData) {
-  if (!langData || langData.code === "fr") {
-    // Français uniquement : mode colonne unique
+  if (chosenMode === "text" || !langData || langData.code === "fr") {
+    // Mode colonne unique française
     isProfileBilingual = false;
     if (profileBilingualGrid) profileBilingualGrid.classList.add("single-col");
     if (profileSwitch) profileSwitch.style.display = "none";
