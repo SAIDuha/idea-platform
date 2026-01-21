@@ -1315,44 +1315,83 @@ select:disabled {
    PAGE MERCI — CÉLÉBRATION
 ========================================================== */
 .thank-panel {
-  padding: 50px 40px;
+  padding: 60px 50px;
   text-align: center;
   border-radius: var(--r-xl);
   background: 
-    radial-gradient(ellipse 80% 60% at 30% 20%, rgba(0, 255, 229, 0.1), transparent),
-    radial-gradient(ellipse 60% 80% at 70% 80%, rgba(255, 0, 170, 0.08), transparent),
-    radial-gradient(ellipse 100% 50% at 50% 50%, rgba(255, 230, 0, 0.05), transparent),
-    linear-gradient(165deg, rgba(20, 20, 35, 0.9), rgba(10, 10, 18, 0.95));
-  border: 1px solid rgba(0, 255, 229, 0.2);
-  box-shadow: var(--shadow-abyss);
+    radial-gradient(ellipse 100% 80% at 50% 0%, rgba(0, 255, 229, 0.12), transparent 50%),
+    radial-gradient(ellipse 80% 100% at 0% 50%, rgba(255, 0, 170, 0.1), transparent 50%),
+    radial-gradient(ellipse 80% 100% at 100% 50%, rgba(200, 0, 255, 0.08), transparent 50%),
+    radial-gradient(ellipse 100% 80% at 50% 100%, rgba(255, 230, 0, 0.06), transparent 50%),
+    linear-gradient(165deg, rgba(15, 15, 30, 0.95), rgba(5, 5, 12, 0.98));
+  border: 1px solid rgba(0, 255, 229, 0.25);
+  box-shadow: 
+    var(--shadow-abyss),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 0 100px rgba(0, 255, 229, 0.1),
+    0 0 200px rgba(255, 0, 170, 0.05);
   position: relative;
   overflow: hidden;
+  min-height: 500px;
 }
 
-/* Confettis animés */
+/* Fond de particules flottantes */
 .thank-panel::before {
   content: '';
   position: absolute;
   inset: 0;
   background-image: 
-    radial-gradient(2px 2px at 10% 20%, var(--bio-cyan), transparent),
-    radial-gradient(2px 2px at 30% 70%, var(--bio-magenta), transparent),
-    radial-gradient(2px 2px at 50% 30%, var(--bio-yellow), transparent),
-    radial-gradient(2px 2px at 70% 60%, var(--bio-green), transparent),
-    radial-gradient(2px 2px at 90% 40%, var(--bio-blue), transparent),
-    radial-gradient(2px 2px at 20% 90%, var(--bio-purple), transparent);
-  animation: confetti-fall 10s linear infinite;
-  opacity: 0.6;
+    radial-gradient(3px 3px at 5% 15%, var(--bio-cyan), transparent),
+    radial-gradient(2px 2px at 15% 45%, var(--bio-magenta), transparent),
+    radial-gradient(3px 3px at 25% 75%, var(--bio-yellow), transparent),
+    radial-gradient(2px 2px at 35% 25%, var(--bio-green), transparent),
+    radial-gradient(3px 3px at 45% 85%, var(--bio-blue), transparent),
+    radial-gradient(2px 2px at 55% 35%, var(--bio-purple), transparent),
+    radial-gradient(3px 3px at 65% 65%, var(--bio-pink), transparent),
+    radial-gradient(2px 2px at 75% 15%, var(--bio-orange), transparent),
+    radial-gradient(3px 3px at 85% 55%, var(--bio-cyan), transparent),
+    radial-gradient(2px 2px at 95% 95%, var(--bio-magenta), transparent);
+  animation: particles-float 15s ease-in-out infinite;
+  opacity: 0.7;
+  pointer-events: none;
 }
 
-@keyframes confetti-fall {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100%); }
+@keyframes particles-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+  25% { transform: translateY(-15px) rotate(2deg); opacity: 0.9; }
+  50% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+  75% { transform: translateY(15px) rotate(-2deg); opacity: 0.9; }
+}
+
+/* Rayons lumineux animés */
+.thank-panel::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    transparent 0deg,
+    rgba(0, 255, 229, 0.03) 60deg,
+    transparent 120deg,
+    rgba(255, 0, 170, 0.02) 180deg,
+    transparent 240deg,
+    rgba(255, 230, 0, 0.02) 300deg,
+    transparent 360deg
+  );
+  animation: rays-spin 20s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes rays-spin {
+  to { transform: rotate(360deg); }
 }
 
 .thank-layout {
   display: grid;
-  grid-template-columns: 1.3fr 0.8fr;
+  grid-template-columns: 1fr;
   gap: 30px;
   align-items: center;
   position: relative;
@@ -1360,97 +1399,336 @@ select:disabled {
 }
 
 .thank-text {
-  text-align: left;
+  text-align: center;
+  position: relative;
+}
+
+/* Zone des "Merci" multilingues flottants */
+.thank-words-cloud {
+  position: absolute;
+  inset: -60px -40px;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.thank-word {
+  position: absolute;
+  font-family: var(--font-display);
+  font-weight: 700;
+  opacity: 0;
+  animation: word-float 12s ease-in-out infinite;
+  text-shadow: 0 0 20px currentColor;
+  white-space: nowrap;
+}
+
+.thank-word:nth-child(1) { top: 5%; left: 5%; font-size: 14px; color: var(--bio-cyan); animation-delay: 0s; }
+.thank-word:nth-child(2) { top: 15%; right: 8%; font-size: 12px; color: var(--bio-magenta); animation-delay: 1s; }
+.thank-word:nth-child(3) { top: 30%; left: 2%; font-size: 16px; color: var(--bio-yellow); animation-delay: 2s; }
+.thank-word:nth-child(4) { top: 45%; right: 3%; font-size: 11px; color: var(--bio-green); animation-delay: 3s; }
+.thank-word:nth-child(5) { top: 60%; left: 6%; font-size: 13px; color: var(--bio-blue); animation-delay: 4s; }
+.thank-word:nth-child(6) { top: 75%; right: 5%; font-size: 15px; color: var(--bio-purple); animation-delay: 5s; }
+.thank-word:nth-child(7) { top: 85%; left: 10%; font-size: 12px; color: var(--bio-pink); animation-delay: 6s; }
+.thank-word:nth-child(8) { top: 10%; left: 25%; font-size: 10px; color: var(--bio-orange); animation-delay: 7s; }
+.thank-word:nth-child(9) { top: 50%; left: 0%; font-size: 14px; color: var(--bio-cyan); animation-delay: 8s; }
+.thank-word:nth-child(10) { top: 20%; right: 25%; font-size: 11px; color: var(--bio-magenta); animation-delay: 9s; }
+.thank-word:nth-child(11) { top: 70%; right: 20%; font-size: 13px; color: var(--bio-yellow); animation-delay: 10s; }
+.thank-word:nth-child(12) { top: 90%; right: 30%; font-size: 12px; color: var(--bio-green); animation-delay: 11s; }
+
+@keyframes word-float {
+  0%, 100% { opacity: 0; transform: translateY(20px) scale(0.8); }
+  10%, 90% { opacity: 0.6; transform: translateY(0) scale(1); }
+  50% { opacity: 0.8; transform: translateY(-10px) scale(1.05); }
+}
+
+/* Titre principal avec effet spectaculaire */
+.thank-main-title {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 30px;
 }
 
 .thank-text h2 {
-  margin: 0 0 16px;
+  margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(28px, 5vw, 38px);
+  font-size: clamp(42px, 8vw, 72px);
   font-weight: 900;
-  background: linear-gradient(135deg, #fff 0%, var(--bio-cyan) 40%, var(--bio-magenta) 70%, var(--bio-yellow) 100%);
-  background-size: 200% 200%;
+  letter-spacing: 2px;
+  background: linear-gradient(
+    135deg, 
+    #fff 0%, 
+    var(--bio-cyan) 25%, 
+    var(--bio-magenta) 50%, 
+    var(--bio-yellow) 75%,
+    #fff 100%
+  );
+  background-size: 300% 300%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  animation: mega-gradient 5s ease infinite;
+  animation: mega-gradient 4s ease infinite;
+  text-shadow: none;
+  filter: drop-shadow(0 0 30px rgba(0, 255, 229, 0.4));
+  line-height: 1.1;
+}
+
+.thank-text h2 .emoji-bulb {
+  display: inline-block;
+  font-size: 0.8em;
+  animation: bulb-glow 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 15px rgba(0, 255, 229, 0.8));
+}
+
+@keyframes bulb-glow {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(0, 255, 229, 0.8)); }
+  50% { transform: scale(1.15); filter: drop-shadow(0 0 30px rgba(255, 230, 0, 1)); }
+}
+
+/* Sous-titre "IDEA" stylisé */
+.thank-idea-badge {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 8px 30px;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 8px;
+  color: var(--bio-cyan);
+  background: linear-gradient(135deg, rgba(0, 255, 229, 0.15), rgba(0, 180, 255, 0.1));
+  border: 2px solid var(--bio-cyan);
+  border-radius: 50px;
+  text-shadow: 0 0 20px var(--bio-cyan);
+  box-shadow: 
+    0 0 30px rgba(0, 255, 229, 0.3),
+    inset 0 0 20px rgba(0, 255, 229, 0.1);
+  animation: badge-pulse 3s ease-in-out infinite;
+}
+
+@keyframes badge-pulse {
+  0%, 100% { box-shadow: 0 0 30px rgba(0, 255, 229, 0.3), inset 0 0 20px rgba(0, 255, 229, 0.1); }
+  50% { box-shadow: 0 0 50px rgba(0, 255, 229, 0.5), inset 0 0 30px rgba(0, 255, 229, 0.2); }
 }
 
 .thank-text p {
-  font-size: 15px;
-  color: var(--muted);
-  margin: 10px 0;
-  line-height: 1.8;
+  font-size: 16px;
+  color: rgba(240, 245, 255, 0.8);
+  margin: 20px auto;
+  line-height: 1.9;
+  max-width: 600px;
+  position: relative;
+  z-index: 2;
 }
 
+.thank-text p b {
+  color: var(--bio-cyan);
+  font-weight: 600;
+}
+
+/* Citation inspirante */
 .thank-highlight {
-  margin: 22px 0;
-  padding: 18px 24px;
-  background: linear-gradient(135deg, rgba(255, 230, 0, 0.1), rgba(57, 255, 20, 0.06));
-  border: 1px dashed rgba(255, 230, 0, 0.4);
-  border-radius: var(--r-md);
-  font-size: 15px;
-  color: var(--bio-yellow);
-  text-shadow: 0 0 10px rgba(255, 230, 0, 0.3);
+  margin: 30px auto;
+  padding: 25px 35px;
+  max-width: 650px;
+  background: linear-gradient(
+    135deg, 
+    rgba(57, 255, 20, 0.08), 
+    rgba(255, 230, 0, 0.06),
+    rgba(0, 255, 229, 0.05)
+  );
+  border: none;
+  border-left: 4px solid;
+  border-image: linear-gradient(180deg, var(--bio-green), var(--bio-yellow), var(--bio-cyan)) 1;
+  border-radius: 0 var(--r-lg) var(--r-lg) 0;
+  font-size: 17px;
+  font-style: italic;
+  color: var(--ink);
+  position: relative;
+  z-index: 2;
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
+.thank-highlight::before {
+  content: '"';
+  position: absolute;
+  top: -15px;
+  left: 15px;
+  font-size: 60px;
+  font-family: Georgia, serif;
+  color: var(--bio-yellow);
+  opacity: 0.4;
+  line-height: 1;
+}
+
+.thank-highlight span {
+  display: block;
+  background: linear-gradient(90deg, var(--bio-yellow), var(--bio-green), var(--bio-cyan));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 600;
+}
+
+/* Robot avec effets améliorés */
 .thank-robot {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 20px;
+  position: relative;
+  z-index: 2;
 }
 
 .thank-robot-orbit {
   position: relative;
-  width: 200px;
-  height: 200px;
+  width: 220px;
+  height: 220px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(0, 255, 229, 0.15), transparent 60%);
+  background: radial-gradient(circle, rgba(0, 255, 229, 0.2), transparent 60%);
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: orbit-pulse 3s ease-in-out infinite;
+  animation: orbit-mega-pulse 4s ease-in-out infinite;
 }
 
-@keyframes orbit-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 255, 229, 0.3); }
-  50% { box-shadow: 0 0 0 30px rgba(0, 255, 229, 0); }
+@keyframes orbit-mega-pulse {
+  0%, 100% { 
+    box-shadow: 
+      0 0 0 0 rgba(0, 255, 229, 0.4),
+      0 0 60px rgba(0, 255, 229, 0.2);
+  }
+  50% { 
+    box-shadow: 
+      0 0 0 40px rgba(0, 255, 229, 0),
+      0 0 100px rgba(0, 255, 229, 0.3);
+  }
 }
 
 .thank-robot-orbit::before {
   content: '';
   position: absolute;
-  inset: 15%;
-  border: 2px dashed rgba(0, 255, 229, 0.3);
+  inset: 10%;
+  border: 2px dashed rgba(0, 255, 229, 0.4);
   border-radius: 50%;
-  animation: spin 15s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
+  animation: spin 12s linear infinite;
 }
 
 .thank-robot-orbit::after {
   content: '';
   position: absolute;
-  inset: 5%;
-  border: 1px dotted rgba(255, 0, 170, 0.2);
+  inset: 3%;
+  border: 1px solid rgba(255, 0, 170, 0.2);
   border-radius: 50%;
-  animation: spin 20s linear infinite reverse;
+  animation: spin 18s linear infinite reverse;
+}
+
+/* Anneau externe supplémentaire */
+.thank-robot-ring {
+  position: absolute;
+  inset: -15%;
+  border: 1px dotted rgba(255, 230, 0, 0.3);
+  border-radius: 50%;
+  animation: spin 25s linear infinite;
 }
 
 .thank-robot-orbit img {
-  max-width: 65%;
+  max-width: 60%;
   height: auto;
-  filter: drop-shadow(0 0 30px rgba(0, 255, 229, 0.6));
-  animation: celebrate 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 40px rgba(0, 255, 229, 0.7));
+  animation: robot-celebrate 3s ease-in-out infinite;
+  position: relative;
+  z-index: 1;
 }
 
-@keyframes celebrate {
-  0%, 100% { transform: translateY(0) scale(1) rotate(0deg); }
-  25% { transform: translateY(-12px) scale(1.05) rotate(3deg); }
-  50% { transform: translateY(-6px) scale(1.02) rotate(-2deg); }
-  75% { transform: translateY(-10px) scale(1.03) rotate(2deg); }
+@keyframes robot-celebrate {
+  0%, 100% { transform: translateY(0) scale(1) rotate(-3deg); }
+  25% { transform: translateY(-12px) scale(1.05) rotate(2deg); }
+  50% { transform: translateY(0) scale(1) rotate(3deg); }
+  75% { transform: translateY(-8px) scale(1.03) rotate(-2deg); }
+}
+
+/* Bouton retour stylisé */
+.thank-text .btn-back-home {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 30px;
+  padding: 16px 32px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--ink);
+  background: linear-gradient(135deg, rgba(0, 255, 229, 0.1), rgba(0, 180, 255, 0.05));
+  border: 1px solid rgba(0, 255, 229, 0.3);
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.thank-text .btn-back-home::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--bio-cyan), var(--bio-blue));
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: -1;
+}
+
+.thank-text .btn-back-home:hover {
+  transform: translateY(-3px) scale(1.02);
+  border-color: var(--bio-cyan);
+  box-shadow: 0 15px 40px rgba(0, 255, 229, 0.3);
+}
+
+.thank-text .btn-back-home:hover::before {
+  opacity: 1;
+}
+
+/* Confettis qui tombent (amélioration) */
+.confetti-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  top: -20px;
+  animation: confetti-drop 4s linear infinite;
+}
+
+.confetti:nth-child(1) { left: 10%; background: var(--bio-cyan); animation-delay: 0s; animation-duration: 3.5s; }
+.confetti:nth-child(2) { left: 20%; background: var(--bio-magenta); animation-delay: 0.5s; animation-duration: 4s; border-radius: 50%; }
+.confetti:nth-child(3) { left: 30%; background: var(--bio-yellow); animation-delay: 1s; animation-duration: 3.8s; }
+.confetti:nth-child(4) { left: 40%; background: var(--bio-green); animation-delay: 1.5s; animation-duration: 4.2s; border-radius: 50%; }
+.confetti:nth-child(5) { left: 50%; background: var(--bio-blue); animation-delay: 2s; animation-duration: 3.6s; }
+.confetti:nth-child(6) { left: 60%; background: var(--bio-purple); animation-delay: 0.3s; animation-duration: 4.5s; border-radius: 50%; }
+.confetti:nth-child(7) { left: 70%; background: var(--bio-pink); animation-delay: 0.8s; animation-duration: 3.9s; }
+.confetti:nth-child(8) { left: 80%; background: var(--bio-orange); animation-delay: 1.3s; animation-duration: 4.1s; border-radius: 50%; }
+.confetti:nth-child(9) { left: 90%; background: var(--bio-cyan); animation-delay: 1.8s; animation-duration: 3.7s; }
+.confetti:nth-child(10) { left: 15%; background: var(--bio-magenta); animation-delay: 2.3s; animation-duration: 4.3s; border-radius: 50%; }
+.confetti:nth-child(11) { left: 45%; background: var(--bio-yellow); animation-delay: 0.7s; animation-duration: 3.4s; }
+.confetti:nth-child(12) { left: 75%; background: var(--bio-green); animation-delay: 1.1s; animation-duration: 4.4s; border-radius: 50%; }
+
+@keyframes confetti-drop {
+  0% { 
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  100% { 
+    transform: translateY(600px) rotate(720deg) scale(0.5);
+    opacity: 0;
+  }
 }
 
 /* =========================================================
@@ -1483,8 +1761,12 @@ audio { width: 100%; margin-top: 12px; border-radius: var(--r-sm); }
   #step4 .contact-layout { grid-template-columns: 1fr; }
   .thank-layout { grid-template-columns: 1fr; text-align: center; }
   .thank-text { text-align: center; }
-  .thank-robot { order: -1; margin-bottom: 20px; }
   .preview-robot img { max-width: 100px; }
+  
+  /* Page Merci responsive */
+  .thank-words-cloud { display: none; }
+  .thank-text h2 { font-size: clamp(36px, 7vw, 52px); }
+  .thank-idea-badge { font-size: 14px; letter-spacing: 5px; padding: 6px 20px; }
 }
 
 @media (max-width: 600px) {
@@ -1527,8 +1809,16 @@ audio { width: 100%; margin-top: 12px; border-radius: var(--r-sm); }
   #submitBtn { padding: 12px 20px; font-size: 13px; }
   #statusMsg { font-size: 11px; text-align: center; }
   
-  .thank-panel { padding: 30px 20px; }
+  /* Page Merci mobile */
+  .thank-panel { padding: 40px 24px; min-height: auto; }
+  .thank-panel::after { display: none; }
   .thank-robot-orbit { width: 160px; height: 160px; }
+  .thank-robot-orbit img { max-width: 55%; }
+  .thank-highlight { padding: 20px 24px; font-size: 15px; margin: 25px 0; }
+  .thank-highlight::before { font-size: 40px; top: -10px; left: 10px; }
+  .thank-text p { font-size: 14px; }
+  .thank-text .btn-back-home { padding: 14px 24px; font-size: 13px; }
+  .confetti { width: 8px; height: 8px; }
   
   .backdrop, .backdrop-2 { opacity: 0.08; }
 }
@@ -3733,38 +4023,82 @@ Copier
       </div>
     </section>
 
-    <!-- STEP MERCI : CONFIRMATION FINALE -->
+    <!-- STEP MERCI : CONFIRMATION FINALE SPECTACULAIRE -->
     <section id="stepThanks" class="step-page">
       <div class="panel thank-panel">
+        <!-- Confettis animés -->
+        <div class="confetti-container">
+          <div class="confetti"></div>
+          <div class="confetti"></div>
+          <div class="confetti"></div>
+          <div class="confetti"></div>
+          <div class="confetti"></div>
+          <div class="confetti"></div>
+          <div class="confetti"></div>
+          <div class="confetti"></div>
+          <div class="confetti"></div>
+          <div class="confetti"></div>
+          <div class="confetti"></div>
+          <div class="confetti"></div>
+        </div>
+
         <div class="thank-layout">
           <div class="thank-text">
-            <h2>Merci pour ton IDEA 💡</h2>
-            <p class="muted">
-              Toute l’équipe <b>IDEA</b> te remercie chaleureusement pour ta contribution.
+            <!-- Mots "Merci" flottants multilingues -->
+            <div class="thank-words-cloud">
+              <span class="thank-word">Gracias</span>
+              <span class="thank-word">Thank you</span>
+              <span class="thank-word">Danke</span>
+              <span class="thank-word">Grazie</span>
+              <span class="thank-word">Obrigado</span>
+              <span class="thank-word">Спасибо</span>
+              <span class="thank-word">ありがとう</span>
+              <span class="thank-word">شكراً</span>
+              <span class="thank-word">감사합니다</span>
+              <span class="thank-word">Dziękuję</span>
+              <span class="thank-word">Teşekkürler</span>
+              <span class="thank-word">Tack</span>
+            </div>
+
+            <!-- Titre principal -->
+            <div class="thank-main-title">
+              <h2>Merci <span class="emoji-bulb">💡</span></h2>
+              <div class="thank-idea-badge">IDEA</div>
+            </div>
+
+            <p>
+              Toute l'équipe <b>IDEA</b> te remercie chaleureusement pour ta contribution.
               Grâce à des personnes comme toi, nous continuons à nous améliorer
               chaque jour, chaque heure, chaque minute.
             </p>
-            <p class="muted">
-              Ton IDEA va maintenant être analysée par l’équipe innovation.
+            <p>
+              Ton IDEA va maintenant être analysée par l'équipe innovation.
               Si un suivi est nécessaire, nous te recontacterons via le mode que tu as choisi.
             </p>
+
             <div class="thank-highlight">
-              <span>✨ Sans idées, il n’y a pas de progrès. Merci d’avoir pris le temps de partager la tienne.</span>
+              <span>Sans idées, il n'y a pas de progrès. Merci d'avoir pris le temps de partager la tienne.</span>
             </div>
 
-            <button type="button" class="btn-secondary" id="backToHomeBtn">
-              ⬅️ Retour à l’accueil IDEA
+            <!-- Robot au centre avec effets -->
+            <div class="thank-robot">
+              <div class="thank-robot-orbit">
+                <div class="thank-robot-ring"></div>
+                <img src="/static/cawe_robot.png" alt="Robot IDEA qui te remercie">
+              </div>
+            </div>
+
+            <button type="button" class="btn-back-home" id="backToHomeBtn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Retour à l'accueil IDEA
             </button>
-          </div>
-
-          <div class="thank-robot">
-            <div class="thank-robot-orbit">
-              <img src="/static/cawe_robot.png" alt="Robot IDEA qui te remercie">
-            </div>
           </div>
         </div>
       </div>
     </section>
+
 
   </div>
 
