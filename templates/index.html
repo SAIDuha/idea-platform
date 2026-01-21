@@ -2831,6 +2831,123 @@ Copier
     gap: 0;
   }
 }
+
+/* ============================================================
+   STEP 5 - MODE VOCAL : Masquer les champs de saisie texte
+   
+   Quand l'utilisateur a choisi le mode vocal, on cache :
+   - Le type de contribution (checkboxes)
+   - Le titre de l'idée
+   - La description
+   - L'impact
+   
+   On garde uniquement :
+   - L'en-tête
+   - L'enregistrement vocal
+   - Les illustrations (photos/vidéos)
+   - L'aperçu de la transcription
+   ============================================================ */
+
+/* Mode vocal activé sur step5 */
+#step5.voice-mode .field-group[data-field="type"],
+#step5.voice-mode .field-group[data-field="title"],
+#step5.voice-mode .field-group[data-field="description"],
+#step5.voice-mode .field-group[data-field="impact"] {
+  display: none !important;
+}
+
+/* Alternative : cibler par les IDs des éléments */
+#step5.voice-mode .choice-row:has(input[name="shareType"]) {
+  display: none !important;
+}
+
+/* Masquer les labels bilingues pour type, titre, description, impact */
+#step5.voice-mode #labelTypeLang,
+#step5.voice-mode #labelIdeaTitleLang,
+#step5.voice-mode #labelDescriptionLang,
+#step5.voice-mode #labelImpactLang,
+#step5.voice-mode .label-fr[for="ideaTitle"],
+#step5.voice-mode .label-fr[for="typedText"],
+#step5.voice-mode .label-fr[for="impactSelect"] {
+  display: none !important;
+}
+
+/* Masquer les inputs correspondants */
+#step5.voice-mode #ideaTitle,
+#step5.voice-mode #typedText,
+#step5.voice-mode #impactSelect,
+#step5.voice-mode #impactOtherRow {
+  display: none !important;
+}
+
+/* Masquer le parent .field-group qui contient ces éléments */
+#step5.voice-mode .field-group:has(#ideaTitle),
+#step5.voice-mode .field-group:has(#typedText),
+#step5.voice-mode .field-group:has(#impactSelect),
+#step5.voice-mode .field-group:has(.choice-row) {
+  display: none !important;
+}
+
+/* ============================================================
+   FALLBACK pour navigateurs sans support :has()
+   On utilise des classes JS à la place
+   ============================================================ */
+
+#step5.voice-mode .field-group.hide-voice-mode {
+  display: none !important;
+}
+
+/* ============================================================
+   Style de l'en-tête en mode vocal - plus compact
+   ============================================================ */
+
+#step5.voice-mode .idea-header-bilingual,
+#step5.voice-mode .idea-header-lang,
+#step5.voice-mode .idea-header-fr {
+  margin-bottom: 24px;
+}
+
+/* Message explicatif pour le mode vocal */
+#step5 .voice-mode-hint {
+  display: none;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  background: linear-gradient(135deg, rgba(255, 0, 170, 0.1), rgba(200, 0, 255, 0.05));
+  border: 1px solid rgba(255, 0, 170, 0.3);
+  border-left: 4px solid var(--bio-magenta);
+  border-radius: 0 var(--r-md) var(--r-md) 0;
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+#step5.voice-mode .voice-mode-hint {
+  display: block;
+}
+
+#step5 .voice-mode-hint strong {
+  color: var(--bio-magenta);
+}
+
+/* ============================================================
+   Mise en page plus aérée en mode vocal
+   ============================================================ */
+
+#step5.voice-mode .panel:first-child {
+  padding-top: 20px;
+}
+
+/* Boutons d'enregistrement plus proéminents en mode vocal */
+#step5.voice-mode #recBtn {
+  min-height: 60px;
+  font-size: 16px;
+  padding: 18px 28px;
+}
+
+#step5.voice-mode .actions {
+  gap: 16px;
+}
+
 </style>
 
 
@@ -3615,6 +3732,12 @@ function updateModeButtons(){
 function handleModeChoice(mode){
   chosenMode = mode;
   updateModeButtons();
+
+   if (mode === "voice") {
+    setStep5VoiceMode();
+  } else {
+    setStep5TextMode();
+  }
   if (captchaRow) captchaRow.style.display = "block";
 
   if (modeHint){
@@ -3636,10 +3759,18 @@ function onCaptchaSuccess(){
   if (!chosenMode){
     if (modeHint){
       modeHint.textContent =
-        "Merci, choisis d’abord si tu préfères écrire ou parler ton idée.";
+        "Merci, choisis d'abord si tu préfères écrire ou parler ton idée.";
     }
     return;
   }
+  
+  // AJOUTER CES LIGNES :
+  if (chosenMode === "voice") {
+    setStep5VoiceMode();
+  } else {
+    setStep5TextMode();
+  }
+  
   if (chosenMode === "text"){
     showStep("step3");
   } else {
@@ -5361,7 +5492,48 @@ window.addEventListener("resize", () => {
 });
 
 // NOTE: Appeler applyLanguageToIdea(langData) dans la fonction applyChosenLanguage existante
+function setStep5VoiceMode() {
+  const step5 = document.getElementById("step5");
+  if (step5) {
+    step5.classList.add("voice-mode");
+    step5.classList.remove("text-mode");
+    
+    // Fallback pour navigateurs sans :has() - ajouter classe aux field-groups
+    const fieldGroups = step5.querySelectorAll(".field-group");
+    fieldGroups.forEach(fg => {
+      // Vérifier si ce field-group contient les éléments à masquer
+      if (fg.querySelector("#ideaTitle") || 
+          fg.querySelector("#typedText") || 
+          fg.querySelector("#impactSelect") ||
+          fg.querySelector(".choice-row") ||
+          fg.querySelector("input[name='shareType']")) {
+        fg.classList.add("hide-voice-mode");
+      }
+    });
+    
+    console.log("✅ Step5 en mode VOCAL - champs texte masqués");
+  }
+}
 
+/**
+ * Active le mode texte sur step5 (affiche tous les champs)
+ * Appelle cette fonction quand l'utilisateur choisit le mode texte
+ */
+function setStep5TextMode() {
+  const step5 = document.getElementById("step5");
+  if (step5) {
+    step5.classList.add("text-mode");
+    step5.classList.remove("voice-mode");
+    
+    // Retirer les classes de masquage
+    const fieldGroups = step5.querySelectorAll(".field-group");
+    fieldGroups.forEach(fg => {
+      fg.classList.remove("hide-voice-mode");
+    });
+    
+    console.log("✅ Step5 en mode TEXTE - tous les champs visibles");
+  }
+}
 </script>
 
 </body>
