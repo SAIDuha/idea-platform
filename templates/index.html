@@ -2453,6 +2453,259 @@ Ajoute cette ligne dans ton <head> :
   }
 }
 
+
+/* ===== STEP 5 IDEA BILINGUAL STYLES ===== */
+
+/* En-tête bilingue */
+#step5 .idea-header-bilingual {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+#step5 .idea-header-lang {
+  padding: 16px 20px;
+  background: linear-gradient(145deg, rgba(255, 0, 170, 0.08), rgba(200, 0, 255, 0.04));
+  border: 1px solid rgba(255, 0, 170, 0.25);
+  border-radius: var(--r-md);
+}
+
+#step5 .idea-header-fr {
+  padding: 16px 20px;
+  background: linear-gradient(145deg, rgba(0, 255, 229, 0.06), rgba(0, 180, 255, 0.03));
+  border: 1px solid rgba(0, 255, 229, 0.2);
+  border-radius: var(--r-md);
+}
+
+#step5 .idea-header-bilingual h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+#step5 .idea-header-bilingual p {
+  margin: 0;
+}
+
+/* Switch mobile */
+.idea-switch {
+  display: none;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+/* Labels bilingues côte à côte */
+.bilingual-label {
+  display: flex;
+  gap: 16px;
+  align-items: baseline;
+  margin: 22px 0 10px;
+}
+
+.bilingual-label .label-lang {
+  flex: 1;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--bio-magenta);
+  text-shadow: 0 0 10px rgba(255, 0, 170, 0.3);
+}
+
+.bilingual-label .label-fr {
+  flex: 1;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--bio-cyan);
+  text-shadow: 0 0 10px rgba(0, 255, 229, 0.3);
+}
+
+/* Textes bilingues dans les boutons et checkboxes */
+.bilingual-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.bilingual-text .text-lang {
+  color: var(--bio-magenta);
+  font-size: 0.9em;
+}
+
+.bilingual-text .text-fr {
+  color: var(--ink);
+  font-size: 1em;
+}
+
+/* Dans les radio-items, afficher sur une ligne */
+.radio-item .bilingual-text {
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+}
+
+.radio-item .bilingual-text .text-lang::after {
+  content: " / ";
+  color: var(--faded);
+}
+
+/* Boutons avec texte bilingue */
+button .bilingual-text {
+  flex-direction: row;
+  gap: 0;
+}
+
+button .bilingual-text .text-lang {
+  display: none; /* On affiche seulement sur desktop en mode bilingue */
+}
+
+button .bilingual-text .text-fr {
+  color: inherit;
+}
+
+/* Mode bilingue actif */
+.bilingual-mode button .bilingual-text .text-lang {
+  display: inline;
+}
+
+.bilingual-mode button .bilingual-text .text-lang::after {
+  content: " / ";
+  color: var(--faded);
+  margin: 0 4px;
+}
+
+/* Mode non-bilingue (français uniquement) */
+#step5 .idea-header-bilingual.single-lang {
+  grid-template-columns: 1fr;
+}
+
+#step5 .idea-header-bilingual.single-lang .idea-header-lang {
+  display: none;
+}
+
+#step5 .idea-header-bilingual.single-lang .idea-header-fr {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.bilingual-label.single-lang .label-lang {
+  display: none;
+}
+
+.bilingual-label.single-lang .label-fr {
+  flex: none;
+}
+
+.bilingual-text.single-lang .text-lang {
+  display: none !important;
+}
+
+.radio-item .bilingual-text.single-lang .text-lang::after {
+  display: none;
+}
+
+/* Responsive */
+@media (max-width: 1000px) {
+  #step5 .idea-header-bilingual {
+    grid-template-columns: 1fr;
+  }
+  
+  #step5 .idea-header-lang,
+  #step5 .idea-header-fr {
+    display: none;
+  }
+  
+  #step5 .idea-header-lang.is-active,
+  #step5 .idea-header-fr.is-active {
+    display: block;
+  }
+  
+  #step5 .idea-header-bilingual.single-lang .idea-header-fr {
+    display: block;
+  }
+  
+  .idea-switch {
+    display: flex;
+  }
+  
+  .bilingual-label {
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .bilingual-label .label-lang,
+  .bilingual-label .label-fr {
+    display: none;
+  }
+  
+  .bilingual-label .label-lang.is-active,
+  .bilingual-label .label-fr.is-active {
+    display: block;
+  }
+  
+  .bilingual-label.single-lang .label-fr {
+    display: block;
+  }
+  
+  /* Textes bilingues en mobile */
+  .bilingual-text .text-lang,
+  .bilingual-text .text-fr {
+    display: none;
+  }
+  
+  .bilingual-text .text-lang.is-active,
+  .bilingual-text .text-fr.is-active {
+    display: inline;
+  }
+  
+  .bilingual-text.single-lang .text-fr {
+    display: inline !important;
+  }
+  
+  .radio-item .bilingual-text {
+    flex-direction: column;
+    gap: 2px;
+    align-items: flex-start;
+  }
+  
+  .radio-item .bilingual-text .text-lang::after {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  #step5 .idea-header-bilingual {
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+  }
+  
+  #step5 .idea-header-lang,
+  #step5 .idea-header-fr {
+    padding: 12px 14px;
+  }
+  
+  #step5 .idea-header-bilingual h3 {
+    font-size: 16px;
+  }
+  
+  .idea-switch {
+    margin-bottom: 14px;
+  }
+  
+  .bilingual-label {
+    margin: 16px 0 8px;
+  }
+}
+
 </style>
 
 
@@ -2756,133 +3009,220 @@ Ajoute cette ligne dans ton <head> :
   </div>
 </section>
 
-    <!-- STEP 5 : IDÉE (TEXTE + AUDIO) -->
-    <section id="step5" class="step-page">
-      <div class="content">
-        <div class="panel">
+   <!-- STEP 5 : IDÉE (BILINGUE - VERSION OPTIMISÉE) -->
+<section id="step5" class="step-page">
+  <div class="content">
+    <!-- PANNEAU PRINCIPAL : FORMULAIRE -->
+    <div class="panel">
+      <!-- En-tête bilingue -->
+      <div class="idea-header-bilingual" id="ideaHeaderBilingual">
+        <div class="idea-header-lang" id="ideaHeaderLang">
+          <h3 id="ideaPanelTitleLang">Contenu de ton idée</h3>
+          <p class="muted small" id="ideaPanelIntroLang">
+            Quelques éléments suffisent : l'objectif est de comprendre ton contexte, ton besoin et l'impact attendu.
+          </p>
+        </div>
+        <div class="idea-header-fr" id="ideaHeaderFr">
           <h3>Contenu de ton idée</h3>
           <p class="muted small">
-            Quelques éléments suffisent : l’objectif est de comprendre ton contexte, ton besoin et l’impact attendu.
+            Quelques éléments suffisent : l'objectif est de comprendre ton contexte, ton besoin et l'impact attendu.
           </p>
-
-          <div class="field-group">
-            <div class="section-label">Type de contribution</div>
-            <div class="choice-row">
-              <label class="radio-item">
-                <input type="checkbox" name="shareType" value="Difficulté">
-                <span>Une difficulté</span>
-              </label>
-              <label class="radio-item">
-                <input type="checkbox" name="shareType" value="Amélioration">
-                <span>Une amélioration</span>
-              </label>
-              <label class="radio-item">
-                <input type="checkbox" name="shareType" value="Innovation">
-                <span>Une innovation</span>
-              </label>
-            </div>
-          </div>
-
-          <div class="field-group">
-            <label for="ideaTitle">Titre de ton IDEA</label>
-            <input id="ideaTitle" placeholder="Ex : Photo réforme" />
-          </div>
-
-          <div class="field-group">
-            <label for="typedText">Description (optionnel si audio)</label>
-            <textarea id="typedText" placeholder="Décris ton idée, ton besoin, ton insight…"></textarea>
-          </div>
-
-          <div class="field-group">
-            <label for="impactSelect">Quel impact principal aurait ton idée ?</label>
-            <select id="impactSelect">
-              <option value="">Sélectionne l’impact principal</option>
-              <option value="Condition de travail / Ergonomie">Condition de travail / Ergonomie</option>
-              <option value="Développement durable / Environnement">Développement durable / Environnement</option>
-              <option value="Gain de temps / Efficacité">Gain de temps / Efficacité</option>
-              <option value="Productivité">Productivité</option>
-              <option value="Économie d’énergie">Économie d’énergie</option>
-              <option value="Sécurité">Sécurité</option>
-              <option value="Autre">Autre (préciser)</option>
-            </select>
-
-            <div id="impactOtherRow" style="display:none; margin-top:8px;">
-              <input id="impactOther" placeholder="Précise l’impact" />
-            </div>
-          </div>
-
-          <div class="field-group">
-            <div class="section-label">Enregistrement vocal</div>
-            <div class="actions">
-              <button id="recBtn" class="btn-primary" data-tip="HTTPS requis (ou localhost)">🎙️ Démarrer l’enregistrement</button>
-              <button id="uploadBtn" class="btn-ghost">📁 Importer un audio</button>
-              <button id="toneBtn" class="btn-ghost" data-tip="Petit bip de test">🔊 Tester le son</button>
-              <input id="audioFile" type="file" accept="audio/*" capture style="display:none" />
-            </div>
-            <audio id="player" controls hidden></audio>
-          </div>
-
-          <div class="field-group">
-            <div class="section-label">Illustrations (facultatif)</div>
-            <label style="margin-top:4px;">Photos / vidéos</label>
-            <div class="actions">
-              <button type="button" class="btn-ghost" id="mediaCaptureBtn">
-                📷 Prendre une photo / vidéo
-              </button>
-              <button type="button" class="btn-ghost" id="mediaUploadBtn">
-                📁 Importer depuis ton appareil
-              </button>
-              <input id="mediaInputCamera" type="file"
-                     accept="image/*,video/*" capture style="display:none" multiple>
-              <input id="mediaInputFile" type="file"
-                     accept="image/*,video/*" style="display:none" multiple>
-            </div>
-            <div id="mediaPreview" class="media-preview"></div>
-          </div>
-
-          <div class="nav-row">
-            <button type="button" class="btn-secondary" id="backToContact">◀ Précédent</button>
-          </div>
-        </div>
-
-        <div class="panel panel-preview">
-          <div class="preview-top">
-            <div class="preview-text">
-              <h3>Aperçu & traduction</h3>
-              <p class="muted small">
-                Ce panneau se mettra à jour dès que tu enregistres ou importes un audio. Tu peux vérifier le texte compris
-                avant d’envoyer ton IDEA.
-              </p>
-            </div>
-            <div class="preview-robot">
-              <img src="/static/cawe_robot.png" alt="Robot IDEA">
-            </div>
-          </div>
-
-          <div class="preview-grid">
-            <div>
-              <strong>🗣️ Texte d’origine</strong>
-              <div class="muted" id="langChip" style="margin:6px 0 10px"></div>
-              <div id="origBox" class="preview-box">—</div>
-            </div>
-            <div>
-              <strong>🇫🇷 Traduction française</strong>
-              <div id="frBox" class="preview-box">—</div>
-            </div>
-          </div>
-
-          <div class="helper">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M12 2a10 10 0 100 20 10 10 0 000-20Zm1 14h-2v-2h2v2Zm0-4h-2V6h2v6Z" fill="#3a66ff"/>
-            </svg>
-            <div class="muted">
-              Vérifie rapidement : tu pourras ensuite finaliser et envoyer ton idée. En cas d’erreur,
-              tu pourras corriger le texte ou refaire un enregistrement.
-            </div>
-          </div>
         </div>
       </div>
-    </section>
+
+      <!-- Switch mobile -->
+      <div class="idea-switch" id="ideaSwitch" style="display:none;">
+        <span id="ideaSwitchLabel" class="voice-switch-label">Langue choisie</span>
+        <button type="button" id="ideaSwitchBtn" class="voice-switch-btn"
+                aria-label="Basculer entre la langue choisie et le français">
+          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 8h11.17l-2.88-2.88a1 1 0 1 1 1.42-1.42l4.59 4.6a1 1 0 0 1 0 1.4l-4.59 4.6a1 1 0 0 1-1.42-1.42L16.17 10H5a1 1 0 0 1 0-2Zm14 8H7.83l2.88 2.88a1 1 0 0 1-1.42 1.42L4.7 15.7a1 1 0 0 1 0-1.4l4.59-4.6a1 1 0 1 1 1.42 1.42L7.83 14H19a1 1 0 0 1 0 2Z"
+                  fill="currentColor"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- TYPE DE CONTRIBUTION -->
+      <div class="field-group">
+        <div class="bilingual-label">
+          <span class="section-label label-lang" id="labelTypeLang">Type de contribution</span>
+          <span class="section-label label-fr">Type de contribution</span>
+        </div>
+        <div class="choice-row">
+          <label class="radio-item">
+            <input type="checkbox" name="shareType" value="Difficulté">
+            <span class="bilingual-text">
+              <span class="text-lang" id="checkDifficultyLang">Une difficulté</span>
+              <span class="text-fr">Une difficulté</span>
+            </span>
+          </label>
+          <label class="radio-item">
+            <input type="checkbox" name="shareType" value="Amélioration">
+            <span class="bilingual-text">
+              <span class="text-lang" id="checkImprovementLang">Une amélioration</span>
+              <span class="text-fr">Une amélioration</span>
+            </span>
+          </label>
+          <label class="radio-item">
+            <input type="checkbox" name="shareType" value="Innovation">
+            <span class="bilingual-text">
+              <span class="text-lang" id="checkInnovationLang">Une innovation</span>
+              <span class="text-fr">Une innovation</span>
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <!-- TITRE DE L'IDÉE -->
+      <div class="field-group">
+        <div class="bilingual-label">
+          <label class="label-lang" id="labelIdeaTitleLang" for="ideaTitle">Titre de ton IDEA</label>
+          <label class="label-fr" for="ideaTitle">Titre de ton IDEA</label>
+        </div>
+        <input id="ideaTitle" placeholder="Ex : Photo réforme" data-placeholder-lang="Ex : Photo réforme" />
+      </div>
+
+      <!-- DESCRIPTION -->
+      <div class="field-group">
+        <div class="bilingual-label">
+          <label class="label-lang" id="labelDescriptionLang" for="typedText">Description (optionnel si audio)</label>
+          <label class="label-fr" for="typedText">Description (optionnel si audio)</label>
+        </div>
+        <textarea id="typedText" placeholder="Décris ton idée, ton besoin, ton insight…" data-placeholder-lang="Décris ton idée, ton besoin, ton insight…"></textarea>
+      </div>
+
+      <!-- IMPACT -->
+      <div class="field-group">
+        <div class="bilingual-label">
+          <label class="label-lang" id="labelImpactLang" for="impactSelect">Quel impact principal aurait ton idée ?</label>
+          <label class="label-fr" for="impactSelect">Quel impact principal aurait ton idée ?</label>
+        </div>
+        <select id="impactSelect">
+          <option value="" data-lang="">Sélectionne l'impact principal</option>
+          <option value="Condition de travail / Ergonomie" data-lang="">Condition de travail / Ergonomie</option>
+          <option value="Développement durable / Environnement" data-lang="">Développement durable / Environnement</option>
+          <option value="Gain de temps / Efficacité" data-lang="">Gain de temps / Efficacité</option>
+          <option value="Productivité" data-lang="">Productivité</option>
+          <option value="Économie d'énergie" data-lang="">Économie d'énergie</option>
+          <option value="Sécurité" data-lang="">Sécurité</option>
+          <option value="Autre" data-lang="">Autre (préciser)</option>
+        </select>
+
+        <div id="impactOtherRow" style="display:none; margin-top:8px;">
+          <input id="impactOther" placeholder="Précise l'impact" data-placeholder-lang="Précise l'impact" />
+        </div>
+      </div>
+
+      <!-- ENREGISTREMENT VOCAL -->
+      <div class="field-group">
+        <div class="bilingual-label">
+          <span class="section-label label-lang" id="labelRecordingLang">Enregistrement vocal</span>
+          <span class="section-label label-fr">Enregistrement vocal</span>
+        </div>
+        <div class="actions">
+          <button id="recBtn" class="btn-primary" data-tip="HTTPS requis (ou localhost)">
+            <span class="bilingual-text">
+              <span class="text-lang" id="btnRecLang">🎙️ Démarrer l'enregistrement</span>
+              <span class="text-fr">🎙️ Démarrer l'enregistrement</span>
+            </span>
+          </button>
+          <button id="uploadBtn" class="btn-ghost">
+            <span class="bilingual-text">
+              <span class="text-lang" id="btnUploadLang">📁 Importer un audio</span>
+              <span class="text-fr">📁 Importer un audio</span>
+            </span>
+          </button>
+          <button id="toneBtn" class="btn-ghost" data-tip="Petit bip de test">
+            <span class="bilingual-text">
+              <span class="text-lang" id="btnToneLang">🔊 Tester le son</span>
+              <span class="text-fr">🔊 Tester le son</span>
+            </span>
+          </button>
+          <input id="audioFile" type="file" accept="audio/*" capture style="display:none" />
+        </div>
+        <audio id="player" controls hidden></audio>
+      </div>
+
+      <!-- ILLUSTRATIONS -->
+      <div class="field-group">
+        <div class="bilingual-label">
+          <span class="section-label label-lang" id="labelMediaLang">Illustrations (facultatif)</span>
+          <span class="section-label label-fr">Illustrations (facultatif)</span>
+        </div>
+        <div class="bilingual-label" style="margin-top:4px;">
+          <label class="label-lang" id="labelPhotosLang">Photos / vidéos</label>
+          <label class="label-fr">Photos / vidéos</label>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn-ghost" id="mediaCaptureBtn">
+            <span class="bilingual-text">
+              <span class="text-lang" id="btnCaptureLang">📷 Prendre une photo / vidéo</span>
+              <span class="text-fr">📷 Prendre une photo / vidéo</span>
+            </span>
+          </button>
+          <button type="button" class="btn-ghost" id="mediaUploadBtn">
+            <span class="bilingual-text">
+              <span class="text-lang" id="btnMediaUploadLang">📁 Importer depuis ton appareil</span>
+              <span class="text-fr">📁 Importer depuis ton appareil</span>
+            </span>
+          </button>
+          <input id="mediaInputCamera" type="file"
+                 accept="image/*,video/*" capture style="display:none" multiple>
+          <input id="mediaInputFile" type="file"
+                 accept="image/*,video/*" style="display:none" multiple>
+        </div>
+        <div id="mediaPreview" class="media-preview"></div>
+      </div>
+
+      <div class="nav-row">
+        <button type="button" class="btn-secondary" id="backToContact">
+          <span class="bilingual-text">
+            <span class="text-lang" id="btnBackLang">◀ Précédent</span>
+            <span class="text-fr">◀ Précédent</span>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- PANNEAU APERÇU -->
+    <div class="panel panel-preview">
+      <div class="preview-top">
+        <div class="preview-text">
+          <h3 id="previewTitleLang">Aperçu & traduction</h3>
+          <p class="muted small" id="previewIntroLang">
+            Ce panneau se mettra à jour dès que tu enregistres ou importes un audio. Tu peux vérifier le texte compris
+            avant d'envoyer ton IDEA.
+          </p>
+        </div>
+        <div class="preview-robot">
+          <img src="/static/cawe_robot.png" alt="Robot IDEA">
+        </div>
+      </div>
+
+      <div class="preview-grid">
+        <div>
+          <strong id="previewOrigLabelLang">🗣️ Texte d'origine</strong>
+          <div class="muted" id="langChip" style="margin:6px 0 10px"></div>
+          <div id="origBox" class="preview-box">—</div>
+        </div>
+        <div>
+          <strong id="previewFrLabelLang">🇫🇷 Traduction française</strong>
+          <div id="frBox" class="preview-box">—</div>
+        </div>
+      </div>
+
+      <div class="helper">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 2a10 10 0 100 20 10 10 0 000-20Zm1 14h-2v-2h2v2Zm0-4h-2V6h2v6Z" fill="#3a66ff"/>
+        </svg>
+        <div class="muted" id="helperTextLang">
+          Vérifie rapidement : tu pourras ensuite finaliser et envoyer ton idée. En cas d'erreur,
+          tu pourras corriger le texte ou refaire un enregistrement.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
     <!-- STEP 6 : PROFIL PAR LA VOIX (LANGUE + BILINGUE) -->
     <section id="stepVoice" class="step-page">
@@ -3915,6 +4255,7 @@ function applyChosenLanguage(langData) {
   }
 applyLanguageToProfile(langData);
 applyLanguageToContact(langData);
+applyLanguageToIdea(langData);
   // label utilisé côté mobile (ex : "العربية – Arabe")
   nativeDisplayLabel = `${langData.native_label} – ${langData.fr_label}`;
   if (voiceSwitchLabel){
@@ -4639,6 +4980,213 @@ window.addEventListener("resize", () => {
 });
 
 // NOTE: Appeler applyLanguageToContact(langData) dans la fonction applyChosenLanguage existante
+
+
+
+// --- STEP 5 IDEA BILINGUE ---
+
+const ideaHeaderBilingual = document.getElementById("ideaHeaderBilingual");
+const ideaHeaderLang = document.getElementById("ideaHeaderLang");
+const ideaHeaderFr = document.getElementById("ideaHeaderFr");
+const ideaSwitch = document.getElementById("ideaSwitch");
+const ideaSwitchBtn = document.getElementById("ideaSwitchBtn");
+const ideaSwitchLabel = document.getElementById("ideaSwitchLabel");
+
+// Éléments à traduire
+const ideaPanelTitleLang = document.getElementById("ideaPanelTitleLang");
+const ideaPanelIntroLang = document.getElementById("ideaPanelIntroLang");
+const labelTypeLang = document.getElementById("labelTypeLang");
+const checkDifficultyLang = document.getElementById("checkDifficultyLang");
+const checkImprovementLang = document.getElementById("checkImprovementLang");
+const checkInnovationLang = document.getElementById("checkInnovationLang");
+const labelIdeaTitleLang = document.getElementById("labelIdeaTitleLang");
+const labelDescriptionLang = document.getElementById("labelDescriptionLang");
+const labelImpactLang = document.getElementById("labelImpactLang");
+const labelRecordingLang = document.getElementById("labelRecordingLang");
+const btnRecLang = document.getElementById("btnRecLang");
+const btnUploadLang = document.getElementById("btnUploadLang");
+const btnToneLang = document.getElementById("btnToneLang");
+const labelMediaLang = document.getElementById("labelMediaLang");
+const labelPhotosLang = document.getElementById("labelPhotosLang");
+const btnCaptureLang = document.getElementById("btnCaptureLang");
+const btnMediaUploadLang = document.getElementById("btnMediaUploadLang");
+const btnBackLang = document.getElementById("btnBackLang");
+const previewTitleLang = document.getElementById("previewTitleLang");
+const previewIntroLang = document.getElementById("previewIntroLang");
+const previewOrigLabelLang = document.getElementById("previewOrigLabelLang");
+const previewFrLabelLang = document.getElementById("previewFrLabelLang");
+const helperTextLang = document.getElementById("helperTextLang");
+
+let currentIdeaView = "native"; // "native" ou "fr"
+let ideaNativeDisplayLabel = "Langue choisie";
+let isIdeaBilingual = false;
+
+// Gestion de la vue mobile pour idea
+function updateIdeaView(target) {
+  currentIdeaView = target;
+  
+  const allLangElements = document.querySelectorAll("#step5 .label-lang, #step5 .text-lang, #step5 .idea-header-lang");
+  const allFrElements = document.querySelectorAll("#step5 .label-fr, #step5 .text-fr, #step5 .idea-header-fr");
+  
+  if (window.innerWidth > 1000 || !isIdeaBilingual) {
+    // Desktop : tout visible
+    allLangElements.forEach(el => el.classList.remove("is-active"));
+    allFrElements.forEach(el => el.classList.remove("is-active"));
+    return;
+  }
+  
+  if (target === "fr") {
+    allLangElements.forEach(el => el.classList.remove("is-active"));
+    allFrElements.forEach(el => el.classList.add("is-active"));
+    if (ideaSwitchLabel) ideaSwitchLabel.textContent = "FR Français";
+  } else {
+    allLangElements.forEach(el => el.classList.add("is-active"));
+    allFrElements.forEach(el => el.classList.remove("is-active"));
+    if (ideaSwitchLabel) ideaSwitchLabel.textContent = ideaNativeDisplayLabel;
+  }
+}
+
+// Clic sur le bouton de switch idea
+ideaSwitchBtn?.addEventListener("click", () => {
+  const next = (currentIdeaView === "native") ? "fr" : "native";
+  updateIdeaView(next);
+});
+
+// Appliquer le mode single-lang (français uniquement)
+function setIdeaSingleLang() {
+  isIdeaBilingual = false;
+  
+  if (ideaHeaderBilingual) ideaHeaderBilingual.classList.add("single-lang");
+  if (ideaSwitch) ideaSwitch.style.display = "none";
+  
+  // Ajouter single-lang à tous les éléments bilingues
+  document.querySelectorAll("#step5 .bilingual-label").forEach(el => el.classList.add("single-lang"));
+  document.querySelectorAll("#step5 .bilingual-text").forEach(el => el.classList.add("single-lang"));
+}
+
+// Appliquer la langue à step5 (appelé après sélection de langue)
+async function applyLanguageToIdea(langData) {
+  if (!langData || langData.code === "fr") {
+    setIdeaSingleLang();
+    return;
+  }
+  
+  isIdeaBilingual = true;
+  
+  // Retirer le mode single-lang
+  if (ideaHeaderBilingual) ideaHeaderBilingual.classList.remove("single-lang");
+  document.querySelectorAll("#step5 .bilingual-label").forEach(el => el.classList.remove("single-lang"));
+  document.querySelectorAll("#step5 .bilingual-text").forEach(el => el.classList.remove("single-lang"));
+  
+  // Mettre à jour le label pour le switch mobile
+  ideaNativeDisplayLabel = `${langData.native_label} – ${langData.fr_label}`;
+  if (ideaSwitchLabel) ideaSwitchLabel.textContent = ideaNativeDisplayLabel;
+  
+  // Demander la traduction
+  try {
+    const res = await fetch("/api/idea_lang", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ language: langData.code })
+    });
+    const data = await res.json();
+    
+    if (res.ok && data.ok) {
+      const ui = data.ui || {};
+      
+      // En-tête
+      if (ideaPanelTitleLang && ui.panel_title) ideaPanelTitleLang.textContent = ui.panel_title;
+      if (ideaPanelIntroLang && ui.panel_intro) ideaPanelIntroLang.textContent = ui.panel_intro;
+      
+      // Type de contribution
+      if (labelTypeLang && ui.label_type) labelTypeLang.textContent = ui.label_type;
+      if (checkDifficultyLang && ui.check_difficulty) checkDifficultyLang.textContent = ui.check_difficulty;
+      if (checkImprovementLang && ui.check_improvement) checkImprovementLang.textContent = ui.check_improvement;
+      if (checkInnovationLang && ui.check_innovation) checkInnovationLang.textContent = ui.check_innovation;
+      
+      // Titre et description
+      if (labelIdeaTitleLang && ui.label_title) labelIdeaTitleLang.textContent = ui.label_title;
+      if (labelDescriptionLang && ui.label_description) labelDescriptionLang.textContent = ui.label_description;
+      
+      // Placeholders
+      const ideaTitle = document.getElementById("ideaTitle");
+      const typedText = document.getElementById("typedText");
+      if (ideaTitle && ui.placeholder_title) ideaTitle.setAttribute("data-placeholder-lang", ui.placeholder_title);
+      if (typedText && ui.placeholder_description) typedText.setAttribute("data-placeholder-lang", ui.placeholder_description);
+      
+      // Impact
+      if (labelImpactLang && ui.label_impact) labelImpactLang.textContent = ui.label_impact;
+      
+      // Options du select impact (traduites)
+      const impactSelect = document.getElementById("impactSelect");
+      if (impactSelect && ui.impact_options) {
+        const options = impactSelect.options;
+        const translations = ui.impact_options;
+        if (translations.placeholder) options[0].setAttribute("data-lang", translations.placeholder);
+        if (translations.ergonomie) options[1].setAttribute("data-lang", translations.ergonomie);
+        if (translations.environnement) options[2].setAttribute("data-lang", translations.environnement);
+        if (translations.efficacite) options[3].setAttribute("data-lang", translations.efficacite);
+        if (translations.productivite) options[4].setAttribute("data-lang", translations.productivite);
+        if (translations.energie) options[5].setAttribute("data-lang", translations.energie);
+        if (translations.securite) options[6].setAttribute("data-lang", translations.securite);
+        if (translations.autre) options[7].setAttribute("data-lang", translations.autre);
+      }
+      
+      // Enregistrement
+      if (labelRecordingLang && ui.label_recording) labelRecordingLang.textContent = ui.label_recording;
+      if (btnRecLang && ui.btn_rec) btnRecLang.textContent = ui.btn_rec;
+      if (btnUploadLang && ui.btn_upload) btnUploadLang.textContent = ui.btn_upload;
+      if (btnToneLang && ui.btn_tone) btnToneLang.textContent = ui.btn_tone;
+      
+      // Médias
+      if (labelMediaLang && ui.label_media) labelMediaLang.textContent = ui.label_media;
+      if (labelPhotosLang && ui.label_photos) labelPhotosLang.textContent = ui.label_photos;
+      if (btnCaptureLang && ui.btn_capture) btnCaptureLang.textContent = ui.btn_capture;
+      if (btnMediaUploadLang && ui.btn_media_upload) btnMediaUploadLang.textContent = ui.btn_media_upload;
+      
+      // Navigation
+      if (btnBackLang && ui.btn_back) btnBackLang.textContent = ui.btn_back;
+      
+      // Aperçu
+      if (previewTitleLang && ui.preview_title) previewTitleLang.textContent = ui.preview_title;
+      if (previewIntroLang && ui.preview_intro) previewIntroLang.textContent = ui.preview_intro;
+      if (previewOrigLabelLang && ui.preview_orig_label) previewOrigLabelLang.textContent = ui.preview_orig_label;
+      if (previewFrLabelLang && ui.preview_fr_label) previewFrLabelLang.textContent = ui.preview_fr_label;
+      if (helperTextLang && ui.helper_text) helperTextLang.textContent = ui.helper_text;
+    }
+  } catch (e) {
+    console.warn("Erreur traduction idea :", e);
+  }
+  
+  // Afficher le switch sur mobile
+  if (ideaSwitch && window.innerWidth <= 1000) {
+    ideaSwitch.style.display = "flex";
+  }
+  
+  // Initialiser la vue
+  if (window.innerWidth <= 1000) {
+    updateIdeaView("native");
+  }
+}
+
+// Resize listener pour idea
+window.addEventListener("resize", () => {
+  if (!isIdeaBilingual) return;
+  
+  if (window.innerWidth > 1000) {
+    const allLangElements = document.querySelectorAll("#step5 .label-lang, #step5 .text-lang, #step5 .idea-header-lang");
+    const allFrElements = document.querySelectorAll("#step5 .label-fr, #step5 .text-fr, #step5 .idea-header-fr");
+    allLangElements.forEach(el => el.classList.remove("is-active"));
+    allFrElements.forEach(el => el.classList.remove("is-active"));
+    if (ideaSwitch) ideaSwitch.style.display = "none";
+  } else {
+    if (ideaSwitch) ideaSwitch.style.display = "flex";
+    updateIdeaView(currentIdeaView);
+  }
+});
+
+// NOTE: Appeler applyLanguageToIdea(langData) dans la fonction applyChosenLanguage existante
+
 </script>
 
 </body>

@@ -1064,6 +1064,138 @@ Aucun texte en dehors de ce JSON.
 
     except Exception as e:
         return jsonify({"ok": False, "error": f"Traduction contact échouée : {e}"}), 500
+
+
+@app.route("/api/idea_lang", methods=["POST"])
+def idea_lang():
+    """
+    Traduit les labels du formulaire d'idée dans la langue demandée.
+    """
+    try:
+        data = request.get_json(force=True)
+    except Exception:
+        return jsonify({"ok": False, "error": "JSON invalide."}), 400
+
+    language_code = (data.get("language") or "").strip()
+    if not language_code or language_code == "fr":
+        return jsonify({"ok": True, "ui": {}})
+
+    prompt = f"""
+Tu es un assistant de traduction pour une plateforme interne appelée IDEA.
+
+Tu dois traduire les textes suivants du français vers la langue avec le code ISO "{language_code}".
+
+Textes à traduire :
+
+SECTION PRINCIPALE :
+- panel_title_fr: "Contenu de ton idée"
+- panel_intro_fr: "Quelques éléments suffisent : l'objectif est de comprendre ton contexte, ton besoin et l'impact attendu."
+
+TYPE DE CONTRIBUTION :
+- label_type_fr: "Type de contribution"
+- check_difficulty_fr: "Une difficulté"
+- check_improvement_fr: "Une amélioration"
+- check_innovation_fr: "Une innovation"
+
+TITRE ET DESCRIPTION :
+- label_title_fr: "Titre de ton IDEA"
+- placeholder_title_fr: "Ex : Photo réforme"
+- label_description_fr: "Description (optionnel si audio)"
+- placeholder_description_fr: "Décris ton idée, ton besoin, ton insight…"
+
+IMPACT :
+- label_impact_fr: "Quel impact principal aurait ton idée ?"
+- impact_placeholder_fr: "Sélectionne l'impact principal"
+- impact_ergonomie_fr: "Condition de travail / Ergonomie"
+- impact_environnement_fr: "Développement durable / Environnement"
+- impact_efficacite_fr: "Gain de temps / Efficacité"
+- impact_productivite_fr: "Productivité"
+- impact_energie_fr: "Économie d'énergie"
+- impact_securite_fr: "Sécurité"
+- impact_autre_fr: "Autre (préciser)"
+
+ENREGISTREMENT :
+- label_recording_fr: "Enregistrement vocal"
+- btn_rec_fr: "🎙️ Démarrer l'enregistrement"
+- btn_upload_fr: "📁 Importer un audio"
+- btn_tone_fr: "🔊 Tester le son"
+
+MÉDIAS :
+- label_media_fr: "Illustrations (facultatif)"
+- label_photos_fr: "Photos / vidéos"
+- btn_capture_fr: "📷 Prendre une photo / vidéo"
+- btn_media_upload_fr: "📁 Importer depuis ton appareil"
+
+NAVIGATION :
+- btn_back_fr: "◀ Précédent"
+
+APERÇU :
+- preview_title_fr: "Aperçu & traduction"
+- preview_intro_fr: "Ce panneau se mettra à jour dès que tu enregistres ou importes un audio. Tu peux vérifier le texte compris avant d'envoyer ton IDEA."
+- preview_orig_label_fr: "🗣️ Texte d'origine"
+- preview_fr_label_fr: "🇫🇷 Traduction française"
+- helper_text_fr: "Vérifie rapidement : tu pourras ensuite finaliser et envoyer ton idée. En cas d'erreur, tu pourras corriger le texte ou refaire un enregistrement."
+
+Consignes :
+- Fournis une traduction FIDÈLE dans la langue cible.
+- Conserve les emojis (🎙️, 📁, 🔊, 📷, ◀, 🗣️, 🇫🇷).
+- Le style doit rester simple, clair et poli.
+- Utilise le tutoiement si la langue le permet.
+
+Réponds STRICTEMENT avec ce JSON :
+
+{{
+  "panel_title": "traduction",
+  "panel_intro": "traduction",
+  "label_type": "traduction",
+  "check_difficulty": "traduction",
+  "check_improvement": "traduction",
+  "check_innovation": "traduction",
+  "label_title": "traduction",
+  "placeholder_title": "traduction",
+  "label_description": "traduction",
+  "placeholder_description": "traduction",
+  "label_impact": "traduction",
+  "impact_options": {{
+    "placeholder": "traduction",
+    "ergonomie": "traduction",
+    "environnement": "traduction",
+    "efficacite": "traduction",
+    "productivite": "traduction",
+    "energie": "traduction",
+    "securite": "traduction",
+    "autre": "traduction"
+  }},
+  "label_recording": "traduction",
+  "btn_rec": "traduction avec emoji",
+  "btn_upload": "traduction avec emoji",
+  "btn_tone": "traduction avec emoji",
+  "label_media": "traduction",
+  "label_photos": "traduction",
+  "btn_capture": "traduction avec emoji",
+  "btn_media_upload": "traduction avec emoji",
+  "btn_back": "traduction avec emoji",
+  "preview_title": "traduction",
+  "preview_intro": "traduction",
+  "preview_orig_label": "traduction avec emoji",
+  "preview_fr_label": "traduction avec emoji",
+  "helper_text": "traduction"
+}}
+
+Aucun texte en dehors de ce JSON.
+"""
+
+    try:
+        model = genai.GenerativeModel(MODEL_ID)
+        resp = model.generate_content(prompt)
+        raw = getattr(resp, "text", "") or "{}"
+        parsed = force_json(raw)
+
+        return jsonify({"ok": True, "ui": parsed})
+
+    except Exception as e:
+        return jsonify({"ok": False, "error": f"Traduction idea échouée : {e}"}), 500
+
 # ------------ Submit final ------------
 
 @app.route("/api/submit", methods=["POST"])
