@@ -4847,8 +4847,36 @@ nextFromProfileBtn?.addEventListener("click", () => {
   if (validateProfileForm()) showStep("step4");
 });
 backToProfileBtn?.addEventListener("click", () => showStep("step3"));
-nextFromContactBtn?.addEventListener("click", () => showStep("step5"));
+nextFromContactBtn?.addEventListener("click", () => {
+  showStep("step5");
+  // En mode texte, activer la validation en temps réel
+  if (chosenMode === "text") {
+    validateTextModeForm();
+  }
+});
 backToContactBtn?.addEventListener("click", () => showStep("step4"));
+
+// --- Validation du formulaire en mode TEXTE ---
+function validateTextModeForm() {
+  if (chosenMode !== "text") return;
+  
+  const ideaTitle = document.getElementById("ideaTitle");
+  const typedTextEl = document.getElementById("typedText");
+  
+  // En mode texte, on demande au minimum un titre OU une description
+  const hasTitle = ideaTitle && ideaTitle.value.trim().length > 0;
+  const hasDescription = typedTextEl && typedTextEl.value.trim().length > 0;
+  
+  if (hasTitle || hasDescription) {
+    if (submitBtn) submitBtn.disabled = false;
+  } else {
+    if (submitBtn) submitBtn.disabled = true;
+  }
+}
+
+// Écouteurs pour valider en temps réel en mode texte
+document.getElementById("ideaTitle")?.addEventListener("input", validateTextModeForm);
+document.getElementById("typedText")?.addEventListener("input", validateTextModeForm);
 
 backToModeVoice?.addEventListener("click", () => {
   if (voiceProfileCard) voiceProfileCard.style.display = "none";
