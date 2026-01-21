@@ -929,6 +929,75 @@ Texte à analyser :
     except Exception as e:
         return jsonify({"ok": False, "error": f"Analyse profil échouée : {e}"}), 500
 
+@app.route("/api/profile_lang", methods=["POST"])
+def profile_lang():
+    """
+    Traduit les labels du formulaire de profil dans la langue demandée.
+    """
+    try:
+        data = request.get_json(force=True)
+    except Exception:
+        return jsonify({"ok": False, "error": "JSON invalide."}), 400
+
+    language_code = (data.get("language") or "").strip()
+    if not language_code or language_code == "fr":
+        return jsonify({"ok": True, "ui": {}})
+
+    prompt = f"""
+Tu es un assistant de traduction pour une plateforme interne appelée IDEA.
+
+Tu dois traduire les textes suivants du français vers la langue avec le code ISO "{language_code}".
+
+Textes à traduire :
+
+- title_fr: "On démarre par toi"
+- intro_fr: "Avant de commencer, indique simplement <b>qui tu es</b>, <b>où tu travailles</b> et <b>quel est ton rôle</b>."
+- label_name_fr: "Nom et prénom"
+- label_site_fr: "Sur quel site travailles-tu ?"
+- label_service_fr: "Dans quel service travailles-tu ?"
+- label_function_fr: "Quelle est ta fonction ?"
+- placeholder_name_fr: "Ex : Marie Dupont"
+- placeholder_site_fr: "Sélectionne ton site"
+- placeholder_service_fr: "Sélectionne ton service"
+- placeholder_function_fr: "Ex : Technicien de maintenance, Responsable magasin…"
+- placeholder_other_site_fr: "Indique ton site"
+- placeholder_other_service_fr: "Précise ton service"
+
+Consignes :
+- Fournis une traduction FIDÈLE dans la langue cible.
+- Conserve les balises HTML (<b>).
+- Le style doit rester simple, clair et poli.
+
+Réponds STRICTEMENT avec ce JSON :
+
+{{
+  "title": "traduction de title_fr",
+  "intro": "traduction de intro_fr (avec les balises <b>)",
+  "label_name": "traduction de label_name_fr",
+  "label_site": "traduction de label_site_fr",
+  "label_service": "traduction de label_service_fr",
+  "label_function": "traduction de label_function_fr",
+  "placeholder_name": "traduction de placeholder_name_fr",
+  "placeholder_site": "traduction de placeholder_site_fr",
+  "placeholder_service": "traduction de placeholder_service_fr",
+  "placeholder_function": "traduction de placeholder_function_fr",
+  "placeholder_other_site": "traduction de placeholder_other_site_fr",
+  "placeholder_other_service": "traduction de placeholder_other_service_fr"
+}}
+
+Aucun texte en dehors de ce JSON.
+"""
+
+    try:
+        model = genai.GenerativeModel(MODEL_ID)
+        resp = model.generate_content(prompt)
+        raw = getattr(resp, "text", "") or "{}"
+        parsed = force_json(raw)
+
+        return jsonify({"ok": True, "ui": parsed})
+
+    except Exception as e:
+        return jsonify({"ok": False, "error": f"Traduction profil échouée : {e}"}), 500
 
 # ------------ Submit final ------------
 

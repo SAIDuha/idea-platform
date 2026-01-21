@@ -2230,6 +2230,82 @@ Ajoute cette ligne dans ton <head> :
     transition-duration: 0.2s !important;
   }
 }
+
+/* ===== PROFILE BILINGUAL GRID ===== */
+#step3 .profile-bilingual-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 20px;
+}
+
+#step3 .voice-col {
+  padding: 26px;
+  border-radius: var(--r-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+#step3 .voice-col--lang {
+  background: linear-gradient(145deg, rgba(255, 0, 170, 0.08), rgba(200, 0, 255, 0.04));
+  border: 1px solid rgba(255, 0, 170, 0.25);
+}
+
+#step3 .voice-col--fr {
+  background: linear-gradient(145deg, rgba(0, 255, 229, 0.06), rgba(0, 180, 255, 0.03));
+  border: 1px solid rgba(0, 255, 229, 0.2);
+}
+
+/* Switch mobile pour profil */
+.profile-switch {
+  display: none;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+/* Mode non-bilingue : colonne unique centrée */
+#step3 .profile-bilingual-grid.single-col {
+  grid-template-columns: 1fr;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#step3 .profile-bilingual-grid.single-col .voice-col--lang {
+  display: none;
+}
+
+#step3 .profile-bilingual-grid.single-col .voice-col--fr {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+/* Responsive */
+@media (max-width: 1000px) {
+  #step3 .profile-bilingual-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .profile-switch {
+    display: flex;
+  }
+  
+  #profileLangCol, #profileFrCol {
+    display: none;
+  }
+  
+  #profileLangCol.is-active, #profileFrCol.is-active {
+    display: block;
+  }
+  
+  #step3 .profile-bilingual-grid.single-col .voice-col--fr {
+    display: block;
+  }
+}
+
 </style>
 
 
@@ -2334,9 +2410,56 @@ Ajoute cette ligne dans ton <head> :
       </div>
     </section>
 
-    <!-- STEP 3 : PROFIL TEXTE -->
-    <section id="step3" class="step-page">
-      <div class="panel">
+    <!-- STEP 3 : PROFIL TEXTE (BILINGUE) -->
+<section id="step3" class="step-page">
+  <div class="panel">
+    <!-- Switch mobile pour basculer entre les langues -->
+    <div class="profile-switch" id="profileSwitch" style="display:none;">
+      <span id="profileSwitchLabel" class="voice-switch-label">Langue choisie</span>
+      <button type="button" id="profileSwitchBtn" class="voice-switch-btn"
+              aria-label="Basculer entre la langue choisie et le français">
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M5 8h11.17l-2.88-2.88a1 1 0 1 1 1.42-1.42l4.59 4.6a1 1 0 0 1 0 1.4l-4.59 4.6a1 1 0 0 1-1.42-1.42L16.17 10H5a1 1 0 0 1 0-2Zm14 8H7.83l2.88 2.88a1 1 0 0 1-1.42 1.42L4.7 15.7a1 1 0 0 1 0-1.4l4.59-4.6a1 1 0 1 1 1.42 1.42L7.83 14H19a1 1 0 0 1 0 2Z"
+                fill="currentColor"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="profile-bilingual-grid" id="profileBilingualGrid">
+      <!-- Colonne langue choisie -->
+      <div class="voice-col voice-col--lang" id="profileLangCol">
+        <h3 id="profileLangTitle">On démarre par toi</h3>
+        <p class="muted" id="profileLangIntro">
+          Avant de commencer, indique simplement <b>qui tu es</b>, <b>où tu travailles</b> et <b>quel est ton rôle</b>.
+        </p>
+
+        <label id="labelNameLang" for="authorNameLang">Nom et prénom</label>
+        <input id="authorNameLang" placeholder="Ex : Marie Dupont" />
+
+        <label id="labelSiteLang" for="countryLang">Sur quel site travailles-tu ?</label>
+        <select id="countryLang">
+          <option value="">Sélectionne ton site</option>
+          <!-- Options injectées dynamiquement -->
+        </select>
+        <div id="otherSiteRowLang" style="display:none; margin-top:8px;">
+          <input id="otherSiteLang" placeholder="Indique ton site" />
+        </div>
+
+        <label id="labelServiceLang" for="serviceSelectLang">Dans quel service travailles-tu ?</label>
+        <select id="serviceSelectLang">
+          <option value="">Sélectionne ton service</option>
+          <!-- Options injectées dynamiquement -->
+        </select>
+        <div id="otherServiceRowLang" style="display:none; margin-top:8px;">
+          <input id="otherServiceLang" placeholder="Précise ton service" />
+        </div>
+
+        <label id="labelFunctionLang" for="functionFieldLang">Quelle est ta fonction ?</label>
+        <input id="functionFieldLang" placeholder="Ex : Technicien de maintenance, Responsable magasin…" />
+      </div>
+
+      <!-- Colonne FR -->
+      <div class="voice-col voice-col--fr" id="profileFrCol">
         <h3>On démarre par toi</h3>
         <p class="muted">
           Avant de commencer, indique simplement <b>qui tu es</b>, <b>où tu travailles</b> et <b>quel est ton rôle</b>.
@@ -2349,7 +2472,7 @@ Ajoute cette ligne dans ton <head> :
         <select id="country">
           <option value="">Sélectionne ton site</option>
           <option>Auxerre</option><option>Beaumont</option><option>Béziers</option>
-          <option>Berre-l’Étang</option><option>Boulogne-Billancourt (Siège social)</option>
+          <option>Berre-l'Étang</option><option>Boulogne-Billancourt (Siège social)</option>
           <option>CAP Tunis</option><option>CAWE</option><option>Cagny</option>
           <option>Carpiquet</option><option>Chavagnes</option><option>Chambéry</option>
           <option>Cléguer</option><option>Colmar</option><option>Corbas</option>
@@ -2365,7 +2488,7 @@ Ajoute cette ligne dans ton <head> :
         </select>
         <div id="otherSiteRow" style="display:none; margin-top:8px;">
           <input id="otherSite" placeholder="Indique ton site" />
-          <div class="field-note">Si ton site n’apparaît pas dans la liste, précise-le ici.</div>
+          <div class="field-note">Si ton site n'apparaît pas dans la liste, précise-le ici.</div>
         </div>
 
         <label for="serviceSelect">Dans quel service travailles-tu ?</label>
@@ -2386,13 +2509,15 @@ Ajoute cette ligne dans ton <head> :
 
         <label for="functionField">Quelle est ta fonction ?</label>
         <input id="functionField" placeholder="Ex : Technicien de maintenance, Responsable magasin…" />
-
-        <div class="nav-row">
-          <button type="button" class="btn-secondary" id="backToIntro">◀ Précédent</button>
-          <button type="button" class="btn-primary" id="nextFromProfile">Suivant · Coordonnées</button>
-        </div>
       </div>
-    </section>
+    </div>
+
+    <div class="nav-row">
+      <button type="button" class="btn-secondary" id="backToIntro">◀ Précédent</button>
+      <button type="button" class="btn-primary" id="nextFromProfile">Suivant · Coordonnées</button>
+    </div>
+  </div>
+</section>
 
     <!-- STEP 4 : COORDONNÉES -->
     <section id="step4" class="step-page">
@@ -3592,7 +3717,7 @@ function applyChosenLanguage(langData) {
   if (voiceLangNotice && ui.notice) {
     voiceLangNotice.textContent = ui.notice;
   }
-
+applyLanguageToProfile(langData);
   // label utilisé côté mobile (ex : "العربية – Arabe")
   nativeDisplayLabel = `${langData.native_label} – ${langData.fr_label}`;
   if (voiceSwitchLabel){
@@ -3912,6 +4037,237 @@ submitBtn?.addEventListener("click", async () => {
     if (statusMsg) statusMsg.textContent = "❌ Erreur d’enregistrement.";
   }
 });
+
+// --- PROFIL BILINGUE ---
+
+const profileBilingualGrid = document.getElementById("profileBilingualGrid");
+const profileLangCol = document.getElementById("profileLangCol");
+const profileFrCol = document.getElementById("profileFrCol");
+const profileSwitch = document.getElementById("profileSwitch");
+const profileSwitchBtn = document.getElementById("profileSwitchBtn");
+const profileSwitchLabel = document.getElementById("profileSwitchLabel");
+
+const profileLangTitle = document.getElementById("profileLangTitle");
+const profileLangIntro = document.getElementById("profileLangIntro");
+const labelNameLang = document.getElementById("labelNameLang");
+const labelSiteLang = document.getElementById("labelSiteLang");
+const labelServiceLang = document.getElementById("labelServiceLang");
+const labelFunctionLang = document.getElementById("labelFunctionLang");
+
+const authorNameLang = document.getElementById("authorNameLang");
+const countryLang = document.getElementById("countryLang");
+const otherSiteRowLang = document.getElementById("otherSiteRowLang");
+const otherSiteLang = document.getElementById("otherSiteLang");
+const serviceSelectLang = document.getElementById("serviceSelectLang");
+const otherServiceRowLang = document.getElementById("otherServiceRowLang");
+const otherServiceLang = document.getElementById("otherServiceLang");
+const functionFieldLang = document.getElementById("functionFieldLang");
+
+let currentProfileView = "native"; // "native" ou "fr"
+let profileNativeDisplayLabel = "Langue choisie";
+let isProfileBilingual = false;
+
+// Copier les options des selects FR vers les selects de la langue choisie
+function copySelectOptions(sourceId, targetId) {
+  const source = document.getElementById(sourceId);
+  const target = document.getElementById(targetId);
+  if (!source || !target) return;
+  
+  // Garder la première option (placeholder)
+  const firstOption = target.options[0];
+  target.innerHTML = "";
+  target.appendChild(firstOption);
+  
+  // Copier les autres options
+  for (let i = 1; i < source.options.length; i++) {
+    const opt = document.createElement("option");
+    opt.value = source.options[i].value;
+    opt.textContent = source.options[i].textContent;
+    target.appendChild(opt);
+  }
+}
+
+// Initialiser les selects de la colonne langue
+function initProfileLangSelects() {
+  copySelectOptions("country", "countryLang");
+  copySelectOptions("serviceSelect", "serviceSelectLang");
+}
+
+// Synchroniser les valeurs entre les deux colonnes
+function syncProfileFields(fromLang = false) {
+  if (fromLang) {
+    // De la colonne langue vers FR
+    if (authorName && authorNameLang) authorName.value = authorNameLang.value;
+    if (siteSelect && countryLang) {
+      siteSelect.value = countryLang.value;
+      if (otherSiteRow && otherSiteRowLang && otherSite && otherSiteLang) {
+        otherSiteRow.style.display = countryLang.value === "Autre" ? "block" : "none";
+        otherSite.value = otherSiteLang.value;
+      }
+    }
+    if (serviceSelect && serviceSelectLang) {
+      serviceSelect.value = serviceSelectLang.value;
+      if (otherServiceRow && otherServiceRowLang && otherService && otherServiceLang) {
+        otherServiceRow.style.display = serviceSelectLang.value === "Autre" ? "block" : "none";
+        otherService.value = otherServiceLang.value;
+      }
+    }
+    if (functionField && functionFieldLang) functionField.value = functionFieldLang.value;
+  } else {
+    // De FR vers la colonne langue
+    if (authorNameLang && authorName) authorNameLang.value = authorName.value;
+    if (countryLang && siteSelect) {
+      countryLang.value = siteSelect.value;
+      if (otherSiteRowLang && otherSiteLang && otherSite) {
+        otherSiteRowLang.style.display = siteSelect.value === "Autre" ? "block" : "none";
+        otherSiteLang.value = otherSite.value;
+      }
+    }
+    if (serviceSelectLang && serviceSelect) {
+      serviceSelectLang.value = serviceSelect.value;
+      if (otherServiceRowLang && otherServiceLang && otherService) {
+        otherServiceRowLang.style.display = serviceSelect.value === "Autre" ? "block" : "none";
+        otherServiceLang.value = otherService.value;
+      }
+    }
+    if (functionFieldLang && functionField) functionFieldLang.value = functionField.value;
+  }
+}
+
+// Événements de synchronisation
+[authorName, siteSelect, otherSite, serviceSelect, otherService, functionField].forEach(el => {
+  el?.addEventListener("input", () => syncProfileFields(false));
+  el?.addEventListener("change", () => syncProfileFields(false));
+});
+
+[authorNameLang, countryLang, otherSiteLang, serviceSelectLang, otherServiceLang, functionFieldLang].forEach(el => {
+  el?.addEventListener("input", () => syncProfileFields(true));
+  el?.addEventListener("change", () => syncProfileFields(true));
+});
+
+// Gestion "Autre" pour les selects de la colonne langue
+countryLang?.addEventListener("change", () => {
+  if (otherSiteRowLang && otherSiteLang) {
+    otherSiteRowLang.style.display = countryLang.value === "Autre" ? "block" : "none";
+    if (countryLang.value !== "Autre") otherSiteLang.value = "";
+  }
+});
+
+serviceSelectLang?.addEventListener("change", () => {
+  if (otherServiceRowLang && otherServiceLang) {
+    otherServiceRowLang.style.display = serviceSelectLang.value === "Autre" ? "block" : "none";
+    if (serviceSelectLang.value !== "Autre") otherServiceLang.value = "";
+  }
+});
+
+// Gestion de la vue mobile pour profil
+function updateProfileView(target) {
+  currentProfileView = target;
+  
+  if (window.innerWidth > 1000 || !isProfileBilingual) {
+    if (profileLangCol) profileLangCol.classList.remove("is-active");
+    if (profileFrCol) profileFrCol.classList.remove("is-active");
+    return;
+  }
+  
+  if (!profileLangCol || !profileFrCol) return;
+  
+  if (target === "fr") {
+    profileLangCol.classList.remove("is-active");
+    profileFrCol.classList.add("is-active");
+    if (profileSwitchLabel) profileSwitchLabel.textContent = "FR Français";
+  } else {
+    profileLangCol.classList.add("is-active");
+    profileFrCol.classList.remove("is-active");
+    if (profileSwitchLabel) profileSwitchLabel.textContent = profileNativeDisplayLabel;
+  }
+}
+
+// Clic sur le bouton de switch profil
+profileSwitchBtn?.addEventListener("click", () => {
+  const next = (currentProfileView === "native") ? "fr" : "native";
+  updateProfileView(next);
+});
+
+// Appliquer la langue au profil (appelé après sélection de langue)
+async function applyLanguageToProfile(langData) {
+  if (!langData || langData.code === "fr") {
+    // Français uniquement : mode colonne unique
+    isProfileBilingual = false;
+    if (profileBilingualGrid) profileBilingualGrid.classList.add("single-col");
+    if (profileSwitch) profileSwitch.style.display = "none";
+    return;
+  }
+  
+  isProfileBilingual = true;
+  if (profileBilingualGrid) profileBilingualGrid.classList.remove("single-col");
+  
+  // Mettre à jour le label pour le switch mobile
+  profileNativeDisplayLabel = `${langData.native_label} – ${langData.fr_label}`;
+  if (profileSwitchLabel) profileSwitchLabel.textContent = profileNativeDisplayLabel;
+  
+  // Demander la traduction des labels du formulaire profil
+  try {
+    const res = await fetch("/api/profile_lang", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ language: langData.code })
+    });
+    const data = await res.json();
+    
+    if (res.ok && data.ok) {
+      const ui = data.ui || {};
+      
+      if (profileLangTitle && ui.title) profileLangTitle.textContent = ui.title;
+      if (profileLangIntro && ui.intro) profileLangIntro.innerHTML = ui.intro;
+      if (labelNameLang && ui.label_name) labelNameLang.textContent = ui.label_name;
+      if (labelSiteLang && ui.label_site) labelSiteLang.textContent = ui.label_site;
+      if (labelServiceLang && ui.label_service) labelServiceLang.textContent = ui.label_service;
+      if (labelFunctionLang && ui.label_function) labelFunctionLang.textContent = ui.label_function;
+      
+      // Placeholders traduits
+      if (authorNameLang && ui.placeholder_name) authorNameLang.placeholder = ui.placeholder_name;
+      if (countryLang && ui.placeholder_site) countryLang.options[0].textContent = ui.placeholder_site;
+      if (serviceSelectLang && ui.placeholder_service) serviceSelectLang.options[0].textContent = ui.placeholder_service;
+      if (functionFieldLang && ui.placeholder_function) functionFieldLang.placeholder = ui.placeholder_function;
+      if (otherSiteLang && ui.placeholder_other_site) otherSiteLang.placeholder = ui.placeholder_other_site;
+      if (otherServiceLang && ui.placeholder_other_service) otherServiceLang.placeholder = ui.placeholder_other_service;
+    }
+  } catch (e) {
+    console.warn("Erreur traduction profil :", e);
+  }
+  
+  // Afficher le switch sur mobile
+  if (profileSwitch && window.innerWidth <= 1000) {
+    profileSwitch.style.display = "flex";
+  }
+  
+  // Initialiser la vue
+  if (window.innerWidth <= 1000) {
+    updateProfileView("native");
+  }
+}
+
+// Resize listener pour profil
+window.addEventListener("resize", () => {
+  if (!isProfileBilingual) return;
+  
+  if (window.innerWidth > 1000) {
+    if (profileLangCol) profileLangCol.classList.remove("is-active");
+    if (profileFrCol) profileFrCol.classList.remove("is-active");
+    if (profileSwitch) profileSwitch.style.display = "none";
+  } else {
+    if (profileSwitch) profileSwitch.style.display = "flex";
+    if (!profileLangCol?.classList.contains("is-active") &&
+        !profileFrCol?.classList.contains("is-active")) {
+      updateProfileView("native");
+    }
+  }
+});
+
+// Initialisation
+initProfileLangSelects();
+
 </script>
 
 </body>
