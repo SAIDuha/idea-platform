@@ -4905,7 +4905,7 @@ contactSwitchBtn?.addEventListener("click", () => {
 
 // Appliquer la langue aux coordonnées (appelé après sélection de langue)
 async function applyLanguageToContact(langData) {
-  if (!langData || langData.code === "fr") {
+  if (chosenMode === "text" || !langData || langData.code === "fr") {
     // Français uniquement : mode colonne unique
     isContactBilingual = false;
     if (contactBilingualGrid) contactBilingualGrid.classList.add("single-col");
@@ -5069,7 +5069,7 @@ function setIdeaSingleLang() {
 
 // Appliquer la langue à step5 (appelé après sélection de langue)
 async function applyLanguageToIdea(langData) {
-  if (!langData || langData.code === "fr") {
+  if (chosenMode === "text" || !langData || langData.code === "fr") {
     setIdeaSingleLang();
     return;
   }
