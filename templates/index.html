@@ -2825,7 +2825,7 @@ button .bilingual-text .text-fr {
       </button>
     </div>
 
-    <div class="profile-bilingual-grid single-col" id="profileBilingualGrid">
+    <div class="profile-bilingual-grid" id="profileBilingualGrid">
       <!-- Colonne langue choisie -->
       <div class="voice-col voice-col--lang" id="profileLangCol">
         <h3 id="profileLangTitle">On démarre par toi</h3>
@@ -2936,7 +2936,7 @@ button .bilingual-text .text-fr {
       </button>
     </div>
 
-    <div class="contact-bilingual-grid single-col" id="contactBilingualGrid">
+    <div class="contact-bilingual-grid" id="contactBilingualGrid">
       <!-- Colonne langue choisie -->
       <div class="voice-col voice-col--lang" id="contactLangCol">
         <div class="contact-layout-inner">
@@ -3015,7 +3015,7 @@ button .bilingual-text .text-fr {
     <!-- PANNEAU PRINCIPAL : FORMULAIRE -->
     <div class="panel">
       <!-- En-tête bilingue -->
-      <div class="idea-header-bilingual single-lang" id="ideaHeaderBilingual">
+      <div class="idea-header-bilingual" id="ideaHeaderBilingual">
         <div class="idea-header-lang" id="ideaHeaderLang">
           <h3 id="ideaPanelTitleLang">Contenu de ton idée</h3>
           <p class="muted small" id="ideaPanelIntroLang">
@@ -4253,12 +4253,9 @@ function applyChosenLanguage(langData) {
   if (voiceLangNotice && ui.notice) {
     voiceLangNotice.textContent = ui.notice;
   }
-
-  if (chosenMode === "voice") {
 applyLanguageToProfile(langData);
 applyLanguageToContact(langData);
 applyLanguageToIdea(langData);
-  }
   // label utilisé côté mobile (ex : "العربية – Arabe")
   nativeDisplayLabel = `${langData.native_label} – ${langData.fr_label}`;
   if (voiceSwitchLabel){
@@ -4732,8 +4729,8 @@ profileSwitchBtn?.addEventListener("click", () => {
 
 // Appliquer la langue au profil (appelé après sélection de langue)
 async function applyLanguageToProfile(langData) {
-  if (chosenMode === "text" || !langData || langData.code === "fr") {
-    // Mode colonne unique française
+  if (!langData || langData.code === "fr") {
+    // Français uniquement : mode colonne unique
     isProfileBilingual = false;
     if (profileBilingualGrid) profileBilingualGrid.classList.add("single-col");
     if (profileSwitch) profileSwitch.style.display = "none";
@@ -4905,7 +4902,7 @@ contactSwitchBtn?.addEventListener("click", () => {
 
 // Appliquer la langue aux coordonnées (appelé après sélection de langue)
 async function applyLanguageToContact(langData) {
-  if (chosenMode === "text" || !langData || langData.code === "fr") {
+  if (!langData || langData.code === "fr") {
     // Français uniquement : mode colonne unique
     isContactBilingual = false;
     if (contactBilingualGrid) contactBilingualGrid.classList.add("single-col");
@@ -5069,7 +5066,7 @@ function setIdeaSingleLang() {
 
 // Appliquer la langue à step5 (appelé après sélection de langue)
 async function applyLanguageToIdea(langData) {
-  if (chosenMode === "text" || !langData || langData.code === "fr") {
+  if (!langData || langData.code === "fr") {
     setIdeaSingleLang();
     return;
   }
