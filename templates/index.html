@@ -2306,6 +2306,153 @@ Ajoute cette ligne dans ton <head> :
   }
 }
 
+/* ===== STEP 4 CONTACT BILINGUAL GRID ===== */
+
+#step4 .panel {
+  padding: 30px;
+}
+
+#step4 h3 {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+/* Grille bilingue pour les coordonnées */
+#step4 .contact-bilingual-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+#step4 .voice-col {
+  padding: 26px;
+  border-radius: var(--r-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+#step4 .voice-col--lang {
+  background: linear-gradient(145deg, rgba(255, 0, 170, 0.08), rgba(200, 0, 255, 0.04));
+  border: 1px solid rgba(255, 0, 170, 0.25);
+}
+
+#step4 .voice-col--fr {
+  background: linear-gradient(145deg, rgba(0, 255, 229, 0.06), rgba(0, 180, 255, 0.03));
+  border: 1px solid rgba(0, 255, 229, 0.2);
+}
+
+/* Layout interne des colonnes */
+#step4 .contact-layout-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+#step4 .contact-block {
+  padding: 20px;
+  border-radius: var(--r-md);
+  background: linear-gradient(145deg, rgba(0, 255, 229, 0.03), rgba(0, 0, 0, 0.2));
+  border: 1px dashed rgba(0, 255, 229, 0.25);
+}
+
+#step4 .voice-col--lang .contact-block {
+  background: linear-gradient(145deg, rgba(255, 0, 170, 0.05), rgba(0, 0, 0, 0.2));
+  border: 1px dashed rgba(255, 0, 170, 0.3);
+}
+
+#step4 .contact-block-title {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 14px;
+}
+
+#step4 .field-note {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 8px;
+  font-style: italic;
+}
+
+/* Switch mobile pour contact */
+.contact-switch {
+  display: none;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+/* Mode non-bilingue : colonne unique centrée */
+#step4 .contact-bilingual-grid.single-col {
+  grid-template-columns: 1fr;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#step4 .contact-bilingual-grid.single-col .voice-col--lang {
+  display: none;
+}
+
+#step4 .contact-bilingual-grid.single-col .voice-col--fr {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+#step4 .contact-bilingual-grid.single-col .contact-layout-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+/* Responsive */
+@media (max-width: 1000px) {
+  #step4 .contact-bilingual-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  #step4 .contact-bilingual-grid.single-col .contact-layout-inner {
+    grid-template-columns: 1fr;
+  }
+  
+  .contact-switch {
+    display: flex;
+  }
+  
+  #contactLangCol, #contactFrCol {
+    display: none;
+  }
+  
+  #contactLangCol.is-active, #contactFrCol.is-active {
+    display: block;
+  }
+  
+  #step4 .contact-bilingual-grid.single-col .voice-col--fr {
+    display: block;
+  }
+}
+
+@media (max-width: 768px) {
+  #step4 .voice-col {
+    padding: 18px 14px;
+  }
+  
+  #step4 .contact-block {
+    padding: 16px;
+  }
+  
+  #step4 .contact-block-title {
+    font-size: 13px;
+  }
+  
+  .contact-switch {
+    margin-bottom: 14px;
+  }
+}
+
 </style>
 
 
@@ -2519,12 +2666,59 @@ Ajoute cette ligne dans ton <head> :
   </div>
 </section>
 
-    <!-- STEP 4 : COORDONNÉES -->
-    <section id="step4" class="step-page">
-      <div class="panel">
-        <h3>Comment te recontacter ?</h3>
+    <!-- STEP 4 : COORDONNÉES (BILINGUE) -->
+<section id="step4" class="step-page">
+  <div class="panel">
+    <h3 id="step4Title">Comment te recontacter ?</h3>
 
-        <div class="contact-layout">
+    <!-- Switch mobile pour basculer entre les langues -->
+    <div class="contact-switch" id="contactSwitch" style="display:none;">
+      <span id="contactSwitchLabel" class="voice-switch-label">Langue choisie</span>
+      <button type="button" id="contactSwitchBtn" class="voice-switch-btn"
+              aria-label="Basculer entre la langue choisie et le français">
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M5 8h11.17l-2.88-2.88a1 1 0 1 1 1.42-1.42l4.59 4.6a1 1 0 0 1 0 1.4l-4.59 4.6a1 1 0 0 1-1.42-1.42L16.17 10H5a1 1 0 0 1 0-2Zm14 8H7.83l2.88 2.88a1 1 0 0 1-1.42 1.42L4.7 15.7a1 1 0 0 1 0-1.4l4.59-4.6a1 1 0 1 1 1.42 1.42L7.83 14H19a1 1 0 0 1 0 2Z"
+                fill="currentColor"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="contact-bilingual-grid" id="contactBilingualGrid">
+      <!-- Colonne langue choisie -->
+      <div class="voice-col voice-col--lang" id="contactLangCol">
+        <div class="contact-layout-inner">
+          <div>
+            <div class="section-label" id="sectionLabelCoordsLang">Coordonnées</div>
+            <div class="contact-block">
+              <div class="contact-block-title" id="contactBlockTitleEmailLang">Adresse mail professionnelle</div>
+              <label id="labelProEmailLang" for="proEmailLang" style="margin-top:4px;">Si tu as une adresse mail professionnelle, note-la ci-dessous</label>
+              <input id="proEmailLang" type="email" placeholder="Ex : prenom.nom@entreprise.com" />
+              <div class="field-note" id="fieldNoteEmailLang">Ce champ est facultatif, mais il facilite le suivi de ton idée.</div>
+            </div>
+          </div>
+
+          <div>
+            <div class="section-label" id="sectionLabelPrefLang">Préférence de contact</div>
+            <div class="contact-block">
+              <div class="contact-block-title" id="contactBlockTitlePrefLang">Comment souhaites-tu être recontacté(e) ?</div>
+              <div class="radio-group">
+                <label class="radio-item">
+                  <input type="radio" name="contactModeLang" value="Mail professionnel">
+                  <span id="radioMailLang">Mail professionnel</span>
+                </label>
+                <label class="radio-item">
+                  <input type="radio" name="contactModeLang" value="Par l'intermédiaire de mon responsable">
+                  <span id="radioManagerLang">Par l'intermédiaire de mon responsable</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Colonne FR -->
+      <div class="voice-col voice-col--fr" id="contactFrCol">
+        <div class="contact-layout-inner">
           <div>
             <div class="section-label">Coordonnées</div>
             <div class="contact-block">
@@ -2545,20 +2739,22 @@ Ajoute cette ligne dans ton <head> :
                   <span>Mail professionnel</span>
                 </label>
                 <label class="radio-item">
-                  <input type="radio" name="contactMode" value="Par l’intermédiaire de mon responsable">
-                  <span>Par l’intermédiaire de mon responsable</span>
+                  <input type="radio" name="contactMode" value="Par l'intermédiaire de mon responsable">
+                  <span>Par l'intermédiaire de mon responsable</span>
                 </label>
               </div>
             </div>
           </div>
         </div>
-
-        <div class="nav-row">
-          <button type="button" class="btn-secondary" id="backToProfile">◀ Précédent</button>
-          <button type="button" class="btn-primary" id="nextFromContact">Suivant · Rédiger mon idée</button>
-        </div>
       </div>
-    </section>
+    </div>
+
+    <div class="nav-row">
+      <button type="button" class="btn-secondary" id="backToProfile">◀ Précédent</button>
+      <button type="button" class="btn-primary" id="nextFromContact">Suivant · Rédiger mon idée</button>
+    </div>
+  </div>
+</section>
 
     <!-- STEP 5 : IDÉE (TEXTE + AUDIO) -->
     <section id="step5" class="step-page">
@@ -3718,6 +3914,7 @@ function applyChosenLanguage(langData) {
     voiceLangNotice.textContent = ui.notice;
   }
 applyLanguageToProfile(langData);
+applyLanguageToContact(langData);
   // label utilisé côté mobile (ex : "العربية – Arabe")
   nativeDisplayLabel = `${langData.native_label} – ${langData.fr_label}`;
   if (voiceSwitchLabel){
@@ -4268,6 +4465,180 @@ window.addEventListener("resize", () => {
 // Initialisation
 initProfileLangSelects();
 
+
+// --- STEP 4 CONTACT BILINGUE ---
+
+const contactBilingualGrid = document.getElementById("contactBilingualGrid");
+const contactLangCol = document.getElementById("contactLangCol");
+const contactFrCol = document.getElementById("contactFrCol");
+const contactSwitch = document.getElementById("contactSwitch");
+const contactSwitchBtn = document.getElementById("contactSwitchBtn");
+const contactSwitchLabel = document.getElementById("contactSwitchLabel");
+
+// Éléments de la colonne langue
+const step4Title = document.getElementById("step4Title");
+const sectionLabelCoordsLang = document.getElementById("sectionLabelCoordsLang");
+const sectionLabelPrefLang = document.getElementById("sectionLabelPrefLang");
+const contactBlockTitleEmailLang = document.getElementById("contactBlockTitleEmailLang");
+const labelProEmailLang = document.getElementById("labelProEmailLang");
+const proEmailLang = document.getElementById("proEmailLang");
+const fieldNoteEmailLang = document.getElementById("fieldNoteEmailLang");
+const contactBlockTitlePrefLang = document.getElementById("contactBlockTitlePrefLang");
+const radioMailLang = document.getElementById("radioMailLang");
+const radioManagerLang = document.getElementById("radioManagerLang");
+
+let currentContactView = "native"; // "native" ou "fr"
+let contactNativeDisplayLabel = "Langue choisie";
+let isContactBilingual = false;
+
+// Synchroniser les valeurs entre les deux colonnes
+function syncContactFields(fromLang = false) {
+  const proEmail = document.getElementById("proEmail");
+  
+  if (fromLang) {
+    // De la colonne langue vers FR
+    if (proEmail && proEmailLang) proEmail.value = proEmailLang.value;
+    
+    // Synchroniser les radio buttons
+    const checkedLang = document.querySelector("input[name='contactModeLang']:checked");
+    if (checkedLang) {
+      const frRadio = document.querySelector(`input[name='contactMode'][value='${checkedLang.value}']`);
+      if (frRadio) frRadio.checked = true;
+    }
+  } else {
+    // De FR vers la colonne langue
+    if (proEmailLang && proEmail) proEmailLang.value = proEmail.value;
+    
+    // Synchroniser les radio buttons
+    const checkedFr = document.querySelector("input[name='contactMode']:checked");
+    if (checkedFr) {
+      const langRadio = document.querySelector(`input[name='contactModeLang'][value='${checkedFr.value}']`);
+      if (langRadio) langRadio.checked = true;
+    }
+  }
+}
+
+// Événements de synchronisation pour l'email
+document.getElementById("proEmail")?.addEventListener("input", () => syncContactFields(false));
+proEmailLang?.addEventListener("input", () => syncContactFields(true));
+
+// Événements de synchronisation pour les radio buttons
+document.querySelectorAll("input[name='contactMode']").forEach(radio => {
+  radio.addEventListener("change", () => syncContactFields(false));
+});
+document.querySelectorAll("input[name='contactModeLang']").forEach(radio => {
+  radio.addEventListener("change", () => syncContactFields(true));
+});
+
+// Gestion de la vue mobile pour contact
+function updateContactView(target) {
+  currentContactView = target;
+  
+  if (window.innerWidth > 1000 || !isContactBilingual) {
+    if (contactLangCol) contactLangCol.classList.remove("is-active");
+    if (contactFrCol) contactFrCol.classList.remove("is-active");
+    return;
+  }
+  
+  if (!contactLangCol || !contactFrCol) return;
+  
+  if (target === "fr") {
+    contactLangCol.classList.remove("is-active");
+    contactFrCol.classList.add("is-active");
+    if (contactSwitchLabel) contactSwitchLabel.textContent = "FR Français";
+  } else {
+    contactLangCol.classList.add("is-active");
+    contactFrCol.classList.remove("is-active");
+    if (contactSwitchLabel) contactSwitchLabel.textContent = contactNativeDisplayLabel;
+  }
+}
+
+// Clic sur le bouton de switch contact
+contactSwitchBtn?.addEventListener("click", () => {
+  const next = (currentContactView === "native") ? "fr" : "native";
+  updateContactView(next);
+});
+
+// Appliquer la langue aux coordonnées (appelé après sélection de langue)
+async function applyLanguageToContact(langData) {
+  if (!langData || langData.code === "fr") {
+    // Français uniquement : mode colonne unique
+    isContactBilingual = false;
+    if (contactBilingualGrid) contactBilingualGrid.classList.add("single-col");
+    if (contactSwitch) contactSwitch.style.display = "none";
+    return;
+  }
+  
+  isContactBilingual = true;
+  if (contactBilingualGrid) contactBilingualGrid.classList.remove("single-col");
+  
+  // Mettre à jour le label pour le switch mobile
+  contactNativeDisplayLabel = `${langData.native_label} – ${langData.fr_label}`;
+  if (contactSwitchLabel) contactSwitchLabel.textContent = contactNativeDisplayLabel;
+  
+  // Demander la traduction des labels du formulaire contact
+  try {
+    const res = await fetch("/api/contact_lang", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ language: langData.code })
+    });
+    const data = await res.json();
+    
+    if (res.ok && data.ok) {
+      const ui = data.ui || {};
+      
+      // Titre principal (affiché au-dessus des deux colonnes)
+      // On ne le change pas car il reste en FR pour cohérence
+      
+      // Section labels
+      if (sectionLabelCoordsLang && ui.section_coords) sectionLabelCoordsLang.textContent = ui.section_coords;
+      if (sectionLabelPrefLang && ui.section_pref) sectionLabelPrefLang.textContent = ui.section_pref;
+      
+      // Bloc email
+      if (contactBlockTitleEmailLang && ui.email_title) contactBlockTitleEmailLang.textContent = ui.email_title;
+      if (labelProEmailLang && ui.email_label) labelProEmailLang.textContent = ui.email_label;
+      if (proEmailLang && ui.email_placeholder) proEmailLang.placeholder = ui.email_placeholder;
+      if (fieldNoteEmailLang && ui.email_note) fieldNoteEmailLang.textContent = ui.email_note;
+      
+      // Bloc préférence de contact
+      if (contactBlockTitlePrefLang && ui.pref_title) contactBlockTitlePrefLang.textContent = ui.pref_title;
+      if (radioMailLang && ui.radio_mail) radioMailLang.textContent = ui.radio_mail;
+      if (radioManagerLang && ui.radio_manager) radioManagerLang.textContent = ui.radio_manager;
+    }
+  } catch (e) {
+    console.warn("Erreur traduction contact :", e);
+  }
+  
+  // Afficher le switch sur mobile
+  if (contactSwitch && window.innerWidth <= 1000) {
+    contactSwitch.style.display = "flex";
+  }
+  
+  // Initialiser la vue
+  if (window.innerWidth <= 1000) {
+    updateContactView("native");
+  }
+}
+
+// Resize listener pour contact
+window.addEventListener("resize", () => {
+  if (!isContactBilingual) return;
+  
+  if (window.innerWidth > 1000) {
+    if (contactLangCol) contactLangCol.classList.remove("is-active");
+    if (contactFrCol) contactFrCol.classList.remove("is-active");
+    if (contactSwitch) contactSwitch.style.display = "none";
+  } else {
+    if (contactSwitch) contactSwitch.style.display = "flex";
+    if (!contactLangCol?.classList.contains("is-active") &&
+        !contactFrCol?.classList.contains("is-active")) {
+      updateContactView("native");
+    }
+  }
+});
+
+// NOTE: Appeler applyLanguageToContact(langData) dans la fonction applyChosenLanguage existante
 </script>
 
 </body>

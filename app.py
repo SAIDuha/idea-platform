@@ -999,6 +999,71 @@ Aucun texte en dehors de ce JSON.
     except Exception as e:
         return jsonify({"ok": False, "error": f"Traduction profil échouée : {e}"}), 500
 
+
+
+@app.route("/api/contact_lang", methods=["POST"])
+def contact_lang():
+    """
+    Traduit les labels du formulaire de coordonnées dans la langue demandée.
+    """
+    try:
+        data = request.get_json(force=True)
+    except Exception:
+        return jsonify({"ok": False, "error": "JSON invalide."}), 400
+
+    language_code = (data.get("language") or "").strip()
+    if not language_code or language_code == "fr":
+        return jsonify({"ok": True, "ui": {}})
+
+    prompt = f"""
+Tu es un assistant de traduction pour une plateforme interne appelée IDEA.
+
+Tu dois traduire les textes suivants du français vers la langue avec le code ISO "{language_code}".
+
+Textes à traduire :
+
+- section_coords_fr: "Coordonnées"
+- section_pref_fr: "Préférence de contact"
+- email_title_fr: "Adresse mail professionnelle"
+- email_label_fr: "Si tu as une adresse mail professionnelle, note-la ci-dessous"
+- email_placeholder_fr: "Ex : prenom.nom@entreprise.com"
+- email_note_fr: "Ce champ est facultatif, mais il facilite le suivi de ton idée."
+- pref_title_fr: "Comment souhaites-tu être recontacté(e) ?"
+- radio_mail_fr: "Mail professionnel"
+- radio_manager_fr: "Par l'intermédiaire de mon responsable"
+
+Consignes :
+- Fournis une traduction FIDÈLE dans la langue cible.
+- Le style doit rester simple, clair et poli.
+- Utilise le tutoiement si la langue le permet.
+
+Réponds STRICTEMENT avec ce JSON :
+
+{{
+  "section_coords": "traduction de section_coords_fr",
+  "section_pref": "traduction de section_pref_fr",
+  "email_title": "traduction de email_title_fr",
+  "email_label": "traduction de email_label_fr",
+  "email_placeholder": "traduction de email_placeholder_fr",
+  "email_note": "traduction de email_note_fr",
+  "pref_title": "traduction de pref_title_fr",
+  "radio_mail": "traduction de radio_mail_fr",
+  "radio_manager": "traduction de radio_manager_fr"
+}}
+
+Aucun texte en dehors de ce JSON.
+"""
+
+    try:
+        model = genai.GenerativeModel(MODEL_ID)
+        resp = model.generate_content(prompt)
+        raw = getattr(resp, "text", "") or "{}"
+        parsed = force_json(raw)
+
+        return jsonify({"ok": True, "ui": parsed})
+
+    except Exception as e:
+        return jsonify({"ok": False, "error": f"Traduction contact échouée : {e}"}), 500
 # ------------ Submit final ------------
 
 @app.route("/api/submit", methods=["POST"])
