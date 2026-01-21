@@ -2706,6 +2706,131 @@ button .bilingual-text .text-fr {
   }
 }
 
+
+gle lang · CSS
+Copier
+
+/* ============================================================
+   STEP 5 - LANGUE UNIQUE (pas de bilingue côte à côte)
+   Remplace les styles existants de step5 dans ton CSS
+   ============================================================ */
+
+/* Masquer complètement l'en-tête bilingue - on n'en a plus besoin */
+#step5 .idea-header-bilingual {
+  display: block; /* Plus de grid */
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Masquer la colonne FR par défaut */
+#step5 .idea-header-fr {
+  display: none !important;
+}
+
+/* Afficher uniquement la colonne de la langue choisie */
+#step5 .idea-header-lang {
+  display: block;
+  padding: 16px 20px;
+  background: linear-gradient(145deg, rgba(255, 0, 170, 0.08), rgba(200, 0, 255, 0.04));
+  border: 1px solid rgba(255, 0, 170, 0.25);
+  border-radius: var(--r-md);
+}
+
+/* Si français uniquement, afficher la colonne FR */
+#step5 .idea-header-bilingual.french-only .idea-header-fr {
+  display: block !important;
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+#step5 .idea-header-bilingual.french-only .idea-header-lang {
+  display: none !important;
+}
+
+/* Masquer le switch mobile - plus nécessaire */
+.idea-switch {
+  display: none !important;
+}
+
+/* Labels - afficher uniquement la langue choisie */
+#step5 .bilingual-label {
+  display: block; /* Plus de flex côte à côte */
+  margin: 22px 0 10px;
+}
+
+#step5 .bilingual-label .label-fr {
+  display: none !important;
+}
+
+#step5 .bilingual-label .label-lang {
+  display: block;
+  flex: none;
+}
+
+/* Si français uniquement */
+#step5.french-only .bilingual-label .label-fr {
+  display: block !important;
+}
+
+#step5.french-only .bilingual-label .label-lang {
+  display: none !important;
+}
+
+/* Textes bilingues dans les checkboxes/boutons - langue choisie uniquement */
+#step5 .bilingual-text {
+  display: block;
+}
+
+#step5 .bilingual-text .text-fr {
+  display: none !important;
+}
+
+#step5 .bilingual-text .text-lang {
+  display: inline;
+  color: var(--ink); /* Même couleur que le texte normal */
+  font-size: 1em;
+}
+
+/* Si français uniquement */
+#step5.french-only .bilingual-text .text-fr {
+  display: inline !important;
+}
+
+#step5.french-only .bilingual-text .text-lang {
+  display: none !important;
+}
+
+/* Radio items - texte sur une seule ligne */
+#step5 .radio-item .bilingual-text {
+  flex-direction: row;
+  gap: 0;
+}
+
+#step5 .radio-item .bilingual-text .text-lang::after {
+  display: none; /* Pas de séparateur "/" */
+}
+
+/* ============================================================
+   RESPONSIVE - Même comportement sur mobile
+   ============================================================ */
+
+@media (max-width: 1000px) {
+  #step5 .idea-header-bilingual {
+    display: block;
+  }
+  
+  #step5 .idea-header-lang,
+  #step5 .idea-header-fr {
+    /* Même règles que desktop */
+  }
+  
+  #step5 .bilingual-label {
+    flex-direction: column;
+    gap: 0;
+  }
+}
 </style>
 
 
@@ -5065,108 +5190,158 @@ function setIdeaSingleLang() {
 }
 
 // Appliquer la langue à step5 (appelé après sélection de langue)
+/* ============================================================
+   STEP 5 - JAVASCRIPT SIMPLIFIÉ (langue unique)
+   Remplace la fonction applyLanguageToIdea dans ton JS
+   ============================================================ */
+
+// Variables globales pour step5
+let isIdeaFrenchOnly = true; // Par défaut, français uniquement
+
+// Fonction simplifiée - affiche uniquement la langue choisie
 async function applyLanguageToIdea(langData) {
-  if (!langData || langData.code === "fr") {
-    setIdeaSingleLang();
+  console.log("applyLanguageToIdea appelé avec:", langData);
+  
+  const langCode = langData?.code || langData?.language || null;
+  const step5 = document.getElementById("step5");
+  const ideaHeaderBilingual = document.getElementById("ideaHeaderBilingual");
+  
+  // Si pas de langue ou français → mode français uniquement
+  if (!langData || !langCode || langCode === "fr") {
+    console.log("Mode français uniquement pour step5");
+    isIdeaFrenchOnly = true;
+    
+    if (step5) step5.classList.add("french-only");
+    if (ideaHeaderBilingual) ideaHeaderBilingual.classList.add("french-only");
+    
     return;
   }
   
-  isIdeaBilingual = true;
+  // Mode langue choisie (ex: danois, espagnol, etc.)
+  console.log("Mode langue choisie pour step5:", langCode);
+  isIdeaFrenchOnly = false;
   
-  // Retirer le mode single-lang
-  if (ideaHeaderBilingual) ideaHeaderBilingual.classList.remove("single-lang");
-  document.querySelectorAll("#step5 .bilingual-label").forEach(el => el.classList.remove("single-lang"));
-  document.querySelectorAll("#step5 .bilingual-text").forEach(el => el.classList.remove("single-lang"));
+  if (step5) step5.classList.remove("french-only");
+  if (ideaHeaderBilingual) ideaHeaderBilingual.classList.remove("french-only");
   
-  // Mettre à jour le label pour le switch mobile
-  ideaNativeDisplayLabel = `${langData.native_label} – ${langData.fr_label}`;
-  if (ideaSwitchLabel) ideaSwitchLabel.textContent = ideaNativeDisplayLabel;
-  
-  // Demander la traduction
+  // Demander la traduction à l'API
   try {
+    console.log("Appel API /api/idea_lang avec code:", langCode);
     const res = await fetch("/api/idea_lang", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ language: langData.code })
+      body: JSON.stringify({ language: langCode })
     });
     const data = await res.json();
+    console.log("Réponse /api/idea_lang:", data);
     
-    if (res.ok && data.ok) {
-      const ui = data.ui || {};
+    if (res.ok && data.ok && data.ui) {
+      const ui = data.ui;
       
-      // En-tête
+      // === EN-TÊTE ===
+      const ideaPanelTitleLang = document.getElementById("ideaPanelTitleLang");
+      const ideaPanelIntroLang = document.getElementById("ideaPanelIntroLang");
+      
       if (ideaPanelTitleLang && ui.panel_title) ideaPanelTitleLang.textContent = ui.panel_title;
       if (ideaPanelIntroLang && ui.panel_intro) ideaPanelIntroLang.textContent = ui.panel_intro;
       
-      // Type de contribution
+      // === TYPE DE CONTRIBUTION ===
+      const labelTypeLang = document.getElementById("labelTypeLang");
+      const checkDifficultyLang = document.getElementById("checkDifficultyLang");
+      const checkImprovementLang = document.getElementById("checkImprovementLang");
+      const checkInnovationLang = document.getElementById("checkInnovationLang");
+      
       if (labelTypeLang && ui.label_type) labelTypeLang.textContent = ui.label_type;
       if (checkDifficultyLang && ui.check_difficulty) checkDifficultyLang.textContent = ui.check_difficulty;
       if (checkImprovementLang && ui.check_improvement) checkImprovementLang.textContent = ui.check_improvement;
       if (checkInnovationLang && ui.check_innovation) checkInnovationLang.textContent = ui.check_innovation;
       
-      // Titre et description
-      if (labelIdeaTitleLang && ui.label_title) labelIdeaTitleLang.textContent = ui.label_title;
-      if (labelDescriptionLang && ui.label_description) labelDescriptionLang.textContent = ui.label_description;
-      
-      // Placeholders
+      // === TITRE ET DESCRIPTION ===
+      const labelIdeaTitleLang = document.getElementById("labelIdeaTitleLang");
+      const labelDescriptionLang = document.getElementById("labelDescriptionLang");
       const ideaTitle = document.getElementById("ideaTitle");
       const typedText = document.getElementById("typedText");
-      if (ideaTitle && ui.placeholder_title) ideaTitle.setAttribute("data-placeholder-lang", ui.placeholder_title);
-      if (typedText && ui.placeholder_description) typedText.setAttribute("data-placeholder-lang", ui.placeholder_description);
       
-      // Impact
+      if (labelIdeaTitleLang && ui.label_title) labelIdeaTitleLang.textContent = ui.label_title;
+      if (labelDescriptionLang && ui.label_description) labelDescriptionLang.textContent = ui.label_description;
+      if (ideaTitle && ui.placeholder_title) ideaTitle.placeholder = ui.placeholder_title;
+      if (typedText && ui.placeholder_description) typedText.placeholder = ui.placeholder_description;
+      
+      // === IMPACT ===
+      const labelImpactLang = document.getElementById("labelImpactLang");
+      const impactSelect = document.getElementById("impactSelect");
+      
       if (labelImpactLang && ui.label_impact) labelImpactLang.textContent = ui.label_impact;
       
-      // Options du select impact (traduites)
-      const impactSelect = document.getElementById("impactSelect");
+      // Traduire les options du select
       if (impactSelect && ui.impact_options) {
-        const options = impactSelect.options;
-        const translations = ui.impact_options;
-        if (translations.placeholder) options[0].setAttribute("data-lang", translations.placeholder);
-        if (translations.ergonomie) options[1].setAttribute("data-lang", translations.ergonomie);
-        if (translations.environnement) options[2].setAttribute("data-lang", translations.environnement);
-        if (translations.efficacite) options[3].setAttribute("data-lang", translations.efficacite);
-        if (translations.productivite) options[4].setAttribute("data-lang", translations.productivite);
-        if (translations.energie) options[5].setAttribute("data-lang", translations.energie);
-        if (translations.securite) options[6].setAttribute("data-lang", translations.securite);
-        if (translations.autre) options[7].setAttribute("data-lang", translations.autre);
+        const opts = ui.impact_options;
+        if (opts.placeholder && impactSelect.options[0]) impactSelect.options[0].textContent = opts.placeholder;
+        if (opts.ergonomie && impactSelect.options[1]) impactSelect.options[1].textContent = opts.ergonomie;
+        if (opts.environnement && impactSelect.options[2]) impactSelect.options[2].textContent = opts.environnement;
+        if (opts.efficacite && impactSelect.options[3]) impactSelect.options[3].textContent = opts.efficacite;
+        if (opts.productivite && impactSelect.options[4]) impactSelect.options[4].textContent = opts.productivite;
+        if (opts.energie && impactSelect.options[5]) impactSelect.options[5].textContent = opts.energie;
+        if (opts.securite && impactSelect.options[6]) impactSelect.options[6].textContent = opts.securite;
+        if (opts.autre && impactSelect.options[7]) impactSelect.options[7].textContent = opts.autre;
       }
       
-      // Enregistrement
+      // === ENREGISTREMENT VOCAL ===
+      const labelRecordingLang = document.getElementById("labelRecordingLang");
+      const btnRecLang = document.getElementById("btnRecLang");
+      const btnUploadLang = document.getElementById("btnUploadLang");
+      const btnToneLang = document.getElementById("btnToneLang");
+      
       if (labelRecordingLang && ui.label_recording) labelRecordingLang.textContent = ui.label_recording;
       if (btnRecLang && ui.btn_rec) btnRecLang.textContent = ui.btn_rec;
       if (btnUploadLang && ui.btn_upload) btnUploadLang.textContent = ui.btn_upload;
       if (btnToneLang && ui.btn_tone) btnToneLang.textContent = ui.btn_tone;
       
-      // Médias
+      // === MÉDIAS ===
+      const labelMediaLang = document.getElementById("labelMediaLang");
+      const labelPhotosLang = document.getElementById("labelPhotosLang");
+      const btnCaptureLang = document.getElementById("btnCaptureLang");
+      const btnMediaUploadLang = document.getElementById("btnMediaUploadLang");
+      
       if (labelMediaLang && ui.label_media) labelMediaLang.textContent = ui.label_media;
       if (labelPhotosLang && ui.label_photos) labelPhotosLang.textContent = ui.label_photos;
       if (btnCaptureLang && ui.btn_capture) btnCaptureLang.textContent = ui.btn_capture;
       if (btnMediaUploadLang && ui.btn_media_upload) btnMediaUploadLang.textContent = ui.btn_media_upload;
       
-      // Navigation
+      // === NAVIGATION ===
+      const btnBackLang = document.getElementById("btnBackLang");
       if (btnBackLang && ui.btn_back) btnBackLang.textContent = ui.btn_back;
       
-      // Aperçu
+      // === APERÇU ===
+      const previewTitleLang = document.getElementById("previewTitleLang");
+      const previewIntroLang = document.getElementById("previewIntroLang");
+      const previewOrigLabelLang = document.getElementById("previewOrigLabelLang");
+      const previewFrLabelLang = document.getElementById("previewFrLabelLang");
+      const helperTextLang = document.getElementById("helperTextLang");
+      
       if (previewTitleLang && ui.preview_title) previewTitleLang.textContent = ui.preview_title;
       if (previewIntroLang && ui.preview_intro) previewIntroLang.textContent = ui.preview_intro;
       if (previewOrigLabelLang && ui.preview_orig_label) previewOrigLabelLang.textContent = ui.preview_orig_label;
       if (previewFrLabelLang && ui.preview_fr_label) previewFrLabelLang.textContent = ui.preview_fr_label;
       if (helperTextLang && ui.helper_text) helperTextLang.textContent = ui.helper_text;
+      
+      console.log("✅ Traductions step5 appliquées avec succès");
+    } else {
+      console.warn("⚠️ Réponse API idea_lang invalide ou vide:", data);
     }
   } catch (e) {
-    console.warn("Erreur traduction idea :", e);
+    console.error("❌ Erreur traduction idea :", e);
   }
+}
+
+// Fonction pour réinitialiser step5 en français (si besoin)
+function resetIdeaToFrench() {
+  isIdeaFrenchOnly = true;
+  const step5 = document.getElementById("step5");
+  const ideaHeaderBilingual = document.getElementById("ideaHeaderBilingual");
   
-  // Afficher le switch sur mobile
-  if (ideaSwitch && window.innerWidth <= 1000) {
-    ideaSwitch.style.display = "flex";
-  }
-  
-  // Initialiser la vue
-  if (window.innerWidth <= 1000) {
-    updateIdeaView("native");
-  }
+  if (step5) step5.classList.add("french-only");
+  if (ideaHeaderBilingual) ideaHeaderBilingual.classList.add("french-only");
 }
 
 // Resize listener pour idea
