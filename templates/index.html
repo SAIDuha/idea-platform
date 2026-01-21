@@ -2948,6 +2948,109 @@ Copier
   gap: 16px;
 }
 
+/* ============================================================
+   STEP 5 - MODE TEXTE : Masquer les éléments vocaux
+   
+   Quand l'utilisateur a choisi le mode texte, on cache :
+   - L'enregistrement vocal (boutons rec, upload, test son)
+   - Le panneau aperçu & traduction
+   
+   On garde :
+   - L'en-tête avec le robot (repositionné)
+   - Le type de contribution
+   - Le titre, description, impact
+   - Les illustrations
+   ============================================================ */
+
+/* Masquer la section enregistrement vocal en mode texte */
+#step5.text-mode .field-group:has(#recBtn),
+#step5.text-mode .field-group.voice-recording-group {
+  display: none !important;
+}
+
+/* Masquer le panneau aperçu & traduction en mode texte */
+#step5.text-mode .panel-preview {
+  display: none !important;
+}
+
+/* Fallback pour navigateurs sans :has() */
+#step5.text-mode .field-group.hide-text-mode {
+  display: none !important;
+}
+
+/* ============================================================
+   ROBOT FLOTTANT DANS L'EN-TÊTE EN MODE TEXTE
+   ============================================================ */
+
+/* Container pour le robot dans l'en-tête */
+#step5 .idea-header-robot {
+  display: none;
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100px;
+  height: 100px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+#step5 .idea-header-robot img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 20px rgba(0, 255, 229, 0.3));
+  animation: robot-float-mini 4s ease-in-out infinite;
+}
+
+@keyframes robot-float-mini {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* Afficher le robot flottant uniquement en mode texte */
+#step5.text-mode .idea-header-robot {
+  display: block;
+}
+
+/* Ajuster le padding de l'en-tête pour laisser place au robot */
+#step5.text-mode .idea-header-bilingual {
+  position: relative;
+  padding-right: 110px;
+}
+
+#step5.text-mode .idea-header-lang,
+#step5.text-mode .idea-header-fr {
+  position: relative;
+}
+
+/* Mobile : robot plus petit */
+@media (max-width: 768px) {
+  #step5 .idea-header-robot {
+    width: 70px;
+    height: 70px;
+    right: 0;
+  }
+  
+  #step5.text-mode .idea-header-bilingual {
+    padding-right: 80px;
+  }
+}
+
+/* ============================================================
+   AJUSTEMENTS DU LAYOUT EN MODE TEXTE
+   ============================================================ */
+
+/* Le contenu prend toute la largeur car pas de panneau aperçu */
+#step5.text-mode .content {
+  display: block;
+}
+
+#step5.text-mode .content > .panel:first-child {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
 </style>
 
 
@@ -3258,6 +3361,10 @@ Copier
     <div class="panel">
       <!-- En-tête bilingue -->
       <div class="idea-header-bilingual" id="ideaHeaderBilingual">
+        <!-- Robot flottant pour mode texte -->
+        <div class="idea-header-robot">
+          <img src="/static/cawe_robot.png" alt="Robot IDEA">
+        </div>
         <div class="idea-header-lang" id="ideaHeaderLang">
           <h3 id="ideaPanelTitleLang">Contenu de ton idée</h3>
           <p class="muted small" id="ideaPanelIntroLang">
@@ -3356,7 +3463,7 @@ Copier
       </div>
 
       <!-- ENREGISTREMENT VOCAL -->
-      <div class="field-group">
+      <div class="field-group voice-recording-group">
         <div class="bilingual-label">
           <span class="section-label label-lang" id="labelRecordingLang">Enregistrement vocal</span>
           <span class="section-label label-fr">Enregistrement vocal</span>
@@ -5498,7 +5605,13 @@ function setStep5VoiceMode() {
     step5.classList.add("voice-mode");
     step5.classList.remove("text-mode");
     
-    // Fallback pour navigateurs sans :has() - ajouter classe aux field-groups
+    // Retirer les classes de masquage du mode texte
+    const voiceRecordingGroup = step5.querySelector(".voice-recording-group");
+    if (voiceRecordingGroup) {
+      voiceRecordingGroup.classList.remove("hide-text-mode");
+    }
+    
+    // Fallback pour navigateurs sans :has() - ajouter classe aux field-groups à masquer
     const fieldGroups = step5.querySelectorAll(".field-group");
     fieldGroups.forEach(fg => {
       // Vérifier si ce field-group contient les éléments à masquer
@@ -5511,12 +5624,12 @@ function setStep5VoiceMode() {
       }
     });
     
-    console.log("✅ Step5 en mode VOCAL - champs texte masqués");
+    console.log("✅ Step5 en mode VOCAL - champs texte masqués, panneau aperçu visible");
   }
 }
 
 /**
- * Active le mode texte sur step5 (affiche tous les champs)
+ * Active le mode texte sur step5 (affiche tous les champs sauf vocal/aperçu)
  * Appelle cette fonction quand l'utilisateur choisit le mode texte
  */
 function setStep5TextMode() {
@@ -5525,13 +5638,19 @@ function setStep5TextMode() {
     step5.classList.add("text-mode");
     step5.classList.remove("voice-mode");
     
-    // Retirer les classes de masquage
+    // Retirer les classes de masquage vocal
     const fieldGroups = step5.querySelectorAll(".field-group");
     fieldGroups.forEach(fg => {
       fg.classList.remove("hide-voice-mode");
     });
     
-    console.log("✅ Step5 en mode TEXTE - tous les champs visibles");
+    // Fallback pour navigateurs sans :has() - masquer les éléments vocaux
+    const voiceRecordingGroup = step5.querySelector(".voice-recording-group");
+    if (voiceRecordingGroup) {
+      voiceRecordingGroup.classList.add("hide-text-mode");
+    }
+    
+    console.log("✅ Step5 en mode TEXTE - éléments vocaux masqués, robot dans l'en-tête");
   }
 }
 </script>
