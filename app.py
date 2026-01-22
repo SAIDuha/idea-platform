@@ -167,39 +167,82 @@ def append_idea_to_sheet(row: list[str]) -> None:
         print(f"[WARN] Erreur lors de l’envoi dans Google Sheets : {e}")
 
 
-# ------------ Google Drive helpers (OAuth utilisateur) ------------
+# ------------ Google Drive helpers ------------
+
+def get_drive_credentials():
+    """
+    Récupère les credentials Google Drive depuis :
+    1. Variable d'environnement GOOGLE_DRIVE_CREDENTIALS (JSON string)
+    2. Fichier credentials_drive.json + token_drive.json (OAuth)
+    3. Fallback sur le service account (GOOGLE_SERVICE_ACCOUNT)
+    """
+    import json
+    
+    # Option 1: Variable d'environnement GOOGLE_DRIVE_CREDENTIALS
+    drive_creds_json = os.environ.get("GOOGLE_DRIVE_CREDENTIALS")
+    if drive_creds_json:
+        try:
+            creds_info = json.loads(drive_creds_json)
+            # Si c'est un service account
+            if "type" in creds_info and creds_info["type"] == "service_account":
+                creds = Credentials.from_service_account_info(creds_info, scopes=SCOPES)
+                print("[INFO] Drive credentials chargés depuis GOOGLE_DRIVE_CREDENTIALS (service account)")
+                return creds
+            # Si c'est un token OAuth
+            elif "refresh_token" in creds_info:
+                creds = UserCredentials.from_authorized_user_info(creds_info, SCOPES)
+                if creds and creds.expired and creds.refresh_token:
+                    creds.refresh(Request())
+                print("[INFO] Drive credentials chargés depuis GOOGLE_DRIVE_CREDENTIALS (OAuth)")
+                return creds
+        except Exception as e:
+            print(f"[WARN] Erreur lecture GOOGLE_DRIVE_CREDENTIALS: {e}")
+    
+    # Option 2: Fichier token_drive.json existant (OAuth)
+    token_path = Path("token_drive.json")
+    if token_path.exists():
+        try:
+            creds = UserCredentials.from_authorized_user_file(token_path.as_posix(), SCOPES)
+            if creds and creds.expired and creds.refresh_token:
+                creds.refresh(Request())
+            print("[INFO] Drive credentials chargés depuis token_drive.json")
+            return creds
+        except Exception as e:
+            print(f"[WARN] Erreur lecture token_drive.json: {e}")
+    
+    # Option 3: Fichier credentials_drive.json (nécessite OAuth flow - ne marche pas sur serveur)
+    if os.path.exists("credentials_drive.json"):
+        try:
+            flow = InstalledAppFlow.from_client_secrets_file("credentials_drive.json", SCOPES)
+            creds = flow.run_local_server(port=0)
+            with open(token_path, "w", encoding="utf-8") as f:
+                f.write(creds.to_json())
+            print("[INFO] Drive credentials obtenus via OAuth flow")
+            return creds
+        except Exception as e:
+            print(f"[WARN] OAuth flow échoué: {e}")
+    
+    # Option 4: Fallback sur le service account général
+    creds = get_google_credentials()
+    if creds:
+        print("[INFO] Drive utilise le service account général (GOOGLE_SERVICE_ACCOUNT)")
+        return creds
+    
+    return None
+
 
 def get_drive_service():
     """
-    Client Google Drive basé sur TON compte Google (OAuth utilisateur),
-    en utilisant credentials_drive.json + token_drive.json.
+    Client Google Drive.
     """
-    creds = None
-    token_path = Path("token_drive.json")
-
-    # 1) On tente de recharger un token existant
-    if token_path.exists():
-        creds = UserCredentials.from_authorized_user_file(
-            token_path.as_posix(), SCOPES
+    creds = get_drive_credentials()
+    if not creds:
+        raise FileNotFoundError(
+            "Credentials Drive non trouvés. "
+            "Configurez GOOGLE_DRIVE_CREDENTIALS ou GOOGLE_SERVICE_ACCOUNT (variables d'env)"
         )
-
-    # 2) Si pas de creds ou invalides → flow OAuth
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            # Première autorisation : ouvre un navigateur pour te connecter à ton compte Google
-            flow = InstalledAppFlow.from_client_secrets_file(
-                "credentials_drive.json", SCOPES
-            )
-            creds = flow.run_local_server(port=0)
-
-        # 3) On sauvegarde le token pour les prochaines fois
-        with open(token_path, "w", encoding="utf-8") as token_file:
-            token_file.write(creds.to_json())
-
-    # 4) Construction du service Drive
     service = build("drive", "v3", credentials=creds)
+    return service
     return service
 
 
