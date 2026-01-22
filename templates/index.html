@@ -4365,11 +4365,25 @@ function onCaptchaSuccess(){
     return;
   }
   
-  // AJOUTER CES LIGNES :
+  // Configurer le mode sur step5
   if (chosenMode === "voice") {
     setStep5VoiceMode();
   } else {
     setStep5TextMode();
+    
+    // MODE TEXTE : Initialiser les grilles en mode français uniquement (single-col)
+    const profileGrid = document.getElementById("profileBilingualGrid");
+    const contactGrid = document.getElementById("contactBilingualGrid");
+    const profileFrCol = document.getElementById("profileFrCol");
+    const contactFrCol = document.getElementById("contactFrCol");
+    
+    // Ajouter single-col pour afficher uniquement la colonne FR
+    if (profileGrid) profileGrid.classList.add("single-col");
+    if (contactGrid) contactGrid.classList.add("single-col");
+    
+    // Sur mobile, s'assurer que la colonne FR est visible
+    if (profileFrCol) profileFrCol.classList.add("is-active");
+    if (contactFrCol) contactFrCol.classList.add("is-active");
   }
   
   if (chosenMode === "text"){
