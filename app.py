@@ -101,11 +101,46 @@ GSHEET_ID = "1Bet8xflUcVb6lXNR3zW1yRZMRznvun6NEppx9GGl8Wk"
 GSHEET_SHEET_NAME = "Feuille 1"
 
 
+def get_google_credentials():
+    """
+    Récupère les credentials Google depuis :
+    1. Variable d'environnement GOOGLE_SERVICE_ACCOUNT (JSON string)
+    2. Fichier service_account.json
+    """
+    import json
+    
+    # Option 1: Variable d'environnement (recommandé pour Render)
+    service_account_json = os.environ.get("GOOGLE_SERVICE_ACCOUNT")
+    if service_account_json:
+        try:
+            service_account_info = json.loads(service_account_json)
+            creds = Credentials.from_service_account_info(
+                service_account_info, scopes=SCOPES
+            )
+            print("[INFO] Credentials chargés depuis GOOGLE_SERVICE_ACCOUNT")
+            return creds
+        except Exception as e:
+            print(f"[WARN] Erreur lecture GOOGLE_SERVICE_ACCOUNT: {e}")
+    
+    # Option 2: Fichier local
+    if os.path.exists(SERVICE_ACCOUNT_FILE):
+        creds = Credentials.from_service_account_file(
+            SERVICE_ACCOUNT_FILE, scopes=SCOPES
+        )
+        print("[INFO] Credentials chargés depuis service_account.json")
+        return creds
+    
+    return None
+
+
 def get_sheets_service():
     """Initialise le client Google Sheets à partir du compte de service."""
-    creds = Credentials.from_service_account_file(
-        SERVICE_ACCOUNT_FILE, scopes=SCOPES
-    )
+    creds = get_google_credentials()
+    if not creds:
+        raise FileNotFoundError(
+            "Credentials Google non trouvés. "
+            "Configurez GOOGLE_SERVICE_ACCOUNT (variable d'env) ou service_account.json"
+        )
     service = build("sheets", "v4", credentials=creds)
     return service
 

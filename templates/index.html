@@ -3657,6 +3657,39 @@ Copier
     bottom: 90px;
   }
 }
+
+/* ============================================================
+   BOUTONS MULTILINGUES ANIMÉS
+   ============================================================ */
+.btn-multilang {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-width: 280px;
+  overflow: hidden;
+}
+
+.btn-multilang .btn-icon {
+  font-size: 1.2em;
+  flex-shrink: 0;
+}
+
+.btn-multilang .btn-text-rotate {
+  display: inline-block;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  white-space: nowrap;
+}
+
+.btn-multilang .btn-text-rotate.changing {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.btn-multilang .btn-text-rotate.entering {
+  opacity: 0;
+  transform: translateY(20px);
+}
 </style>
 
 
@@ -3715,14 +3748,16 @@ Copier
           <div class="intro-actions">
             <button type="button"
                     id="btnModeText"
-                    class="btn-primary">
-              ✍️ Je préfère écrire
+                    class="btn-primary btn-multilang">
+              <span class="btn-icon">✍️</span>
+              <span class="btn-text-rotate" id="textRotateWrite">Je préfère écrire</span>
             </button>
 
             <button type="button"
                     id="btnModeVoice"
-                    class="btn-ghost">
-              🎙️ Je préfère parler
+                    class="btn-ghost btn-multilang">
+              <span class="btn-icon">🎙️</span>
+              <span class="btn-text-rotate" id="textRotateSpeak">Je préfère parler</span>
             </button>
           </div>
 
@@ -4203,13 +4238,14 @@ Copier
             </p>
 
             <div class="actions" style="margin-top:14px; gap:10px; flex-wrap:wrap;">
-              <button id="langRecBtn" class="btn-primary">
-                🎙️ Dire ma langue
+              <button id="langRecBtn" class="btn-primary btn-multilang">
+                <span class="btn-icon">🎙️</span>
+                <span class="btn-text-rotate" id="textRotateSayLang">Dire ma langue</span>
               </button>
 
               <!-- Choix manuel de la langue -->
               <select id="langSelect" class="lang-select">
-                <option value="">Ou choisis ta langue…</option>
+                <option value="" id="optionChooseLang">Ou choisis ta langue…</option>
                 <!-- Options injectées en JS -->
               </select>
             </div>
@@ -4473,6 +4509,19 @@ function showStep(id){
     };
     recState.textContent = labels[id] || "";
   }
+  
+  // Gérer les rotations multilingues selon la page
+  if (id === "step1") {
+    if (typeof startMultiLangRotation === "function") startMultiLangRotation();
+    if (typeof stopLangPageRotation === "function") stopLangPageRotation();
+  } else if (id === "stepVoice") {
+    if (typeof stopMultiLangRotation === "function") stopMultiLangRotation();
+    if (typeof startLangPageRotation === "function") startLangPageRotation();
+  } else {
+    if (typeof stopMultiLangRotation === "function") stopMultiLangRotation();
+    if (typeof stopLangPageRotation === "function") stopLangPageRotation();
+  }
+  
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -4489,6 +4538,241 @@ const captchaRow   = document.getElementById("captchaRow");
 
 let chosenMode = null;
 let captchaOk  = false;
+
+// ============================================================
+// ROTATION MULTILINGUE DES BOUTONS
+// ============================================================
+const multiLangTexts = {
+  write: [
+    "Je préfère écrire",           // Français
+    "I prefer to write",           // Anglais
+    "أفضل الكتابة",                // Arabe
+    "Prefiero escribir",           // Espagnol
+    "Ich schreibe lieber",         // Allemand
+    "Preferisco scrivere",         // Italien
+    "我更喜欢写字",                  // Chinois
+    "Eu prefiro escrever",         // Portugais
+    "書くほうが好きです",            // Japonais
+    "Wolę pisać",                  // Polonais
+    "Yazmayı tercih ederim",       // Turc
+    "Jag föredrar att skriva",     // Suédois
+    "저는 쓰는 것을 선호합니다",      // Coréen
+    "Ik schrijf liever",           // Néerlandais
+    "Предпочитаю писать",          // Russe
+  ],
+  speak: [
+    "Je préfère parler",           // Français
+    "I prefer to speak",           // Anglais
+    "أفضل التحدث",                 // Arabe
+    "Prefiero hablar",             // Espagnol
+    "Ich spreche lieber",          // Allemand
+    "Preferisco parlare",          // Italien
+    "我更喜欢说话",                  // Chinois
+    "Eu prefiro falar",            // Portugais
+    "話すほうが好きです",            // Japonais
+    "Wolę mówić",                  // Polonais
+    "Konuşmayı tercih ederim",     // Turc
+    "Jag föredrar att prata",      // Suédois
+    "저는 말하는 것을 선호합니다",    // Coréen
+    "Ik praat liever",             // Néerlandais
+    "Предпочитаю говорить",        // Russe
+  ],
+  sayLang: [
+    "Dire ma langue",              // Français
+    "Say my language",             // Anglais
+    "قل لغتي",                     // Arabe
+    "Decir mi idioma",             // Espagnol
+    "Meine Sprache sagen",         // Allemand
+    "Dire la mia lingua",          // Italien
+    "说我的语言",                   // Chinois
+    "Dizer meu idioma",            // Portugais
+    "私の言語を言う",               // Japonais
+    "Powiedz mój język",           // Polonais
+    "Dilimi söyle",                // Turc
+    "Säg mitt språk",              // Suédois
+    "내 언어 말하기",               // Coréen
+    "Zeg mijn taal",               // Néerlandais
+    "Назвать мой язык",            // Russe
+  ],
+  chooseLang: [
+    "Ou choisis ta langue…",       // Français
+    "Or choose your language…",    // Anglais
+    "أو اختر لغتك…",               // Arabe
+    "O elige tu idioma…",          // Espagnol
+    "Oder wähle deine Sprache…",   // Allemand
+    "O scegli la tua lingua…",     // Italien
+    "或选择你的语言…",              // Chinois
+    "Ou escolha seu idioma…",      // Portugais
+    "または言語を選択…",            // Japonais
+    "Lub wybierz swój język…",     // Polonais
+    "Veya dilini seç…",            // Turc
+    "Eller välj ditt språk…",      // Suédois
+    "또는 언어를 선택하세요…",       // Coréen
+    "Of kies je taal…",            // Néerlandais
+    "Или выбери свой язык…",       // Russe
+  ]
+};
+
+let writeIndex = 0;
+let speakIndex = 0;
+let sayLangIndex = 0;
+let chooseLangIndex = 0;
+let rotationInterval = null;
+let rotationTimeout = null;
+let langRotationInterval = null;
+let langRotationTimeout = null;
+
+function rotateButtonText(element, texts, type) {
+  if (!element) return;
+  
+  // Pour les éléments select option, pas d'animation CSS
+  const isOption = element.tagName === "OPTION";
+  
+  if (!isOption) {
+    // Animation de sortie
+    element.classList.add("changing");
+  }
+  
+  setTimeout(() => {
+    // Passer à l'index suivant selon le type
+    let newIndex;
+    switch(type) {
+      case "write":
+        writeIndex = (writeIndex + 1) % texts.length;
+        newIndex = writeIndex;
+        break;
+      case "speak":
+        speakIndex = (speakIndex + 1) % texts.length;
+        newIndex = speakIndex;
+        break;
+      case "sayLang":
+        sayLangIndex = (sayLangIndex + 1) % texts.length;
+        newIndex = sayLangIndex;
+        break;
+      case "chooseLang":
+        chooseLangIndex = (chooseLangIndex + 1) % texts.length;
+        newIndex = chooseLangIndex;
+        break;
+    }
+    
+    element.textContent = texts[newIndex];
+    
+    if (!isOption) {
+      // Préparer l'animation d'entrée
+      element.classList.remove("changing");
+      element.classList.add("entering");
+      
+      // Déclencher l'animation d'entrée
+      requestAnimationFrame(() => {
+        element.classList.remove("entering");
+      });
+    }
+  }, isOption ? 0 : 200);
+}
+
+function startMultiLangRotation() {
+  const writeEl = document.getElementById("textRotateWrite");
+  const speakEl = document.getElementById("textRotateSpeak");
+  
+  if (!writeEl || !speakEl) {
+    console.log("Elements not found, retrying...");
+    setTimeout(startMultiLangRotation, 500);
+    return;
+  }
+  
+  // S'assurer que le texte initial est en français
+  writeEl.textContent = multiLangTexts.write[0];
+  speakEl.textContent = multiLangTexts.speak[0];
+  writeIndex = 0;
+  speakIndex = 0;
+  
+  // Attendre 3 secondes avant de commencer la rotation
+  rotationTimeout = setTimeout(() => {
+    if (rotationInterval) return; // Déjà en cours
+    
+    rotationInterval = setInterval(() => {
+      // Rotation du bouton "écrire"
+      rotateButtonText(writeEl, multiLangTexts.write, "write");
+      
+      // Décaler la rotation du bouton "parler"
+      setTimeout(() => {
+        rotateButtonText(speakEl, multiLangTexts.speak, "speak");
+      }, 1200);
+    }, 2500);
+  }, 3000);
+}
+
+// Rotation pour la page de sélection de langue (stepVoice)
+function startLangPageRotation() {
+  const sayLangEl = document.getElementById("textRotateSayLang");
+  const chooseLangEl = document.getElementById("optionChooseLang");
+  
+  if (!sayLangEl) {
+    return;
+  }
+  
+  // Initialiser en français
+  sayLangEl.textContent = multiLangTexts.sayLang[0];
+  if (chooseLangEl) chooseLangEl.textContent = multiLangTexts.chooseLang[0];
+  sayLangIndex = 0;
+  chooseLangIndex = 0;
+  
+  // Attendre 2 secondes puis commencer
+  langRotationTimeout = setTimeout(() => {
+    if (langRotationInterval) return;
+    
+    langRotationInterval = setInterval(() => {
+      rotateButtonText(sayLangEl, multiLangTexts.sayLang, "sayLang");
+      
+      setTimeout(() => {
+        if (chooseLangEl) {
+          rotateButtonText(chooseLangEl, multiLangTexts.chooseLang, "chooseLang");
+        }
+      }, 1200);
+    }, 2500);
+  }, 2000);
+}
+
+function stopLangPageRotation() {
+  if (langRotationTimeout) {
+    clearTimeout(langRotationTimeout);
+    langRotationTimeout = null;
+  }
+  if (langRotationInterval) {
+    clearInterval(langRotationInterval);
+    langRotationInterval = null;
+  }
+  
+  // Remettre en français
+  const sayLangEl = document.getElementById("textRotateSayLang");
+  const chooseLangEl = document.getElementById("optionChooseLang");
+  if (sayLangEl) sayLangEl.textContent = multiLangTexts.sayLang[0];
+  if (chooseLangEl) chooseLangEl.textContent = multiLangTexts.chooseLang[0];
+  sayLangIndex = 0;
+  chooseLangIndex = 0;
+}
+
+function stopMultiLangRotation() {
+  if (rotationTimeout) {
+    clearTimeout(rotationTimeout);
+    rotationTimeout = null;
+  }
+  if (rotationInterval) {
+    clearInterval(rotationInterval);
+    rotationInterval = null;
+  }
+  
+  // Remettre en français
+  const writeEl = document.getElementById("textRotateWrite");
+  const speakEl = document.getElementById("textRotateSpeak");
+  if (writeEl) writeEl.textContent = multiLangTexts.write[0];
+  if (speakEl) speakEl.textContent = multiLangTexts.speak[0];
+  writeIndex = 0;
+  speakIndex = 0;
+}
+
+// La rotation est démarrée automatiquement via showStep()
+// ============================================================
 
 function updateModeButtons(){
   if (!btnModeText || !btnModeVoice) return;
