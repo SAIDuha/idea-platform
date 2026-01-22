@@ -3564,6 +3564,99 @@ Copier
     transform: translateX(0) translateY(0) scale(1); 
   }
 }
+
+/* ============================================================
+   TOAST NOTIFICATION - TITRE SUGGÉRÉ
+   ============================================================ */
+.suggested-title-toast {
+  position: fixed;
+  bottom: 100px;
+  right: 24px;
+  max-width: 380px;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, rgba(15, 21, 53, 0.95), rgba(26, 33, 80, 0.9));
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  border-radius: 16px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.4),
+    0 0 30px rgba(0, 212, 255, 0.15);
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.suggested-title-toast.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.suggested-title-toast .toast-icon {
+  font-size: 28px;
+  line-height: 1;
+  animation: bulb-pulse 2s ease-in-out infinite;
+}
+
+@keyframes bulb-pulse {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px rgba(255, 212, 0, 0.5)); }
+  50% { transform: scale(1.1); filter: drop-shadow(0 0 15px rgba(255, 212, 0, 0.8)); }
+}
+
+.suggested-title-toast .toast-content {
+  flex: 1;
+}
+
+.suggested-title-toast .toast-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent-cyan);
+  margin-bottom: 6px;
+}
+
+.suggested-title-toast .toast-title-lang {
+  font-size: 14px;
+  color: var(--accent-pink);
+  margin-bottom: 4px;
+  font-style: italic;
+}
+
+.suggested-title-toast .toast-title-fr {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.suggested-title-toast .toast-close {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.suggested-title-toast .toast-close:hover {
+  color: var(--text-primary);
+}
+
+@media (max-width: 600px) {
+  .suggested-title-toast {
+    left: 16px;
+    right: 16px;
+    max-width: none;
+    bottom: 90px;
+  }
+}
 </style>
 
 
@@ -4590,13 +4683,62 @@ async function transcribeBlob(blob){
   detectedLanguage   = data.language || "";
   originalText       = data.original_text || "";
   frenchTranslation  = data.french_translation || "";
+  
+  // Titres suggérés par Gemini
+  const suggestedTitle = data.suggested_title || "";
+  const suggestedTitleFr = data.suggested_title_fr || "";
 
   if (langChip) langChip.textContent = detectedLanguage ? `Langue détectée : ${detectedLanguage}` : "";
   if (origBox)  origBox.textContent = originalText || "—";
   if (frBox)    frBox.textContent = frenchTranslation || "—";
+  
+  // Afficher le titre suggéré dans le champ titre
+  const ideaTitleInput = document.getElementById("ideaTitle");
+  if (ideaTitleInput && suggestedTitleFr) {
+    ideaTitleInput.value = suggestedTitleFr;
+    // Trigger input event pour la validation
+    ideaTitleInput.dispatchEvent(new Event("input", { bubbles: true }));
+  }
+  
+  // Afficher une notification avec le titre suggéré
+  if (suggestedTitle || suggestedTitleFr) {
+    showSuggestedTitle(suggestedTitle, suggestedTitleFr);
+  }
 
   if (submitBtn) submitBtn.disabled = false;
   if (statusMsg) statusMsg.textContent = "Transcription terminée. Tu pourras envoyer à la dernière étape.";
+}
+
+// Fonction pour afficher le titre suggéré dans une notification
+function showSuggestedTitle(titleLang, titleFr) {
+  // Supprimer une notification existante
+  const existing = document.querySelector(".suggested-title-toast");
+  if (existing) existing.remove();
+  
+  const toast = document.createElement("div");
+  toast.className = "suggested-title-toast";
+  toast.innerHTML = `
+    <div class="toast-icon">💡</div>
+    <div class="toast-content">
+      <div class="toast-label">Titre suggéré par l'IA</div>
+      ${titleLang && titleLang !== titleFr ? `<div class="toast-title-lang">${titleLang}</div>` : ""}
+      <div class="toast-title-fr">${titleFr}</div>
+    </div>
+    <button class="toast-close" onclick="this.parentElement.remove()">✕</button>
+  `;
+  
+  document.body.appendChild(toast);
+  
+  // Animation d'entrée
+  requestAnimationFrame(() => {
+    toast.classList.add("show");
+  });
+  
+  // Auto-fermeture après 8 secondes
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => toast.remove(), 300);
+  }, 8000);
 }
 
 async function startRecording(){

@@ -605,11 +605,15 @@ def transcribe():
         "1) Transcris EXACTEMENT le contenu de l'audio dans sa langue d'origine. "
         "2) Détecte la langue (code ISO ou nom). "
         "3) Fournis une traduction fidèle en français. "
+        "4) Génère un titre court et accrocheur (max 10 mots) qui résume l'idée principale, dans la langue d'origine. "
+        "5) Génère ce même titre traduit en français. "
         "Réponds STRICTEMENT en JSON:\n"
         "{"
         "  \"language\": \"<code ou nom>\","
         "  \"original_text\": \"<transcription>\","
-        "  \"french_translation\": \"<traduction française>\""
+        "  \"french_translation\": \"<traduction française>\","
+        "  \"suggested_title\": \"<titre dans la langue d'origine>\","
+        "  \"suggested_title_fr\": \"<titre en français>\""
         "}"
     )
 
@@ -650,6 +654,8 @@ def transcribe():
         language = (data.get("language") or "").strip()
         original_text = (data.get("original_text") or "").strip()
         french_translation = (data.get("french_translation") or "").strip()
+        suggested_title = (data.get("suggested_title") or "").strip()
+        suggested_title_fr = (data.get("suggested_title_fr") or "").strip()
 
         if not (language or original_text or french_translation):
             return (
@@ -675,6 +681,8 @@ def transcribe():
                 "language": language,
                 "original_text": original_text,
                 "french_translation": french_translation,
+                "suggested_title": suggested_title,
+                "suggested_title_fr": suggested_title_fr,
             }
         )
 
@@ -1409,4 +1417,3 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
-
