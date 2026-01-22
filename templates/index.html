@@ -1404,48 +1404,61 @@ select:disabled {
   overflow: visible;
 }
 
-/* Zone des "Merci" multilingues flottants - VISIBLE */
+/* Zone des "Merci" multilingues - VRAIMENT ANIMÉ */
 .thank-words-cloud {
   position: absolute;
-  top: -80px;
-  left: -60px;
-  right: -60px;
-  bottom: -80px;
+  inset: 0;
   pointer-events: none;
-  z-index: 10;
+  z-index: 3;
+  overflow: visible;
 }
 
 .thank-word {
   position: absolute;
   font-family: var(--font-display);
   font-weight: 700;
-  text-shadow: 0 0 30px currentColor, 0 0 60px currentColor;
+  font-size: 22px;
+  text-shadow: 0 0 20px currentColor, 0 0 40px currentColor;
   white-space: nowrap;
-  animation: word-float-visible 8s ease-in-out infinite;
 }
 
-.thank-word:nth-child(1) { top: 0%; left: 0%; font-size: 18px; color: var(--bio-cyan); animation: word-float-visible 4s ease-in-out infinite; }
-.thank-word:nth-child(2) { top: 5%; right: 0%; font-size: 16px; color: var(--bio-magenta); animation: word-float-visible 5s ease-in-out infinite 0.3s; }
-.thank-word:nth-child(3) { top: 20%; left: -20px; font-size: 20px; color: var(--bio-yellow); animation: word-float-visible 4.5s ease-in-out infinite 0.6s; }
-.thank-word:nth-child(4) { top: 25%; right: -10px; font-size: 15px; color: var(--bio-green); animation: word-float-visible 5.5s ease-in-out infinite 0.2s; }
-.thank-word:nth-child(5) { top: 40%; left: -30px; font-size: 17px; color: var(--bio-blue); animation: word-float-visible 4.2s ease-in-out infinite 0.8s; }
-.thank-word:nth-child(6) { top: 45%; right: -20px; font-size: 19px; color: var(--bio-purple); animation: word-float-visible 5.2s ease-in-out infinite 0.4s; }
-.thank-word:nth-child(7) { top: 60%; left: 0%; font-size: 16px; color: var(--bio-pink); animation: word-float-visible 4.8s ease-in-out infinite 0.1s; }
-.thank-word:nth-child(8) { top: 65%; right: 5%; font-size: 14px; color: var(--bio-orange); animation: word-float-visible 5.3s ease-in-out infinite 0.7s; }
-.thank-word:nth-child(9) { top: 78%; left: -10px; font-size: 18px; color: var(--bio-cyan); animation: word-float-visible 4.3s ease-in-out infinite 0.5s; }
-.thank-word:nth-child(10) { top: 82%; right: 0%; font-size: 15px; color: var(--bio-magenta); animation: word-float-visible 5.1s ease-in-out infinite 0.9s; }
-.thank-word:nth-child(11) { top: 92%; left: 10%; font-size: 17px; color: var(--bio-yellow); animation: word-float-visible 4.6s ease-in-out infinite 0.35s; }
-.thank-word:nth-child(12) { top: 95%; right: 15%; font-size: 16px; color: var(--bio-green); animation: word-float-visible 5.4s ease-in-out infinite 0.65s; }
+/* Côté GAUCHE - mouvement vers la droite */
+.thank-word:nth-child(1) { top: 8%; left: 3%; color: var(--bio-cyan); animation: float-right 6s ease-in-out infinite; }
+.thank-word:nth-child(3) { top: 28%; left: 2%; color: var(--bio-yellow); animation: float-right 7s ease-in-out infinite 1s; }
+.thank-word:nth-child(5) { top: 48%; left: 4%; color: var(--bio-blue); animation: float-right 5.5s ease-in-out infinite 0.5s; }
+.thank-word:nth-child(7) { top: 68%; left: 3%; color: var(--bio-pink); animation: float-right 6.5s ease-in-out infinite 1.5s; }
+.thank-word:nth-child(9) { top: 85%; left: 2%; color: var(--bio-orange); animation: float-right 5s ease-in-out infinite 0.8s; }
+.thank-word:nth-child(11) { top: 95%; left: 5%; color: var(--bio-purple); animation: float-right 7.5s ease-in-out infinite 0.3s; }
 
-@keyframes word-float-visible {
+/* Côté DROIT - mouvement vers la gauche */
+.thank-word:nth-child(2) { top: 5%; right: 3%; color: var(--bio-magenta); animation: float-left 5.5s ease-in-out infinite 0.2s; }
+.thank-word:nth-child(4) { top: 22%; right: 2%; color: var(--bio-green); animation: float-left 6.5s ease-in-out infinite 1.2s; }
+.thank-word:nth-child(6) { top: 42%; right: 4%; color: var(--bio-cyan); animation: float-left 7s ease-in-out infinite 0.7s; }
+.thank-word:nth-child(8) { top: 62%; right: 3%; color: var(--bio-yellow); animation: float-left 5s ease-in-out infinite 1.8s; }
+.thank-word:nth-child(10) { top: 78%; right: 2%; color: var(--bio-magenta); animation: float-left 6s ease-in-out infinite 0.4s; }
+.thank-word:nth-child(12) { top: 92%; right: 4%; color: var(--bio-green); animation: float-left 5.8s ease-in-out infinite 1s; }
+
+@keyframes float-right {
   0%, 100% { 
-    opacity: 0.7; 
-    transform: translateY(0) scale(1); 
+    transform: translateX(0) translateY(0) scale(1) rotate(-5deg); 
+    opacity: 0.8;
   }
   50% { 
-    opacity: 1; 
-    transform: translateY(-15px) scale(1.1); 
-    filter: brightness(1.3);
+    transform: translateX(30px) translateY(-20px) scale(1.2) rotate(5deg); 
+    opacity: 1;
+    filter: brightness(1.5);
+  }
+}
+
+@keyframes float-left {
+  0%, 100% { 
+    transform: translateX(0) translateY(0) scale(1) rotate(5deg); 
+    opacity: 0.8;
+  }
+  50% { 
+    transform: translateX(-30px) translateY(-20px) scale(1.2) rotate(-5deg); 
+    opacity: 1;
+    filter: brightness(1.5);
   }
 }
 
@@ -4159,6 +4172,22 @@ Copier
     <!-- STEP MERCI : CONFIRMATION FINALE SPECTACULAIRE -->
     <section id="stepThanks" class="step-page">
       <div class="panel thank-panel">
+        <!-- Mots "Merci" flottants multilingues - DANS LE PANNEAU -->
+        <div class="thank-words-cloud">
+          <span class="thank-word">Gracias</span>
+          <span class="thank-word">Thank you</span>
+          <span class="thank-word">Danke</span>
+          <span class="thank-word">Grazie</span>
+          <span class="thank-word">Obrigado</span>
+          <span class="thank-word">Спасибо</span>
+          <span class="thank-word">ありがとう</span>
+          <span class="thank-word">شكراً</span>
+          <span class="thank-word">감사합니다</span>
+          <span class="thank-word">Dziękuję</span>
+          <span class="thank-word">Teşekkürler</span>
+          <span class="thank-word">Tack</span>
+        </div>
+
         <!-- Étoiles scintillantes -->
         <div class="sparkle-bg">
           <div class="sparkle"></div>
@@ -4191,22 +4220,6 @@ Copier
 
         <div class="thank-layout">
           <div class="thank-text">
-            <!-- Mots "Merci" flottants multilingues -->
-            <div class="thank-words-cloud">
-              <span class="thank-word">Gracias</span>
-              <span class="thank-word">Thank you</span>
-              <span class="thank-word">Danke</span>
-              <span class="thank-word">Grazie</span>
-              <span class="thank-word">Obrigado</span>
-              <span class="thank-word">Спасибо</span>
-              <span class="thank-word">ありがとう</span>
-              <span class="thank-word">شكراً</span>
-              <span class="thank-word">감사합니다</span>
-              <span class="thank-word">Dziękuję</span>
-              <span class="thank-word">Teşekkürler</span>
-              <span class="thank-word">Tack</span>
-            </div>
-
             <!-- Titre principal -->
             <div class="thank-main-title">
               <h2>Merci <span class="emoji-bulb">💡</span></h2>
