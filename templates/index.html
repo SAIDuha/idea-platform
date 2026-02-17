@@ -831,9 +831,10 @@ p.sub {
 #modeHint {
   margin-top: 16px;
   font-size: 13px;
-  color: var(--muted);
+  color: var(--netexial-bleu-principal);
   font-family: var(--font-mono);
   letter-spacing: 0.5px;
+  opacity: 0.75;
 }
 
 /* Sidebar info - NETEXIAL Light */
@@ -982,6 +983,28 @@ button:focus-visible {
   color: white;
   box-shadow: 0 4px 20px rgba(20, 27, 77, 0.25);
   transform: translateY(-3px);
+}
+
+/* Bouton "Je préfère parler" — bleu par défaut */
+#btnModeVoice {
+  background: var(--netexial-bleu-principal);
+  color: white;
+  border: 2px solid var(--netexial-bleu-principal);
+}
+
+#btnModeVoice:hover:not(:disabled) {
+  background: var(--netexial-bleu-fonce);
+  border-color: var(--netexial-bleu-fonce);
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 20px rgba(20, 27, 77, 0.3);
+}
+
+/* Texte captcha lisible */
+#captchaRow p,
+#captchaRow .muted {
+  color: var(--netexial-bleu-principal) !important;
+  opacity: 0.75;
 }
 
 /* Bouton secondary — Subtle */
@@ -2431,6 +2454,7 @@ Ajoute cette ligne dans ton <head> :
   #captchaRow p {
     font-size: 11px;
     margin-top: 10px;
+    color: var(--netexial-bleu-principal) !important;
   }
   
   /* ===== PANELS SIMPLIFIÉS ===== */
