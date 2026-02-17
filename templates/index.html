@@ -224,8 +224,9 @@
   position: sticky;
   top: 100px;
   display: flex;
-  flex-direction: column;
-  gap: 20px;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
   padding: 20px 0;
 }
 
@@ -237,15 +238,12 @@
   color: var(--netexial-bleu-principal);
   opacity: 0.12;
   margin: 0;
+  flex-shrink: 0;
   user-select: none;
-  transition: opacity 0.4s ease;
 }
 
 .form-deco-line {
-  width: 50px;
-  height: 3px;
-  background: var(--netexial-orange);
-  border-radius: 2px;
+  display: none;
 }
 
 .form-deco-tagline {
@@ -271,7 +269,10 @@
     gap: 28px;
   }
   .form-deco-number {
-    font-size: 120px;
+    font-size: 100px;
+  }
+  .form-deco-tagline {
+    font-size: 11px;
   }
 }
 
@@ -4181,11 +4182,9 @@ Copier
           <div class="form-deco-number" id="formDecoNumber">1</div>
           <div class="form-deco-line"></div>
           <div class="form-deco-tagline" id="formDecoTagline">
-            ON VEUT SAVOIR<br>
-            C'EST QUI LE<br>
-            <span class="orange">GÉNIE</span><br>
-            DERRIÈRE<br>
-            CETTE <span class="orange">IDÉE</span>
+            ON COMMENCE<br>
+            PAR TOI,<br>
+            <span class="orange">GÉNIE</span> !
           </div>
         </div>
 
@@ -5000,15 +4999,15 @@ function showStep(id){
   const decoConfig = {
     step3: {
       number: "1",
-      tagline: `ON VEUT SAVOIR<br>C'EST QUI LE<br><span class="orange">GÉNIE</span><br>DERRIÈRE<br>CETTE <span class="orange">IDÉE</span>`
+      tagline: `ON COMMENCE<br>PAR TOI,<br><span class="orange">GÉNIE</span> !`
     },
     step4: {
       number: "2",
-      tagline: `COMMENT TE<br>RETROUVER,<br>TOI LE<br><span class="orange">GÉNIE</span><br>EN HERBE ?`
+      tagline: `COMMENT<br>TE JOINDRE,<br><span class="orange">GÉNIE</span> ?`
     },
     step5: {
       number: "3",
-      tagline: `MAINTENANT<br>BALANCE<br>TON<br><span class="orange">IDÉE</span><br>DE FEU 🔥`
+      tagline: `BALANCE<br>TON<br><span class="orange">IDÉE</span> !`
     }
   };
 
