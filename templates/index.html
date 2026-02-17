@@ -1081,16 +1081,15 @@ button:focus-visible {
 
 /* Bouton secondary — Subtle */
 .btn-secondary {
-  background: var(--glass-bg);
-  color: var(--text-secondary);
-  border: 1px solid var(--glass-border);
-  backdrop-filter: blur(10px);
+  background: var(--netexial-bleu-principal);
+  color: white;
+  border: 2px solid var(--netexial-bleu-principal);
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background: var(--glass-highlight);
-  color: var(--text-primary);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: var(--netexial-bleu-fonce);
+  color: white;
+  border-color: var(--netexial-bleu-fonce);
   transform: translateY(-2px);
 }
 
@@ -1208,8 +1207,27 @@ select:disabled {
   cursor: not-allowed;
 }
 
-/* Radio & Checkbox */
-.radio-group { margin-top: 10px; }
+/* Radio contact step4 - 1er orange, 2ème bleu */
+#step4 .radio-group .radio-item:nth-child(1) {
+  background: var(--netexial-orange);
+  border-color: var(--netexial-orange);
+}
+#step4 .radio-group .radio-item:nth-child(1) span {
+  color: white;
+}
+#step4 .radio-group .radio-item:nth-child(1) input {
+  accent-color: white;
+}
+#step4 .radio-group .radio-item:nth-child(2) {
+  background: var(--netexial-bleu-principal);
+  border-color: var(--netexial-bleu-principal);
+}
+#step4 .radio-group .radio-item:nth-child(2) span {
+  color: white;
+}
+#step4 .radio-group .radio-item:nth-child(2) input {
+  accent-color: white;
+}
 
 .radio-item {
   display: flex;
@@ -1217,28 +1235,29 @@ select:disabled {
   gap: 12px;
   margin-bottom: 10px;
   padding: 14px 18px;
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--bg-dark);
+  border: 2px solid rgba(20, 27, 77, 0.15);
   border-radius: var(--r-sm);
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .radio-item:hover {
-  background: rgba(152, 178, 221, 0.05);
-  border-color: rgba(152, 178, 221, 0.2);
+  background: var(--bg-medium);
+  border-color: var(--netexial-orange);
 }
 
 .radio-item input {
   width: auto;
   margin: 0;
-  accent-color: var(--bio-cyan);
+  accent-color: var(--netexial-orange);
   cursor: pointer;
 }
 
 .radio-item span {
   font-size: 14px;
-  color: var(--ink);
+  font-weight: 600;
+  color: var(--netexial-bleu-principal);
 }
 
 /* =========================================================
@@ -1297,15 +1316,15 @@ select:disabled {
 #step4 .contact-block {
   padding: 24px;
   border-radius: var(--r-md);
-  background: linear-gradient(145deg, rgba(152, 178, 221, 0.03), rgba(0, 0, 0, 0.2));
-  border: 1px dashed rgba(152, 178, 221, 0.25);
+  background: var(--bg-dark);
+  border: 1px solid rgba(20, 27, 77, 0.12);
 }
 
 #step4 .contact-block-title {
   font-family: var(--font-display);
   font-size: 14px;
   font-weight: 600;
-  color: var(--ink);
+  color: var(--netexial-bleu-principal);
   margin-bottom: 14px;
 }
 
