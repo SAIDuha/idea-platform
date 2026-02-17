@@ -71,9 +71,13 @@
 .hero-image {
   position: relative;
   overflow: hidden;
+  min-height: 70vh;
 }
 
 .hero-image img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -3938,7 +3942,7 @@ Copier
   <main class="hero-layout">
     <!-- Image côté gauche -->
     <div class="hero-image">
-      <img src="/static/image1.png" alt="Équipe NETEXIAL" />
+      <img src="{{ url_for('static', filename='image1.png') }}" alt="Équipe NETEXIAL" />
       <div class="hero-image-overlay"></div>
     </div>
 
@@ -5035,6 +5039,22 @@ function updateModeButtons(){
 function handleModeChoice(mode){
   chosenMode = mode;
   updateModeButtons();
+
+  // Cacher le hero (image + titre d'accueil) avec animation
+  const heroLayout = document.querySelector('.hero-layout');
+  const formSection = document.querySelector('.form-section');
+  
+  if (heroLayout) {
+    heroLayout.style.transition = 'opacity 0.4s ease';
+    heroLayout.style.opacity = '0';
+    setTimeout(() => {
+      heroLayout.style.display = 'none';
+      // Scroll vers le formulaire
+      if (formSection) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }, 400);
+  }
 
    if (mode === "voice") {
     setStep5VoiceMode();
