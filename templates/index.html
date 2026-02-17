@@ -4042,70 +4042,6 @@ Copier
 .header-tagline-quote .quote-highlight {
   color: var(--netexial-orange);
 }
-
-/* =========================================================
-   HERO NUMBER PANEL
-========================================================== */
-.hero-number-panel {
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
-  background: var(--netexial-bleu-principal) !important;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero-number-panel::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 60% 50%, rgba(28, 55, 117, 0.6) 0%, transparent 70%);
-}
-
-.hero-big-number {
-  font-family: 'Monoton', cursive;
-  font-size: clamp(180px, 22vw, 320px);
-  color: rgba(255, 255, 255, 0.08);
-  line-height: 1;
-  position: absolute;
-  user-select: none;
-  letter-spacing: -10px;
-}
-
-.hero-number-panel::after {
-  content: '1';
-  font-family: 'Monoton', cursive;
-  font-size: clamp(120px, 16vw, 220px);
-  color: white;
-  line-height: 1;
-  position: relative;
-  z-index: 2;
-  text-shadow: 0 0 80px rgba(255, 255, 255, 0.3);
-}
-
-/* Override hero h1 for proverb style */
-.hero-content h1 {
-  font-family: 'Monoton', cursive !important;
-  font-size: clamp(20px, 2.5vw, 36px) !important;
-  line-height: 1.5 !important;
-  letter-spacing: 1px !important;
-  font-weight: 400 !important;
-}
-
-@media (max-width: 1024px) {
-  .hero-number-panel::after {
-    font-size: 100px;
-  }
-}
-
-@media (max-width: 600px) {
-  .hero-number-panel {
-    height: 200px !important;
-  }
-  .hero-number-panel::after {
-    font-size: 80px;
-  }
-}
 </style>
 
 
@@ -4128,25 +4064,33 @@ Copier
 
   <!-- HERO SECTION - Style NETEXIAL -->
   <main class="hero-layout">
-    <!-- Numéro côté gauche -->
-    <div class="hero-image hero-number-panel">
-      <span class="hero-big-number">1</span>
+    <!-- Image côté gauche -->
+    <div class="hero-image">
+      <img src="/static/image1.png" alt="Équipe NETEXIAL" />
+      <div class="hero-image-overlay"></div>
     </div>
 
     <!-- Contenu côté droit -->
     <div class="hero-content">
       <div class="hero-content-inner">
-        <h1>Dites-nous plus sur le <span class="highlight">génie</span><br>derrière cette idée</h1>
+        <h1>PARTAGE<br>TON <span class="highlight">IDÉE</span></h1>
         
         <p class="hero-intro">
-          Ces informations nous permettront d'assurer un suivi personnalisé de ton idée,
-          de te recontacter si besoin et de reconnaître ta contribution au sein de NETEXIAL.
-          Chaque détail compte pour donner vie à ta vision.
+          Chez NETEXIAL, nous savons que les meilleures idées viennent du terrain. 
+          Partage en quelques instants une idée d'innovation, une proposition d'amélioration 
+          ou un retour d'expérience.
+        </p>
+
+        <p class="hero-subtitle">
+          <strong>Chaque contribution est analysée</strong> par l'équipe innovation NETEXIAL.
         </p>
 
         <div class="hero-cta">
           <a href="#form-section" class="btn-primary-large">
-            Commencer
+            💡 Partager mon idée
+          </a>
+          <a href="#form-section" class="btn-secondary-large">
+            En savoir plus
           </a>
         </div>
       </div>
@@ -4158,7 +4102,7 @@ Copier
     <div class="form-container">
       <div class="card">
         <div class="card-head">
-          <span class="card-title">CHOISIS TON MODE D'EXPRESSION</span>
+          <span class="card-title">COMMENT VEUX-TU T'EXPRIMER ?</span>
         </div>
 
         <!-- STEP 1 : ACCUEIL + CHOIX MODE -->
