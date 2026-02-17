@@ -215,7 +215,7 @@
 ========================================================== */
 .form-split {
   display: grid;
-  grid-template-columns: 320px 1fr;
+  grid-template-columns: 420px 1fr;
   gap: 48px;
   align-items: start;
 }
@@ -226,17 +226,17 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 24px;
+  gap: 20px;
   padding: 20px 0;
 }
 
 .form-deco-number {
   font-family: 'Monoton', cursive;
-  font-size: 180px;
+  font-size: clamp(140px, 18vw, 260px);
   font-weight: 400;
-  line-height: 0.85;
+  line-height: 0.9;
   color: var(--netexial-bleu-principal);
-  opacity: 0.12;
+  opacity: 0.25;
   margin: 0;
   flex-shrink: 0;
   user-select: none;
@@ -248,11 +248,12 @@
 
 .form-deco-tagline {
   font-family: 'Monoton', cursive;
-  font-size: 13px;
-  line-height: 2;
+  font-size: clamp(16px, 2vw, 22px);
+  line-height: 1.9;
   color: var(--netexial-bleu-principal);
   letter-spacing: 1px;
   text-transform: uppercase;
+  font-weight: 400;
 }
 
 .form-deco-tagline .orange {
@@ -263,16 +264,12 @@
   min-width: 0;
 }
 
-@media (max-width: 1024px) {
-  .form-split {
-    grid-template-columns: 220px 1fr;
-    gap: 28px;
-  }
+@media (max-width: 1200px) {
   .form-deco-number {
-    font-size: 100px;
+    font-size: 120px;
   }
   .form-deco-tagline {
-    font-size: 11px;
+    font-size: 15px;
   }
 }
 
@@ -5018,7 +5015,7 @@ function showStep(id){
       decoPanel.style.display = "";
       decoNumber.textContent = cfg.number;
       decoTagline.innerHTML = cfg.tagline;
-      if (formSplit) formSplit.style.gridTemplateColumns = "320px 1fr";
+      if (formSplit) formSplit.style.gridTemplateColumns = "420px 1fr";
     } else {
       decoPanel.style.display = "none";
       if (formSplit) formSplit.style.gridTemplateColumns = "1fr";
