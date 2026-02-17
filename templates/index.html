@@ -10,12 +10,273 @@
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&family=Monoton&display=swap" rel="stylesheet">
   <style>
   /* =========================================================
-   IDEA PLATFORM — FLUID MODERN DESIGN 2.0
-   Inspired by: Liquid shapes, glassmorphism, bold typography
+   IDEA PLATFORM — NETEXIAL BRAND STYLE
    ========================================================== */
 
 /* =========================================================
-   DESIGN TOKENS - NETEXIAL BRAND GUIDELINES
+   NETEXIAL HEADER
+========================================================== */
+.netexial-header {
+  background: white;
+  padding: 16px 40px;
+  box-shadow: 0 2px 10px rgba(20, 27, 77, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.netexial-header .brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: none;
+  border: none;
+  padding: 0;
+  box-shadow: none;
+}
+
+.netexial-header .brand-name {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: var(--netexial-bleu-principal);
+}
+
+.header-tagline {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--netexial-bleu-fonce);
+  opacity: 0.7;
+}
+
+/* =========================================================
+   HERO LAYOUT - IMAGE LEFT / CONTENT RIGHT
+========================================================== */
+.hero-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 70vh;
+  background: var(--bg-dark);
+}
+
+.hero-image {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hero-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 60%, var(--bg-dark) 100%);
+}
+
+.hero-content {
+  display: flex;
+  align-items: center;
+  padding: 60px 80px;
+  position: relative;
+}
+
+/* Pattern de fond comme sur le site NETEXIAL */
+.hero-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20 L40 20 L40 40 L20 40 Z' fill='none' stroke='%23b8c9e6' stroke-width='1'/%3E%3C/svg%3E");
+  background-size: 50px;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.hero-content-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 550px;
+}
+
+.hero-content h1 {
+  font-family: var(--font-display);
+  font-size: clamp(42px, 5vw, 64px);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--netexial-bleu-principal);
+  margin: 0 0 30px 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.hero-content h1 .highlight {
+  color: var(--netexial-orange);
+}
+
+.hero-intro {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--netexial-bleu-fonce);
+  margin-bottom: 20px;
+}
+
+.hero-subtitle {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--netexial-bleu-principal);
+  margin-bottom: 30px;
+}
+
+.hero-subtitle strong {
+  color: var(--netexial-orange);
+}
+
+.btn-primary-large {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 36px;
+  background: var(--netexial-orange);
+  color: white;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(252, 97, 0, 0.3);
+}
+
+.btn-primary-large:hover {
+  background: #e55800;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(252, 97, 0, 0.4);
+}
+
+.btn-secondary-large {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 36px;
+  background: var(--netexial-bleu-principal);
+  color: white;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(20, 27, 77, 0.3);
+}
+
+.btn-secondary-large:hover {
+  background: var(--netexial-bleu-fonce);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(20, 27, 77, 0.4);
+}
+
+.hero-cta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* =========================================================
+   FORM SECTION
+========================================================== */
+.form-section {
+  background: var(--bg-dark);
+  padding: 60px 40px 100px;
+}
+
+.form-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.card-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--netexial-bleu-principal);
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  padding: 20px 30px;
+  background: white;
+  border-bottom: 3px solid var(--netexial-orange);
+}
+
+/* =========================================================
+   RESPONSIVE HERO
+========================================================== */
+@media (max-width: 1024px) {
+  .hero-layout {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  
+  .hero-image {
+    height: 300px;
+  }
+  
+  .hero-image-overlay {
+    background: linear-gradient(180deg, transparent 60%, var(--bg-dark) 100%);
+  }
+  
+  .hero-content {
+    padding: 40px 24px;
+  }
+  
+  .hero-content h1 {
+    font-size: 36px;
+  }
+}
+
+@media (max-width: 768px) {
+  .netexial-header {
+    padding: 12px 20px;
+  }
+  
+  .netexial-header .brand-name {
+    font-size: 18px;
+  }
+  
+  .header-tagline {
+    display: none;
+  }
+  
+  .hero-image {
+    height: 250px;
+  }
+  
+  .form-section {
+    padding: 40px 16px 80px;
+  }
+}
+
+/* =========================================================
+   LAYOUT PRINCIPAL — MODERN
 ========================================================== */
 :root {
   /* Couleurs principales NETEXIAL */
@@ -432,28 +693,17 @@ p.sub {
    CARTE PRINCIPALE — NETEXIAL LIGHT
 ========================================================== */
 .card {
-  margin-top: 32px;
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(20, 27, 77, 0.1);
-  border-radius: var(--radius-xl);
-  box-shadow: 0 8px 40px rgba(20, 27, 77, 0.1);
+  background: white;
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 8px 40px rgba(20, 27, 77, 0.12);
   overflow: hidden;
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
   position: relative;
 }
 
 /* Bordure gradient animée - NETEXIAL */
 .card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--netexial-bleu-principal), var(--netexial-orange), var(--netexial-bleu-moyen));
-  background-size: 200% 100%;
-  animation: gradient-shift 3s ease infinite;
+  display: none;
 }
 
 /* Inner glow - NETEXIAL */
@@ -487,25 +737,8 @@ p.sub {
   filter: blur(2px);
 }
 
-.card-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 22px 28px;
-  background: linear-gradient(180deg, rgba(193, 209, 235, 0.3), rgba(255, 255, 255, 0.5));
-  border-bottom: 1px solid rgba(20, 27, 77, 0.08);
-  position: relative;
-}
-
 .card-head::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 10%;
-  right: 10%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--netexial-orange), transparent);
+  display: none;
 }
 
 /* =========================================================
@@ -544,9 +777,8 @@ p.sub {
 ========================================================== */
 .intro-main {
   display: grid;
-  grid-template-columns: 1.4fr 1fr;
+  grid-template-columns: 1.2fr 1fr;
   align-items: stretch;
-  border-top: 1px solid rgba(20, 27, 77, 0.08);
   gap: 0;
 }
 
@@ -556,14 +788,14 @@ p.sub {
 }
 
 .intro-main-main {
-  border-right: 1px solid rgba(20, 27, 77, 0.08);
-  background: rgba(255, 255, 255, 0.3);
+  border-right: 1px solid rgba(20, 27, 77, 0.1);
+  background: white;
 }
 
 .intro-main-main h2 {
   margin: 0 0 14px;
   font-family: var(--font-display);
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 600;
   text-transform: uppercase;
   color: var(--netexial-bleu-principal);
@@ -576,7 +808,10 @@ p.sub {
   color: var(--netexial-bleu-fonce);
   max-width: 500px;
   line-height: 1.7;
-  opacity: 0.85;
+}
+
+.intro-lead strong {
+  color: var(--netexial-bleu-principal);
 }
 
 .intro-actions {
@@ -603,30 +838,28 @@ p.sub {
 
 /* Sidebar info - NETEXIAL Light */
 .intro-main-side {
-  background: 
-    radial-gradient(ellipse 150% 100% at 100% 0%, rgba(252, 97, 0, 0.05), transparent),
-    rgba(255, 255, 255, 0.6);
-  border-left: 1px solid rgba(20, 27, 77, 0.08);
+  background: rgba(193, 209, 235, 0.3);
+  border-left: none;
   position: relative;
 }
 
 .intro-main-side::before {
   content: '';
   position: absolute;
-  top: 20%;
-  right: -50%;
+  top: 0;
+  right: 0;
   width: 100%;
-  height: 60%;
-  background: radial-gradient(circle, rgba(252, 97, 0, 0.03), transparent 60%);
-  pointer-events: none;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, var(--netexial-orange));
 }
 
 .intro-main-side h3 {
   margin: 0 0 16px;
   font-family: var(--font-display);
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   text-transform: uppercase;
+  letter-spacing: 1px;
   color: var(--netexial-orange);
 }
 
@@ -635,7 +868,10 @@ p.sub {
   font-size: 14px;
   color: var(--netexial-bleu-principal);
   line-height: 1.7;
-  opacity: 0.8;
+}
+
+.intro-main-side p strong {
+  color: var(--netexial-bleu-principal);
 }
 
 .intro-mini-list {
@@ -648,31 +884,30 @@ p.sub {
   display: flex;
   align-items: flex-start;
   gap: 14px;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
   font-size: 14px;
   color: var(--netexial-bleu-principal);
-  padding: 12px 14px;
-  background: rgba(255, 255, 255, 0.7);
-  border-radius: var(--r-md);
-  border: 1px solid rgba(20, 27, 77, 0.08);
+  padding: 14px 16px;
+  background: white;
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(20, 27, 77, 0.06);
   transition: all 0.3s ease;
 }
 
 .intro-mini-list li:hover {
-  background: rgba(255, 255, 255, 0.95);
-  border-color: rgba(252, 97, 0, 0.3);
   transform: translateX(5px);
-  box-shadow: 0 4px 15px rgba(20, 27, 77, 0.08);
+  box-shadow: 0 4px 15px rgba(20, 27, 77, 0.1);
 }
 
 .intro-mini-list .pill {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--netexial-orange), #e55800);
+  background: var(--netexial-orange);
   color: white;
   font-family: var(--font-display);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -712,43 +947,24 @@ button:focus-visible {
 
 /* Bouton primaire — NETEXIAL Orange */
 .btn-primary {
-  background: linear-gradient(135deg, #FC6100 0%, #e55800 100%);
-  background-size: 200% 200%;
+  background: var(--netexial-orange);
   color: white;
   box-shadow: 0 4px 20px rgba(252, 97, 0, 0.35);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
-  animation: btn-gradient 4s ease infinite;
-}
-
-@keyframes btn-gradient {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+  text-shadow: none;
 }
 
 .btn-primary::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
-  transition: left 0.6s ease;
-}
-
-.btn-primary:hover:not(:disabled)::before {
-  left: 100%;
+  display: none;
 }
 
 .btn-primary:hover:not(:disabled) {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 
-    0 8px 30px rgba(252, 97, 0, 0.45),
-    0 0 40px rgba(252, 97, 0, 0.2);
+  background: #e55800;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 25px rgba(252, 97, 0, 0.4);
 }
 
 .btn-primary:active:not(:disabled) {
-  transform: translateY(-2px) scale(0.98);
+  transform: translateY(-1px);
 }
 
 /* Bouton ghost — NETEXIAL Bleu bordure (thème clair) */
@@ -1365,7 +1581,7 @@ select:disabled {
 }
 
 /* =========================================================
-   BARRE DE SOUMISSION FLOTTANTE
+   BARRE DE SOUMISSION FLOTTANTE - NETEXIAL
 ========================================================== */
 .submitbar {
   position: fixed;
@@ -1383,44 +1599,37 @@ select:disabled {
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 14px 20px;
-  background: linear-gradient(135deg, rgba(10, 10, 18, 0.98), rgba(15, 15, 26, 0.95));
-  border: 1px solid rgba(152, 178, 221, 0.3);
+  padding: 14px 24px;
+  background: var(--netexial-bleu-principal);
+  border: none;
   border-radius: 100px;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: var(--glow-cyan), var(--shadow-abyss);
+  box-shadow: 0 8px 30px rgba(20, 27, 77, 0.3);
 }
 
 #submitBtn {
   border-radius: 100px;
   padding: 14px 28px;
+  background: var(--netexial-orange);
+  color: white;
 }
 
 #statusMsg {
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 12px;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.8);
   letter-spacing: 0.5px;
 }
 
 /* =========================================================
-   PAGE MERCI — CÉLÉBRATION
+   PAGE MERCI — CÉLÉBRATION NETEXIAL
 ========================================================== */
 .thank-panel {
   padding: 60px 50px;
   text-align: center;
-  border-radius: var(--r-xl);
-  background: 
-    radial-gradient(ellipse 100% 80% at 50% 0%, rgba(152, 178, 221, 0.12), transparent 50%),
-    radial-gradient(ellipse 80% 100% at 0% 50%, rgba(252, 97, 0, 0.1), transparent 50%),
-    radial-gradient(ellipse 80% 100% at 100% 50%, rgba(28, 55, 117, 0.08), transparent 50%),
-    radial-gradient(ellipse 100% 80% at 50% 100%, rgba(255, 230, 0, 0.06), transparent 50%),
-    linear-gradient(165deg, rgba(15, 15, 30, 0.95), rgba(5, 5, 12, 0.98));
-  border: 1px solid rgba(152, 178, 221, 0.25);
-  box-shadow: 
-    var(--shadow-abyss),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+  border-radius: 16px;
+  background: white;
+  border: none;
+  box-shadow: 0 8px 40px rgba(20, 27, 77, 0.12);
     0 0 100px rgba(152, 178, 221, 0.1),
     0 0 200px rgba(252, 97, 0, 0.05);
   position: relative;
@@ -3711,103 +3920,129 @@ Copier
 
 </head>
 <body>
-  <!-- Animated Blob Background -->
-  <div class="blob-container">
-    <div class="blob-1"></div>
-    <div class="blob-2"></div>
-    <div class="blob-3"></div>
-  </div>
-
-<div class="wrap">
-  <div class="hero">
-    <div class="brand">
-      <svg width="32" height="32" viewBox="0 0 100 100" fill="none" aria-hidden="true">
-        <path d="M50 15 L65 30 L80 30 L80 45 L65 60 L80 75 L65 75 L50 60 L35 75 L20 75 L35 60 L20 45 L20 30 L35 30 Z" 
-              stroke="#141B4D" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      <span class="badge">NETEXIAL — Espace Innovation</span>
+  <!-- HEADER NETEXIAL -->
+  <header class="netexial-header">
+    <div class="header-inner">
+      <div class="brand">
+        <svg width="40" height="40" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+          <path d="M50 15 L65 30 L80 30 L80 45 L65 60 L80 75 L65 75 L50 60 L35 75 L20 75 L35 60 L20 45 L20 30 L35 30 Z" 
+                stroke="#141B4D" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="brand-name">NETEXIAL</span>
+      </div>
+      <div class="header-tagline">Espace Innovation</div>
     </div>
-  </div>
+  </header>
 
-  <div class="ribbon">
-    🚀 <b>Ton idée, notre avancée.</b> Partage en moins de 2 minutes, nous nous chargeons du reste.
-  </div>
+  <!-- HERO SECTION - Style NETEXIAL -->
+  <main class="hero-layout">
+    <!-- Image côté gauche -->
+    <div class="hero-image">
+      <img src="/static/image1.png" alt="Équipe NETEXIAL" />
+      <div class="hero-image-overlay"></div>
+    </div>
 
-  <h1>PARTAGE TON IDÉE</h1>
-  <p class="sub">
-    Ici, tu peux partager en quelques instants une idée d’innovation, une proposition d’amélioration continue
-    ou un retour terrain. Chaque contribution est analysée par l’équipe innovation NETEXIAL.
-  </p>
+    <!-- Contenu côté droit -->
+    <div class="hero-content">
+      <div class="hero-content-inner">
+        <h1>PARTAGE<br>TON <span class="highlight">IDÉE</span></h1>
+        
+        <p class="hero-intro">
+          Chez NETEXIAL, nous savons que les meilleures idées viennent du terrain. 
+          Partage en quelques instants une idée d'innovation, une proposition d'amélioration 
+          ou un retour d'expérience.
+        </p>
 
-  <div class="card">
-    <div class="card-head"></div>
+        <p class="hero-subtitle">
+          <strong>Chaque contribution est analysée</strong> par l'équipe innovation NETEXIAL.
+        </p>
 
-    <!-- STEP 1 : ACCUEIL + CHOIX MODE -->
-    <section id="step1" class="step-page active">
-      <div class="intro-main">
-        <!-- Colonne gauche : choix du mode -->
-        <div class="intro-main-main">
-          <h2>Comment veux-tu t’exprimer&nbsp;?</h2>
-          <p class="intro-lead">
-            Choisis si tu préfères <b>écrire</b> ou <b>parler</b> ton idée.
-            On te posera ensuite les questions étape par étape, sans tout demander d’un coup.
-          </p>
+        <div class="hero-cta">
+          <a href="#form-section" class="btn-primary-large">
+            💡 Partager mon idée
+          </a>
+          <a href="#form-section" class="btn-secondary-large">
+            En savoir plus
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
 
-          <div class="intro-actions">
-            <button type="button"
-                    id="btnModeText"
-                    class="btn-primary btn-multilang">
-              <span class="btn-icon">✍️</span>
-              <span class="btn-text-rotate" id="textRotateWrite">Je préfère écrire</span>
-            </button>
-
-            <button type="button"
-                    id="btnModeVoice"
-                    class="btn-ghost btn-multilang">
-              <span class="btn-icon">🎙️</span>
-              <span class="btn-text-rotate" id="textRotateSpeak">Je préfère parler</span>
-            </button>
-          </div>
-
-          <p id="modeHint" class="muted small"></p>
-
-          <!-- reCAPTCHA affiché uniquement après le choix -->
-          <div id="captchaRow" style="display:none; margin-top:18px;">
-            <div class="g-recaptcha"
-                 data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
-                 data-callback="onCaptchaSuccess">
-            </div>
-            <p class="muted small" style="margin-top:8px;">
-              Cette étape sert uniquement à sécuriser la plateforme.
-              Après validation, nous t’emmenons directement vers l’étape suivante.
-            </p>
-          </div>
+  <!-- SECTION FORMULAIRE -->
+  <div class="form-section" id="form-section">
+    <div class="form-container">
+      <div class="card">
+        <div class="card-head">
+          <span class="card-title">COMMENT VEUX-TU T'EXPRIMER ?</span>
         </div>
 
-        <!-- Colonne droite : explication légère -->
-        <aside class="intro-main-side">
-          <h3>Ce que tu peux partager</h3>
-          <p>En moins de <b>2 minutes</b>, tu peux nous envoyer :</p>
-          <ul class="intro-mini-list">
-            <li>
-              <span class="pill">1</span>
-              <span>Une idée d’innovation produit, service ou usage client.</span>
-            </li>
-            <li>
-              <span class="pill">2</span>
-              <span>Une amélioration sur un process, un outil, un flux.</span>
-            </li>
-            <li>
-              <span class="pill">3</span>
-              <span>Un problème terrain observé au quotidien.</span>
-            </li>
-          </ul>
-          <p style="margin-top:10px;" class="muted small">
-            L’équipe IDEA analyse chaque contribution.
-          </p>
-        </aside>
-      </div>
-    </section>
+        <!-- STEP 1 : ACCUEIL + CHOIX MODE -->
+        <section id="step1" class="step-page active">
+          <div class="intro-main">
+            <!-- Colonne gauche : choix du mode -->
+            <div class="intro-main-main">
+              <p class="intro-lead">
+                Choisis si tu préfères <strong>écrire</strong> ou <strong>parler</strong> ton idée.
+                On te posera ensuite les questions étape par étape.
+              </p>
+
+              <div class="intro-actions">
+                <button type="button"
+                        id="btnModeText"
+                        class="btn-primary btn-multilang">
+                  <span class="btn-icon">✍️</span>
+                  <span class="btn-text-rotate" id="textRotateWrite">Je préfère écrire</span>
+                </button>
+
+                <button type="button"
+                        id="btnModeVoice"
+                        class="btn-ghost btn-multilang">
+                  <span class="btn-icon">🎙️</span>
+                  <span class="btn-text-rotate" id="textRotateSpeak">Je préfère parler</span>
+                </button>
+              </div>
+
+              <p id="modeHint" class="muted small"></p>
+
+              <!-- reCAPTCHA -->
+              <div id="captchaRow" style="display:none; margin-top:18px;">
+                <div class="g-recaptcha"
+                     data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+                     data-callback="onCaptchaSuccess">
+                </div>
+                <p class="muted small" style="margin-top:8px;">
+                  Cette étape sert uniquement à sécuriser la plateforme.
+                </p>
+              </div>
+            </div>
+
+            <!-- Colonne droite : explication -->
+            <aside class="intro-main-side">
+              <h3>CE QUE TU PEUX PARTAGER</h3>
+              <p>En moins de <strong>2 minutes</strong>, tu peux nous envoyer :</p>
+              <ul class="intro-mini-list">
+                <li>
+                  <span class="pill">1</span>
+                  <span>Une idée d'innovation produit, service ou usage client.</span>
+                </li>
+                <li>
+                  <span class="pill">2</span>
+                  <span>Une amélioration sur un process, un outil, un flux.</span>
+                </li>
+                <li>
+                  <span class="pill">3</span>
+                  <span>Un problème terrain observé au quotidien.</span>
+                </li>
+              </ul>
+              <p style="margin-top:16px;" class="muted small">
+                L'équipe NETEXIAL analyse chaque contribution.
+              </p>
+            </aside>
+          </div>
+        </section>
+
+
 
     <!-- STEP 3 : PROFIL TEXTE (BILINGUE) -->
 <section id="step3" class="step-page">
