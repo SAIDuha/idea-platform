@@ -5014,12 +5014,15 @@ function showStep(id){
 
   if (decoPanel && decoNumber && decoTagline) {
     const cfg = decoConfig[id];
+    const formSplit = document.querySelector(".form-split");
     if (cfg) {
       decoPanel.style.display = "";
       decoNumber.textContent = cfg.number;
       decoTagline.innerHTML = cfg.tagline;
+      if (formSplit) formSplit.style.gridTemplateColumns = "320px 1fr";
     } else {
       decoPanel.style.display = "none";
+      if (formSplit) formSplit.style.gridTemplateColumns = "1fr";
     }
   }
 
