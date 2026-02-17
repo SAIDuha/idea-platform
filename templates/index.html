@@ -4893,6 +4893,12 @@ function showStep(id){
     if (typeof stopLangPageRotation === "function") stopLangPageRotation();
   }
   
+  // Masquer le hero quand on quitte step1
+  const heroLayout = document.querySelector(".hero-layout");
+  if (heroLayout) {
+    heroLayout.style.display = id === "step1" ? "" : "none";
+  }
+
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
