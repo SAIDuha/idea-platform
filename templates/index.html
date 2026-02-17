@@ -4189,7 +4189,7 @@ Copier
         <div class="form-card-col">
       <div class="card">
         <div class="card-head">
-          <span class="card-title">COMMENT VEUX-TU T'EXPRIMER ?</span>
+          <span class="card-title" id="cardTitle">COMMENT VEUX-TU T'EXPRIMER ?</span>
         </div>
 
         <!-- STEP 1 : ACCUEIL + CHOIX MODE -->
@@ -4987,6 +4987,20 @@ function showStep(id){
   const heroLayout = document.querySelector(".hero-layout");
   if (heroLayout) {
     heroLayout.style.display = id === "step1" ? "" : "none";
+  }
+
+  // Mettre à jour le titre de la card selon l'étape
+  const cardTitle = document.getElementById("cardTitle");
+  if (cardTitle) {
+    const titles = {
+      step1:      "COMMENT VEUX-TU T'EXPRIMER ?",
+      stepVoice:  "COMMENT VEUX-TU T'EXPRIMER ?",
+      step3:      `TON <span style="color:var(--netexial-orange)">NOM</span> MÉRITE D'ÊTRE CONNU`,
+      step4:      `TON <span style="color:var(--netexial-orange)">NOM</span> MÉRITE D'ÊTRE CONNU`,
+      step5:      `TON <span style="color:var(--netexial-orange)">NOM</span> MÉRITE D'ÊTRE CONNU`,
+      stepThanks: "COMMENT VEUX-TU T'EXPRIMER ?"
+    };
+    cardTitle.innerHTML = titles[id] || "COMMENT VEUX-TU T'EXPRIMER ?";
   }
 
   // Mettre à jour le panneau décoratif gauche
