@@ -3287,26 +3287,22 @@ Ajoute cette ligne dans ton <head> :
 
 /* En-tête bilingue */
 #step5 .idea-header-bilingual {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
+  display: block;
   margin-bottom: 20px;
   padding-bottom: 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(20, 27, 77, 0.08);
 }
 
 #step5 .idea-header-lang {
-  padding: 16px 20px;
-  background: linear-gradient(145deg, rgba(252, 97, 0, 0.08), rgba(28, 55, 117, 0.04));
-  border: 1px solid rgba(252, 97, 0, 0.25);
-  border-radius: var(--r-md);
+  display: none;
 }
 
 #step5 .idea-header-fr {
   padding: 16px 20px;
-  background: linear-gradient(145deg, rgba(152, 178, 221, 0.06), rgba(0, 180, 255, 0.03));
-  border: 1px solid rgba(152, 178, 221, 0.2);
+  background: linear-gradient(145deg, rgba(193, 209, 235, 0.3), rgba(193, 209, 235, 0.1));
+  border: 1px solid rgba(20, 27, 77, 0.12);
   border-radius: var(--r-md);
+  width: 100%;
 }
 
 #step5 .idea-header-bilingual h3 {
