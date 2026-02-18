@@ -5945,6 +5945,7 @@ async function startProfileRecording(){
 
     profileMediaRecorder.start();
     if (profileRecBtn) profileRecBtn.textContent = "⏹️ Arrêter";
+    if (profileRecBtnMirror) profileRecBtnMirror.textContent = "⏹️ Arrêter";
   } catch(err){
     alert("Impossible d'accéder au micro : " + err);
   }
@@ -5954,6 +5955,7 @@ function stopProfileRecording(){
   if(profileMediaRecorder && profileMediaRecorder.state !== "inactive"){
     profileMediaRecorder.stop();
     if (profileRecBtn) profileRecBtn.textContent = "🎙️ Démarrer l’enregistrement";
+    if (profileRecBtnMirror) profileRecBtnMirror.textContent = "🎙️ Démarrer l'enregistrement";
     if(profileStream) profileStream.getTracks().forEach(t => t.stop());
   }
 }
