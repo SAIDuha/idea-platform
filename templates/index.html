@@ -1465,46 +1465,14 @@ select:disabled {
   position: relative;
   padding: 35px;
   border-radius: var(--r-xl);
-  background: linear-gradient(165deg, rgba(15, 15, 26, 0.95), rgba(10, 10, 18, 0.98));
-  border: 1px solid rgba(252, 97, 0, 0.2);
+  background: white;
+  border: 1px solid rgba(20, 27, 77, 0.12);
   overflow: hidden;
-  box-shadow: var(--shadow-abyss);
+  box-shadow: var(--shadow-md);
 }
 
 #stepVoice .voice-bg {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-  opacity: 0.12;
-}
-
-#stepVoice .voice-bg::before {
-  content: '';
-  position: absolute;
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(252, 97, 0, 0.2), transparent 60%);
-  filter: blur(40px);
-  animation: pulse-bg 4s ease-in-out infinite;
-}
-
-@keyframes pulse-bg {
-  0%, 100% { transform: scale(1); opacity: 0.5; }
-  50% { transform: scale(1.2); opacity: 0.8; }
-}
-
-#stepVoice .voice-bg img {
-  max-width: 350px;
-  filter: drop-shadow(0 0 40px rgba(252, 97, 0, 0.5)) saturate(0.8);
-  animation: levitate 6s ease-in-out infinite;
-}
-
-@keyframes levitate {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-25px) rotate(3deg); }
+  display: none;
 }
 
 #stepVoice .voice-foreground {
@@ -1514,9 +1482,9 @@ select:disabled {
 
 #stepVoice #voiceLangCard.panel,
 #stepVoice #voiceProfileCard.panel {
-  background: linear-gradient(165deg, rgba(20, 20, 35, 0.9), rgba(10, 10, 18, 0.95));
-  border: 1px solid rgba(252, 97, 0, 0.25);
-  box-shadow: var(--glow-magenta);
+  background: white;
+  border: 1px solid rgba(20, 27, 77, 0.12);
+  box-shadow: var(--shadow-sm);
 }
 
 .profile-bilingual-grid {
@@ -5034,7 +5002,7 @@ function showStep(id){
     const titles = {
       step1:      "COMMENT VEUX-TU T'EXPRIMER ?",
       stepVoice:  "COMMENT VEUX-TU T'EXPRIMER ?",
-      step3:      `TON <span style="color:var(--netexial-orange)">NOM</span> MÉRITE D'ÊTRE CONNU`,
+      stepVoice:  `PARLE, ON T'ÉCOUTE <span style="color:var(--netexial-orange)">GÉNIE</span> !`,
       step4:      `LAISSE-NOUS LE <span style="color:var(--netexial-orange)">PRIVILÈGE</span> DE T'ÉCRIRE`,
       step5:      `<span style="color:var(--netexial-orange)">ÉCRIS</span> CE QUI PEUT TOUT <span style="color:var(--netexial-orange)">CHANGER</span>`,
       stepThanks: `TU VIENS DE FAIRE LE <span style="color:var(--netexial-orange)">PREMIER</span> PAS`,
@@ -5047,6 +5015,10 @@ function showStep(id){
   const decoNumber = document.getElementById("formDecoNumber");
   const decoTagline = document.getElementById("formDecoTagline");
   const decoConfig = {
+    stepVoice: {
+      number: "1",
+      tagline: `PARLE,<br>ON<br>T'ÉCOUTE,<br><span class="orange">GÉNIE</span> !`
+    },
     step3: {
       number: "1",
       tagline: `ON COMMENCE<br>PAR TOI,<br><span class="orange">GÉNIE</span> !`
