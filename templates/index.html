@@ -1597,39 +1597,37 @@ select:disabled {
   border-radius: 0 var(--r-sm) var(--r-sm) 0;
 }
 
-/* ── En-tête étape voiceProfileCard ── */
+/* ── En-tête étape voiceProfileCard — zone bleue au-dessus de la carte ── */
 .voice-profile-header {
   display: flex;
   align-items: center;
   gap: 20px;
-  padding: 20px 28px;
-  margin-bottom: 16px;
-  background: linear-gradient(135deg, var(--netexial-bleu-principal) 0%, #1e2d8a 100%);
-  border-radius: 14px;
+  padding: 24px 32px 20px;
+  margin-bottom: 0;
 }
 
 .voice-step-badge {
   flex-shrink: 0;
-  width: 56px;
-  height: 56px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   background: var(--netexial-orange);
   color: white;
   font-family: 'Monoton', cursive;
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 400;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 16px rgba(252, 97, 0, 0.45);
+  box-shadow: 0 4px 20px rgba(252, 97, 0, 0.5);
 }
 
 .voice-step-tagline {
   font-family: 'Monoton', cursive;
-  font-size: clamp(14px, 2vw, 20px);
+  font-size: clamp(14px, 2vw, 22px);
   font-weight: 400;
   letter-spacing: 1px;
-  color: white;
+  color: var(--netexial-bleu-principal);
   text-transform: uppercase;
   line-height: 1.3;
 }
@@ -4307,6 +4305,13 @@ Copier
 
         <!-- COLONNE FORMULAIRE DROITE -->
         <div class="form-card-col">
+
+      <!-- En-tête étape profil vocal — dans la zone bleue AU-DESSUS de la carte -->
+      <div id="voiceProfileHeaderOuter" class="voice-profile-header" style="display:none;">
+        <span class="voice-step-badge">2</span>
+        <div class="voice-step-tagline">ON COMMENCE PAR TOI,&nbsp;<span class="orange">GÉNIE</span>&nbsp;!</div>
+      </div>
+
       <div class="card">
         <div class="card-head">
           <span class="card-title" id="cardTitle">COMMENT VEUX-TU T'EXPRIMER ?</span>
@@ -4845,12 +4850,6 @@ Copier
                 </button>
               </div>
             </div>
-          </div>
-
-          <!-- En-tête étape (hors panel) -->
-          <div id="voiceProfileHeaderOuter" class="voice-profile-header" style="display:none;">
-            <span class="voice-step-badge">2</span>
-            <div class="voice-step-tagline">ON COMMENCE PAR TOI,&nbsp;<span class="orange">GÉNIE</span>&nbsp;!</div>
           </div>
 
           <!-- Étape 1 : cartes bilingues + enregistrement profil -->
