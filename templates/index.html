@@ -3812,40 +3812,19 @@ Copier
    ============================================================ */
 
 /* Container pour le robot dans l'en-tête */
+/* Robot masqué définitivement */
 #step5 .idea-header-robot {
-  display: none;
-  position: absolute;
-  right: -10px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 100px;
-  height: 100px;
-  pointer-events: none;
-  z-index: 10;
+  display: none !important;
 }
 
-#step5 .idea-header-robot img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  filter: drop-shadow(0 0 20px rgba(152, 178, 221, 0.3));
-  animation: robot-float-mini 4s ease-in-out infinite;
-}
-
-@keyframes robot-float-mini {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-/* Afficher le robot flottant uniquement en mode texte */
 #step5.text-mode .idea-header-robot {
-  display: block;
+  display: none !important;
 }
 
-/* Ajuster le padding de l'en-tête pour laisser place au robot */
+/* Plus de padding pour le robot */
 #step5.text-mode .idea-header-bilingual {
   position: relative;
-  padding-right: 110px;
+  padding-right: 0;
 }
 
 #step5.text-mode .idea-header-lang,
@@ -3853,17 +3832,49 @@ Copier
   position: relative;
 }
 
-/* Mobile : robot plus petit */
+/* Mobile */
 @media (max-width: 768px) {
   #step5 .idea-header-robot {
-    width: 70px;
-    height: 70px;
-    right: 0;
+    display: none !important;
   }
   
   #step5.text-mode .idea-header-bilingual {
-    padding-right: 80px;
+    padding-right: 0;
   }
+}
+
+/* Choice-row items — bleu marine */
+#step5 .choice-row .radio-item {
+  background: var(--netexial-bleu-principal) !important;
+  border-color: var(--netexial-bleu-principal) !important;
+}
+
+#step5 .choice-row .radio-item span {
+  color: white !important;
+  font-weight: 600;
+}
+
+#step5 .choice-row .radio-item input {
+  accent-color: white;
+}
+
+#step5 .choice-row .radio-item:hover {
+  background: var(--netexial-bleu-fonce) !important;
+  border-color: var(--netexial-bleu-fonce) !important;
+}
+
+/* Boutons médias — bleu marine */
+#mediaCaptureBtn,
+#mediaUploadBtn {
+  background: var(--netexial-bleu-principal) !important;
+  color: white !important;
+  border-color: var(--netexial-bleu-principal) !important;
+}
+
+#mediaCaptureBtn:hover,
+#mediaUploadBtn:hover {
+  background: var(--netexial-bleu-fonce) !important;
+  border-color: var(--netexial-bleu-fonce) !important;
 }
 
 /* ============================================================
@@ -4523,13 +4534,6 @@ Copier
           <span class="section-label label-fr">Type de contribution</span>
         </div>
         <div class="choice-row">
-          <label class="radio-item">
-            <input type="checkbox" name="shareType" value="Difficulté">
-            <span class="bilingual-text">
-              <span class="text-lang" id="checkDifficultyLang">Une difficulté</span>
-              <span class="text-fr">Une difficulté</span>
-            </span>
-          </label>
           <label class="radio-item">
             <input type="checkbox" name="shareType" value="Amélioration">
             <span class="bilingual-text">
