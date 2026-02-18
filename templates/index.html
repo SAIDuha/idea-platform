@@ -1756,9 +1756,73 @@ select:disabled {
 }
 
 /* =========================================================
-   PAGE MERCI — CÉLÉBRATION NETEXIAL
+   PAGE MERCI — NOUVEAU DESIGN CLEAN
 ========================================================== */
-.thank-panel {
+#stepThanks .thank-panel {
+  background: white;
+  border-radius: var(--r-xl);
+  padding: 80px 60px;
+  text-align: center;
+  box-shadow: var(--shadow-md);
+}
+
+.thank-big-title {
+  font-family: 'Monoton', cursive;
+  font-size: clamp(80px, 14vw, 160px);
+  font-weight: 400;
+  color: var(--netexial-orange);
+  line-height: 1;
+  margin: 0 0 32px 0;
+  letter-spacing: 4px;
+}
+
+.thank-langs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 20px;
+  margin-bottom: 48px;
+}
+
+.thank-langs span {
+  font-family: 'Monoton', cursive;
+  font-size: clamp(13px, 1.5vw, 18px);
+  color: var(--netexial-bleu-principal);
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.thank-sub {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--netexial-bleu-fonce);
+  max-width: 520px;
+  margin: 0 auto 40px;
+  opacity: 0.8;
+}
+
+.btn-back-home {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  background: var(--netexial-bleu-principal);
+  color: white;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 15px;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-back-home:hover {
+  background: var(--netexial-bleu-fonce);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(20, 27, 77, 0.3);
+}
   padding: 60px 50px;
   text-align: center;
   border-radius: 16px;
@@ -4878,93 +4942,28 @@ Copier
       </div>
     </section>
 
-    <!-- STEP MERCI : CONFIRMATION FINALE SPECTACULAIRE -->
+    <!-- STEP MERCI : CONFIRMATION FINALE -->
     <section id="stepThanks" class="step-page">
-      <div class="panel thank-panel">
-        <!-- Mots "Merci" flottants multilingues - DANS LE PANNEAU -->
-        <div class="thank-words-cloud">
-          <span class="thank-word">Gracias</span>
-          <span class="thank-word">Thank you</span>
-          <span class="thank-word">Danke</span>
-          <span class="thank-word">Grazie</span>
-          <span class="thank-word">Obrigado</span>
-          <span class="thank-word">Спасибо</span>
-          <span class="thank-word">ありがとう</span>
-          <span class="thank-word">شكراً</span>
-          <span class="thank-word">감사합니다</span>
-          <span class="thank-word">Dziękuję</span>
-          <span class="thank-word">Teşekkürler</span>
-          <span class="thank-word">Tack</span>
+      <div class="thank-panel">
+
+        <div class="thank-big-title">MERCI</div>
+
+        <div class="thank-langs">
+          <span>Gracias</span><span>Thank you</span><span>Danke</span><span>Grazie</span><span>Obrigado</span><span>Спасибо</span><span>ありがとう</span><span>شكراً</span><span>감사합니다</span><span>Dziękuję</span><span>Teşekkürler</span><span>Tack</span><span>Multumesc</span><span>شكراً</span><span>Ευχαριστώ</span>
         </div>
 
-        <!-- Étoiles scintillantes -->
-        <div class="sparkle-bg">
-          <div class="sparkle"></div>
-          <div class="sparkle"></div>
-          <div class="sparkle"></div>
-          <div class="sparkle"></div>
-          <div class="sparkle"></div>
-          <div class="sparkle"></div>
-          <div class="sparkle"></div>
-          <div class="sparkle"></div>
-          <div class="sparkle"></div>
-          <div class="sparkle"></div>
-        </div>
+        <p class="thank-sub">
+          Ton idée va maintenant être analysée par l'équipe innovation NETEXIAL.<br>
+          Si un suivi est nécessaire, nous te recontacterons via le mode que tu as choisi.
+        </p>
 
-        <!-- Confettis animés -->
-        <div class="confetti-container">
-          <div class="confetti"></div>
-          <div class="confetti"></div>
-          <div class="confetti"></div>
-          <div class="confetti"></div>
-          <div class="confetti"></div>
-          <div class="confetti"></div>
-          <div class="confetti"></div>
-          <div class="confetti"></div>
-          <div class="confetti"></div>
-          <div class="confetti"></div>
-          <div class="confetti"></div>
-          <div class="confetti"></div>
-        </div>
+        <button type="button" class="btn-back-home" id="backToHomeBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Retour à l'accueil
+        </button>
 
-        <div class="thank-layout">
-          <div class="thank-text">
-            <!-- Titre principal -->
-            <div class="thank-main-title">
-              <h2>Merci <span class="emoji-bulb">💡</span></h2>
-              <div class="thank-idea-badge">IDEA</div>
-            </div>
-
-            <p>
-              Toute l'équipe <b>IDEA</b> te remercie chaleureusement pour ta contribution.
-              Grâce à des personnes comme toi, nous continuons à nous améliorer
-              chaque jour, chaque heure, chaque minute.
-            </p>
-            <p>
-              Ton IDEA va maintenant être analysée par l'équipe innovation.
-              Si un suivi est nécessaire, nous te recontacterons via le mode que tu as choisi.
-            </p>
-
-            <div class="thank-highlight">
-              <span>Sans idées, il n'y a pas de progrès. Merci d'avoir pris le temps de partager la tienne.</span>
-            </div>
-
-            <!-- Robot au centre avec effets -->
-            <div class="thank-robot">
-              <div class="thank-robot-orbit">
-                <div class="thank-robot-ring"></div>
-                <img src="/static/cawe_robot.png" alt="Robot IDEA qui te remercie">
-              </div>
-            </div>
-
-            <button type="button" class="btn-back-home" id="backToHomeBtn">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              Retour à l'accueil IDEA
-            </button>
-          </div>
-        </div>
       </div>
     </section>
 
