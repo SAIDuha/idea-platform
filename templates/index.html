@@ -6481,12 +6481,41 @@ backToProfileBtn?.addEventListener("click", () => {
 });
 nextFromContactBtn?.addEventListener("click", () => {
   showStep("step5");
-  // En mode texte, activer la validation en temps réel
   if (chosenMode === "text") {
     validateTextModeForm();
   }
+  if (chosenMode === "voice") {
+    // Masquer le header vocal, afficher le panneau gauche avec 4
+    const voiceProfileHeaderOuter = document.getElementById("voiceProfileHeaderOuter");
+    if (voiceProfileHeaderOuter) voiceProfileHeaderOuter.style.display = "none";
+    const decoPanel = document.getElementById("formDecoPanel");
+    const decoNumber = document.getElementById("formDecoNumber");
+    const decoTagline = document.getElementById("formDecoTagline");
+    const formSplit = document.querySelector(".form-split");
+    if (decoPanel) decoPanel.style.display = "";
+    if (decoNumber) decoNumber.textContent = "4";
+    if (decoTagline) decoTagline.innerHTML = 'BALANCE<br>TON<br><span class="orange">IDÉE</span> !';
+    if (formSplit) formSplit.style.gridTemplateColumns = "420px 1fr";
+  }
 });
-backToContactBtn?.addEventListener("click", () => showStep("step4"));
+backToContactBtn?.addEventListener("click", () => {
+  showStep("step4");
+  if (chosenMode === "voice") {
+    // Remettre le header vocal à 3, cacher le panneau gauche
+    const voiceProfileHeaderOuter = document.getElementById("voiceProfileHeaderOuter");
+    if (voiceProfileHeaderOuter) {
+      voiceProfileHeaderOuter.style.display = "flex";
+      const badge = voiceProfileHeaderOuter.querySelector(".voice-step-badge");
+      const tagline = voiceProfileHeaderOuter.querySelector(".voice-step-tagline");
+      if (badge) badge.textContent = "3";
+      if (tagline) tagline.innerHTML = 'COMMENT TE JOINDRE,&nbsp;<span class="orange">GÉNIE</span>&nbsp;?';
+    }
+    const decoPanel = document.getElementById("formDecoPanel");
+    if (decoPanel) decoPanel.style.display = "none";
+    const formSplit = document.querySelector(".form-split");
+    if (formSplit) formSplit.style.gridTemplateColumns = "1fr";
+  }
+});
 
 // --- Validation du formulaire en mode TEXTE ---
 function validateTextModeForm() {
