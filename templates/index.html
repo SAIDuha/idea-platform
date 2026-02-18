@@ -1715,18 +1715,37 @@ select:disabled {
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 14px 24px;
-  background: var(--netexial-bleu-principal);
+  padding: 0;
+  background: none;
   border: none;
-  border-radius: 100px;
-  box-shadow: 0 8px 30px rgba(20, 27, 77, 0.3);
+  border-radius: 0;
+  box-shadow: none;
 }
 
 #submitBtn {
   border-radius: 100px;
-  padding: 14px 28px;
+  padding: 16px 36px;
   background: var(--netexial-orange);
   color: white;
+  font-size: 16px;
+  font-weight: 700;
+  box-shadow: 0 8px 30px rgba(252, 97, 0, 0.4);
+  transition: all 0.4s ease;
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+}
+
+#submitBtn:not(:disabled) {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+#submitBtn:hover:not(:disabled) {
+  background: #e55800;
+  box-shadow: 0 12px 40px rgba(252, 97, 0, 0.5);
+  transform: translateY(-2px);
 }
 
 #statusMsg {
