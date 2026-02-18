@@ -837,10 +837,11 @@ Bloc français de référence :
 - title_fr  : "Présente-toi à l’oral"
 - intro_fr  : "Dans cet enregistrement, indique simplement :"
 - items_fr  :
-  1. "Ton nom et prénom."
-  2. "Le site sur lequel tu travailles."
-  3. "Ton service."
-  4. "Ta fonction (poste occupé)."
+  1. "Ton nom."
+  2. "Ton prénom."
+  3. "Le site sur lequel tu travailles."
+  4. "Ton service."
+  5. "Ta fonction (poste occupé)."
 - rec_label_fr    : "🎙️ Démarrer l’enregistrement"
 - upload_label_fr : "📁 Importer un audio"
 - notice_fr       : "🔒 Ton audio est utilisé uniquement pour générer le texte ci-dessous.
@@ -866,10 +867,11 @@ Tu réponds STRICTEMENT avec CE JSON unique :
     "title": "traduction de title_fr dans la langue détectée",
     "intro": "traduction de intro_fr",
     "items": [
-      "traduction de l’item 1",
-      "traduction de l’item 2",
-      "traduction de l’item 3",
-      "traduction de l’item 4"
+      "traduction de l'item 1",
+      "traduction de l'item 2",
+      "traduction de l'item 3",
+      "traduction de l'item 4",
+      "traduction de l'item 5"
     ],
     "rec_label": "traduction de rec_label_fr, emoji conservé",
     "upload_label": "traduction de upload_label_fr, emoji conservé",
