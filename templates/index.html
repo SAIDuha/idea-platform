@@ -1601,23 +1601,23 @@ select:disabled {
 .voice-profile-header {
   display: flex;
   align-items: center;
-  gap: 18px;
-  padding: 18px 24px;
-  margin: -4px -4px 24px -4px;
+  gap: 20px;
+  padding: 20px 28px;
+  margin-bottom: 16px;
   background: linear-gradient(135deg, var(--netexial-bleu-principal) 0%, #1e2d8a 100%);
-  border-radius: 14px 14px 0 0;
+  border-radius: 14px;
 }
 
 .voice-step-badge {
   flex-shrink: 0;
-  width: 52px;
-  height: 52px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   background: var(--netexial-orange);
   color: white;
-  font-family: var(--font-display);
-  font-size: 26px;
-  font-weight: 700;
+  font-family: 'Monoton', cursive;
+  font-size: 24px;
+  font-weight: 400;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1625,13 +1625,13 @@ select:disabled {
 }
 
 .voice-step-tagline {
-  font-family: var(--font-display);
-  font-size: clamp(16px, 2.5vw, 22px);
-  font-weight: 700;
-  letter-spacing: 2px;
+  font-family: 'Monoton', cursive;
+  font-size: clamp(14px, 2vw, 20px);
+  font-weight: 400;
+  letter-spacing: 1px;
   color: white;
   text-transform: uppercase;
-  line-height: 1.2;
+  line-height: 1.3;
 }
 
 .voice-step-tagline .orange {
@@ -4847,14 +4847,14 @@ Copier
             </div>
           </div>
 
+          <!-- En-tête étape (hors panel) -->
+          <div id="voiceProfileHeaderOuter" class="voice-profile-header" style="display:none;">
+            <span class="voice-step-badge">2</span>
+            <div class="voice-step-tagline">ON COMMENCE PAR TOI,&nbsp;<span class="orange">GÉNIE</span>&nbsp;!</div>
+          </div>
+
           <!-- Étape 1 : cartes bilingues + enregistrement profil -->
           <div id="voiceProfileCard" class="panel" style="display:none;">
-
-            <!-- En-tête étape -->
-            <div class="voice-profile-header">
-              <span class="voice-step-badge">2</span>
-              <div class="voice-step-tagline">ON COMMENCE PAR TOI,&nbsp;<span class="orange">GÉNIE</span>&nbsp;!</div>
-            </div>
 
             <!-- Switch simple pour mobile -->
             <div class="voice-switch" id="voiceSwitch">
@@ -6216,6 +6216,8 @@ applyLanguageToIdea(langData);
 
   if (voiceLangCard)   voiceLangCard.style.display = "none";
   if (voiceProfileCard) voiceProfileCard.style.display = "block";
+  const voiceProfileHeaderOuter = document.getElementById("voiceProfileHeaderOuter");
+  if (voiceProfileHeaderOuter) voiceProfileHeaderOuter.style.display = "flex";
 
   // Centrer le layout pour le profil
   const formSplit = document.querySelector(".form-split");
@@ -6475,6 +6477,8 @@ document.getElementById("typedText")?.addEventListener("input", validateTextMode
 
 backToModeVoice?.addEventListener("click", () => {
   if (voiceProfileCard) voiceProfileCard.style.display = "none";
+  const voiceProfileHeaderOuter = document.getElementById("voiceProfileHeaderOuter");
+  if (voiceProfileHeaderOuter) voiceProfileHeaderOuter.style.display = "none";
   if (voiceLangCard) voiceLangCard.style.display = "block";
 });
 
