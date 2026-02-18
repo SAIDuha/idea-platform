@@ -6561,11 +6561,7 @@ nextFromVoice?.addEventListener("click", () => {
 
 // bouton retour à l’accueil après la page Merci
 backToHomeBtn?.addEventListener("click", () => {
-  showStep("step1");
-  const submitBar = document.querySelector(".submitbar");
-  if (submitBar) submitBar.style.display = "flex";
-  if (submitBtn) submitBtn.disabled = true;
-  if (statusMsg) statusMsg.textContent = "";
+  location.reload();
 });
 
 // --- Soumission finale ---
