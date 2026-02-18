@@ -6443,9 +6443,42 @@ function validateProfileForm(){
 
 backToIntroBtn?.addEventListener("click", () => showStep("step1"));
 nextFromProfileBtn?.addEventListener("click", () => {
-  if (validateProfileForm()) showStep("step4");
+  if (validateProfileForm()) {
+    showStep("step4");
+    if (chosenMode === "voice") {
+      // Cacher le panneau gauche, mettre à jour le header vocal
+      const decoPanel = document.getElementById("formDecoPanel");
+      if (decoPanel) decoPanel.style.display = "none";
+      const formSplit = document.querySelector(".form-split");
+      if (formSplit) formSplit.style.gridTemplateColumns = "1fr";
+      const voiceProfileHeaderOuter = document.getElementById("voiceProfileHeaderOuter");
+      if (voiceProfileHeaderOuter) {
+        voiceProfileHeaderOuter.style.display = "flex";
+        const badge = voiceProfileHeaderOuter.querySelector(".voice-step-badge");
+        const tagline = voiceProfileHeaderOuter.querySelector(".voice-step-tagline");
+        if (badge) badge.textContent = "3";
+        if (tagline) tagline.innerHTML = 'COMMENT TE JOINDRE,&nbsp;<span class="orange">GÉNIE</span>&nbsp;?';
+      }
+    }
+  }
 });
-backToProfileBtn?.addEventListener("click", () => showStep("step3"));
+backToProfileBtn?.addEventListener("click", () => {
+  showStep("step3");
+  if (chosenMode === "voice") {
+    const decoPanel = document.getElementById("formDecoPanel");
+    if (decoPanel) decoPanel.style.display = "none";
+    const formSplit = document.querySelector(".form-split");
+    if (formSplit) formSplit.style.gridTemplateColumns = "1fr";
+    const voiceProfileHeaderOuter = document.getElementById("voiceProfileHeaderOuter");
+    if (voiceProfileHeaderOuter) {
+      voiceProfileHeaderOuter.style.display = "flex";
+      const badge = voiceProfileHeaderOuter.querySelector(".voice-step-badge");
+      const tagline = voiceProfileHeaderOuter.querySelector(".voice-step-tagline");
+      if (badge) badge.textContent = "2";
+      if (tagline) tagline.innerHTML = 'ON COMMENCE PAR TOI,&nbsp;<span class="orange">GÉNIE</span>&nbsp;!';
+    }
+  }
+});
 nextFromContactBtn?.addEventListener("click", () => {
   showStep("step5");
   // En mode texte, activer la validation en temps réel
