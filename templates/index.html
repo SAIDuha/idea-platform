@@ -6485,7 +6485,17 @@ backToModeVoice?.addEventListener("click", () => {
 });
 
 nextFromVoice?.addEventListener("click", () => {
+  // Masquer le header vocal et le panneau déco gauche (mode parler uniquement)
+  const voiceProfileHeaderOuter = document.getElementById("voiceProfileHeaderOuter");
+  if (voiceProfileHeaderOuter) voiceProfileHeaderOuter.style.display = "none";
+  const decoPanel = document.getElementById("formDecoPanel");
+  if (decoPanel) decoPanel.style.display = "none";
+  const formSplit = document.querySelector(".form-split");
+  if (formSplit) formSplit.style.gridTemplateColumns = "1fr";
   showStep("step3");
+  // Re-cacher le panneau déco après showStep (qui peut le réactiver)
+  if (decoPanel) decoPanel.style.display = "none";
+  if (formSplit) formSplit.style.gridTemplateColumns = "1fr";
   updateProfileHintsUI();
 });
 
