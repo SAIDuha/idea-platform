@@ -705,7 +705,8 @@ def transcribe():
                 [
                     {"text": system_prompt},
                     {"inline_data": {"mime_type": mime, "data": b64}},
-                ]
+                ],
+                request_options={"timeout": 90}
             )
         except Exception as e_inline:
             try:
@@ -714,7 +715,8 @@ def transcribe():
                     [
                         {"text": system_prompt},
                         uploaded,
-                    ]
+                    ],
+                    request_options={"timeout": 90}
                 )
             except Exception as e_upload:
                 return (
@@ -884,7 +886,7 @@ Aucun texte en dehors de ce JSON.
 
     try:
         model = genai.GenerativeModel(MODEL_ID)
-        resp = model.generate_content(prompt)
+        resp = model.generate_content(prompt, request_options={"timeout": 25})
         raw = getattr(resp, "text", "") or "{}"
         parsed = force_json(raw)
 
@@ -971,7 +973,7 @@ Texte à analyser :
 
     try:
         model = genai.GenerativeModel(MODEL_ID)
-        resp = model.generate_content(prompt)
+        resp = model.generate_content(prompt, request_options={"timeout": 25})
 
         raw = getattr(resp, "text", "") or "{}"
         parsed = force_json(raw)
@@ -1078,7 +1080,7 @@ Aucun texte en dehors de ce JSON.
 
     try:
         model = genai.GenerativeModel(MODEL_ID)
-        resp = model.generate_content(prompt)
+        resp = model.generate_content(prompt, request_options={"timeout": 25})
         raw = getattr(resp, "text", "") or "{}"
         parsed = force_json(raw)
 
@@ -1144,7 +1146,7 @@ Aucun texte en dehors de ce JSON.
 
     try:
         model = genai.GenerativeModel(MODEL_ID)
-        resp = model.generate_content(prompt)
+        resp = model.generate_content(prompt, request_options={"timeout": 25})
         raw = getattr(resp, "text", "") or "{}"
         parsed = force_json(raw)
 
@@ -1275,7 +1277,7 @@ Aucun texte en dehors de ce JSON.
 
     try:
         model = genai.GenerativeModel(MODEL_ID)
-        resp = model.generate_content(prompt)
+        resp = model.generate_content(prompt, request_options={"timeout": 25})
         raw = getattr(resp, "text", "") or "{}"
         parsed = force_json(raw)
 
