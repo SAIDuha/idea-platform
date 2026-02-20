@@ -3800,7 +3800,7 @@ Copier
 #step5.voice-mode .field-group:has(#ideaTitle),
 #step5.voice-mode .field-group:has(#typedText),
 #step5.voice-mode .field-group:has(#impactSelect),
-#step5.voice-mode .field-group:has(input[name='shareType']) {
+#step5.voice-mode .field-group:has(.choice-row) {
   display: none !important;
 }
 
@@ -4621,37 +4621,6 @@ Copier
         </button>
       </div>
 
-      <!-- EST-CE QUE L'IDÉE EST DÉJÀ EN TEST ? -->
-      <div class="field-group" data-field="already-tested">
-        <div class="bilingual-label">
-          <span class="section-label label-lang" id="labelAlreadyTestedLang">Est-ce que l'idée est déjà en test ?</span>
-          <span class="section-label label-fr">Est-ce que l'idée est déjà en test ?</span>
-        </div>
-        <div class="choice-row">
-          <label class="radio-item">
-            <input type="radio" name="alreadyTested" value="Oui">
-            <span class="bilingual-text">
-              <span class="text-lang">Oui</span>
-              <span class="text-fr">Oui</span>
-            </span>
-          </label>
-          <label class="radio-item">
-            <input type="radio" name="alreadyTested" value="Non">
-            <span class="bilingual-text">
-              <span class="text-lang">Non</span>
-              <span class="text-fr">Non</span>
-            </span>
-          </label>
-          <label class="radio-item">
-            <input type="radio" name="alreadyTested" value="Je ne sais pas">
-            <span class="bilingual-text">
-              <span class="text-lang">Je ne sais pas</span>
-              <span class="text-fr">Je ne sais pas</span>
-            </span>
-          </label>
-        </div>
-      </div>
-
       <!-- TYPE DE CONTRIBUTION -->
       <div class="field-group">
         <div class="bilingual-label">
@@ -4797,7 +4766,9 @@ Copier
             avant d'envoyer ton IDEA.
           </p>
         </div>
-
+        <div class="preview-robot">
+          <img src="/static/cawe_robot.png" alt="Robot IDEA">
+        </div>
       </div>
 
       <div class="preview-grid">
@@ -7344,6 +7315,7 @@ function setStep5VoiceMode() {
       if (fg.querySelector("#ideaTitle") || 
           fg.querySelector("#typedText") || 
           fg.querySelector("#impactSelect") ||
+          fg.querySelector(".choice-row") ||
           fg.querySelector("input[name='shareType']")) {
         fg.classList.add("hide-voice-mode");
       }
