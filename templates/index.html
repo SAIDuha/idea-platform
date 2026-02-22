@@ -5565,7 +5565,7 @@ async function transcribeBlob(blob){
     const form = new FormData();
     form.append("audio", blob, "record.webm");
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 55000);
+    const timer = setTimeout(() => controller.abort(), 110000);
     res = await fetch("/api/transcribe", { method: "POST", body: form, signal: controller.signal });
     clearTimeout(timer);
     data = await res.json();
@@ -5768,7 +5768,7 @@ async function transcribeProfileBlob(blob){
     const form = new FormData();
     form.append("audio", blob, "profile.webm");
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 55000);
+    const timer = setTimeout(() => controller.abort(), 110000);
     res = await fetch("/api/transcribe", { method: "POST", body: form, signal: controller.signal });
     clearTimeout(timer);
     data = await res.json();
@@ -6293,7 +6293,7 @@ async function transcribeLangBlob(blob) {
     const form = new FormData();
     form.append("audio", blob, "lang.webm");
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 55000);
+    const timer = setTimeout(() => controller.abort(), 110000);
     res = await fetch("/api/transcribe", { method: "POST", body: form, signal: controller.signal });
     clearTimeout(timer);
     data = await res.json();
