@@ -43,35 +43,7 @@ app.config["MAX_CONTENT_LENGTH"] = 25 * 1024 * 1024  # 25 MB
 genai.configure(api_key=API_KEY)
 
 
-PREFERRED_MODELS = [
-    "gemini-2.0-flash",
-    "gemini-2.5-flash",
-    "gemini-2.5-pro",
-    "gemini-flash-latest",
-    "gemini-pro-latest",
-    "gemini-2.5-flash-preview-05-20",
-    "gemini-2.5-flash-lite-preview-06-17",
-]
-
-
-def pick_model() -> str:
-    try:
-        available = {}
-        for m in genai.list_models():
-            name = m.name.split("/", 1)[-1]
-            methods = set(getattr(m, "supported_generation_methods", []) or [])
-            if "generateContent" in methods:
-                available[name] = True
-
-        for wanted in PREFERRED_MODELS:
-            if wanted in available:
-                return wanted
-    except Exception:
-        pass
-    return "gemini-flash-latest"
-
-
-MODEL_ID = pick_model()
+MODEL_ID = "gemini-2.0-flash"
 
 # ------------ Config URL publique & SMTP ------------
 
