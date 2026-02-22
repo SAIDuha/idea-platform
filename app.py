@@ -706,7 +706,7 @@ def transcribe():
                     {"text": system_prompt},
                     {"inline_data": {"mime_type": mime, "data": b64}},
                 ],
-                request_options={"timeout": 90}
+                request_options={"timeout": 25}
             )
         except Exception as e_inline:
             try:
@@ -716,7 +716,7 @@ def transcribe():
                         {"text": system_prompt},
                         uploaded,
                     ],
-                    request_options={"timeout": 90}
+                    request_options={"timeout": 25}
                 )
             except Exception as e_upload:
                 return (

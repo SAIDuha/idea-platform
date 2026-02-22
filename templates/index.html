@@ -5560,10 +5560,21 @@ toneBtn?.addEventListener("click", async ()=>{
 
 async function transcribeBlob(blob){
   if (statusMsg) statusMsg.textContent = "Transcription en cours…";
-  const form = new FormData();
-  form.append("audio", blob, "record.webm");
-  const res = await fetch("/api/transcribe", { method: "POST", body: form });
-  const data = await res.json();
+  let res, data;
+  try {
+    const form = new FormData();
+    form.append("audio", blob, "record.webm");
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 55000);
+    res = await fetch("/api/transcribe", { method: "POST", body: form, signal: controller.signal });
+    clearTimeout(timer);
+    data = await res.json();
+  } catch(err) {
+    if (statusMsg) statusMsg.textContent = err.name === "AbortError"
+      ? "⏱️ Délai dépassé. Essaie avec un enregistrement plus court."
+      : "❌ Erreur réseau lors de la transcription. Réessaie.";
+    return;
+  }
   if (!res.ok || !data.ok){
     if (statusMsg) statusMsg.textContent = (data && data.error) ? data.error : "Échec de la transcription.";
     return;
@@ -5752,12 +5763,21 @@ const redMsg = (msg) => `<span style="color:#e55353; font-weight:600;">${msg}</s
 
 async function transcribeProfileBlob(blob){
   if (statusMsg) statusMsg.textContent = "Transcription du profil en cours…";
-  const form = new FormData();
-  form.append("audio", blob, "profile.webm");
-
-  const res  = await fetch("/api/transcribe", { method: "POST", body: form });
-  const data = await res.json();
-
+  let res, data;
+  try {
+    const form = new FormData();
+    form.append("audio", blob, "profile.webm");
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 55000);
+    res = await fetch("/api/transcribe", { method: "POST", body: form, signal: controller.signal });
+    clearTimeout(timer);
+    data = await res.json();
+  } catch(err) {
+    if (statusMsg) statusMsg.textContent = err.name === "AbortError"
+      ? "⏱️ Délai dépassé. Essaie avec un enregistrement plus court."
+      : "❌ Erreur réseau lors de la transcription du profil. Réessaie.";
+    return;
+  }
   if (!res.ok || !data.ok){
     if (statusMsg) statusMsg.textContent = (data && data.error) ? data.error : "Échec de la transcription du profil.";
     return;
@@ -6268,12 +6288,21 @@ applyLanguageToIdea(langData);
 async function transcribeLangBlob(blob) {
   if (statusMsg) statusMsg.textContent = "Analyse de la langue en cours…";
 
-  const form = new FormData();
-  form.append("audio", blob, "lang.webm");
-
-  const res = await fetch("/api/transcribe", { method: "POST", body: form });
-  const data = await res.json();
-
+  let res, data;
+  try {
+    const form = new FormData();
+    form.append("audio", blob, "lang.webm");
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 55000);
+    res = await fetch("/api/transcribe", { method: "POST", body: form, signal: controller.signal });
+    clearTimeout(timer);
+    data = await res.json();
+  } catch(err) {
+    if (statusMsg) statusMsg.textContent = err.name === "AbortError"
+      ? "⏱️ Délai dépassé. Essaie avec un enregistrement plus court."
+      : "❌ Erreur réseau lors de l'analyse de la langue. Réessaie.";
+    return;
+  }
   if (!res.ok || !data.ok) {
     if (statusMsg) {
       statusMsg.textContent = (data && data.error)
