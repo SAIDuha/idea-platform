@@ -4404,8 +4404,11 @@ Copier
           Avant de commencer, indique simplement <b>qui tu es</b>, <b>où tu travailles</b> et <b>quel est ton rôle</b>.
         </p>
 
-        <label id="labelNameLang" for="authorNameLang">Nom et prénom</label>
-        <input id="authorNameLang" placeholder="Ex : Marie Dupont" />
+        <label id="labelNameLang">Prénom et Nom</label>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <input id="authorFirstNameLang" placeholder="Ex : Marie" />
+          <input id="authorLastNameLang" placeholder="Ex : Dupont" />
+        </div>
 
         <label id="labelSiteLang" for="countryLang">Sur quel site travailles-tu ?</label>
         <select id="countryLang">
@@ -4436,8 +4439,11 @@ Copier
           Avant de commencer, indique simplement <b>qui tu es</b>, <b>où tu travailles</b> et <b>quel est ton rôle</b>.
         </p>
 
-        <label for="authorName">Nom et prénom</label>
-        <input id="authorName" placeholder="Ex : Marie Dupont" />
+        <label for="authorFirstName">Prénom et Nom</label>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <input id="authorFirstName" placeholder="Ex : Marie" />
+          <input id="authorLastName" placeholder="Ex : Dupont" />
+        </div>
 
         <label for="country">Sur quel site travailles-tu ?</label>
         <select id="country">
@@ -5462,7 +5468,18 @@ const serviceSelect     = document.getElementById("serviceSelect");
 const otherServiceRow   = document.getElementById("otherServiceRow");
 const otherService      = document.getElementById("otherService");
 const proEmail          = document.getElementById("proEmail");
-const authorName        = document.getElementById("authorName");
+const authorFirstName   = document.getElementById("authorFirstName");
+const authorLastName    = document.getElementById("authorLastName");
+const authorName        = { 
+  get value() { 
+    return ((authorFirstName?.value || "") + " " + (authorLastName?.value || "")).trim(); 
+  },
+  set value(v) {
+    const parts = (v || "").trim().split(" ");
+    if (authorFirstName) authorFirstName.value = parts[0] || "";
+    if (authorLastName) authorLastName.value = parts.slice(1).join(" ") || "";
+  }
+};
 const functionField     = document.getElementById("functionField");
 const submitBtn         = document.getElementById("submitBtn");
 const statusMsg         = document.getElementById("statusMsg");
@@ -6706,7 +6723,18 @@ const labelSiteLang = document.getElementById("labelSiteLang");
 const labelServiceLang = document.getElementById("labelServiceLang");
 const labelFunctionLang = document.getElementById("labelFunctionLang");
 
-const authorNameLang = document.getElementById("authorNameLang");
+const authorFirstNameLang = document.getElementById("authorFirstNameLang");
+const authorLastNameLang  = document.getElementById("authorLastNameLang");
+const authorNameLang = {
+  get value() {
+    return ((authorFirstNameLang?.value || "") + " " + (authorLastNameLang?.value || "")).trim();
+  },
+  set value(v) {
+    const parts = (v || "").trim().split(" ");
+    if (authorFirstNameLang) authorFirstNameLang.value = parts[0] || "";
+    if (authorLastNameLang) authorLastNameLang.value = parts.slice(1).join(" ") || "";
+  }
+};
 const countryLang = document.getElementById("countryLang");
 const otherSiteRowLang = document.getElementById("otherSiteRowLang");
 const otherSiteLang = document.getElementById("otherSiteLang");
@@ -6787,12 +6815,12 @@ function syncProfileFields(fromLang = false) {
 }
 
 // Événements de synchronisation
-[authorName, siteSelect, otherSite, serviceSelect, otherService, functionField].forEach(el => {
+[authorFirstName, authorLastName, siteSelect, otherSite, serviceSelect, otherService, functionField].forEach(el => {
   el?.addEventListener("input", () => syncProfileFields(false));
   el?.addEventListener("change", () => syncProfileFields(false));
 });
 
-[authorNameLang, countryLang, otherSiteLang, serviceSelectLang, otherServiceLang, functionFieldLang].forEach(el => {
+[authorFirstNameLang, authorLastNameLang, countryLang, otherSiteLang, serviceSelectLang, otherServiceLang, functionFieldLang].forEach(el => {
   el?.addEventListener("input", () => syncProfileFields(true));
   el?.addEventListener("change", () => syncProfileFields(true));
 });
@@ -6878,7 +6906,8 @@ async function applyLanguageToProfile(langData) {
       if (labelFunctionLang && ui.label_function) labelFunctionLang.textContent = ui.label_function;
       
       // Placeholders traduits
-      if (authorNameLang && ui.placeholder_name) authorNameLang.placeholder = ui.placeholder_name;
+      if (authorFirstNameLang && ui.placeholder_name) authorFirstNameLang.placeholder = ui.placeholder_name.split(" ")[0] || "Prénom";
+      if (authorLastNameLang && ui.placeholder_name) authorLastNameLang.placeholder = ui.placeholder_name.split(" ").slice(1).join(" ") || "Nom";
       if (countryLang && ui.placeholder_site) countryLang.options[0].textContent = ui.placeholder_site;
       if (serviceSelectLang && ui.placeholder_service) serviceSelectLang.options[0].textContent = ui.placeholder_service;
       if (functionFieldLang && ui.placeholder_function) functionFieldLang.placeholder = ui.placeholder_function;
