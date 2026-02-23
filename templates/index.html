@@ -4406,7 +4406,7 @@ Copier
 
         <label id="labelNameLang">Nom</label>
         <input id="authorLastNameLang" placeholder="Ex : Dupont" />
-        <label style="margin-top:12px;">Prénom</label>
+        <label id="labelFirstNameLang" style="margin-top:12px;">Prénom</label>
         <input id="authorFirstNameLang" placeholder="Ex : Marie" />
 
         <label id="labelSiteLang" for="countryLang">Sur quel site travailles-tu ?</label>
@@ -6717,6 +6717,7 @@ const profileSwitchLabel = document.getElementById("profileSwitchLabel");
 const profileLangTitle = document.getElementById("profileLangTitle");
 const profileLangIntro = document.getElementById("profileLangIntro");
 const labelNameLang = document.getElementById("labelNameLang");
+const labelFirstNameLang = document.getElementById("labelFirstNameLang");
 const labelSiteLang = document.getElementById("labelSiteLang");
 const labelServiceLang = document.getElementById("labelServiceLang");
 const labelFunctionLang = document.getElementById("labelFunctionLang");
@@ -6899,12 +6900,14 @@ async function applyLanguageToProfile(langData) {
       if (profileLangTitle && ui.title) profileLangTitle.textContent = ui.title;
       if (profileLangIntro && ui.intro) profileLangIntro.innerHTML = ui.intro;
       if (labelNameLang && ui.label_name) labelNameLang.textContent = ui.label_name;
+      if (labelFirstNameLang && ui.label_firstname) labelFirstNameLang.textContent = ui.label_firstname;
       if (labelSiteLang && ui.label_site) labelSiteLang.textContent = ui.label_site;
       if (labelServiceLang && ui.label_service) labelServiceLang.textContent = ui.label_service;
       if (labelFunctionLang && ui.label_function) labelFunctionLang.textContent = ui.label_function;
       
       // Placeholders traduits
-      if (authorFirstNameLang && ui.placeholder_name) authorFirstNameLang.placeholder = ui.placeholder_name.split(" ")[0] || "Prénom";
+      if (authorFirstNameLang && ui.placeholder_firstname) authorFirstNameLang.placeholder = ui.placeholder_firstname;
+      else if (authorFirstNameLang && ui.placeholder_name) authorFirstNameLang.placeholder = ui.placeholder_name.split(" ")[0] || "Prénom";
       if (authorLastNameLang && ui.placeholder_name) authorLastNameLang.placeholder = ui.placeholder_name.split(" ").slice(1).join(" ") || "Nom";
       if (countryLang && ui.placeholder_site) countryLang.options[0].textContent = ui.placeholder_site;
       if (serviceSelectLang && ui.placeholder_service) serviceSelectLang.options[0].textContent = ui.placeholder_service;
