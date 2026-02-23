@@ -5486,25 +5486,9 @@ const impactOtherRow = document.getElementById("impactOtherRow");
 const impactOther    = document.getElementById("impactOther");
 
 function getImpact(){
-  const v = impactSelect.value;
-  if (!v) return { impact: null, impact_other: null };
-
-  if (v === "Autre") {
-    return { impact: "Autre", impact_other: impactOther.value || null };
-  }
-  return { impact: v, impact_other: null };
+  return { impact: null, impact_other: null };
 }
 
-impactSelect?.addEventListener("change", () => {
-  if (!impactOtherRow || !impactOther) return;
-  if (impactSelect.value === "Autre"){
-    impactOtherRow.style.display = "block";
-    impactOther.value = "";
-  } else {
-    impactOtherRow.style.display = "none";
-    impactOther.value = "";
-  }
-});
 
 // --- Audio / transcription de l’idée ---
 
