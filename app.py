@@ -1529,26 +1529,22 @@ def submit():
         row = [
             idea_code,                       # A - Code idée
             created_at,                      # B - Date/heure (UTC)
-            author_name or "",               # C - Nom & Prénom
-            site or "",                      # D - Site
-            service or "",                   # E - Service
-            function_title or "",            # F - Fonction
-            professional_email or "",        # G - E-mail professionnel
-            contact_mode or "",              # H - Préférence de contact
-            idea_title or "",                # I - Titre
-            ", ".join(share_types) if share_types else "",  # J - Type(s)
-            impact_main or "",               # K - Impact principal
-            impact_other or "",              # L - Impact précisé
-            typed_text or "",                # M - Description (texte saisi)
-            detected_language or "",         # N - Langue détectée
-            original_text or "",             # O - Texte d'origine
-            french_translation or "",        # P - Traduction française
-            "; ".join(abs_media_paths),      # Q - URLs médias (Drive)
-            idea_id,                         # R - ID interne
-            "; ".join(media_labels),         # S - Codes médias (IMG_x / VID_x)
-            "Vocal" if audio_path else "Écrit",  # T - Mode de saisie
-            already_tested or "",                # U - Déjà en test ?
-            customer_satisfaction or "",          # V - Satisfaction clients ?
+            "Vocal" if audio_path else "Écrit",  # C - Mode de saisie
+            author_name or "",               # D - Nom & Prénom
+            site or "",                      # E - Site
+            service or "",                   # F - Service
+            function_title or "",            # G - Fonction
+            professional_email or "",        # H - E-mail professionnel
+            contact_mode or "",              # I - Préférence de contact
+            idea_title or "",                # J - Titre
+            ", ".join(share_types) if share_types else "",  # K - Type(s)
+            typed_text or "",                # L - Description (texte saisi)
+            detected_language or "",         # M - Langue détectée
+            original_text or "",             # N - Texte d'origine
+            french_translation or "",        # O - Traduction française
+            already_tested or "",            # P - Déjà en test ?
+            customer_satisfaction or "",     # Q - Satisfaction clients ?
+            "; ".join(abs_media_paths),      # R - URLs médias (Drive)
         ]
         append_idea_to_sheet(row)
     except Exception as e:
