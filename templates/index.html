@@ -6678,7 +6678,9 @@ submitBtn?.addEventListener("click", async () => {
     share_types: shareTypes,
     impact_main: impactInfo.impact,
     media_paths: mediaPaths,
-    impact_other: impactInfo.impact_other
+    impact_other: impactInfo.impact_other,
+    already_tested: document.querySelector('input[name="alreadyTested"]:checked')?.value || null,
+    customer_satisfaction: document.querySelector('input[name="customerSatisfaction"]:checked')?.value || null
   };
 
   const res = await fetch("/api/submit", {

@@ -1392,6 +1392,8 @@ def submit():
     impact_main = payload.get("impact_main") or None
     impact_other = payload.get("impact_other") or None
     media_paths = payload.get("media_paths") or []
+    already_tested = payload.get("already_tested") or None
+    customer_satisfaction = payload.get("customer_satisfaction") or None
 
     source = payload.get("source") or "web_form"
 
@@ -1545,6 +1547,8 @@ def submit():
             idea_id,                         # R - ID interne
             "; ".join(media_labels),         # S - Codes médias (IMG_x / VID_x)
             "Vocal" if audio_path else "Écrit",  # T - Mode de saisie
+            already_tested or "",                # U - Déjà en test ?
+            customer_satisfaction or "",          # V - Satisfaction clients ?
         ]
         append_idea_to_sheet(row)
     except Exception as e:
