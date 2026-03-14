@@ -120,23 +120,34 @@ def get_sheets_service():
 def append_idea_to_sheet(row: list[str]) -> None:
     """
     Ajoute une ligne dans le Google Sheet.
-    row = liste ordonnée correspondant aux colonnes de l’onglet.
+    Trouve la prochaine ligne vide et ecrit directement dessus
+    en commencant par la colonne A (evite le decalage de l API append).
     """
     if not GSHEET_ID:
-        print("[WARN] GSHEET_ID non configuré, écriture Google Sheets ignorée.")
+        print("[WARN] GSHEET_ID non configure, ecriture Google Sheets ignoree.")
         return
     try:
         service = get_sheets_service()
-        body = {"values": [row]}
-        service.spreadsheets().values().append(
+
+        # Lire la colonne A pour trouver la prochaine ligne vide
+        result = service.spreadsheets().values().get(
             spreadsheetId=GSHEET_ID,
-            range=f"{GSHEET_SHEET_NAME}!A:Z",
+            range=f"{GSHEET_SHEET_NAME}!A:A",
+        ).execute()
+        values = result.get("values", [])
+        next_row = len(values) + 1  # ligne suivante (1-indexed)
+
+        # Ecrire directement sur cette ligne a partir de A
+        target_range = f"{GSHEET_SHEET_NAME}!A{next_row}"
+        body = {"values": [row]}
+        service.spreadsheets().values().update(
+            spreadsheetId=GSHEET_ID,
+            range=target_range,
             valueInputOption="RAW",
-            insertDataOption="INSERT_ROWS",
             body=body,
         ).execute()
     except Exception as e:
-        print(f"[WARN] Erreur lors de l’envoi dans Google Sheets : {e}")
+        print(f"[WARN] Erreur lors de l envoi dans Google Sheets : {e}")
 
 
 # ------------ Google Drive helpers ------------
