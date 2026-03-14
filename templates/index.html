@@ -5542,6 +5542,7 @@ const mediaPreview    = document.getElementById("mediaPreview");
 let mediaFiles = [];
 let mediaRecorder = null, chunks = [], stream;
 let detectedLanguage = null, originalText = null, frenchTranslation = null;
+let usedVocalMode = false;
 
 function isSecure(){
   return window.isSecureContext || ["localhost","127.0.0.1"].includes(location.hostname);
@@ -5588,6 +5589,7 @@ async function transcribeBlob(blob){
   detectedLanguage   = data.language || "";
   originalText       = data.original_text || "";
   frenchTranslation  = data.french_translation || "";
+  usedVocalMode      = true;
   
   // Titres suggérés par Gemini
   const suggestedTitle = data.suggested_title || "";
@@ -6670,7 +6672,7 @@ submitBtn?.addEventListener("click", async () => {
     professional_email: proEmail?.value || null,
     contact_mode: contactMode || null,
     typed_text: typedText?.value || null,
-    audio_path: null,
+    audio_path: usedVocalMode ? "vocal" : null,
     detected_language: detectedLanguage || null,
     original_text: originalText || null,
     french_translation: frenchTranslation || null,
