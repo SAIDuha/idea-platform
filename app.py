@@ -235,7 +235,8 @@ def get_sheet_parent_folder_id() -> str | None:
         drive = get_drive_service()
         file_meta = drive.files().get(
             fileId=GSHEET_ID,
-            fields="id, name, parents"
+            fields="id, name, parents",
+            supportsAllDrives=True
         ).execute()
         parents = file_meta.get("parents")
         if parents:
@@ -252,6 +253,7 @@ def get_sheet_parent_folder_id() -> str | None:
 def upload_file_to_drive(local_path: Path, original_name: str) -> tuple[str | None, str | None]:
     """
     Envoie un fichier vers Google Drive dans le même dossier que le Google Sheet.
+    Supporte les Shared Drives (supportsAllDrives=True).
     Retourne (file_id, web_link) ou (None, None) en cas d'erreur.
     """
     try:
@@ -266,7 +268,8 @@ def upload_file_to_drive(local_path: Path, original_name: str) -> tuple[str | No
         created = drive.files().create(
             body=metadata,
             media_body=media,
-            fields="id"
+            fields="id",
+            supportsAllDrives=True
         ).execute()
 
         file_id = created.get("id")
@@ -1530,6 +1533,7 @@ def submit():
             "; ".join(abs_media_paths),      # Q - URLs médias (Drive)
             idea_id,                         # R - ID interne
             "; ".join(media_labels),         # S - Codes médias (IMG_x / VID_x)
+            "Vocal" if audio_path else "Écrit",  # T - Mode de saisie
         ]
         append_idea_to_sheet(row)
     except Exception as e:
