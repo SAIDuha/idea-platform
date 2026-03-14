@@ -466,10 +466,210 @@ def send_email_to_idea_team(subject: str, body: str):
         server.send_message(msg)
 
 
+def build_confirmation_html(author_name: str, idea_code: str, idea_title: str) -> str:
+    """
+    Génère le HTML de l'e-mail de confirmation style marketing,
+    respectant la charte graphique NETEXIAL.
+    """
+    first_name = (author_name or "").split()[0] if author_name else ""
+
+    return f"""\
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Confirmation IDEA</title>
+<!--[if mso]>
+<style>table,td{{font-family:Arial,sans-serif!important;}}</style>
+<![endif]-->
+</head>
+<body style="margin:0;padding:0;background-color:#C1D1EB;font-family:'Roboto',Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased;">
+
+<!-- Preheader (invisible, shows in inbox preview) -->
+<div style="display:none;max-height:0;overflow:hidden;color:#C1D1EB;">
+  Ton idée a été enregistrée avec succès ! Référence {idea_code}. Merci pour ta contribution, {first_name or 'génie'}.
+</div>
+
+<!-- Outer wrapper -->
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#C1D1EB;padding:30px 0 40px 0;">
+<tr><td align="center">
+
+<!-- Main card -->
+<table role="presentation" width="600" cellspacing="0" cellpadding="0" border="0" style="max-width:600px;width:100%;border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(20,27,77,0.15);">
+
+  <!-- ============ TOP BANNER ============ -->
+  <tr>
+    <td style="background:linear-gradient(135deg,#141B4D 0%,#1C3775 100%);padding:40px 40px 30px 40px;text-align:center;">
+      <!-- Brand name -->
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr><td align="center">
+          <span style="font-family:'Oswald',Arial,sans-serif;font-size:28px;font-weight:600;letter-spacing:4px;color:#FFFFFF;">NETEXIAL</span>
+        </td></tr>
+        <tr><td align="center" style="padding-top:4px;">
+          <span style="font-family:'Roboto',Arial,sans-serif;font-size:12px;letter-spacing:2px;color:#98B2DD;text-transform:uppercase;">Plateforme d'idées</span>
+        </td></tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- ============ ORANGE ACCENT LINE ============ -->
+  <tr>
+    <td style="background:#FC6100;height:4px;font-size:0;line-height:0;">&nbsp;</td>
+  </tr>
+
+  <!-- ============ HERO SECTION ============ -->
+  <tr>
+    <td style="background:#FFFFFF;padding:50px 40px 30px 40px;text-align:center;">
+      <!-- Checkmark circle -->
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center">
+        <tr><td align="center" style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#FC6100 0%,#ff8533 100%);">
+          <span style="font-size:36px;color:#FFFFFF;line-height:72px;">&#10003;</span>
+        </td></tr>
+      </table>
+      <h1 style="font-family:'Oswald',Arial,sans-serif;font-size:26px;font-weight:600;color:#141B4D;margin:24px 0 8px 0;letter-spacing:1px;">
+        C'EST ENREGISTRÉ,
+        <span style="color:#FC6100;">{first_name.upper() or 'GÉNIE'}</span>&nbsp;!
+      </h1>
+      <p style="font-family:'Roboto',Arial,sans-serif;font-size:15px;color:#1C3775;margin:0 0 30px 0;line-height:1.6;">
+        Ton idée a bien été reçue et enregistrée dans notre système.<br/>
+        L'équipe IDEA la prendra en charge très bientôt.
+      </p>
+    </td>
+  </tr>
+
+  <!-- ============ IDEA DETAILS CARD ============ -->
+  <tr>
+    <td style="background:#FFFFFF;padding:0 40px 40px 40px;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f0f4fa;border-radius:12px;border-left:4px solid #FC6100;">
+        <tr><td style="padding:24px 28px;">
+          <!-- Reference -->
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+            <tr>
+              <td style="font-family:'Roboto',Arial,sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:#98B2DD;padding-bottom:4px;">Référence</td>
+            </tr>
+            <tr>
+              <td style="font-family:'Oswald',Arial,sans-serif;font-size:22px;font-weight:500;color:#141B4D;letter-spacing:2px;padding-bottom:18px;">{idea_code}</td>
+            </tr>
+          </table>
+          <!-- Separator -->
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+            <tr><td style="border-top:1px solid #d4e0f2;padding-bottom:18px;"></td></tr>
+          </table>
+          <!-- Title -->
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+            <tr>
+              <td style="font-family:'Roboto',Arial,sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:#98B2DD;padding-bottom:4px;">Titre de ton idée</td>
+            </tr>
+            <tr>
+              <td style="font-family:'Roboto',Arial,sans-serif;font-size:16px;font-weight:500;color:#1C3775;line-height:1.5;">
+                {idea_title}
+              </td>
+            </tr>
+          </table>
+        </td></tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- ============ NEXT STEPS ============ -->
+  <tr>
+    <td style="background:#FFFFFF;padding:0 40px 40px 40px;">
+      <h2 style="font-family:'Oswald',Arial,sans-serif;font-size:16px;font-weight:500;color:#141B4D;letter-spacing:1.5px;text-transform:uppercase;margin:0 0 16px 0;">Et maintenant ?</h2>
+      <!-- Step 1 -->
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-bottom:12px;">
+        <tr>
+          <td width="36" valign="top">
+            <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+              <tr><td style="width:28px;height:28px;border-radius:50%;background:#141B4D;text-align:center;">
+                <span style="font-family:'Oswald',Arial,sans-serif;font-size:13px;font-weight:600;color:#FFFFFF;line-height:28px;">1</span>
+              </td></tr>
+            </table>
+          </td>
+          <td style="padding-left:10px;font-family:'Roboto',Arial,sans-serif;font-size:14px;color:#1C3775;line-height:1.5;">
+            <strong style="color:#141B4D;">Analyse</strong> — L'équipe IDEA examine ta proposition
+          </td>
+        </tr>
+      </table>
+      <!-- Step 2 -->
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-bottom:12px;">
+        <tr>
+          <td width="36" valign="top">
+            <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+              <tr><td style="width:28px;height:28px;border-radius:50%;background:#1C3775;text-align:center;">
+                <span style="font-family:'Oswald',Arial,sans-serif;font-size:13px;font-weight:600;color:#FFFFFF;line-height:28px;">2</span>
+              </td></tr>
+            </table>
+          </td>
+          <td style="padding-left:10px;font-family:'Roboto',Arial,sans-serif;font-size:14px;color:#1C3775;line-height:1.5;">
+            <strong style="color:#141B4D;">Échange</strong> — On te recontacte si on a besoin de précisions
+          </td>
+        </tr>
+      </table>
+      <!-- Step 3 -->
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td width="36" valign="top">
+            <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+              <tr><td style="width:28px;height:28px;border-radius:50%;background:#FC6100;text-align:center;">
+                <span style="font-family:'Oswald',Arial,sans-serif;font-size:13px;font-weight:600;color:#FFFFFF;line-height:28px;">3</span>
+              </td></tr>
+            </table>
+          </td>
+          <td style="padding-left:10px;font-family:'Roboto',Arial,sans-serif;font-size:14px;color:#1C3775;line-height:1.5;">
+            <strong style="color:#141B4D;">Mise en œuvre</strong> — Ton idée prend vie dans l'entreprise !
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- ============ CTA SECTION ============ -->
+  <tr>
+    <td style="background:#FFFFFF;padding:0 40px 45px 40px;text-align:center;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:linear-gradient(135deg,#141B4D 0%,#1C3775 100%);border-radius:12px;">
+        <tr><td style="padding:28px 30px;text-align:center;">
+          <p style="font-family:'Roboto',Arial,sans-serif;font-size:15px;color:#FFFFFF;margin:0 0 6px 0;line-height:1.5;">
+            Tu as une autre idée en tête ?
+          </p>
+          <p style="font-family:'Oswald',Arial,sans-serif;font-size:20px;font-weight:500;color:#FC6100;margin:0;letter-spacing:1px;">
+            LAISSE-LA BRILLER !
+          </p>
+        </td></tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- ============ FOOTER ============ -->
+  <tr>
+    <td style="background:#141B4D;padding:28px 40px;text-align:center;">
+      <span style="font-family:'Oswald',Arial,sans-serif;font-size:16px;font-weight:500;letter-spacing:3px;color:#FFFFFF;">NETEXIAL</span>
+      <br/>
+      <span style="font-family:'Roboto',Arial,sans-serif;font-size:11px;color:#98B2DD;letter-spacing:0.5px;">
+        Plateforme IDEA &mdash; L'innovation commence par toi
+      </span>
+      <br/><br/>
+      <span style="font-family:'Roboto',Arial,sans-serif;font-size:10px;color:#6b80b0;">
+        Ceci est un message automatique. Merci de ne pas y répondre directement.
+      </span>
+    </td>
+  </tr>
+
+</table>
+<!-- /Main card -->
+
+</td></tr>
+</table>
+<!-- /Outer wrapper -->
+
+</body>
+</html>"""
+
+
 def send_email_confirmation_to_user(user_email: str, data: dict):
     """
-    E-mail simple de confirmation envoyé à l'utilisateur
-    si une adresse e-mail professionnelle est fournie.
+    E-mail HTML de confirmation envoyé à l'utilisateur,
+    style marketing respectant la charte graphique NETEXIAL.
     """
     if not (SMTP_HOST and SMTP_USER and SMTP_PASS):
         print("[WARN] SMTP non configuré ; mail utilisateur non envoyé.")
@@ -482,24 +682,27 @@ def send_email_confirmation_to_user(user_email: str, data: dict):
     idea_title = data.get("idea_title") or "Sans titre"
     author_name = data.get("author_name") or ""
 
-    subject = f"Confirmation de dépôt – {idea_code}"
-    body = f"""Bonjour {author_name},
+    subject = f"🚀 Ton idée est enregistrée ! — {idea_code}"
 
-Votre IDEA a bien été enregistrée.
+    # Fallback texte brut pour les clients qui n'affichent pas le HTML
+    text_fallback = (
+        f"Bonjour {author_name},\n\n"
+        f"Ton idée a bien été enregistrée !\n\n"
+        f"Référence : {idea_code}\n"
+        f"Titre : {idea_title}\n\n"
+        f"L'équipe IDEA va examiner ta proposition.\n"
+        f"Merci pour ta contribution !\n\n"
+        f"— L'équipe NETEXIAL"
+    )
 
-Référence : {idea_code}
-Titre : {idea_title}
-
-Merci pour votre contribution.
-
-Ceci est un message automatique.
-"""
+    html_body = build_confirmation_html(author_name, idea_code, idea_title)
 
     msg = EmailMessage()
     msg["From"] = SMTP_USER
     msg["To"] = user_email
     msg["Subject"] = subject
-    msg.set_content(body)
+    msg.set_content(text_fallback)
+    msg.add_alternative(html_body, subtype="html")
 
     try:
         with smtplib.SMTP(SMTP_HOST, SMTP_PORT) as server:
