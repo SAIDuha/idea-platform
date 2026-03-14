@@ -716,27 +716,71 @@ def send_email_confirmation_to_user(user_email: str, data: dict):
 
 # ------------ Génération du code IDEA ------------
 
+def _get_max_seq_from_sheet(prefix: str) -> int:
+    """
+    Lit la colonne A (Code idee) du Google Sheet et renvoie le plus grand
+    numero sequentiel pour le prefixe donne (ex: "IDEA2603").
+    Retourne 0 si aucun code ne correspond.
+    Gere les anciens codes a 6 chiffres et les nouveaux a 5 chiffres.
+    """
+    try:
+        service = get_sheets_service()
+        result = service.spreadsheets().values().get(
+            spreadsheetId=GSHEET_ID,
+            range=f"{GSHEET_SHEET_NAME}!A:A",
+        ).execute()
+        values = result.get("values", [])
+
+        max_seq = 0
+        for row in values:
+            if not row:
+                continue
+            code = row[0].strip()
+            if code.startswith(prefix) and len(code) > len(prefix):
+                try:
+                    seq = int(code[len(prefix):])
+                    if seq > max_seq:
+                        max_seq = seq
+                except ValueError:
+                    continue
+        return max_seq
+    except Exception as e:
+        print(f"[WARN] Impossible de lire le Google Sheet pour le code IDEA : {e}")
+        return 0
+
+
 def generate_idea_code(con: sqlite3.Connection, created_dt: datetime) -> str:
     """
-    Génère un code de type IDEAyyMMxxxxxx
-    - yy : année sur 2 chiffres
+    Genere un code de type IDEAyyMMxxxxx
+    - yy : annee sur 2 chiffres
     - MM : mois sur 2 chiffres
-    - xxxxxx : numéro d’idée sur 6 chiffres, incrémenté à l’intérieur du mois.
+    - xxxxx : numero d idee sur 5 chiffres, incremente a l interieur du mois.
+
+    Source de verite : Google Sheet (colonne A).
+    Fallback : base SQLite locale si le Sheet est inaccessible.
     """
     year2 = created_dt.strftime("%y")
     month2 = created_dt.strftime("%m")
-    ym = created_dt.strftime("%Y-%m")
+    prefix = f"IDEA{year2}{month2}"  # ex: "IDEA2603"
 
-    cur = con.cursor()
-    cur.execute(
-        "SELECT COUNT(*) FROM ideas WHERE substr(created_at, 1, 7) = ?",
-        (ym,),
-    )
-    row = cur.fetchone()
-    count = int(row[0]) if row and row[0] is not None else 0
-    seq = count + 1
+    # 1) Lire le max sequentiel depuis Google Sheet
+    max_seq = _get_max_seq_from_sheet(prefix)
 
-    return f"IDEA{year2}{month2}{seq:06d}"
+    # 2) Fallback SQLite si le Sheet n a rien renvoye (max_seq == 0)
+    if max_seq == 0:
+        cur = con.cursor()
+        cur.execute(
+            "SELECT MAX(idea_code) FROM ideas WHERE idea_code LIKE ?",
+            (f"{prefix}%",),
+        )
+        row = cur.fetchone()
+        if row and row[0]:
+            try:
+                max_seq = int(row[0][len(prefix):])
+            except ValueError:
+                max_seq = 0
+
+    return f"{prefix}{max_seq + 1:05d}"
 
 
 # ------------ Génération des labels médias pour Google Sheets ------------
