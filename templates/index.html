@@ -1777,13 +1777,13 @@ select:disabled {
 .thank-fullscreen {
   position: fixed;
   inset: 0;
-  z-index: 100;
+  z-index: 9998;
   background: linear-gradient(160deg, #0d1133 0%, #141B4D 40%, #1C3775 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 .confetti-canvas {
@@ -1799,7 +1799,7 @@ select:disabled {
   position: relative;
   z-index: 2;
   text-align: center;
-  padding: 20px;
+  padding: 40px 20px 120px;
   animation: fadeUpIn 0.8s ease both;
 }
 
@@ -1839,15 +1839,15 @@ select:disabled {
 
 /* Big MERCI with letter animation */
 .thank-mega-title {
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Monoton', cursive;
   font-size: clamp(60px, 15vw, 130px);
-  font-weight: 700;
-  letter-spacing: 12px;
-  margin: 0 0 20px 0;
-  line-height: 1;
+  font-weight: 400;
+  letter-spacing: 8px;
+  margin: 0 0 24px 0;
+  line-height: 1.1;
   display: flex;
   justify-content: center;
-  gap: 4px;
+  gap: 0;
 }
 
 .thank-letter {
@@ -1929,7 +1929,7 @@ select:disabled {
   border: 1px solid rgba(152, 178, 221, 0.2);
   border-radius: 100px;
   padding: 8px 24px;
-  margin-bottom: 36px;
+  margin-bottom: 24px;
   opacity: 0;
   animation: fadeUpIn 0.5s ease 1.6s forwards;
 }
@@ -1954,6 +1954,7 @@ select:disabled {
   box-shadow: 0 8px 30px rgba(252, 97, 0, 0.35);
   opacity: 0;
   animation: fadeUpIn 0.5s ease 1.8s forwards;
+  margin-bottom: 20px;
 }
 
 .thank-cta:hover {
@@ -1968,10 +1969,10 @@ select:disabled {
 
 /* Bottom brand */
 .thank-brand-bottom {
-  position: absolute;
-  bottom: 28px;
+  position: relative;
   text-align: center;
   z-index: 2;
+  padding: 20px 0 30px;
   opacity: 0;
   animation: fadeIn 0.5s ease 2s forwards;
 }
@@ -4601,13 +4602,17 @@ Copier
           </p>
 
           <!-- Idea reference badge -->
-          <div class="thank-ref-badge" id="thankRefBadge"></div>
+          <div style="margin-bottom:20px;">
+            <div class="thank-ref-badge" id="thankRefBadge"></div>
+          </div>
 
           <!-- CTA -->
-          <button type="button" class="thank-cta" id="backToHomeBtn">
-            <span class="thank-cta-icon">💡</span>
-            J'ai une autre idée !
-          </button>
+          <div>
+            <button type="button" class="thank-cta" id="backToHomeBtn">
+              <span class="thank-cta-icon">💡</span>
+              J'ai une autre idée !
+            </button>
+          </div>
         </div>
 
         <!-- Floating brand -->
