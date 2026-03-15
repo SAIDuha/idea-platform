@@ -1767,241 +1767,7 @@ select:disabled {
    PAGE MERCI — NOUVEAU DESIGN CLEAN
 ========================================================== */
 
-/* =========================================================
-   PAGE MERCI — IMMERSIVE FULLSCREEN DESIGN
-========================================================== */
-
-/* Override old styles */
-#stepThanks .thank-panel { display: none !important; }
-
-.thank-fullscreen {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  background: linear-gradient(160deg, #0d1133 0%, #141B4D 40%, #1C3775 100%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.confetti-canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.thank-content-wrap {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  padding: 20px;
-  animation: fadeUpIn 0.8s ease both;
-}
-
-@keyframes fadeUpIn {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Animated checkmark */
-.thank-check-ring {
-  width: 80px;
-  height: 80px;
-  margin: 0 auto 28px;
-}
-
-.thank-check-svg { width: 80px; height: 80px; }
-
-.check-circle {
-  stroke-dasharray: 226;
-  stroke-dashoffset: 226;
-  animation: drawCircle 0.6s ease 0.3s forwards;
-}
-
-.check-path {
-  stroke-dasharray: 60;
-  stroke-dashoffset: 60;
-  animation: drawCheck 0.4s ease 0.8s forwards;
-}
-
-@keyframes drawCircle {
-  to { stroke-dashoffset: 0; }
-}
-
-@keyframes drawCheck {
-  to { stroke-dashoffset: 0; }
-}
-
-/* Big MERCI with letter animation */
-.thank-mega-title {
-  font-family: 'Oswald', sans-serif;
-  font-size: clamp(60px, 15vw, 130px);
-  font-weight: 700;
-  letter-spacing: 12px;
-  margin: 0 0 20px 0;
-  line-height: 1;
-  display: flex;
-  justify-content: center;
-  gap: 4px;
-}
-
-.thank-letter {
-  display: inline-block;
-  color: #FC6100;
-  animation: letterPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) calc(0.6s + var(--i) * 0.08s) both;
-  text-shadow: 0 0 40px rgba(252, 97, 0, 0.4), 0 4px 20px rgba(0,0,0,0.3);
-}
-
-@keyframes letterPop {
-  from { opacity: 0; transform: translateY(40px) scale(0.5) rotate(-10deg); }
-  to { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
-}
-
-/* Multilingual scrolling ticker */
-.thank-ticker-wrap {
-  overflow: hidden;
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto 36px;
-  mask-image: linear-gradient(90deg, transparent, white 15%, white 85%, transparent);
-  -webkit-mask-image: linear-gradient(90deg, transparent, white 15%, white 85%, transparent);
-  height: 28px;
-  opacity: 0;
-  animation: fadeIn 0.5s ease 1.2s forwards;
-}
-
-@keyframes fadeIn {
-  to { opacity: 1; }
-}
-
-.thank-ticker {
-  display: flex;
-  gap: 32px;
-  white-space: nowrap;
-  animation: tickerScroll 20s linear infinite;
-  width: max-content;
-}
-
-.thank-ticker span {
-  font-family: 'Roboto', sans-serif;
-  font-size: 14px;
-  font-weight: 300;
-  color: #98B2DD;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
-
-@keyframes tickerScroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-
-/* Message */
-.thank-message {
-  font-family: 'Roboto', sans-serif;
-  font-size: 15px;
-  line-height: 1.8;
-  color: rgba(255, 255, 255, 0.7);
-  max-width: 480px;
-  margin: 0 auto 32px;
-  opacity: 0;
-  animation: fadeUpIn 0.6s ease 1.4s forwards;
-}
-
-.thank-message strong {
-  color: #FFFFFF;
-  font-weight: 600;
-}
-
-/* Reference badge */
-.thank-ref-badge {
-  display: inline-block;
-  font-family: 'Oswald', sans-serif;
-  font-size: 13px;
-  letter-spacing: 3px;
-  color: #98B2DD;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(152, 178, 221, 0.2);
-  border-radius: 100px;
-  padding: 8px 24px;
-  margin-bottom: 36px;
-  opacity: 0;
-  animation: fadeUpIn 0.5s ease 1.6s forwards;
-}
-
-.thank-ref-badge:empty { display: none; }
-
-/* CTA Button */
-.thank-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 16px 36px;
-  background: #FC6100;
-  color: white;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 700;
-  font-size: 15px;
-  border: none;
-  border-radius: 100px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 8px 30px rgba(252, 97, 0, 0.35);
-  opacity: 0;
-  animation: fadeUpIn 0.5s ease 1.8s forwards;
-}
-
-.thank-cta:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 40px rgba(252, 97, 0, 0.5);
-  background: #e55800;
-}
-
-.thank-cta-icon {
-  font-size: 18px;
-}
-
-/* Bottom brand */
-.thank-brand-bottom {
-  position: absolute;
-  bottom: 28px;
-  text-align: center;
-  z-index: 2;
-  opacity: 0;
-  animation: fadeIn 0.5s ease 2s forwards;
-}
-
-.thank-brand-name {
-  display: block;
-  font-family: 'Oswald', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 4px;
-  color: rgba(255, 255, 255, 0.25);
-}
-
-.thank-brand-tagline {
-  font-family: 'Roboto', sans-serif;
-  font-size: 10px;
-  letter-spacing: 1.5px;
-  color: rgba(152, 178, 221, 0.3);
-  text-transform: uppercase;
-}
-
-/* Mobile */
-@media (max-width: 600px) {
-  .thank-mega-title { letter-spacing: 6px; }
-  .thank-message { font-size: 14px; padding: 0 10px; }
-}
-
-/* =========================================================
-   Loading overlay pendant la soumission
-========================================================== */
+/* ---- Loading overlay pendant la soumission ---- */
 .submit-loading-overlay {
   position: fixed;
   inset: 0;
@@ -5308,54 +5074,26 @@ Copier
 
     <!-- STEP MERCI : CONFIRMATION FINALE -->
     <section id="stepThanks" class="step-page">
-      <div class="thank-fullscreen">
-        <!-- Confetti canvas -->
-        <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
-        
-        <!-- Content -->
-        <div class="thank-content-wrap">
-          <!-- Animated checkmark -->
-          <div class="thank-check-ring">
-            <svg class="thank-check-svg" viewBox="0 0 80 80">
-              <circle class="check-circle" cx="40" cy="40" r="36" fill="none" stroke="#FC6100" stroke-width="3"/>
-              <path class="check-path" d="M24 42 L34 52 L56 30" fill="none" stroke="#FC6100" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
+      <div class="thank-panel">
 
-          <!-- Big MERCI -->
-          <h1 class="thank-mega-title">
-            <span class="thank-letter" style="--i:0">M</span><span class="thank-letter" style="--i:1">E</span><span class="thank-letter" style="--i:2">R</span><span class="thank-letter" style="--i:3">C</span><span class="thank-letter" style="--i:4">I</span>
-          </h1>
+        <div class="thank-big-title">MERCI</div>
 
-          <!-- Multilingual ticker -->
-          <div class="thank-ticker-wrap">
-            <div class="thank-ticker">
-              <span>Thank you</span><span>Gracias</span><span>Danke</span><span>Grazie</span><span>Obrigado</span><span>Спасибо</span><span>ありがとう</span><span>شكراً</span><span>감사합니다</span><span>Dziękuję</span><span>Teşekkürler</span><span>Tack</span><span>Mulțumesc</span><span>Ευχαριστώ</span><span>Merci</span>
-              <span>Thank you</span><span>Gracias</span><span>Danke</span><span>Grazie</span><span>Obrigado</span><span>Спасибо</span><span>ありがとう</span><span>شكراً</span><span>감사합니다</span><span>Dziękuję</span><span>Teşekkürler</span><span>Tack</span><span>Mulțumesc</span><span>Ευχαριστώ</span><span>Merci</span>
-            </div>
-          </div>
-
-          <!-- Message -->
-          <p class="thank-message">
-            Ton idée va maintenant être analysée par l'équipe innovation <strong>NETEXIAL</strong>.<br>
-            Si un suivi est nécessaire, nous te recontacterons via le mode que tu as choisi.
-          </p>
-
-          <!-- Idea reference badge -->
-          <div class="thank-ref-badge" id="thankRefBadge"></div>
-
-          <!-- CTA -->
-          <button type="button" class="thank-cta" id="backToHomeBtn">
-            <span class="thank-cta-icon">💡</span>
-            J'ai une autre idée !
-          </button>
+        <div class="thank-langs">
+          <span>Gracias</span><span>Thank you</span><span>Danke</span><span>Grazie</span><span>Obrigado</span><span>Спасибо</span><span>ありがとう</span><span>شكراً</span><span>감사합니다</span><span>Dziękuję</span><span>Teşekkürler</span><span>Tack</span><span>Multumesc</span><span>شكراً</span><span>Ευχαριστώ</span>
         </div>
 
-        <!-- Floating brand -->
-        <div class="thank-brand-bottom">
-          <span class="thank-brand-name">NETEXIAL</span>
-          <span class="thank-brand-tagline">L'innovation commence par toi</span>
-        </div>
+        <p class="thank-sub">
+          Ton idée va maintenant être analysée par l'équipe innovation NETEXIAL.<br>
+          Si un suivi est nécessaire, nous te recontacterons via le mode que tu as choisi.
+        </p>
+
+        <button type="button" class="btn-back-home" id="backToHomeBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Retour à l'accueil
+        </button>
+
       </div>
     </section>
 
@@ -6976,58 +6714,6 @@ nextFromVoice?.addEventListener("click", () => {
 });
 
 // bouton retour à l’accueil après la page Merci
-// --- Confetti pour la page Merci ---
-function launchConfetti() {
-  const canvas = document.getElementById("confettiCanvas");
-  if (!canvas) return;
-  const ctx = canvas.getContext("2d");
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-
-  const colors = ["#FC6100", "#FFFFFF", "#98B2DD", "#FFD700", "#1C3775", "#ff8533"];
-  const particles = [];
-
-  for (let i = 0; i < 120; i++) {
-    particles.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height - canvas.height,
-      w: Math.random() * 8 + 4,
-      h: Math.random() * 4 + 2,
-      color: colors[Math.floor(Math.random() * colors.length)],
-      vx: (Math.random() - 0.5) * 3,
-      vy: Math.random() * 3 + 2,
-      rot: Math.random() * 360,
-      rotSpeed: (Math.random() - 0.5) * 8,
-      opacity: 1,
-    });
-  }
-
-  let frame = 0;
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    let alive = false;
-    particles.forEach(p => {
-      if (p.opacity <= 0) return;
-      alive = true;
-      p.x += p.vx;
-      p.y += p.vy;
-      p.vy += 0.04;
-      p.rot += p.rotSpeed;
-      if (frame > 120) p.opacity -= 0.008;
-      ctx.save();
-      ctx.translate(p.x, p.y);
-      ctx.rotate((p.rot * Math.PI) / 180);
-      ctx.globalAlpha = Math.max(0, p.opacity);
-      ctx.fillStyle = p.color;
-      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
-      ctx.restore();
-    });
-    frame++;
-    if (alive) requestAnimationFrame(draw);
-  }
-  draw();
-}
-
 backToHomeBtn?.addEventListener("click", () => {
   location.reload();
 });
@@ -7122,9 +6808,6 @@ submitBtn?.addEventListener("click", async () => {
       if (statusMsg) statusMsg.textContent = "";
       if (submitBtn) submitBtn.disabled = true;
       showStep("stepThanks");
-      launchConfetti();
-      const refBadge = document.getElementById("thankRefBadge");
-      if (refBadge && data.idea_code) refBadge.textContent = "REF: " + data.idea_code;
     }, 600);
   } else {
     if (overlay) overlay.classList.remove("active");
