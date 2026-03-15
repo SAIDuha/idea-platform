@@ -1766,6 +1766,78 @@ select:disabled {
 /* =========================================================
    PAGE MERCI — NOUVEAU DESIGN CLEAN
 ========================================================== */
+
+/* ---- Loading overlay pendant la soumission ---- */
+.submit-loading-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: linear-gradient(135deg, #141B4D 0%, #1C3775 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+.submit-loading-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.loading-spinner {
+  width: 56px;
+  height: 56px;
+  border: 4px solid rgba(255,255,255,0.15);
+  border-top: 4px solid #FC6100;
+  border-radius: 50%;
+  animation: spinIdea 0.8s linear infinite;
+  margin-bottom: 28px;
+}
+@keyframes spinIdea {
+  to { transform: rotate(360deg); }
+}
+
+.loading-messages {
+  text-align: center;
+}
+.loading-messages .loading-line {
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: rgba(255,255,255,0.9);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  position: absolute;
+  width: 100%;
+}
+.loading-messages .loading-line.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.loading-messages {
+  position: relative;
+  height: 30px;
+  width: 320px;
+}
+
+.loading-progress {
+  width: 200px;
+  height: 3px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 3px;
+  margin-top: 32px;
+  overflow: hidden;
+}
+.loading-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: #FC6100;
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
 #stepThanks .thank-panel {
   background: white;
   border-radius: var(--r-xl);
@@ -5034,6 +5106,20 @@ Copier
 </div><!-- /.form-container -->
 </div><!-- /.form-section -->
 
+<!-- Loading overlay -->
+<div class="submit-loading-overlay" id="submitLoadingOverlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-messages" id="loadingMessages">
+    <div class="loading-line visible">Envoi de ton idée en cours…</div>
+    <div class="loading-line">Enregistrement dans le système…</div>
+    <div class="loading-line">Notification de l'équipe IDEA…</div>
+    <div class="loading-line">C'est presque bon !</div>
+  </div>
+  <div class="loading-progress">
+    <div class="loading-progress-bar" id="loadingProgressBar"></div>
+  </div>
+</div>
+
 <div class="submitbar">
   <div class="inner">
     <button id="submitBtn" class="btn-primary" disabled>
@@ -6635,6 +6721,24 @@ backToHomeBtn?.addEventListener("click", () => {
 // --- Soumission finale ---
 
 submitBtn?.addEventListener("click", async () => {
+  // --- Afficher le loading overlay immédiatement ---
+  const overlay = document.getElementById("submitLoadingOverlay");
+  const progressBar = document.getElementById("loadingProgressBar");
+  const loadingLines = document.querySelectorAll("#loadingMessages .loading-line");
+  
+  if (overlay) overlay.classList.add("active");
+  if (progressBar) progressBar.style.width = "15%";
+  
+  // Cycle les messages toutes les 1.2s
+  let msgIndex = 0;
+  const msgInterval = setInterval(() => {
+    msgIndex++;
+    if (msgIndex >= loadingLines.length) { clearInterval(msgInterval); return; }
+    loadingLines.forEach(l => l.classList.remove("visible"));
+    loadingLines[msgIndex].classList.add("visible");
+    if (progressBar) progressBar.style.width = `${Math.min(15 + msgIndex * 25, 85)}%`;
+  }, 1200);
+
   if (statusMsg) statusMsg.textContent = "Envoi…";
 
   let mediaPaths = [];
@@ -6691,15 +6795,22 @@ submitBtn?.addEventListener("click", async () => {
     body: JSON.stringify(payload)
   });
   const data = await res.json();
+  clearInterval(msgInterval);
+  
   if (res.ok && data.ok) {
-    // masquage de la barre de soumission + redirection vers la page Merci
-    const submitBar = document.querySelector(".submitbar");
-    if (submitBar) submitBar.style.display = "none";
-    if (statusMsg) statusMsg.textContent = "";
-    if (submitBtn) submitBtn.disabled = true;
+    if (progressBar) progressBar.style.width = "100%";
+    loadingLines.forEach(l => l.classList.remove("visible"));
 
-    showStep("stepThanks");
+    setTimeout(() => {
+      if (overlay) overlay.classList.remove("active");
+      const submitBar = document.querySelector(".submitbar");
+      if (submitBar) submitBar.style.display = "none";
+      if (statusMsg) statusMsg.textContent = "";
+      if (submitBtn) submitBtn.disabled = true;
+      showStep("stepThanks");
+    }, 600);
   } else {
+    if (overlay) overlay.classList.remove("active");
     if (statusMsg) statusMsg.textContent = "❌ Erreur d’enregistrement.";
   }
 });
