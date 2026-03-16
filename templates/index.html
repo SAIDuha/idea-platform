@@ -7545,5 +7545,23 @@ function setStep5TextMode() {
 }
 </script>
 
+
+<!-- Protection source -->
+<script>
+// Bloquer clic droit
+document.addEventListener('contextmenu', e => e.preventDefault());
+
+// Bloquer raccourcis clavier
+document.addEventListener('keydown', e => {
+  // F12
+  if (e.key === 'F12') { e.preventDefault(); return; }
+  // Ctrl+U (source), Ctrl+Shift+I (devtools), Ctrl+Shift+J (console), Ctrl+Shift+C (inspect), Ctrl+S (save)
+  if (e.ctrlKey && (
+    e.key === 'u' || e.key === 'U' ||
+    e.key === 's' || e.key === 'S' ||
+    ((e.shiftKey) && ['I','i','J','j','C','c'].includes(e.key))
+  )) { e.preventDefault(); }
+});
+</script>
 </body>
 </html>
