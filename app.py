@@ -43,7 +43,7 @@ app.config["MAX_CONTENT_LENGTH"] = 25 * 1024 * 1024  # 25 MB
 genai.configure(api_key=API_KEY)
 
 
-MODEL_ID = "gemini-2.0-flash"
+MODEL_ID = "gemini-2.5-flash"
 
 # ------------ Config URL publique & SMTP ------------
 
