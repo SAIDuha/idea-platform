@@ -1730,6 +1730,12 @@ select:disabled {
   box-shadow: none;
 }
 
+/* Masquer la barre d'envoi tant que le bouton est désactivé
+   (évite la boîte grise vide / le blocage des taps sur l'accueil) */
+.submitbar:has(#submitBtn:disabled) {
+  display: none;
+}
+
 #submitBtn {
   border-radius: 100px;
   padding: 16px 36px;
