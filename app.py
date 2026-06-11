@@ -15,6 +15,9 @@ from flask import Flask, request, jsonify, render_template, send_from_directory
 from werkzeug.utils import secure_filename
 import google.generativeai as genai
 
+# --- Supabase (meme pattern que ZENITH) ---
+from supabase import create_client, Client
+
 # --- Google Sheets & Drive ---
 from google.oauth2.service_account import Credentials
 from googleapiclient.discovery import build
@@ -44,6 +47,24 @@ genai.configure(api_key=API_KEY)
 
 
 MODEL_ID = "gemini-2.5-flash"
+
+# ------------ Config Supabase ------------
+# Memes variables d'env que ZENITH (a definir sur Render et dans le .env local)
+SUPABASE_URL = os.environ.get("SUPABASE_URL", "").strip()
+SUPABASE_SERVICE_ROLE_KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "").strip()
+SUPABASE_TABLE = os.environ.get("SUPABASE_IDEAS_TABLE", "ideas").strip()
+
+supabase: Client | None = None
+if SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY:
+    try:
+        supabase = create_client(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
+        print("[INFO] Client Supabase initialise.")
+    except Exception as e:
+        print(f"[WARN] Initialisation Supabase echouee : {e}")
+        supabase = None
+else:
+    print("[WARN] SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY manquantes : "
+          "enregistrement Supabase desactive (Google Sheets + SQLite seulement).")
 
 # ------------ Config URL publique & SMTP ------------
 
@@ -148,6 +169,22 @@ def append_idea_to_sheet(row: list[str]) -> None:
         ).execute()
     except Exception as e:
         print(f"[WARN] Erreur lors de l envoi dans Google Sheets : {e}")
+
+
+def save_idea_to_supabase(record: dict) -> None:
+    """
+    Enregistre une idee dans la table Supabase (meme logique que ZENITH).
+    Resiliente : si le client n'est pas configure ou si l'insert echoue,
+    on log un warning sans bloquer la soumission (Google Sheets + SQLite restent).
+    """
+    if supabase is None:
+        print("[WARN] Supabase non configure, enregistrement Supabase ignore.")
+        return
+    try:
+        supabase.table(SUPABASE_TABLE).insert(record).execute()
+        print(f"[INFO] Idee {record.get('idea_code')} enregistree dans Supabase.")
+    except Exception as e:
+        print(f"[WARN] Erreur lors de l enregistrement Supabase : {e}")
 
 
 # ------------ Google Drive helpers ------------
@@ -1549,6 +1586,36 @@ def submit():
         append_idea_to_sheet(row)
     except Exception as e:
         print(f"[WARN] Impossible d’écrire dans Google Sheets : {e}")
+
+    # Enregistrement dans Supabase (source de donnees structuree, comme ZENITH)
+    try:
+        supabase_record = {
+            "id": idea_id,
+            "created_at": created_at,
+            "idea_code": idea_code,
+            "saisie_mode": "Vocal" if audio_path else "Écrit",
+            "author_name": author_name,
+            "site": site,
+            "service": service,
+            "function_title": function_title,
+            "professional_email": professional_email,
+            "contact_mode": contact_mode,
+            "idea_title": idea_title,
+            "share_types": share_types,            # liste -> jsonb
+            "typed_text": typed_text,
+            "detected_language": detected_language,
+            "original_text": original_text,
+            "french_translation": french_translation,
+            "impact_main": impact_main,
+            "impact_other": impact_other,
+            "already_tested": already_tested,
+            "customer_satisfaction": customer_satisfaction,
+            "media_links": abs_media_paths,        # liens Drive -> jsonb
+            "source": source,
+        }
+        save_idea_to_supabase(supabase_record)
+    except Exception as e:
+        print(f"[WARN] Impossible d’enregistrer dans Supabase : {e}")
 
     # Envoi de l'e-mail avec URLs Drive cliquables (équipe IDEA)
     try:
