@@ -4310,6 +4310,76 @@ Copier
 
 </head>
 <body>
+
+  <!-- ===== INTRO NETEXIAL (splash once-per-session) ===== -->
+<style id="nx-intro-style">
+#nxIntro{--nx-navy:#141B4D;--nx-navy2:#1C3775;--nx-orange:#FC6100;--nx-bm:#98B2DD;--nx-bl:#C1D1EB;
+  position:fixed;inset:0;z-index:99999;overflow:hidden;
+  background:radial-gradient(135% 105% at 50% 42%,var(--nx-navy2) 0%,var(--nx-navy) 58%,#0E1336 100%);
+  display:flex;align-items:center;justify-content:center;
+  transform:translateZ(0);transition:transform .72s cubic-bezier(.86,0,.07,1),opacity .55s ease .12s}
+#nxIntro::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background:repeating-linear-gradient(125deg,rgba(152,178,221,.045) 0 1.5px,transparent 1.5px 30px)}
+#nxIntro.leaving{transform:translate3d(-22%,-116%,0) rotate(-5deg);opacity:0}
+#nxIntro .nx-stage{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;
+  text-align:center;padding:0 24px;transform-origin:center 38%;
+  transition:transform .55s cubic-bezier(.55,0,.4,1),opacity .42s ease}
+#nxIntro.leaving .nx-stage{transform:scale(1.5);opacity:0}
+#nxIntro .nx-sweep{position:absolute;left:-12%;right:-12%;bottom:-2px;height:3px;opacity:0;z-index:3;
+  background:linear-gradient(90deg,transparent,var(--nx-bl) 30%,var(--nx-orange) 50%,var(--nx-bl) 70%,transparent)}
+#nxIntro.leaving .nx-sweep{opacity:1;transition:opacity .18s ease}
+#nxIntro .nx-bloom{position:absolute;top:38%;left:50%;width:min(78vw,520px);aspect-ratio:1;border-radius:50%;
+  transform:translate(-50%,-50%) scale(.2);pointer-events:none;opacity:0;
+  background:radial-gradient(circle,rgba(193,209,235,.34) 0%,rgba(152,178,221,.12) 35%,transparent 68%);
+  animation:nx-bloom 2.6s ease-out 1s forwards}
+#nxIntro .nx-sym{width:clamp(118px,26vw,188px);height:auto;display:block;overflow:visible}
+#nxIntro .nx-sym .nx-filet{fill:#fff;opacity:0;transform-box:view-box;transform-origin:732.4px 143.2px;
+  animation:nx-filet .8s cubic-bezier(.16,1,.3,1) forwards}
+#nxIntro .nx-word{width:clamp(168px,38vw,272px);height:auto;margin-top:clamp(18px,3vw,30px);display:block;
+  fill:#fff;opacity:0;transform:translateY(14px);animation:nx-rise .9s cubic-bezier(.16,1,.3,1) 1.05s forwards}
+#nxIntro .nx-rule{width:0;height:2px;background:var(--nx-orange);margin:clamp(22px,4vw,34px) 0 clamp(16px,3vw,24px);
+  animation:nx-rule .7s cubic-bezier(.16,1,.3,1) 1.35s forwards}
+#nxIntro .nx-tag{font-family:'Oswald',sans-serif;font-weight:500;text-transform:uppercase;
+  letter-spacing:clamp(2px,.7vw,5px);color:#fff;font-size:clamp(17px,3.6vw,30px);line-height:1.15;
+  opacity:0;transform:translateY(16px);animation:nx-rise .9s cubic-bezier(.16,1,.3,1) 1.5s forwards}
+#nxIntro .nx-tag em{font-style:normal;color:var(--nx-orange)}
+@keyframes nx-filet{0%{opacity:0;transform:scale(.5)}55%{opacity:1}100%{opacity:1;transform:scale(1)}}
+@keyframes nx-rise{to{opacity:1;transform:translateY(0)}}
+@keyframes nx-rule{to{width:clamp(54px,9vw,90px)}}
+@keyframes nx-bloom{0%{opacity:0;transform:translate(-50%,-50%) scale(.2)}30%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) scale(1.15)}}
+@media(prefers-reduced-motion:reduce){
+  #nxIntro .nx-filet,#nxIntro .nx-word,#nxIntro .nx-tag,#nxIntro .nx-rule,#nxIntro .nx-bloom{animation:none!important;opacity:1!important;transform:none!important}
+  #nxIntro .nx-rule{width:clamp(54px,9vw,90px)!important}#nxIntro .nx-bloom{display:none}
+  #nxIntro{transition:opacity .4s ease}#nxIntro.leaving{transform:none;opacity:0}
+}
+</style>
+<div id="nxIntro" role="dialog" aria-label="Bienvenue sur la plateforme d'idées NETEXIAL">
+  <div class="nx-bloom"></div>
+  <div class="nx-stage">
+    <svg class="nx-sym" viewBox="666.6 79.8 131.6 126.8" role="img" aria-label="Symbole NETEXIAL"><path class="nx-filet" style="animation-delay:0ms" d="M726.66 137.58C724.31 130.22 718.12 124.86 710.50 123.58L674.92 117.59C673.36 117.33 671.88 118.38 671.62 119.95C671.36 121.51 672.41 122.99 673.97 123.25L709.55 129.23C715.04 130.16 719.50 134.02 721.20 139.32C722.89 144.63 721.50 150.37 717.57 154.30L688.71 183.16C687.59 184.28 687.59 186.09 688.71 187.21C689.83 188.33 691.65 188.33 692.76 187.21L721.62 158.36C727.08 152.90 729.01 144.93 726.66 137.58"/><path class="nx-filet" style="animation-delay:70ms" d="M747.17 154.30C743.23 150.37 741.84 144.63 743.54 139.32C745.23 134.02 749.69 130.16 755.18 129.23L790.76 123.25C792.32 122.99 793.38 121.51 793.11 119.95C792.85 118.38 791.37 117.33 789.81 117.59L754.23 123.58C746.62 124.86 740.43 130.22 738.07 137.58C735.72 144.93 737.65 152.90 743.12 158.36L771.97 187.21C773.09 188.33 774.90 188.33 776.02 187.21C777.14 186.09 777.14 184.28 776.02 183.16L747.17 154.30"/><path class="nx-filet" style="animation-delay:140ms" d="M768.17 190.85L742.19 164.83C739.58 162.21 736.07 160.76 732.37 160.74C728.67 160.76 725.16 162.21 722.54 164.83L696.56 190.85C695.45 191.97 695.45 193.78 696.57 194.90C697.69 196.02 699.50 196.02 700.62 194.90L726.60 168.88C728.14 167.34 730.19 166.48 732.37 166.47C734.55 166.48 736.60 167.34 738.14 168.88L764.11 194.90C765.23 196.02 767.05 196.02 768.17 194.90L768.17 194.90C769.29 193.78 769.29 191.97 768.17 190.85"/><path class="nx-filet" style="animation-delay:210ms" d="M791.39 109.50L791.39 109.50C791.13 107.94 789.66 106.89 788.09 107.15L746.09 114.16C743.74 114.50 742.68 112.24 743.29 110.42C745.01 105.32 744.28 100.03 740.34 96.53C735.77 92.47 728.79 92.56 724.40 96.53C720.48 100.06 719.73 105.32 721.44 110.42C722.05 112.24 720.99 114.50 718.64 114.16L676.64 107.15C675.08 106.89 673.60 107.94 673.34 109.50C673.08 111.06 674.13 112.54 675.70 112.80L717.70 119.82C721.24 120.40 724.11 118.74 725.71 116.66C727.60 114.20 727.62 111.05 726.68 108.10C725.99 105.88 725.83 102.94 728.22 100.80C730.63 98.65 734.17 98.71 736.51 100.80C738.90 102.93 738.75 105.88 738.05 108.10C737.12 111.05 737.14 114.20 739.02 116.66C740.62 118.74 743.50 120.40 747.04 119.82L789.04 112.80C790.60 112.54 791.65 111.06 791.39 109.50"/><path class="nx-filet" style="animation-delay:280ms" d="M716.48 140.83C715.34 137.25 712.44 134.74 708.73 134.12L673.15 128.13C671.59 127.87 670.11 128.92 669.85 130.48L669.85 130.48C669.58 132.05 670.64 133.52 672.20 133.79L707.78 139.77C710.82 140.26 712.62 144.01 710.01 146.75L681.15 175.60C680.03 176.72 680.03 178.53 681.15 179.65C682.27 180.77 684.09 180.77 685.21 179.65L714.06 150.80C716.72 148.14 717.63 144.41 716.48 140.83"/><path class="nx-filet" style="animation-delay:350ms" d="M794.89 130.48L794.89 130.48C794.62 128.92 793.15 127.87 791.58 128.13L756.00 134.12C752.30 134.74 749.40 137.25 748.25 140.83C747.11 144.41 748.01 148.14 750.67 150.80L779.53 179.65C780.65 180.77 782.46 180.77 783.58 179.65C784.70 178.53 784.70 176.72 783.58 175.60L754.73 146.74C752.11 144.01 753.91 140.26 756.95 139.77L792.53 133.79C794.10 133.52 795.15 132.05 794.89 130.48"/><path class="nx-filet" style="animation-delay:420ms" d="M760.61 198.40L734.63 172.38C733.49 171.22 731.49 171.01 730.10 172.38L704.13 198.40C703.01 199.52 703.01 201.33 704.13 202.45C705.25 203.57 707.07 203.57 708.19 202.45L732.37 178.23L756.55 202.45C757.67 203.57 759.48 203.57 760.60 202.45C761.72 201.33 761.73 199.52 760.61 198.40"/><path class="nx-filet" style="animation-delay:490ms" d="M789.63 98.96L789.63 98.96C789.37 97.40 787.90 96.35 786.33 96.61L754.77 101.88C753.22 91.72 744.18 82.84 732.37 82.81C720.56 82.84 711.51 91.72 709.97 101.88L678.40 96.61C676.84 96.35 675.36 97.40 675.10 98.96C674.84 100.52 675.89 102.00 677.46 102.26L713.96 108.36C714.82 108.50 715.57 107.79 715.50 106.93C714.66 96.50 722.87 88.56 732.37 88.54C741.86 88.56 750.08 96.50 749.23 106.93C749.16 107.79 749.91 108.50 750.77 108.36L787.28 102.26C788.84 102.00 789.89 100.52 789.63 98.96"/></svg>
+    <svg class="nx-word" viewBox="502.8 230.4 458.9 40.7" aria-label="NETEXIAL"><path d="M547.83 232.40L547.83 254.82L516.43 232.40L504.81 232.40L504.81 269.06L517.11 269.06L517.11 246.69L548.45 269.06L560.18 269.06L560.18 232.40L547.83 232.40"/><path d="M575.19 232.40L575.19 269.06L620.27 269.06L620.27 259.64L587.49 259.64L587.49 254.60L618.23 254.60L618.23 246.71L587.49 246.71L587.49 241.83L619.96 241.83L619.96 232.40L575.19 232.40"/><path d="M632.70 232.40L632.70 241.94L651.31 241.94L651.31 269.06L663.67 269.06L663.67 241.94L682.16 241.94L682.16 232.40L632.70 232.40"/><path d="M694.91 232.40L694.91 269.06L740.00 269.06L740.00 259.64L707.22 259.64L707.22 254.60L737.96 254.60L737.96 246.71L707.22 246.71L707.22 241.83L739.68 241.83L739.68 232.40L694.91 232.40"/><path d="M790.98 232.40L779.96 244.24L769.61 232.40L752.43 232.40L770.18 250.52L751.49 269.06L768.25 269.06L779.96 257.28L791.55 269.06L808.27 269.06L789.68 250.52L807.32 232.40L790.98 232.40"/><path d="M820.07 232.40H832.38V269.06H820.07Z"/><path d="M866.49 232.40L844.21 269.06L859.19 269.06L874.35 241.90L889.51 269.06L904.48 269.06L882.20 232.40L866.49 232.40"/><path d="M916.26 232.40L916.26 269.06L959.67 269.06L959.67 259.53L928.57 259.53L928.57 232.40L916.26 232.40"/></svg>
+    <div class="nx-rule"></div>
+    <div class="nx-tag">Laisse ton <em>idée</em> briller</div>
+  </div>
+  <div class="nx-sweep"></div>
+</div>
+<script>
+(function(){
+  var s=document.getElementById('nxIntro'); if(!s) return;
+  try{ if(sessionStorage.getItem('nx_intro_seen')){ s.parentNode.removeChild(s); return; } }catch(e){}
+  var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches, t;
+  function leave(){
+    if(s.classList.contains('leaving')) return;
+    clearTimeout(t);
+    try{ sessionStorage.setItem('nx_intro_seen','1'); }catch(e){}
+    s.classList.add('leaving');
+    setTimeout(function(){ if(s.parentNode) s.parentNode.removeChild(s); }, 850);
+  }
+  t=setTimeout(leave, reduce?1300:3300);
+  s.addEventListener('click', leave);
+})();
+</script>
+  <!-- ===== /INTRO NETEXIAL ===== -->
   <!-- HEADER NETEXIAL -->
   <header class="netexial-header">
     <div class="header-inner">
